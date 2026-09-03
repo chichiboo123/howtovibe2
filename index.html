@@ -373,6 +373,12 @@ html[data-plat="supabase"]   .plat:not([data-plat~="supabase"]),
 html[data-plat="firebase"]   .plat:not([data-plat~="firebase"]),
 html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !important;}
 
+/* 권장 배지 */
+.rec{display:inline-flex;align-items:center;font-size:10.5px;font-weight:800;letter-spacing:.06em;
+  background:var(--blue);color:#fff;padding:2px 9px;border-radius:999px;margin-left:6px;
+  vertical-align:middle;}
+.rec.gray{background:var(--text-dim);}
+
 /* 현재 플랫폼 배지 */
 .pnow{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;
   background:var(--navy);color:#fff;padding:3px 11px;border-radius:999px;vertical-align:middle;}
@@ -1350,7 +1356,7 @@ export default {
     <details class="step" id="ch3-s4">
       <summary class="step-header">
         <div class="step-num"><span class="material-symbols-outlined" style="font-size:19px">rocket_launch</span></div>
-        <div class="step-tw"><h3>배포 · 링크 만들어 나가기</h3><p>파일 하나를 끌어다 놓으면 끝</p></div>
+        <div class="step-tw"><h3>배포 · 링크 만들어 나가기</h3><p>가능하면 그 플랫폼 안에서 끝냅니다</p></div>
         <span class="step-time">10분</span>
         <span class="step-toggle">▼</span>
       </summary>
@@ -1358,36 +1364,172 @@ export default {
         <p>여기서 배포하는 것은 <b>앱 화면(HTML 파일 하나)</b>입니다.
           데이터를 담는 곳은 STEP 1에서 이미 만들어 두었습니다.</p>
 
-        <div class="plat" data-plat="sheets supabase firebase">
-          <p>HTML 파일 하나를 <b>Netlify Drop</b>에 끌어다 놓으면 로그인 없이 30초 만에 주소가 나옵니다.
-            오늘은 GitHub 연동을 하지 않습니다. 거기서 절반이 막히기 때문입니다.</p>
-          <div class="tip-box plat" data-plat="sheets">
-            <strong><span class="material-symbols-outlined">emoji_objects</span> 주소가 두 개입니다</strong>
-            <b>학생이 접속하는 앱 주소</b>(Netlify)와 <b>데이터가 오가는 웹앱 주소</b>(/exec)는 다릅니다.
-            학생에게는 앞의 것만 나눠 주세요.
+        <div class="example-box">
+          <div class="example-label">배포는 이 순서로 봅니다</div>
+          <ol>
+            <li><b>플랫폼 자체 배포</b> — 지금 쓰는 플랫폼 안에서 화면까지 올릴 수 있으면 여기서 끝냅니다.
+              계정도 주소도 늘어나지 않아 가장 깔끔합니다.</li>
+            <li><b>GitHub에 올려 두기</b> — 자체 배포가 없거나 막힐 때.
+              브라우저만으로 되고, 고친 기록이 남아 되돌리기 쉽습니다.</li>
+            <li><b>Netlify에 연결</b> — GitHub 저장소를 연결해 두면 파일을 고칠 때마다 저절로 다시 배포됩니다.</li>
+          </ol>
+        </div>
+
+        <!-- ── ① 플랫폼 자체 배포 ── -->
+
+        <div class="plat" data-plat="sheets">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">rocket_launch</span> ① 자체 배포 — Apps Script가 화면까지 서비스합니다<span class="rec">권장</span></h4>
+            <p>STEP 1에서 만든 <b>/exec 주소가 그대로 앱 주소</b>가 됩니다. 호스팅을 따로 붙일 필요가 없습니다.</p>
+            <p>Apps Script 편집기 왼쪽의 <b>파일 + → HTML</b>로 <b>index</b> 파일을 만들어 앱 HTML을 붙여넣고,
+              doGet을 화면용과 데이터용으로 나눕니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="gs2"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="gs2">// 한 주소에서 화면(HTML)과 데이터(JSON)를 나눠 줍니다
+function doGet(e) {
+  if (e.parameter.api === '1') {                        // 데이터 요청
+    return json(getCounts(e.parameter.room_code || ''));
+  }
+  return HtmlService.createHtmlOutputFromFile('index')  // 화면 요청
+    .setTitle('우리 반 감정 체크인')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+// STEP 1의 doGet 안에 있던 집계 코드를 이 함수로 옮깁니다
+function getCounts(room) {
+  // ... 같은 수업 코드의 오늘 데이터를 감정별로 세어
+  //     { counts: {...}, notes: [...] } 를 돌려줍니다
+}
+
+/* index 화면 안에서는 fetch 대신 이렇게 부릅니다
+     google.script.run
+       .withSuccessHandler(function (data) { 화면그리기(data); })
+       .getCounts(roomCode);
+*/</pre>
+            </div>
+            <div class="tip-box">
+              <strong><span class="material-symbols-outlined">emoji_objects</span> 화면에서 데이터를 부를 때는 fetch 대신 google.script.run</strong>
+              HtmlService 화면은 구글 샌드박스 안에서 열리기 때문에, 그 안에서 fetch로 /exec를 부르면 막힙니다.
+              <b>google.script.run</b>을 쓰면 CORS 걱정 없이 서버 함수를 바로 부를 수 있습니다.
+              AI에게 <b>"HtmlService로 화면을 만들고, 서버 호출은 google.script.run으로 해줘"</b>라고 알려주세요.
+            </div>
+            <div class="warn-box">
+              <strong>이 방식의 단점</strong>
+              주소가 길고, 화면 위에 구글 안내 줄이 붙습니다.
+              코드를 고칠 때마다 <b>배포 관리 → 수정 → 새 버전 → 배포</b>를 해야 반영됩니다.
+              짧은 주소를 학생에게 주고 싶다면 아래 ②③으로 가세요.
+            </div>
           </div>
-          <div class="tip-box plat" data-plat="firebase">
-            <strong><span class="material-symbols-outlined">emoji_objects</span> Firebase Hosting은 오늘 쓰지 않습니다</strong>
-            Firebase Hosting은 명령줄 도구(CLI) 설치가 필요합니다.
-            오늘은 마찰이 가장 적은 Netlify Drop으로 갑니다. Hosting은 나중에 익혀도 늦지 않습니다.
+        </div>
+
+        <div class="plat" data-plat="supabase">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">rocket_launch</span> ① 자체 배포 — Supabase에는 없습니다<span class="rec gray">해당 없음</span></h4>
+            <p>Supabase는 데이터·인증·실시간을 맡고, <b>앱 화면을 올리는 호스팅 기능은 제공하지 않습니다.</b>
+              그래서 이 플랫폼은 아래 <b>② GitHub → ③ Netlify</b> 순으로 갑니다.</p>
+            <div class="tip-box">
+              <strong><span class="material-symbols-outlined">emoji_objects</span> Storage 공개 버킷은 권하지 않습니다</strong>
+              Storage에 HTML을 올려 흉내 낼 수는 있지만, 캐시와 파일 형식(MIME) 문제로
+              화면이 안 뜨거나 고쳐도 반영되지 않는 일이 잦습니다. 시간을 아끼려면 ②③으로 가세요.
+            </div>
           </div>
-          <div class="tip-box plat" data-plat="supabase">
-            <strong><span class="material-symbols-outlined">emoji_objects</span> 팁</strong>
-            Cloudflare Pages나 GitHub 연동은 앱이 늘어난 다음에 익히면 됩니다.
-            오늘은 마찰이 가장 적은 길로 갑니다.
+        </div>
+
+        <div class="plat" data-plat="firebase">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">rocket_launch</span> ① 자체 배포 — Firebase Hosting<span class="rec">권장</span></h4>
+            <p>데이터와 화면이 <b>한 프로젝트 안</b>에 있게 되어 관리가 가장 단순합니다.
+              다만 <b>명령줄 도구(CLI) 설치가 필요</b>합니다. 터미널에서 네 줄입니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="fbh"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="fbh"># Node.js가 설치되어 있어야 합니다
+npm install -g firebase-tools
+
+firebase login
+firebase init hosting     # public 폴더를 고르고, 그 안에 index.html을 둡니다
+firebase deploy           # 끝나면 ○○○.web.app 주소가 나옵니다</pre>
+            </div>
+            <div class="warn-box">
+              <strong>연수 중이라면 시간을 재세요</strong>
+              Node.js 설치나 학교 노트북의 설치 제한 때문에 여기서 막히는 경우가 있습니다.
+              <b>5분 안에 안 되면 미련 없이 ②③으로 넘어가세요.</b> Hosting은 나중에 집에서 해도 늦지 않습니다.
+            </div>
           </div>
         </div>
 
         <div class="plat" data-plat="cloudflare">
-          <p>Cloudflare를 쓰고 있으니 배포도 같은 계정에서 끝납니다.
-            <b>Workers &amp; Pages → Create → Pages → Upload assets</b>에 HTML 파일을 끌어다 놓으면
-            <b>○○○.pages.dev</b> 주소가 나옵니다.</p>
-          <div class="tip-box">
-            <strong><span class="material-symbols-outlined">emoji_objects</span> 주소가 두 개입니다</strong>
-            <b>학생이 접속하는 앱 주소</b>(pages.dev)와 <b>데이터가 오가는 Worker 주소</b>(workers.dev)는 다릅니다.
-            학생에게는 앞의 것만 나눠 주세요.
-            Netlify Drop을 써도 되지만, 이미 Cloudflare 계정이 있으니 한곳에서 끝내는 편이 낫습니다.
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">rocket_launch</span> ① 자체 배포 — Cloudflare Pages<span class="rec">권장</span></h4>
+            <p>이미 Cloudflare 계정이 있으니 배포도 같은 자리에서 끝납니다.
+              <b>Workers &amp; Pages → Create → Pages → Upload assets</b>에 HTML 파일을 끌어다 놓으면
+              <b>○○○.pages.dev</b> 주소가 나옵니다. 다른 서비스에 새로 가입할 필요가 없습니다.</p>
+            <div class="tip-box">
+              <strong><span class="material-symbols-outlined">emoji_objects</span> 한 걸음 더 — 주소를 하나로 합치기</strong>
+              STEP 1에서 만든 Worker가 <b>화면(HTML)까지 같이 내려주게</b> 하면
+              주소가 하나로 줄고 CORS 설정도 필요 없어집니다. 경로로 나누면 됩니다.
+            </div>
+            <div class="code">
+              <button class="copy" data-copy="cfh"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="cfh">// /api 로 시작하면 데이터, 나머지 주소는 화면(HTML)을 돌려줍니다
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname.startsWith('/api')) return handleApi(request, env);
+    return new Response(APP_HTML, {
+      headers: { 'content-type': 'text/html; charset=utf-8' }
+    });
+  }
+};
+
+// handleApi : STEP 1에서 만든 저장·조회 코드를 이 함수로 옮겨 둡니다
+// APP_HTML  : 앱 화면 HTML을 백틱(`) 문자열 상수로 넣어 둡니다</pre>
+            </div>
           </div>
+        </div>
+
+        <!-- ── ② GitHub ── -->
+        <div class="substep">
+          <h4><span class="material-symbols-outlined">folder_copy</span> ② GitHub에 올려 두기</h4>
+          <p>브라우저만으로 됩니다. 프로그램을 설치하지 않아도 되고,
+            고친 기록이 남아서 <b>망가졌을 때 되돌리기</b>가 쉽습니다.</p>
+          <div class="example-box"><ol>
+            <li>github.com에서 <b>New repository</b> → 이름을 정하고 <b>Public</b>으로 만들기</li>
+            <li><b>Add file → Upload files</b>에 index.html 끌어다 놓기</li>
+            <li><b>Commit changes</b> 누르기</li>
+          </ol></div>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 여기서 바로 켤 수도 있습니다</strong>
+            <b>Settings → Pages → Branch: main → Save</b>를 하면 GitHub Pages 주소가 나옵니다.
+            한두 번 고치고 말 앱이라면 이것으로 충분합니다. 주소가 반영되기까지 1~2분 걸립니다.
+          </div>
+        </div>
+
+        <!-- ── ③ Netlify ── -->
+        <div class="substep">
+          <h4><span class="material-symbols-outlined">link</span> ③ Netlify에 연결하기</h4>
+          <p>Netlify에서 <b>Add new site → Import an existing project → GitHub</b>를 고르고
+            방금 만든 저장소를 선택합니다. 한 번 연결해 두면
+            <b>GitHub에서 파일을 고칠 때마다 사이트가 저절로 다시 배포</b>됩니다.
+            주소도 원하는 이름으로 바꿀 수 있습니다.</p>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 급할 때는 Netlify Drop</strong>
+            <b>app.netlify.com/drop</b>에 HTML 파일을 끌어다 놓으면 로그인 없이 30초 만에 주소가 나옵니다.
+            연결이 없으니 고칠 때마다 다시 끌어다 놓아야 합니다. <b>수업 직전 급할 때만</b> 쓰세요.
+          </div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-label">주소를 헷갈리지 마세요</div>
+          <p style="font-size:14.5px;margin:0">학생에게 나눠 주는 것은 <b>앱 화면 주소 하나</b>뿐입니다.
+            <span class="plat" data-plat="sheets">데이터가 오가는 <b>/exec 주소</b></span><span class="plat" data-plat="supabase"><b>Project URL과 공개 키</b></span><span class="plat" data-plat="firebase"><b>firebaseConfig</b></span><span class="plat" data-plat="cloudflare">데이터가 오가는 <b>Worker 주소</b></span>는 앱 코드 안에만 있으면 됩니다.
+            <span class="plat" data-plat="sheets">위 ①로 자체 배포했다면 이 둘이 같은 주소가 되어 헷갈릴 일이 없습니다.</span><span class="plat" data-plat="cloudflare">위 ①의 '주소 하나로 합치기'를 했다면 이 둘이 같은 주소가 되어 헷갈릴 일이 없습니다.</span></p>
+        </div>
+
+        <div class="moment">
+          <div class="hp"><span class="material-symbols-outlined">check</span></div>
+          <div><div class="m-t">확인 순간</div>
+            <div class="m-b">옆 사람에게 <b>링크만</b> 보내 접속하게 하고,
+              그 사람이 누른 결과가 내 화면에 나타나는 것을 봅니다.</div></div>
         </div>
       </div>
     </details>
@@ -2470,7 +2612,9 @@ const DATA_SPEC={
 "  웹앱 주소(/exec로 끝나는 주소)는 코드 맨 위에 상수로 빼줘.\n"+
 "- 저장은 그 주소로 POST, 불러오기는 GET으로 해줘.\n"+
 "  POST하는 fetch에 헤더(Content-Type 등)를 절대 붙이지 마.\n"+
-"  헤더를 붙이면 CORS 사전 요청 때문에 막힌다.",
+"  헤더를 붙이면 CORS 사전 요청 때문에 막힌다.\n"+
+"- 앱 화면도 Apps Script에서 함께 서비스할 거라면(HtmlService),\n"+
+"  fetch 대신 google.script.run으로 서버 함수를 부르게 해줘.",
   supabase:
 "- Supabase에 저장해줘. Project URL과 공개 키는 코드 맨 위에 상수로 빼줘.",
   firebase:
