@@ -4727,7 +4727,7 @@ function bindCopy(scope){
     b.addEventListener('click',async e=>{
       e.preventDefault();
       const el=$(b.dataset.copy); if(!el)return;
-      /* textContent 를 씁니다. 접힌 <details> 안의 코드는 innerText 가 빈 값이 됩니다 */
+      /* textContent 를 씁니다. 접혀 있는 코드 블록은 innerText 가 빈 값이 됩니다 */
       try{await navigator.clipboard.writeText(el.textContent);
         const o=b.innerHTML;
         const big=b.classList.contains('bigcopy');
