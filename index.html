@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko" data-theme="light" data-plat="supabase">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>바이브코딩 : 포스트시즌 | 혼자 쓰는 앱에서, 함께 쓰는 앱으로</title>
-<meta name="description" content="교사를 위한 바이브코딩 후속 연수. 서버에 저장하고 여러 사람이 함께 쓰는 교실 앱 만들기." />
+<meta name="description" content="교사를 위한 바이브코딩 후속 연수. 구글 시트+Apps Script · Supabase · Firebase · Cloudflare Workers 네 가지 중 하나를 골라, 서버에 저장하고 여러 사람이 함께 쓰는 교실 앱을 만듭니다." />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-gov.min.css" />
 <style>
@@ -17,7 +17,7 @@
   --blue-tint:#EAF2FD; --red-tint:#FBEDEA;
   --radius:14px; --radius-sm:8px;
   --shadow:0 1px 2px rgba(13,27,46,.05),0 4px 16px rgba(13,27,46,.05);
-  --nav-h:58px;
+  --nav-h:58px; --bar-h:53px;
 }
 [data-theme="dark"]{
   --navy:#060B12; --blue:#4D95E8; --blue-2:#7FB4F0; --red:#E4705F;
@@ -97,7 +97,7 @@ a{color:inherit;}
 @media(max-width:600px){.stat-div{display:none;} .hero-stats{gap:14px 24px;}}
 
 /* ═══════ 섹션 ═══════ */
-.section{padding:60px 0;scroll-margin-top:var(--nav-h);}
+.section{padding:60px 0;scroll-margin-top:calc(var(--nav-h) + var(--bar-h));}
 .section-alt{background:var(--bg-alt);}
 .section-header{margin-bottom:28px;}
 .section-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;
@@ -345,6 +345,59 @@ select.inp{cursor:pointer;}
 
 .src{font-size:12.5px;color:var(--text-dim);margin-top:18px;line-height:1.75;}
 .src a{color:var(--blue);}
+
+/* ═══════ 실습 플랫폼 선택 바 ═══════ */
+.platbar{position:sticky;top:var(--nav-h);z-index:99;background:var(--bg-alt);
+  border-bottom:1px solid var(--line);}
+.platbar-inner{max-width:1080px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:12px;}
+.platbar-label{display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;
+  letter-spacing:.08em;color:var(--text-dim);flex-shrink:0;white-space:nowrap;}
+.platbar-label .material-symbols-outlined{font-size:16px;}
+.platseg{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;padding:2px 1px;}
+.platseg::-webkit-scrollbar{display:none;}
+.pbtn{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);color:var(--text-muted);cursor:pointer;
+  font-family:inherit;font-size:13.2px;font-weight:700;white-space:nowrap;transition:.15s;}
+.pbtn .material-symbols-outlined{font-size:17px;}
+.pbtn em{font-style:normal;font-weight:600;font-size:11.5px;opacity:.72;margin-left:2px;}
+.pbtn:hover{border-color:var(--blue);color:var(--blue);}
+.pbtn.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+[data-theme="dark"] .pbtn.on{background:var(--blue);border-color:var(--blue);color:#0E141C;}
+@media(max-width:760px){.platbar-label{display:none;}.platbar-inner{padding:8px 14px;}
+  .pbtn em{display:none;}.pbtn{padding:7px 11px;font-size:12.6px;}}
+
+/* 플랫폼별 전환 블록 — 선택되지 않은 것만 숨겨서, 원래 display(grid/table-row/inline)를 지킵니다 */
+html[data-plat="sheets"]     .plat:not([data-plat~="sheets"]),
+html[data-plat="supabase"]   .plat:not([data-plat~="supabase"]),
+html[data-plat="firebase"]   .plat:not([data-plat~="firebase"]),
+html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !important;}
+
+/* 현재 플랫폼 배지 */
+.pnow{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;
+  background:var(--navy);color:#fff;padding:3px 11px;border-radius:999px;vertical-align:middle;}
+[data-theme="dark"] .pnow{background:var(--blue);color:#0E141C;}
+.pnow .material-symbols-outlined{font-size:15px;}
+
+/* 골라서 누르는 플랫폼 카드 */
+.mini.pick{cursor:pointer;text-align:left;font-family:inherit;color:inherit;
+  display:block;width:100%;transition:.15s;}
+.mini.pick:hover{border-color:var(--blue);}
+.mini.pick.on{border-color:var(--blue);background:var(--blue-tint);}
+.mini.pick .badge{visibility:hidden;}
+.mini.pick.on .badge{visibility:visible;}
+.mini.pick .pk{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.mini.pick .pk .material-symbols-outlined{font-size:18px;color:var(--text-dim);}
+.mini.pick.on .pk .material-symbols-outlined{color:var(--blue);}
+
+/* 플랫폼 전환 토스트 */
+.ptoast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:120;
+  background:var(--navy);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;
+  font-weight:700;box-shadow:0 8px 26px rgba(13,27,46,.3);opacity:0;pointer-events:none;
+  transition:.22s;display:flex;align-items:center;gap:7px;max-width:90vw;}
+[data-theme="dark"] .ptoast{background:var(--blue);color:#0E141C;}
+.ptoast .material-symbols-outlined{font-size:17px;}
+.ptoast.on{opacity:1;transform:translate(-50%,0);}
 </style>
 </head>
 <body>
@@ -368,6 +421,23 @@ select.inp{cursor:pointer;}
   </div>
 </nav>
 
+<!-- ═══ 실습 플랫폼 선택 바 ═══ -->
+<div class="platbar">
+  <div class="platbar-inner">
+    <span class="platbar-label"><span class="material-symbols-outlined">tune</span>실습 플랫폼</span>
+    <div class="platseg" id="platSeg">
+      <button class="pbtn" data-p="sheets" type="button">
+        <span class="material-symbols-outlined">table_view</span>구글 시트<em>+ Apps Script</em></button>
+      <button class="pbtn" data-p="supabase" type="button">
+        <span class="material-symbols-outlined">bolt</span>Supabase<em>PostgreSQL</em></button>
+      <button class="pbtn" data-p="firebase" type="button">
+        <span class="material-symbols-outlined">local_fire_department</span>Firebase<em>Firestore</em></button>
+      <button class="pbtn" data-p="cloudflare" type="button">
+        <span class="material-symbols-outlined">cloud</span>Cloudflare<em>Workers + D1</em></button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ 히어로 ═══ -->
 <section id="hero" class="hero">
   <svg class="hero-stitch" viewBox="0 0 320 320" fill="none" aria-hidden="true">
@@ -383,6 +453,9 @@ select.inp{cursor:pointer;}
       이번에는 그 앱을 서버와 연결합니다. 여러 사람이 같은 앱에 접속하고,
       결과가 한 화면에 모이고, 누군가 입력하면 다른 화면에도 바로 나타나는
       <b>교실에서 함께 쓰는 앱</b>을 만듭니다.
+      저장소는 <b>구글 시트 + Apps Script · Supabase · Firebase · Cloudflare Workers</b>
+      네 가지 중 하나를 골라 실습합니다. 화면 위 <b>실습 플랫폼</b> 바를 누르면
+      준비물 · 절차 · 코드 · 프롬프트가 그 플랫폼에 맞게 통째로 바뀝니다.
     </p>
     <div class="hero-actions">
       <a href="#prep" class="btn btn-primary">연수 시작하기 →</a>
@@ -390,6 +463,8 @@ select.inp{cursor:pointer;}
     </div>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">180분</span><span class="stat-label">RUNNING TIME</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-num">플랫폼 4종</span><span class="stat-label">골라서 실습</span></div>
       <div class="stat-div"></div>
       <div class="stat"><span class="stat-num">실습 중심</span><span class="stat-label">노트북 필수</span></div>
       <div class="stat-div"></div>
@@ -407,18 +482,27 @@ select.inp{cursor:pointer;}
       <span class="section-tag"><span class="chip">00</span> WARM UP</span>
       <h2 class="section-title">시작 전 준비물</h2>
       <p class="section-desc">계정 만들기에서 시간을 쓰지 않도록 미리 확인해 주세요.
-        아래 다섯 가지만 되어 있으면 <b>실습 시간이 30분 늘어납니다.</b></p>
+        아래 다섯 가지만 되어 있으면 <b>실습 시간이 30분 늘어납니다.</b>
+        두 번째 항목은 <b>고른 플랫폼에 따라 달라집니다.</b></p>
     </div>
     <div class="mini" style="padding:20px 22px">
       <ul class="checks" id="prepList">
         <li><input type="checkbox" id="p1"><label for="p1">노트북 지참<em>크롬 또는 엣지 권장. 태블릿·휴대폰만으로는 실습이 어렵습니다</em></label></li>
-        <li><input type="checkbox" id="p2"><label for="p2">Supabase 회원가입 + 빈 프로젝트 1개 생성<em>프로젝트 준비에 2~3분 걸립니다. 꼭 미리 해 오세요</em></label></li>
+        <li><input type="checkbox" id="p2"><label for="p2"><span class="plat" data-plat="sheets">구글 계정 로그인 + 빈 스프레드시트 1개 만들기<em>드라이브에서 새 스프레드시트를 하나 만들어 두면 됩니다. 추가 가입은 없습니다</em></span><span class="plat" data-plat="supabase">Supabase 회원가입 + 빈 프로젝트 1개 생성<em>프로젝트 준비에 2~3분 걸립니다. 꼭 미리 해 오세요</em></span><span class="plat" data-plat="firebase">Firebase 프로젝트 + Firestore 데이터베이스 만들기<em>구글 계정으로 콘솔에 로그인해 만듭니다. 위치는 asia-northeast3(서울) 권장</em></span><span class="plat" data-plat="cloudflare">Cloudflare 회원가입 + D1 데이터베이스 1개 생성<em>Workers &amp; Pages 메뉴에서 만듭니다. 카드 등록은 필요 없습니다</em></span></label></li>
         <li><input type="checkbox" id="p3"><label for="p3">평소 쓰는 AI 도구 로그인<em>Gemini, ChatGPT, Claude 중 익숙한 것 하나면 됩니다</em></label></li>
         <li><input type="checkbox" id="p4"><label for="p4">상반기에 만든 내 웹앱 링크 하나<em>없어도 괜찮습니다. 오늘 만드는 것부터 시작해도 됩니다</em></label></li>
         <li><input type="checkbox" id="p5"><label for="p5">우리 반에서 "매번 종이로 걷는 것" 하나 떠올려 오기<em>마지막 챕터에서 이걸 앱으로 바꿉니다</em></label></li>
       </ul>
       <div class="bar"><i id="prepBar"></i></div>
       <div style="font-size:13.5px;color:var(--text-dim)" id="prepTxt">0 / 5 완료</div>
+    </div>
+
+    <div class="tip-box" style="margin-top:18px">
+      <strong><span class="material-symbols-outlined">tune</span> 플랫폼은 언제든 바꿀 수 있습니다</strong>
+      지금 선택된 것은 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 입니다.
+      화면 맨 위 <b>실습 플랫폼</b> 바에서 다른 것을 누르면
+      이 페이지의 준비물 · 실습 절차 · 코드 · 프롬프트 · 부록이 모두 그 플랫폼 기준으로 바뀝니다.
+      <b>어떤 것을 고를지 모르겠다면 Supabase</b>로 두고 시작하세요.
     </div>
   </div>
 </section>
@@ -512,7 +596,8 @@ select.inp{cursor:pointer;}
       <span class="section-tag"><span class="chip">02</span> CHAPTER 02</span>
       <h2 class="section-title">앱을 서버에 연결하기</h2>
       <p class="section-desc">"서버에 저장한다"는 말은 어렵지 않습니다.
-        <b>인터넷 어딘가에 있는 공동 스프레드시트에 한 줄씩 쌓는 것</b>이라고 생각하면 됩니다.</p>
+        <b>인터넷 어딘가에 있는 공동 스프레드시트에 한 줄씩 쌓는 것</b>이라고 생각하면 됩니다.
+        그 "어딘가"를 무엇으로 할지 <b>네 가지 중에서 고르는 것</b>이 이 챕터입니다.</p>
     </div>
 
     <details class="step" open id="ch2-a1">
@@ -528,10 +613,47 @@ select.inp{cursor:pointer;}
             <tbody>
               <tr><td><b>데이터베이스</b></td><td>인터넷에 있는 공동 스프레드시트 같은 저장공간. 누가 뭘 쓰면 한 줄씩 쌓입니다.</td></tr>
               <tr><td><b>실시간</b><br /><span style="font-size:12px;color:var(--text-dim)">Realtime</span></td><td>누군가 글을 쓰면 다른 사람 화면에도 바로 나타나는 기능.</td></tr>
-              <tr><td><b>RLS</b></td><td>누가 어떤 데이터를 볼 수 있고 고칠 수 있는지를 정하는 문지기.</td></tr>
-              <tr><td><b>Auth</b></td><td>앱이 사용자를 구분하는 방법. 로그인 화면이 없어도 구분할 수 있습니다.</td></tr>
+              <tr><td><b>문지기</b><br /><span style="font-size:12px;color:var(--text-dim)">권한 · 규칙</span></td><td>누가 어떤 데이터를 볼 수 있고 고칠 수 있는지를 정하는 장치. 플랫폼마다 이름이 다릅니다.</td></tr>
+              <tr><td><b>사용자 구분</b><br /><span style="font-size:12px;color:var(--text-dim)">Auth</span></td><td>앱이 사용자를 구분하는 방법. 로그인 화면이 없어도 구분할 수 있습니다.</td></tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="substep">
+          <h4><span class="material-symbols-outlined">swap_horiz</span>플랫폼마다 부르는 이름만 다릅니다</h4>
+          <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px">지금 선택한
+            <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 기준입니다.</p>
+          <div class="tbl">
+            <table>
+              <thead><tr><th style="width:118px">쉬운 말</th><th>이 플랫폼에서는</th></tr></thead>
+              <tbody>
+                <tr><td><b>저장공간</b></td><td>
+                  <span class="plat" data-plat="sheets">스프레드시트의 <b>시트(탭)</b> — 한 줄이 한 응답입니다</span>
+                  <span class="plat" data-plat="supabase"><b>테이블(Table)</b> — SQL로 만들고 표 화면에서 눈으로 확인합니다</span>
+                  <span class="plat" data-plat="firebase">Firestore의 <b>컬렉션(Collection)</b>과 그 안의 <b>문서(Document)</b></span>
+                  <span class="plat" data-plat="cloudflare"><b>D1 데이터베이스</b>의 표 — SQLite와 같은 문법을 씁니다</span>
+                </td></tr>
+                <tr><td><b>실시간</b></td><td>
+                  <span class="plat" data-plat="sheets">제공되지 않습니다. 몇 초마다 다시 불러오는 <b>폴링</b>으로 흉내 냅니다</span>
+                  <span class="plat" data-plat="supabase"><b>Realtime 구독</b> — 대시보드에서 테이블별로 켭니다</span>
+                  <span class="plat" data-plat="firebase"><b>onSnapshot 리스너</b> — 별도 설정 없이 바로 씁니다</span>
+                  <span class="plat" data-plat="cloudflare">기본은 폴링입니다. 진짜 실시간은 <b>Durable Objects + WebSocket</b>이 필요합니다</span>
+                </td></tr>
+                <tr><td><b>문지기</b></td><td>
+                  <span class="plat" data-plat="sheets">웹앱 <b>배포 설정</b>(실행 계정 · 액세스 권한)과 Apps Script 코드 자체</span>
+                  <span class="plat" data-plat="supabase"><b>RLS(Row Level Security) 정책</b> — SQL로 씁니다</span>
+                  <span class="plat" data-plat="firebase"><b>보안 규칙(Security Rules)</b> — 콘솔의 규칙 탭에서 씁니다</span>
+                  <span class="plat" data-plat="cloudflare"><b>Worker 코드</b> — 허용할 요청만 내가 직접 작성합니다</span>
+                </td></tr>
+                <tr><td><b>사용자 구분</b></td><td>
+                  <span class="plat" data-plat="sheets">사실상 어렵습니다. <b>완전 익명</b>으로 쓰는 것을 권합니다</span>
+                  <span class="plat" data-plat="supabase"><b>익명 인증(Anonymous Sign-in)</b> — 로그인 화면 없이 구분합니다</span>
+                  <span class="plat" data-plat="firebase"><b>익명 로그인(signInAnonymously)</b> — 로그인 화면 없이 구분합니다</span>
+                  <span class="plat" data-plat="cloudflare">준비된 기능이 없습니다. Worker가 <b>직접 발급·검증</b>해야 합니다</span>
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </details>
@@ -539,48 +661,123 @@ select.inp{cursor:pointer;}
     <details class="step" id="ch2-a2">
       <summary class="step-header">
         <div class="step-num">02</div>
-        <div class="step-tw"><h3>어디에 담을까 — 네 가지</h3><p>플랫폼별로 잘 맞는 상황이 다릅니다</p></div>
+        <div class="step-tw"><h3>어디에 담을까 — 네 가지</h3><p>카드를 누르면 페이지 전체가 그 플랫폼으로 바뀝니다</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
+        <p>네 가지 모두 <b>이 자료 그대로 끝까지 실습할 수 있습니다.</b>
+          아래에서 하나를 누르면 3장의 실습 절차와 코드, 5장의 프롬프트, 부록까지 전부 그 플랫폼 기준으로 바뀝니다.</p>
         <div class="cards c2">
-          <div class="mini"><div class="ic"><span class="material-symbols-outlined">table_view</span></div>
-            <h4>Google Sheets + Apps Script</h4>
-            <p>익숙한 구글 도구로 간단히 저장하고 싶을 때</p></div>
-          <div class="mini hl"><div class="ic"><span class="material-symbols-outlined">bolt</span></div>
-            <div class="badge">오늘 실습</div>
+          <div class="mini pick" data-p="sheets" role="button" tabindex="0">
+            <div class="pk"><div class="ic"><span class="material-symbols-outlined">table_view</span></div>
+              <span class="material-symbols-outlined">check_circle</span></div>
+            <div class="badge">지금 선택됨</div>
+            <h4>구글 시트 + Apps Script</h4>
+            <p>추가 가입 없이 익숙한 도구로 시작하고, 결과를 시트에서 바로 정렬·집계·인쇄하고 싶을 때</p></div>
+          <div class="mini pick" data-p="supabase" role="button" tabindex="0">
+            <div class="pk"><div class="ic"><span class="material-symbols-outlined">bolt</span></div>
+              <span class="material-symbols-outlined">check_circle</span></div>
+            <div class="badge">지금 선택됨</div>
             <h4>Supabase</h4>
-            <p>여러 사람이 동시에 쓰고 실시간으로 결과를 공유할 때</p></div>
-          <div class="mini"><div class="ic"><span class="material-symbols-outlined">local_fire_department</span></div>
+            <p>한 반이 동시에 쓰고, 결과가 실시간으로 모여야 할 때. 표처럼 생겨서 설명이 가장 쉽습니다</p></div>
+          <div class="mini pick" data-p="firebase" role="button" tabindex="0">
+            <div class="pk"><div class="ic"><span class="material-symbols-outlined">local_fire_department</span></div>
+              <span class="material-symbols-outlined">check_circle</span></div>
+            <div class="badge">지금 선택됨</div>
             <h4>Firebase</h4>
-            <p>Google 생태계와 실시간 서비스를 더 깊게 활용할 때</p></div>
-          <div class="mini"><div class="ic"><span class="material-symbols-outlined">cloud</span></div>
-            <h4>Cloudflare</h4>
-            <p>배포와 서버를 더 자유롭게 운영하는 다음 단계</p></div>
+            <p>실시간 동기화가 핵심이거나, 구글 계정 인증을 함께 붙이고 싶을 때</p></div>
+          <div class="mini pick" data-p="cloudflare" role="button" tabindex="0">
+            <div class="pk"><div class="ic"><span class="material-symbols-outlined">cloud</span></div>
+              <span class="material-symbols-outlined">check_circle</span></div>
+            <div class="badge">지금 선택됨</div>
+            <h4>Cloudflare Workers + D1</h4>
+            <p>서버 코드를 직접 쓰고, 배포·도메인·데이터베이스를 한곳에서 관리하고 싶을 때</p></div>
         </div>
         <p style="margin-top:16px">자세한 비교는 <a href="#ref" style="color:var(--blue);font-weight:700">부록</a>에 정리해 두었습니다.
-          오늘은 <b>Supabase 하나만 실제로 실습</b>합니다.</p>
+          <b>처음이라면 Supabase나 구글 시트</b>를 권합니다.
+          연수 시간에는 <b>한 가지만 골라 끝까지</b> 해 보고, 나머지는 나중에 이 페이지에서 바꿔 보세요.</p>
       </div>
     </details>
 
     <details class="step" id="ch2-a3">
       <summary class="step-header">
         <div class="step-num">03</div>
-        <div class="step-tw"><h3>왜 Supabase인가</h3><p>강사의 솔직한 경험담</p></div>
+        <div class="step-tw"><h3>어떤 것을 고를까</h3><p>더 좋은 기술이 아니라, 맞는 기술을 고릅니다</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p>화면이 스프레드시트처럼 생겨서 설명이 거의 필요 없고, 여러 명이 동시에 써도 버티며,
-          실시간 기능이 준비되어 있습니다. 무엇보다 <b>로그인을 붙이지 않아도 잘 돌아갑니다.</b></p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th style="width:52%">이런 상황이라면</th><th>이걸 권합니다</th></tr></thead>
+            <tbody>
+              <tr><td>한 명씩 순서대로 쓰고, 교사가 결과를 정리·인쇄해서 쓴다</td><td><b>구글 시트 + Apps Script</b></td></tr>
+              <tr><td>한 반이 동시에 접속하고, 결과가 바로바로 모여야 한다</td><td><b>Supabase</b></td></tr>
+              <tr><td>실시간 반응이 앱의 핵심이거나, 구글 로그인을 붙일 계획이다</td><td><b>Firebase</b></td></tr>
+              <tr><td>서버 코드를 직접 써 보고 싶고, 배포까지 한곳에서 하고 싶다</td><td><b>Cloudflare Workers + D1</b></td></tr>
+              <tr><td>처음이고, 오늘 안에 반드시 하나를 완성하고 싶다</td><td><b>Supabase</b> 또는 <b>구글 시트</b></td></tr>
+            </tbody>
+          </table>
+        </div>
         <div class="example-box">
           <div class="example-label">실제로 겪은 일</div>
           <p style="font-size:14.5px;margin:0">Apps Script와 스프레드시트로 질문 공유 앱을 만들어 본 적이 있습니다.
-            혼자 쓸 땐 훌륭했는데, 한 반이 동시에 접속하니 느려지고 가끔 글이 겹쳐 쓰였습니다.</p>
+            혼자 쓸 땐 훌륭했는데, 한 반이 동시에 접속하니 느려지고 가끔 글이 겹쳐 쓰였습니다.
+            그 뒤로 <b>동시에 쓰는 앱은 Supabase</b>, <b>교사가 정리해서 쓰는 앱은 시트</b>로 나눠 쓰고 있습니다.</p>
         </div>
         <div class="tip-box">
           <strong><span class="material-symbols-outlined">emoji_objects</span> 결론</strong>
-          <b>더 좋은 기술이라서가 아니라, 이 용도에 맞아서입니다.</b>
-          한 명씩 순서대로 쓰고 교사만 확인하는 앱이라면 Apps Script가 오히려 편합니다.
+          <b>더 좋은 기술이 있는 게 아니라, 용도에 맞는 기술이 있습니다.</b>
+          한 명씩 순서대로 쓰고 교사만 확인하는 앱이라면 Apps Script가 오히려 편하고,
+          한 반이 동시에 누르는 앱이라면 Supabase나 Firebase가 편합니다.
+        </div>
+
+        <div class="substep">
+          <h4><span class="material-symbols-outlined">balance</span>지금 고른 <span class="pname">Supabase</span>는 이렇습니다</h4>
+
+          <div class="vs plat" data-plat="sheets">
+            <div class="vs-col good"><div class="vs-label">좋은 점</div>
+              <h4>추가 가입도, 새 화면도 없다</h4>
+              <p>구글 계정 하나로 끝납니다. 결과가 시트에 쌓이니 정렬·집계·인쇄가 자유롭고,
+                학교 업무 문서와 그대로 이어집니다. 데이터가 눈에 보여서 안심이 됩니다.</p></div>
+            <div class="vs-col"><div class="vs-label">주의할 점</div>
+              <h4>동시 사용과 실시간에 약하다</h4>
+              <p>웹앱 배포에서 실행 계정·액세스 권한 설정에 많이 막힙니다.
+                한 반이 동시에 누르면 느려지거나 글이 겹쳐 쓰일 수 있고, 실시간 기능이 없어
+                몇 초마다 다시 불러오는 방식으로 대신해야 합니다.</p></div>
+          </div>
+
+          <div class="vs plat" data-plat="supabase">
+            <div class="vs-col good"><div class="vs-label">좋은 점</div>
+              <h4>표처럼 생겼는데 동시 사용에 강하다</h4>
+              <p>화면이 스프레드시트처럼 생겨서 설명이 거의 필요 없고, 여러 명이 동시에 써도 버팁니다.
+                실시간 기능이 준비되어 있고, 무엇보다 <b>로그인을 붙이지 않아도 잘 돌아갑니다.</b></p></div>
+            <div class="vs-col"><div class="vs-label">주의할 점</div>
+              <h4>문지기(RLS)를 정확히 써야 한다</h4>
+              <p>RLS를 켜고 정책을 안 만들면 아무것도 안 보입니다.
+                무료 프로젝트는 오래 안 쓰면 일시 중지될 수 있고, 데이터는 해외에 저장됩니다.</p></div>
+          </div>
+
+          <div class="vs plat" data-plat="firebase">
+            <div class="vs-col good"><div class="vs-label">좋은 점</div>
+              <h4>실시간 동기화가 가장 강하다</h4>
+              <p>onSnapshot 한 줄로 화면이 저절로 따라옵니다. 별도 설정 없이 바로 실시간이고,
+                구글 계정 인증·익명 로그인 연동이 쉽습니다.</p></div>
+            <div class="vs-col"><div class="vs-label">주의할 점</div>
+              <h4>표가 아니라 문서 구조다</h4>
+              <p>컬렉션·문서 개념을 새로 설명해야 하고, 보안 규칙 문법도 따로 배워야 합니다.
+                구독을 안 끊으면 읽기 횟수가 계속 늘어 무료 한도를 빨리 씁니다.</p></div>
+          </div>
+
+          <div class="vs plat" data-plat="cloudflare">
+            <div class="vs-col good"><div class="vs-label">좋은 점</div>
+              <h4>배포·서버·DB가 한곳에</h4>
+              <p>Worker와 D1, 그리고 Pages 배포까지 같은 계정에서 끝납니다.
+                커스텀 도메인 연결이 쉽고, 허용할 요청을 내가 직접 정하므로 문지기 개념이 가장 명확합니다.</p></div>
+            <div class="vs-col"><div class="vs-label">주의할 점</div>
+              <h4>서버 코드를 직접 써야 한다</h4>
+              <p>CORS·바인딩 설정 같은 개발자 개념이 바로 등장합니다.
+                데이터를 표처럼 눈으로 확인하기 불편하고, 진짜 실시간은 Durable Objects가 따로 필요합니다.</p></div>
+          </div>
         </div>
       </div>
     </details>
@@ -595,7 +792,15 @@ select.inp{cursor:pointer;}
       <h2 class="section-title">함께 쓰는 앱 만들기</h2>
       <p class="section-desc"><b>우리 반 감정 체크인 보드</b>를 만듭니다.
         학생이 각자 기기에서 오늘의 감정을 고르면 서버에 저장되고,
-        학급 전체 결과가 한 화면에 모이고, 다른 학생이 고를 때 화면이 바로 바뀝니다.</p>
+        학급 전체 결과가 한 화면에 모이고, 다른 학생이 고를 때 화면이 바로 바뀝니다.
+        <b>만드는 앱은 같고, 담는 곳만 다릅니다.</b></p>
+    </div>
+
+    <div class="example-box" style="margin-bottom:16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+      <span class="example-label" style="margin:0">지금 실습 플랫폼</span>
+      <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span>
+      <span style="font-size:14px;color:var(--text-muted)">기준으로 아래 절차·코드·프롬프트가 표시됩니다.
+        위쪽 <b>실습 플랫폼</b> 바에서 언제든 바꿀 수 있습니다.</span>
     </div>
 
     <div class="tip-box" style="margin-bottom:20px">
@@ -607,17 +812,105 @@ select.inp{cursor:pointer;}
     <details class="step" open id="ch3-s1">
       <summary class="step-header">
         <div class="step-num dia"><span><i>1</i></span></div>
-        <div class="step-tw"><h3>STEP 1 · 서버에 저장하기</h3><p>표를 만들고 문지기를 세웁니다</p></div>
+        <div class="step-tw"><h3>STEP 1 · 서버에 저장하기</h3><p>담을 곳을 만들고 문지기를 세웁니다</p></div>
         <span class="step-time">20분</span>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <div class="substep">
-          <h4><span class="material-symbols-outlined">terminal</span> 테이블 만들기</h4>
-          <p>직접 칸을 만들지 않습니다. 아래 SQL을 Supabase의 <b>SQL Editor</b>에 붙여넣고 실행하세요.
-            칸 종류를 하나씩 고르다 보면 시간이 다 갑니다.</p>
-          <div class="code">
-            <button class="copy" data-copy="sql1"><span class="material-symbols-outlined">content_copy</span>복사</button>
+
+        <!-- ── 구글 시트 + Apps Script ── -->
+        <div class="plat" data-plat="sheets">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">table_view</span> ① 시트 준비하기</h4>
+            <p>새 구글 스프레드시트를 만들고, 아래쪽 시트 탭 이름을 <b>checkins</b>로 바꿉니다.
+              그리고 1행에 머리글 네 개를 그대로 적습니다. <b>순서가 코드와 같아야 합니다.</b></p>
+            <div class="tbl"><table>
+              <thead><tr><th style="width:25%">A1</th><th style="width:25%">B1</th><th style="width:25%">C1</th><th>D1</th></tr></thead>
+              <tbody><tr><td>created_at</td><td>room_code</td><td>emotion</td><td>note</td></tr></tbody>
+            </table></div>
+          </div>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">terminal</span> ② Apps Script 붙여넣기</h4>
+            <p>상단 메뉴 <b>확장 프로그램 → Apps Script</b>를 열고, 기본 코드를 전부 지운 뒤 아래를 붙여넣고 저장합니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="gs1"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="gs1">// 우리 반 감정 체크인 — Apps Script 웹앱
+// 시트 이름 : checkins   /   1행 머리글 : created_at | room_code | emotion | note
+const SHEET = 'checkins';
+
+// 저장 : 앱에서 감정을 누르면 시트에 한 줄이 쌓입니다
+function doPost(e) {
+  const d = JSON.parse(e.postData.contents);
+  if (!d.room_code || !d.emotion) return json({ ok: false });
+  SpreadsheetApp.getActive().getSheetByName(SHEET).appendRow([
+    new Date(),
+    String(d.room_code).slice(0, 40),
+    String(d.emotion).slice(0, 20),
+    String(d.note || '').slice(0, 200)
+  ]);
+  return json({ ok: true });
+}
+
+// 불러오기 : 같은 수업 코드의 '오늘' 데이터만 감정별로 세어서 돌려줍니다
+function doGet(e) {
+  const room = e.parameter.room_code || '';
+  const rows = SpreadsheetApp.getActive().getSheetByName(SHEET)
+                 .getDataRange().getValues().slice(1);
+  const today = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd');
+  const counts = {}, notes = [];
+  rows.forEach(function (r) {
+    if (!r[0] || r[1] !== room) return;
+    if (Utilities.formatDate(new Date(r[0]), 'Asia/Seoul', 'yyyy-MM-dd') !== today) return;
+    counts[r[2]] = (counts[r[2]] || 0) + 1;
+    if (r[3]) notes.push(r[3]);        // 작성자 정보 없이 내용만
+  });
+  return json({ counts: counts, notes: notes });
+}
+
+function json(o) {
+  return ContentService.createTextOutput(JSON.stringify(o))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// 수정·삭제 기능은 일부러 만들지 않았습니다.
+// 없는 기능은 뚫릴 수도 없습니다. 삭제가 필요하면 교사가 시트에서 행을 지웁니다.</pre>
+            </div>
+            <p style="font-size:14px;color:var(--text-dim)">이 코드가 하는 일은 두 가지입니다.
+              한 줄 쌓기(doPost)와, 오늘 것만 세어서 돌려주기(doGet).
+              <b>집계를 서버에서 해 주기 때문에</b> 앱은 받은 숫자를 그리기만 하면 됩니다.</p>
+          </div>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">public</span> ③ 웹앱으로 배포하기 — 여기가 문지기입니다</h4>
+            <p><b>배포 → 새 배포 → 유형: 웹 앱.</b> 아래 두 가지가 핵심이고, 대부분 여기서 막힙니다.</p>
+            <div class="example-box"><ul>
+              <li><b>실행 계정</b> — 나 (스프레드시트 주인인 내 권한으로 실행)</li>
+              <li><b>액세스 권한</b> — 모든 사용자 (학생이 로그인 없이 접속하도록)</li>
+            </ul></div>
+            <p>배포하면 <b>/exec로 끝나는 주소</b>가 나옵니다. 앱은 이 주소 하나로 저장하고 불러옵니다.
+              스프레드시트 자체는 계속 비공개이고, 이 주소를 통해 <b>코드가 허용한 일만</b> 할 수 있습니다.</p>
+            <div class="warn-box">
+              <strong>코드를 고쳤는데 반영이 안 될 때</strong>
+              Apps Script는 <b>배포한 버전</b>이 돌아갑니다. 코드를 고친 뒤에는
+              <b>배포 → 배포 관리 → 연필(수정) → 버전: 새 버전 → 배포</b>를 해야 반영됩니다.
+              이 방법으로 하면 주소가 그대로 유지됩니다.
+            </div>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">앱에서 감정 하나를 누르고, 스프레드시트를 새로고침해서
+                <b>줄이 하나 생기는 것</b>을 봅니다.</div></div>
+          </div>
+        </div>
+
+        <!-- ── Supabase ── -->
+        <div class="plat" data-plat="supabase">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">terminal</span> ① 테이블 만들기</h4>
+            <p>직접 칸을 만들지 않습니다. 아래 SQL을 Supabase의 <b>SQL Editor</b>에 붙여넣고 실행하세요.
+              칸 종류를 하나씩 고르다 보면 시간이 다 갑니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="sql1"><span class="material-symbols-outlined">content_copy</span>복사</button>
 <pre id="sql1">-- 감정 체크인 테이블
 create table checkins (
   id         bigint generated always as identity primary key,
@@ -638,16 +931,171 @@ create policy "insert_all" on checkins for insert with check (true);
 -- 수정·삭제 정책은 일부러 만들지 않습니다.
 -- 정책이 없으면 막히는 것이 기본값이라, 학생은 남의 글을 지울 수 없습니다.
 -- 삭제가 필요하면 Supabase 대시보드에서 교사가 직접 처리합니다.</pre>
+            </div>
+            <p style="font-size:14px;color:var(--text-dim)">이 코드가 하는 일은 세 가지입니다.
+              표를 하나 만들고, 문지기를 세우고, "읽기와 쓰기만 허용한다"고 알려주는 것.</p>
           </div>
-          <p style="font-size:14px;color:var(--text-dim)">이 코드가 하는 일은 세 가지입니다.
-            표를 하나 만들고, 문지기를 세우고, "읽기와 쓰기만 허용한다"고 알려주는 것.</p>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">key</span> ② 연결 정보 복사하기</h4>
+            <p><b>Settings → API</b>에서 <b>Project URL</b>과 <b>anon public 키</b> 두 개를 복사해
+              앱 코드 맨 위에 넣습니다. 이 키는 브라우저에 노출되는 <b>공개 키</b>이고,
+              실제 보호는 위에서 만든 RLS 정책이 합니다.</p>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">앱에서 감정 하나를 누르고, Supabase 표 화면을 새로고침해서
+                <b>줄이 하나 생기는 것</b>을 봅니다.</div></div>
+          </div>
         </div>
-        <div class="moment">
-          <div class="hp"><span class="material-symbols-outlined">check</span></div>
-          <div><div class="m-t">확인 순간</div>
-            <div class="m-b">앱에서 감정 하나를 누르고, Supabase 표 화면을 새로고침해서
-              <b>줄이 하나 생기는 것</b>을 봅니다.</div></div>
+
+        <!-- ── Firebase ── -->
+        <div class="plat" data-plat="firebase">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">database</span> ① Firestore 만들기</h4>
+            <p>Firebase 콘솔 → <b>프로젝트 만들기</b> → <b>Firestore Database → 데이터베이스 만들기</b>.
+              위치는 <b>asia-northeast3 (서울)</b>을 고르고, 모드는 <b>프로덕션 모드</b>로 시작합니다.
+              규칙은 잠시 뒤 직접 붙여넣습니다.</p>
+            <div class="warn-box">
+              <strong>테스트 모드로 만들지 마세요</strong>
+              테스트 모드는 <b>30일 동안 누구나 읽고 쓰고 지울 수 있는 상태</b>입니다.
+              연수에서는 편하지만 교실에 그대로 내보내면 안 됩니다.
+            </div>
+          </div>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">key</span> ② 웹 앱 등록하고 설정값 복사</h4>
+            <p><b>프로젝트 설정 → 내 앱 → 웹(&lt;/&gt;) 추가</b>를 하면 <b>firebaseConfig</b> 객체가 나옵니다.
+              통째로 복사해 앱 코드 맨 위에 넣습니다. 이 값도 브라우저에 노출되는 <b>공개 설정</b>이고,
+              실제 보호는 아래 보안 규칙이 합니다.</p>
+          </div>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">shield</span> ③ 보안 규칙 붙여넣기 — 여기가 문지기입니다</h4>
+            <p><b>Firestore Database → 규칙</b> 탭에 아래를 붙여넣고 <b>게시</b>를 누릅니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="fb1"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="fb1">rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    match /checkins/{id} {
+
+      // 읽기 허용
+      allow read: if true;
+
+      // 쓰기 허용 — 단, 정해 둔 칸만 · 길이 제한도 함께
+      allow create: if request.resource.data.keys()
+                          .hasOnly(['room_code', 'emotion', 'note', 'created_at'])
+                    &amp;&amp; request.resource.data.room_code is string
+                    &amp;&amp; request.resource.data.emotion  is string
+                    &amp;&amp; request.resource.data.room_code.size() &lt; 40
+                    &amp;&amp; request.resource.data.emotion.size()   &lt; 20;
+
+      // 수정·삭제는 막습니다.
+      // 삭제가 필요하면 교사가 콘솔에서 직접 문서를 지웁니다.
+      allow update, delete: if false;
+    }
+  }
+}</pre>
+            </div>
+            <p style="font-size:14px;color:var(--text-dim)">이 규칙이 하는 일은 세 가지입니다.
+              읽기는 열고, 쓰기는 <b>정해 둔 칸만</b> 열고, 수정·삭제는 닫는 것.</p>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">앱에서 감정 하나를 누르고, Firestore 데이터 탭에서
+                <b>문서가 하나 생기는 것</b>을 봅니다.</div></div>
+          </div>
         </div>
+
+        <!-- ── Cloudflare Workers + D1 ── -->
+        <div class="plat" data-plat="cloudflare">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">database</span> ① D1 데이터베이스와 표 만들기</h4>
+            <p>Cloudflare 대시보드 → <b>Storage &amp; Databases → D1 → Create</b>.
+              이름은 <b>checkin-db</b>로 합니다. 만든 뒤 <b>Console</b> 탭에 아래 SQL을 붙여넣고 실행합니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="cf1"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="cf1">-- 감정 체크인 표 (D1은 SQLite 문법을 씁니다)
+create table checkins (
+  id         integer primary key autoincrement,
+  room_code  text not null,                    -- 수업 코드 (예: today-5-3)
+  emotion    text not null,                    -- 감정
+  note       text,                             -- 한 줄 메모 (선택)
+  created_at text default (datetime('now'))    -- 주의 : UTC 기준입니다
+);
+
+create index idx_room on checkins (room_code, created_at);</pre>
+            </div>
+          </div>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">link</span> ② Worker 만들고 D1 연결하기</h4>
+            <p><b>Workers &amp; Pages → Create → Worker</b>, 이름은 <b>checkin-api</b>.
+              만든 뒤 <b>Settings → Bindings → Add → D1 database</b>에서
+              변수 이름 <b>DB</b>, 데이터베이스 <b>checkin-db</b>를 연결합니다.
+              이 이름이 코드의 <b>env.DB</b>와 같아야 합니다.</p>
+          </div>
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">terminal</span> ③ Worker 코드 — 여기가 문지기입니다</h4>
+            <p>편집기에 아래를 붙여넣고 <b>Deploy</b>. 다른 플랫폼과 달리 규칙 설정 화면이 따로 없습니다.
+              <b>내가 만든 길만 열립니다.</b></p>
+            <div class="code">
+              <button class="copy" data-copy="cf2"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="cf2">// 우리 반 감정 체크인 — Cloudflare Worker (문지기는 이 코드 자체입니다)
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+  'Access-Control-Allow-Headers': 'content-type'
+};
+
+export default {
+  async fetch(request, env) {
+    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
+    const url = new URL(request.url);
+
+    // 저장
+    if (request.method === 'POST') {
+      const d = await request.json();
+      if (!d.room_code || !d.emotion) {
+        return Response.json({ ok: false }, { status: 400, headers: CORS });
+      }
+      await env.DB.prepare(
+        'insert into checkins (room_code, emotion, note) values (?, ?, ?)'
+      ).bind(
+        String(d.room_code).slice(0, 40),
+        String(d.emotion).slice(0, 20),
+        String(d.note || '').slice(0, 200)
+      ).run();
+      return Response.json({ ok: true }, { headers: CORS });
+    }
+
+    // 불러오기 — 같은 수업 코드의 '오늘' 데이터만 감정별로 집계
+    const room = url.searchParams.get('room_code') || '';
+    const { results } = await env.DB.prepare(
+      "select emotion, count(*) as n from checkins " +
+      "where room_code = ? and date(created_at, '+9 hours') = date('now', '+9 hours') " +
+      "group by emotion"
+    ).bind(room).all();
+    return Response.json({ counts: results }, { headers: CORS });
+  }
+};
+
+// 수정·삭제 경로는 아예 만들지 않았습니다.
+// 없는 길로는 아무도 들어올 수 없습니다.
+// 삭제가 필요하면 교사가 D1 콘솔에서 직접 처리합니다.</pre>
+            </div>
+            <p style="font-size:14px;color:var(--text-dim)">배포하면
+              <b>https://checkin-api.○○○.workers.dev</b> 형태의 주소가 나옵니다.
+              앱은 이 주소 하나로 저장(POST)하고 불러옵니다(GET).</p>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">앱에서 감정 하나를 누르고, D1 콘솔에서
+                <b>select * from checkins</b>를 실행해 <b>줄이 하나 생긴 것</b>을 봅니다.</div></div>
+          </div>
+        </div>
+
       </div>
     </details>
 
@@ -662,15 +1110,41 @@ create policy "insert_all" on checkins for insert with check (true);
         <div class="substep">
           <h4><span class="material-symbols-outlined">chat</span> AI에게 요청할 내용</h4>
           <p>내가 누른 것만이 아니라 반 전체 결과를 불러옵니다.
-            개인별 목록이 아니라 <b>감정별 집계</b>로 보여주는 것이 핵심입니다.</p>
-          <div class="code">
+            개인별 목록이 아니라 <b>감정별 집계</b>로 보여주는 것이 핵심입니다.
+            아래 프롬프트는 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 기준입니다.</p>
+
+          <div class="code plat" data-plat="sheets">
+            <button class="copy" data-copy="pr2s"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="pr2s">아래 기능을 추가해줘.
+
+1. 화면 위쪽에 '수업 코드' 입력칸을 만들고, 입력한 코드를 주소(URL)에 붙여줘.
+   학생은 그 주소만 받으면 코드를 안 쳐도 되게 해줘.
+
+2. Apps Script 웹앱 주소(/exec)로 GET 요청을 보내
+   { counts: {감정: 인원수}, notes: [메모...] } 를 받아와서
+   감정별로 몇 명인지 막대로 보여줘.
+   집계는 이미 서버에서 끝내서 내려주니, 앱은 받은 숫자를 그리기만 하면 돼.
+   예) 기쁨 12 · 평온 7 · 걱정 3 · 피곤 2
+
+   ※ 저장은 같은 주소로 POST를 보내되,
+     fetch에 헤더(Content-Type 등)를 절대 붙이지 마.
+     헤더를 붙이면 CORS 사전 요청 때문에 막힌다.
+
+3. 누가 어떤 감정을 골랐는지는 절대 표시하지 마.
+   전체 분포만 보여줘.
+
+4. 한 줄 메모는 아래에 카드로 나열하되,
+   작성자 정보 없이 내용만 보여줘.</pre>
+          </div>
+
+          <div class="code plat" data-plat="supabase">
             <button class="copy" data-copy="pr2"><span class="material-symbols-outlined">content_copy</span>복사</button>
 <pre id="pr2">아래 기능을 추가해줘.
 
 1. 화면 위쪽에 '수업 코드' 입력칸을 만들고, 입력한 코드를 주소(URL)에 붙여줘.
    학생은 그 주소만 받으면 코드를 안 쳐도 되게 해줘.
 
-2. 같은 수업 코드로 등록된 오늘 데이터만 불러와서
+2. 같은 수업 코드로 등록된 오늘 데이터만 Supabase에서 불러와서
    감정별로 몇 명인지 막대로 보여줘.
    예) 기쁨 12 · 평온 7 · 걱정 3 · 피곤 2
 
@@ -679,6 +1153,50 @@ create policy "insert_all" on checkins for insert with check (true);
 
 4. 한 줄 메모는 아래에 카드로 나열하되,
    작성자 정보 없이 내용만 보여줘.</pre>
+          </div>
+
+          <div class="code plat" data-plat="firebase">
+            <button class="copy" data-copy="pr2f"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="pr2f">아래 기능을 추가해줘.
+
+1. 화면 위쪽에 '수업 코드' 입력칸을 만들고, 입력한 코드를 주소(URL)에 붙여줘.
+   학생은 그 주소만 받으면 코드를 안 쳐도 되게 해줘.
+
+2. Firestore의 checkins 컬렉션에서
+   room_code가 같고 created_at이 오늘인 문서만 쿼리해서
+   감정별로 몇 명인지 앱에서 세어 막대로 보여줘.
+   예) 기쁨 12 · 평온 7 · 걱정 3 · 피곤 2
+
+   ※ where와 orderBy를 같이 쓰면 색인이 필요하다는 오류가 날 수 있어.
+     그때는 콘솔 오류 메시지의 링크를 눌러 색인을 만들면 된다고
+     코드 주석에 적어줘.
+
+3. 누가 어떤 감정을 골랐는지는 절대 표시하지 마.
+   전체 분포만 보여줘.
+
+4. 한 줄 메모는 아래에 카드로 나열하되,
+   작성자 정보 없이 내용만 보여줘.</pre>
+          </div>
+
+          <div class="code plat" data-plat="cloudflare">
+            <button class="copy" data-copy="pr2c"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="pr2c">아래 기능을 추가해줘.
+
+1. 화면 위쪽에 '수업 코드' 입력칸을 만들고, 입력한 코드를 주소(URL)에 붙여줘.
+   학생은 그 주소만 받으면 코드를 안 쳐도 되게 해줘.
+
+2. Worker 주소로 ?room_code=수업코드 를 붙여 GET 요청을 보내
+   { counts: [{emotion, n}, ...] } 를 받아와서
+   감정별로 몇 명인지 막대로 보여줘.
+   집계는 Worker가 SQL로 끝내서 내려주니, 앱은 받은 숫자를 그리기만 하면 돼.
+   예) 기쁨 12 · 평온 7 · 걱정 3 · 피곤 2
+
+3. 누가 어떤 감정을 골랐는지는 절대 표시하지 마.
+   전체 분포만 보여줘.
+
+4. 한 줄 메모는 아래에 카드로 나열하되,
+   작성자 정보 없이 내용만 보여줘.
+   (메모 목록도 Worker에서 내려주도록 GET 응답에 notes 배열을 추가해줘)</pre>
           </div>
         </div>
         <div class="moment">
@@ -693,17 +1211,55 @@ create policy "insert_all" on checkins for insert with check (true);
     <details class="step" id="ch3-s3">
       <summary class="step-header">
         <div class="step-num dia"><span><i>3</i></span></div>
-        <div class="step-tw"><h3>STEP 3 · 실시간 연결</h3><p>새로고침 없이 화면이 바뀝니다</p></div>
+        <div class="step-tw"><h3>STEP 3 ·
+            <span class="plat" data-plat="supabase firebase">실시간 연결</span><span class="plat" data-plat="sheets cloudflare">자동 갱신</span></h3>
+          <p><span class="plat" data-plat="supabase firebase">새로고침 없이 화면이 바뀝니다</span><span class="plat" data-plat="sheets cloudflare">몇 초마다 스스로 다시 불러옵니다</span></p></div>
         <span class="step-time">25분</span>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <div class="substep">
-          <h4><span class="material-symbols-outlined">sync</span> 두 가지를 다 해야 작동합니다</h4>
-          <p>Supabase에서 <b>해당 테이블의 Realtime을 활성화</b>하고,
-            앱에 <b>구독 코드를 추가</b>하면 새 데이터가 들어올 때 새로고침 없이 화면에 반영됩니다.</p>
-          <div class="code">
-            <button class="copy" data-copy="pr3"><span class="material-symbols-outlined">content_copy</span>복사</button>
+
+        <!-- 구글 시트 -->
+        <div class="plat" data-plat="sheets">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">sync</span> 여기는 솔직하게 짚고 갑니다</h4>
+            <p>구글 시트에는 <b>실시간 기능이 없습니다.</b> 대신 앱이 몇 초마다 스스로 다시 물어보는
+              <b>폴링</b>으로 비슷한 경험을 만듭니다. 반응이 1~8초 늦지만 교실에서는 충분합니다.</p>
+            <div class="warn-box">
+              <strong>주기를 너무 짧게 하지 마세요</strong>
+              Apps Script에는 하루 호출 한도가 있습니다. 1초마다 30명이 부르면 금방 한도에 닿습니다.
+              <b>8초 정도</b>로 두고, 탭이 보이지 않을 때는 멈추게 하세요.
+            </div>
+            <div class="code">
+              <button class="copy" data-copy="pr3s"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="pr3s">화면이 저절로 갱신되게 해줘.
+
+- 구글 시트에는 실시간 기능이 없으니,
+  8초마다 집계를 다시 불러오는 방식으로 만들어줘.
+- 매번 전체를 다시 그리지 말고, 숫자가 바뀐 감정만 잠깐 반짝이게 해줘.
+- 화면 오른쪽 위에 '몇 초 전 갱신됨'을 작게 표시해줘.
+- 브라우저 탭이 보이지 않을 때는 요청을 멈췄다가,
+  다시 돌아오면 바로 한 번 불러오게 해줘. (호출 한도를 아끼기 위해서야)
+- 요청이 실패하면 '연결 확인 필요'를 작게 띄우고,
+  다음 주기에 다시 시도해줘.</pre>
+            </div>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">아무것도 누르지 않고 기다렸는데
+                <b>옆 사람이 누른 결과가 내 화면에 나타나는 것</b>을 봅니다.</div></div>
+          </div>
+        </div>
+
+        <!-- Supabase -->
+        <div class="plat" data-plat="supabase">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">sync</span> 두 가지를 다 해야 작동합니다</h4>
+            <p>Supabase에서 <b>해당 테이블의 Realtime을 활성화</b>하고,
+              앱에 <b>구독 코드를 추가</b>하면 새 데이터가 들어올 때 새로고침 없이 화면에 반영됩니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="pr3"><span class="material-symbols-outlined">content_copy</span>복사</button>
 <pre id="pr3">Supabase Realtime을 연결해줘.
 
 - checkins 테이블에 새 줄이 들어오면
@@ -713,14 +1269,81 @@ create policy "insert_all" on checkins for insert with check (true);
 
 ※ Supabase 대시보드에서 이 테이블의 Realtime을 켜야 한다는 점도
    주석으로 코드에 적어줘.</pre>
+            </div>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">새로고침을 하지 않았는데 <b>결과 숫자가 저절로 바뀌는 것</b>을 봅니다.
+                여기서 박수가 나옵니다.</div></div>
           </div>
         </div>
-        <div class="moment">
-          <div class="hp"><span class="material-symbols-outlined">check</span></div>
-          <div><div class="m-t">확인 순간</div>
-            <div class="m-b">새로고침을 하지 않았는데 <b>결과 숫자가 저절로 바뀌는 것</b>을 봅니다.
-              여기서 박수가 나옵니다.</div></div>
+
+        <!-- Firebase -->
+        <div class="plat" data-plat="firebase">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">sync</span> 켜는 설정도 없습니다 — 코드 한 곳만 바꿉니다</h4>
+            <p>Firestore는 <b>실시간이 기본</b>입니다. 데이터를 한 번 읽는 <b>getDocs</b> 대신
+              계속 지켜보는 <b>onSnapshot</b>으로 바꾸기만 하면 됩니다.
+              대신 <b>화면을 벗어날 때 구독을 끊는 것</b>을 꼭 같이 해야 합니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="pr3f"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="pr3f">Firestore 실시간 리스너를 연결해줘.
+
+- checkins 컬렉션에서 room_code가 같은 오늘 문서를
+  onSnapshot으로 구독해서, 새 문서가 들어오면
+  새로고침 없이 감정별 숫자가 바로 올라가게 해줘.
+- 숫자가 바뀔 때 잠깐 반짝이는 효과를 줘.
+- 수업 코드를 바꾸거나 화면을 벗어날 때
+  이전 구독을 반드시 해제(unsubscribe)하는 코드도 넣어줘.
+  구독을 안 끊으면 읽기 횟수가 계속 늘어나서 무료 한도를 빨리 쓴다.
+- 연결이 끊기면 화면 위에 작게 '연결 끊김 · 새로고침' 표시를 띄워줘.</pre>
+            </div>
+            <div class="warn-box">
+              <strong>무료 한도는 '읽은 문서 수'로 셉니다</strong>
+              구독을 끊지 않으면 화면을 껐다 켤 때마다 리스너가 쌓입니다.
+              연수 중 갑자기 한도가 소진되는 사고는 대부분 이것 때문입니다.
+            </div>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">새로고침을 하지 않았는데 <b>결과 숫자가 저절로 바뀌는 것</b>을 봅니다.
+                여기서 박수가 나옵니다.</div></div>
+          </div>
         </div>
+
+        <!-- Cloudflare -->
+        <div class="plat" data-plat="cloudflare">
+          <div class="substep">
+            <h4><span class="material-symbols-outlined">sync</span> 오늘은 폴링, 진짜 실시간은 다음 단계</h4>
+            <p>Worker + D1 조합에는 실시간 구독이 없습니다. 진짜 실시간(WebSocket)을 하려면
+              <b>Durable Objects</b>가 필요하고, 그건 연수 범위를 넘습니다.
+              오늘은 <b>5초마다 다시 불러오는 방식</b>으로 만듭니다. 교실에서는 이것으로 충분합니다.</p>
+            <div class="code">
+              <button class="copy" data-copy="pr3c"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="pr3c">화면이 저절로 갱신되게 해줘.
+
+- Worker 주소로 5초마다 집계를 다시 불러오는 방식으로 만들어줘.
+- 매번 전체를 다시 그리지 말고, 숫자가 바뀐 감정만 잠깐 반짝이게 해줘.
+- 화면 오른쪽 위에 '몇 초 전 갱신됨'을 작게 표시해줘.
+- 브라우저 탭이 보이지 않을 때는 요청을 멈췄다가,
+  다시 돌아오면 바로 한 번 불러오게 해줘.
+- 요청이 실패하면 '연결 확인 필요'를 작게 띄우고,
+  다음 주기에 다시 시도해줘.
+
+※ 진짜 실시간(WebSocket)은 Durable Objects가 필요해.
+   오늘은 넣지 말고, 코드 맨 아래에 주석으로만 남겨줘.</pre>
+            </div>
+          </div>
+          <div class="moment">
+            <div class="hp"><span class="material-symbols-outlined">check</span></div>
+            <div><div class="m-t">확인 순간</div>
+              <div class="m-b">아무것도 누르지 않고 기다렸는데
+                <b>옆 사람이 누른 결과가 내 화면에 나타나는 것</b>을 봅니다.</div></div>
+          </div>
+        </div>
+
       </div>
     </details>
 
@@ -732,19 +1355,63 @@ create policy "insert_all" on checkins for insert with check (true);
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p>HTML 파일 하나를 <b>Netlify Drop</b>에 끌어다 놓으면 로그인 없이 30초 만에 주소가 나옵니다.
-          오늘은 GitHub 연동을 하지 않습니다. 거기서 절반이 막히기 때문입니다.</p>
-        <div class="tip-box">
-          <strong><span class="material-symbols-outlined">emoji_objects</span> 팁</strong>
-          Cloudflare Pages나 GitHub 연동은 앱이 늘어난 다음에 익히면 됩니다.
-          오늘은 마찰이 가장 적은 길로 갑니다.
+        <p>여기서 배포하는 것은 <b>앱 화면(HTML 파일 하나)</b>입니다.
+          데이터를 담는 곳은 STEP 1에서 이미 만들어 두었습니다.</p>
+
+        <div class="plat" data-plat="sheets supabase firebase">
+          <p>HTML 파일 하나를 <b>Netlify Drop</b>에 끌어다 놓으면 로그인 없이 30초 만에 주소가 나옵니다.
+            오늘은 GitHub 연동을 하지 않습니다. 거기서 절반이 막히기 때문입니다.</p>
+          <div class="tip-box plat" data-plat="sheets">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 주소가 두 개입니다</strong>
+            <b>학생이 접속하는 앱 주소</b>(Netlify)와 <b>데이터가 오가는 웹앱 주소</b>(/exec)는 다릅니다.
+            학생에게는 앞의 것만 나눠 주세요.
+          </div>
+          <div class="tip-box plat" data-plat="firebase">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> Firebase Hosting은 오늘 쓰지 않습니다</strong>
+            Firebase Hosting은 명령줄 도구(CLI) 설치가 필요합니다.
+            오늘은 마찰이 가장 적은 Netlify Drop으로 갑니다. Hosting은 나중에 익혀도 늦지 않습니다.
+          </div>
+          <div class="tip-box plat" data-plat="supabase">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 팁</strong>
+            Cloudflare Pages나 GitHub 연동은 앱이 늘어난 다음에 익히면 됩니다.
+            오늘은 마찰이 가장 적은 길로 갑니다.
+          </div>
+        </div>
+
+        <div class="plat" data-plat="cloudflare">
+          <p>Cloudflare를 쓰고 있으니 배포도 같은 계정에서 끝납니다.
+            <b>Workers &amp; Pages → Create → Pages → Upload assets</b>에 HTML 파일을 끌어다 놓으면
+            <b>○○○.pages.dev</b> 주소가 나옵니다.</p>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 주소가 두 개입니다</strong>
+            <b>학생이 접속하는 앱 주소</b>(pages.dev)와 <b>데이터가 오가는 Worker 주소</b>(workers.dev)는 다릅니다.
+            학생에게는 앞의 것만 나눠 주세요.
+            Netlify Drop을 써도 되지만, 이미 Cloudflare 계정이 있으니 한곳에서 끝내는 편이 낫습니다.
+          </div>
         </div>
       </div>
     </details>
 
     <h3 style="font-size:18px;font-weight:800;margin:32px 0 12px;display:flex;align-items:center;gap:8px">
-      <span class="material-symbols-outlined" style="color:var(--red)">report</span> 여기에서 많이 막힙니다</h3>
-    <div class="tbl">
+      <span class="material-symbols-outlined" style="color:var(--red)">report</span> 여기에서 많이 막힙니다
+      <span class="pnow" style="margin-left:2px"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span></h3>
+
+    <div class="tbl plat" data-plat="sheets">
+      <table>
+        <thead><tr><th style="width:32px">#</th><th style="width:200px">증상</th><th>확인할 것</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>저장 버튼을 눌러도 아무 일이 없다</td><td>웹앱 배포의 <b>액세스 권한이 "모든 사용자"</b>인지, 앱에 넣은 주소가 <b>/exec</b>로 끝나는지. <b>가장 흔합니다.</b></td></tr>
+          <tr><td>2</td><td>콘솔에 CORS 오류가 뜬다</td><td>POST에 Content-Type 같은 <b>헤더를 붙인 경우</b>입니다. 헤더 없이 본문만 보내면 통과합니다.</td></tr>
+          <tr><td>3</td><td>코드를 고쳤는데 그대로다</td><td>배포한 버전이 돌아갑니다. <b>배포 관리 → 수정 → 새 버전 → 배포</b>를 해야 반영됩니다.</td></tr>
+          <tr><td>4</td><td>저장은 되는데 목록이 비어 있다</td><td>시트 탭 이름이 <b>checkins</b>인지, 1행 머리글 <b>순서</b>가 코드와 같은지.</td></tr>
+          <tr><td>5</td><td>오늘 것만 나와야 하는데 안 맞는다</td><td>시간대 문제입니다. <b>Utilities.formatDate에 'Asia/Seoul'</b>을 넣었는지 확인하세요.</td></tr>
+          <tr><td>6</td><td>동시에 누르니 느리거나 줄이 겹친다</td><td>Apps Script의 구조적 한계입니다. 한 반이 동시에 쓰는 앱이라면 <b>Supabase로 바꾸는 것</b>을 권합니다.</td></tr>
+          <tr><td>7</td><td>잘 되던 게 갑자기 망가졌다</td><td>AI가 기존 코드를 크게 갈아엎은 경우. <b>"지금 코드에서 이 부분만 고쳐줘"</b>라고 범위를 좁혀 요청하세요.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tbl plat" data-plat="supabase">
       <table>
         <thead><tr><th style="width:32px">#</th><th style="width:200px">증상</th><th>확인할 것</th></tr></thead>
         <tbody>
@@ -752,8 +1419,36 @@ create policy "insert_all" on checkins for insert with check (true);
           <tr><td>2</td><td>저장은 되는데 목록이 비어 있다</td><td>테이블 이름 오타. checkin / checkins처럼 s 하나 차이로 안 됩니다.</td></tr>
           <tr><td>3</td><td>글이 하나도 안 보인다</td><td>RLS를 켰는데 정책을 안 만든 경우. 위 SQL의 policy 두 줄을 실행했는지 확인.</td></tr>
           <tr><td>4</td><td>새로고침해야만 뜬다</td><td>대시보드에서 해당 테이블의 Realtime이 꺼져 있는 경우.</td></tr>
-          <tr><td>5</td><td>수정·삭제가 안 된다</td><td><b>정상입니다.</b> 오늘은 일부러 막아뒀습니다. 필요하면 부록의 익명 인증을 참고하세요.</td></tr>
+          <tr><td>5</td><td>수정·삭제가 안 된다</td><td><b>정상입니다.</b> 오늘은 일부러 막아뒀습니다. 필요하면 부록의 사용자 구분을 참고하세요.</td></tr>
           <tr><td>6</td><td>잘 되던 게 갑자기 망가졌다</td><td>AI가 기존 코드를 크게 갈아엎은 경우. <b>"지금 코드에서 이 부분만 고쳐줘"</b>라고 범위를 좁혀 요청하세요.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tbl plat" data-plat="firebase">
+      <table>
+        <thead><tr><th style="width:32px">#</th><th style="width:200px">증상</th><th>확인할 것</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>아무 반응이 없다</td><td>firebaseConfig를 <b>통째로</b> 붙여 넣었는지, projectId에 오타나 공백이 없는지. <b>가장 흔합니다.</b></td></tr>
+          <tr><td>2</td><td>Missing or insufficient permissions</td><td>규칙을 <b>게시</b>하지 않았거나, 저장하는 칸이 규칙의 hasOnly 목록과 다른 경우. 칸 이름과 개수를 정확히 맞추세요.</td></tr>
+          <tr><td>3</td><td>목록이 비어 있다</td><td>컬렉션 이름 오타. checkin / checkins처럼 s 하나 차이로 안 됩니다.</td></tr>
+          <tr><td>4</td><td>The query requires an index</td><td>정상적인 안내입니다. 콘솔 오류 메시지의 <b>링크를 누르면 색인이 자동 생성</b>됩니다. 1~2분 기다리세요.</td></tr>
+          <tr><td>5</td><td>수정·삭제가 안 된다</td><td><b>정상입니다.</b> 규칙에서 막아 두었습니다. 필요하면 부록의 사용자 구분을 참고하세요.</td></tr>
+          <tr><td>6</td><td>읽기 횟수가 빠르게 늘어난다</td><td>구독을 해제하지 않은 경우. 화면을 벗어나거나 수업 코드를 바꿀 때 <b>unsubscribe</b>를 부르세요.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tbl plat" data-plat="cloudflare">
+      <table>
+        <thead><tr><th style="width:32px">#</th><th style="width:200px">증상</th><th>확인할 것</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>아무 반응이 없다</td><td>앱에 넣은 <b>Worker 주소</b>가 맞는지, 끝에 공백이나 슬래시가 붙지 않았는지. <b>가장 흔합니다.</b></td></tr>
+          <tr><td>2</td><td>콘솔에 CORS 오류가 뜬다</td><td>OPTIONS 요청에 응답하는지, <b>모든 응답에</b> Access-Control-Allow-Origin 헤더가 붙어 있는지.</td></tr>
+          <tr><td>3</td><td>env.DB is undefined / D1_ERROR</td><td>Worker 설정의 <b>바인딩 변수 이름이 DB</b>인지, 바인딩을 추가한 뒤 <b>다시 배포</b>했는지.</td></tr>
+          <tr><td>4</td><td>no such table: checkins</td><td>create table SQL을 <b>D1 콘솔에서 실행하지 않은</b> 경우입니다.</td></tr>
+          <tr><td>5</td><td>오늘 것만 나와야 하는데 안 맞는다</td><td>D1의 datetime('now')는 <b>UTC</b>입니다. 한국 시간 기준이면 <b>'+9 hours'</b>를 양쪽에 똑같이 넣어야 합니다.</td></tr>
+          <tr><td>6</td><td>수정·삭제가 안 된다</td><td><b>정상입니다.</b> 해당 경로를 만들지 않았습니다. 필요하면 부록의 사용자 구분을 참고하세요.</td></tr>
         </tbody>
       </table>
     </div>
@@ -783,9 +1478,13 @@ create policy "insert_all" on checkins for insert with check (true);
             <p>이름·학번·이메일·계정 대신 <b>수업 코드 + 익명</b>.
               별명을 쓴다면 "실명 대신 별명을 사용하세요"를 화면에 안내합니다.</p></div>
           <div class="mini"><div class="badge">원칙 2</div>
-            <h4>공개 키를 숨기는 게 보안이 아니다</h4>
-            <p>브라우저용 공개 키는 클라이언트 코드에 포함될 수 있습니다.
-              핵심은 <b>RLS와 권한 설정으로 데이터 접근을 제한하는 것</b>입니다.</p></div>
+            <h4>주소나 키를 숨기는 게 보안이 아니다</h4>
+            <p>브라우저에 넣은 주소·공개 키·설정값은 누구나 볼 수 있습니다.
+              핵심은 <b>문지기로 접근을 제한하는 것</b>입니다.
+              <span class="plat" data-plat="sheets">시트에서는 <b>웹앱 액세스 설정과 Apps Script 코드</b>가 문지기입니다.</span>
+              <span class="plat" data-plat="supabase">Supabase에서는 <b>RLS 정책</b>이 문지기입니다.</span>
+              <span class="plat" data-plat="firebase">Firebase에서는 <b>보안 규칙</b>이 문지기입니다.</span>
+              <span class="plat" data-plat="cloudflare">Cloudflare에서는 <b>Worker 코드에 만든 길</b>이 문지기입니다.</span></p></div>
           <div class="mini"><div class="badge">원칙 3</div>
             <h4>지울 수 있어야 한다</h4>
             <p>언제 어떻게 지울지를 처음부터 정합니다.
@@ -855,7 +1554,7 @@ create policy "insert_all" on checkins for insert with check (true);
     <div class="mini" style="padding:20px 22px">
       <ul class="checks" id="safeList">
         <li><input type="checkbox" id="s1"><label for="s1">이름·학번·출석번호·이메일·계정 정보를 저장하지 않는다</label></li>
-        <li><input type="checkbox" id="s2"><label for="s2">RLS를 켰고, 필요한 정책만 정확히 만들었다<em>켜기만 하고 정책이 없으면 아무것도 안 보입니다</em></label></li>
+        <li><input type="checkbox" id="s2"><label for="s2">문지기를 세웠고, 필요한 것만 정확히 허용했다<em><span class="plat" data-plat="sheets">웹앱 액세스 권한을 확인했고, Apps Script에 수정·삭제 기능을 만들지 않았습니다</span><span class="plat" data-plat="supabase">RLS를 켰습니다. 켜기만 하고 정책이 없으면 아무것도 안 보입니다</span><span class="plat" data-plat="firebase">보안 규칙을 게시했습니다. 테스트 모드로 두면 누구나 지울 수 있습니다</span><span class="plat" data-plat="cloudflare">Worker에 저장·조회 경로만 만들었고, CORS 설정을 확인했습니다</span></em></label></li>
         <li><input type="checkbox" id="s3"><label for="s3">개인이 무엇을 선택했는지가 다른 학생에게 노출되지 않는다</label></li>
         <li><input type="checkbox" id="s4"><label for="s4">부적절한 글이 올라왔을 때 지울 방법이 있다<em>대시보드 접근 또는 관리 절차</em></label></li>
         <li><input type="checkbox" id="s5"><label for="s5">수업이 끝나면 데이터를 언제 어떻게 지울지 정해 두었다</label></li>
@@ -876,7 +1575,8 @@ create policy "insert_all" on checkins for insert with check (true);
       <span class="section-tag"><span class="chip">05</span> CHAPTER 05</span>
       <h2 class="section-title">내 수업 앱으로 확장하기</h2>
       <p class="section-desc">오늘 만든 앱의 뼈대는 하나입니다.
-        이 뼈대에서 무엇을 입력받고 무엇을 보여줄지만 바꾸면 전혀 다른 앱이 됩니다.</p>
+        이 뼈대에서 무엇을 입력받고 무엇을 보여줄지만 바꾸면 전혀 다른 앱이 됩니다.
+        <b>뼈대는 네 플랫폼이 모두 같습니다.</b> 담는 곳만 바뀝니다.</p>
     </div>
 
     <div class="spine">
@@ -914,7 +1614,9 @@ create policy "insert_all" on checkins for insert with check (true);
       </summary>
       <div class="step-content">
         <p>좋은 프롬프트는 글솜씨가 아니라 <b>기획의 완성도</b>에서 나옵니다.
-          아래 칸을 채우면 AI에게 그대로 붙여넣을 프롬프트와 테이블 SQL이 만들어집니다.</p>
+          아래 칸을 채우면 AI에게 그대로 붙여넣을 프롬프트와 백엔드 준비 코드가 만들어집니다.
+          결과는 지금 고른 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 기준으로 만들어집니다.
+          위쪽 <b>실습 플랫폼</b> 바에서 바꾸고 다시 누르면 그 플랫폼용으로 다시 만들어집니다.</p>
 
         <div class="frow" style="margin-top:16px">
           <div class="field"><label><span class="material-symbols-outlined">push_pin</span>앱 이름</label>
@@ -955,10 +1657,11 @@ create policy "insert_all" on checkins for insert with check (true);
           <div class="substep"><h4><span class="material-symbols-outlined">smart_toy</span>② AI에게 붙여넣을 프롬프트</h4>
             <div class="code"><button class="copy" data-copy="b_prompt"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_prompt"></pre></div>
           </div>
-          <div class="substep"><h4><span class="material-symbols-outlined">database</span>③ 테이블 만들기 SQL</h4>
+          <div class="substep"><h4><span class="material-symbols-outlined">database</span>③ 백엔드 준비 코드 —
+              <span style="font-weight:600;color:var(--text-dim)"><span class="pname">Supabase</span></span></h4>
             <div class="code"><button class="copy" data-copy="b_sql"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_sql"></pre></div>
             <p style="font-size:13.5px;color:var(--text-dim)">칸 이름(field1, field2 …)은 앱이 만들어진 뒤 원하는 이름으로 바꿔도 됩니다.
-              바꿀 때는 SQL과 앱 코드를 함께 바꿔야 합니다.</p>
+              바꿀 때는 이 코드와 앱 코드를 함께 바꿔야 합니다.</p>
           </div>
         </div>
       </div>
@@ -987,19 +1690,36 @@ create policy "insert_all" on checkins for insert with check (true);
             <thead><tr><th style="width:150px">플랫폼</th><th>강점</th><th>주의할 점</th></tr></thead>
             <tbody>
               <tr><td><b>Sheets +<br />Apps Script</b></td>
-                <td>추가 가입 불필요 · 결과를 시트에서 바로 정렬·집계·인쇄 · 학교 업무와 연결 쉬움</td>
-                <td>웹앱 배포 시 실행 계정과 액세스 권한 설정에서 많이 막힘 · 동시 사용이 많아지면 느려지고 겹쳐 쓰일 수 있음 · 실시간이 아님</td></tr>
+                <td>추가 가입 불필요 · 결과를 시트에서 바로 정렬·집계·인쇄 · 학교 업무와 연결 쉬움 · 데이터가 눈에 보여 안심됨</td>
+                <td>웹앱 배포 시 실행 계정과 액세스 권한 설정에서 많이 막힘 · 동시 사용이 많아지면 느려지고 겹쳐 쓰일 수 있음 · 실시간이 아님 · 하루 호출 한도가 있음</td></tr>
               <tr><td><b>Supabase</b></td>
                 <td>표 형태라 이해가 쉬움 · 동시 사용에 강함 · 실시간 기능 제공 · 로그인 없이도 운영 가능</td>
                 <td>RLS 정책을 정확히 써야 함 · 무료 프로젝트는 오래 안 쓰면 일시 중지될 수 있음 · 데이터가 해외에 저장됨</td></tr>
               <tr><td><b>Firebase</b></td>
-                <td>실시간 동기화 성능이 뛰어남 · 구글 계정 인증 연동이 쉬움</td>
-                <td>표가 아닌 문서 구조라 초보자 설명 비용이 큼 · 보안 규칙 문법을 새로 배워야 함 · 일부 기능은 결제 설정 필요</td></tr>
-              <tr><td><b>Cloudflare</b></td>
-                <td>배포·도메인·데이터베이스를 한곳에서 관리 · 커스텀 도메인 연결이 쉬움</td>
-                <td>서버 코드를 직접 작성해야 함 · 데이터를 표처럼 눈으로 확인하기 불편</td></tr>
+                <td>실시간 동기화 성능이 뛰어남 · 별도 설정 없이 바로 실시간 · 구글 계정 인증·익명 로그인 연동이 쉬움</td>
+                <td>표가 아닌 문서 구조라 초보자 설명 비용이 큼 · 보안 규칙 문법을 새로 배워야 함 · 구독을 안 끊으면 읽기 한도를 빨리 씀 · 일부 기능은 결제 설정 필요</td></tr>
+              <tr><td><b>Cloudflare<br />Workers + D1</b></td>
+                <td>배포·도메인·데이터베이스를 한곳에서 관리 · 커스텀 도메인 연결이 쉬움 · 허용할 요청을 직접 정하므로 문지기 개념이 명확</td>
+                <td>서버 코드를 직접 작성해야 함 · CORS·바인딩 같은 개발자 개념이 바로 등장 · 데이터를 표처럼 눈으로 확인하기 불편 · 진짜 실시간은 Durable Objects 필요</td></tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="substep">
+          <h4><span class="material-symbols-outlined">speed</span>한눈에</h4>
+          <div class="tbl">
+            <table>
+              <thead><tr><th style="width:150px">플랫폼</th><th style="width:104px">실시간</th><th style="width:84px">난이도</th><th style="width:100px">추가 가입</th><th>이럴 때 고릅니다</th></tr></thead>
+              <tbody>
+                <tr><td><b>Sheets + Apps Script</b></td><td>△ 폴링으로 대체</td><td>쉬움</td><td>없음</td><td>교사가 결과를 정리·인쇄해서 쓰는 앱</td></tr>
+                <tr><td><b>Supabase</b></td><td>○ 기본 제공</td><td>쉬움</td><td>필요</td><td>한 반이 동시에 쓰는 앱 · 첫 실습</td></tr>
+                <tr><td><b>Firebase</b></td><td>◎ 가장 강함</td><td>보통</td><td>구글 계정</td><td>실시간이 앱의 핵심일 때</td></tr>
+                <tr><td><b>Cloudflare Workers + D1</b></td><td>△ 폴링 (WebSocket은 별도)</td><td>어려움</td><td>필요</td><td>서버 코드를 직접 다뤄 보고 싶을 때</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:13.5px;color:var(--text-dim)">네 가지 모두 이 페이지에서 그대로 실습할 수 있습니다.
+            위쪽 <b>실습 플랫폼</b> 바에서 고르면 3장의 절차와 코드가 통째로 바뀝니다.</p>
         </div>
       </div>
     </details>
@@ -1007,18 +1727,43 @@ create policy "insert_all" on checkins for insert with check (true);
     <details class="step" id="ref-2">
       <summary class="step-header">
         <div class="step-num"><span class="material-symbols-outlined" style="font-size:19px">badge</span></div>
-        <div class="step-tw"><h3>수정·삭제를 넣고 싶다면 — 익명 인증</h3><p>로그인 화면 없이 사용자를 구분하는 법</p></div>
+        <div class="step-tw"><h3>수정·삭제를 넣고 싶다면 — 사용자 구분</h3><p>로그인 화면 없이 사용자를 구분하는 법 · 플랫폼마다 다릅니다</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
         <p>기본 실습에서 수정·삭제를 뺀 이유는 <b>"누가 쓴 글인지"를 앱이 알아야 하기 때문</b>입니다.
           브라우저에 무작위 번호를 심는 방법도 있지만, 그 값은 얼마든지 흉내 낼 수 있어서
           실제 보호 장치가 되지 못합니다.</p>
-        <p>제대로 하려면 Supabase의 <b>익명 인증</b>을 씁니다.
-          학생에게는 회원가입·로그인·이메일 입력 화면이 <b>전혀 나타나지 않지만</b>,
-          내부적으로는 앱이 사용자를 구분합니다.</p>
-        <div class="code">
-          <button class="copy" data-copy="anon1"><span class="material-symbols-outlined">content_copy</span>복사</button>
+        <p style="font-size:14px;color:var(--text-dim)">아래는 지금 고른
+          <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 기준입니다.</p>
+
+        <!-- 구글 시트 -->
+        <div class="plat" data-plat="sheets">
+          <p>구글 시트 + Apps Script에서는 <b>학생을 안전하게 구분하기가 어렵습니다.</b>
+            브라우저에 심은 값은 흉내 낼 수 있고, 구글 로그인을 강제하면
+            <b>학생의 구글 계정(이메일)이 수집</b>되어 개인정보 부담이 오히려 커집니다.</p>
+          <p>그래서 이 플랫폼에서는 <b>수정·삭제를 넣지 않는 쪽</b>을 권합니다.
+            잘못 올라온 글은 교사가 시트에서 해당 행을 지우면 됩니다. 가장 빠르고 확실합니다.</p>
+          <div class="warn-box">
+            <strong>Session.getActiveUser()를 쓰기 전에</strong>
+            Apps Script로 접속자의 학교 계정을 확인할 수는 있습니다.
+            하지만 그 순간 <b>이 앱은 개인정보를 처리하는 앱</b>이 됩니다.
+            4장의 검토 항목을 다시 확인해야 합니다.
+          </div>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 꼭 필요하다면</strong>
+            수정·삭제가 앱의 핵심이라면 <b>Supabase나 Firebase로 옮기는 편</b>이 훨씬 빠릅니다.
+            두 곳 모두 로그인 화면 없이 사용자를 구분하는 기능이 준비되어 있습니다.
+          </div>
+        </div>
+
+        <!-- Supabase -->
+        <div class="plat" data-plat="supabase">
+          <p>제대로 하려면 Supabase의 <b>익명 인증</b>을 씁니다.
+            학생에게는 회원가입·로그인·이메일 입력 화면이 <b>전혀 나타나지 않지만</b>,
+            내부적으로는 앱이 사용자를 구분합니다.</p>
+          <div class="code">
+            <button class="copy" data-copy="anon1"><span class="material-symbols-outlined">content_copy</span>복사</button>
 <pre id="anon1">-- 사용자 구분 칸을 추가하고, 본인 글만 고칠 수 있게 합니다
 alter table checkins add column user_id uuid default auth.uid();
 
@@ -1027,16 +1772,79 @@ create policy "update_own" on checkins for update
 
 create policy "delete_own" on checkins for delete
   using (auth.uid() = user_id);</pre>
+          </div>
+          <div class="example-box">
+            <div class="example-label">동작 순서</div>
+            <p style="font-size:14.5px;margin:0">학생 접속 → 익명 인증 자동 실행 → 사용자 식별값 생성 →
+              글 저장 시 그 값이 함께 저장 → 자기 값과 일치하는 글만 수정·삭제</p>
+          </div>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 연수에서는</strong>
+            Supabase 대시보드에서 익명 인증을 켜야 작동합니다. 시간이 부족하면 이 단계는 넣지 마세요.
+            <b>기능 욕심 때문에 실습 성공률을 낮추지 않는 것</b>이 더 중요합니다.
+          </div>
         </div>
-        <div class="example-box">
-          <div class="example-label">동작 순서</div>
-          <p style="font-size:14.5px;margin:0">학생 접속 → 익명 인증 자동 실행 → 사용자 식별값 생성 →
-            글 저장 시 그 값이 함께 저장 → 자기 값과 일치하는 글만 수정·삭제</p>
+
+        <!-- Firebase -->
+        <div class="plat" data-plat="firebase">
+          <p>Firebase에서는 <b>익명 로그인(signInAnonymously)</b>을 씁니다.
+            학생에게는 로그인 화면이 <b>전혀 나타나지 않지만</b>, 앱은 내부적으로 사용자를 구분합니다.
+            콘솔의 <b>Authentication → 로그인 방법 → 익명</b>을 켜야 작동합니다.</p>
+          <div class="code">
+            <button class="copy" data-copy="anon2"><span class="material-symbols-outlined">content_copy</span>복사</button>
+<pre id="anon2">rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    match /checkins/{id} {
+      allow read: if true;
+
+      // 저장할 때 본인 uid를 반드시 함께 넣게 강제합니다
+      allow create: if request.auth != null
+                    &amp;&amp; request.resource.data.uid == request.auth.uid;
+
+      // 본인이 쓴 문서만 수정·삭제할 수 있습니다
+      allow update, delete: if request.auth != null
+                            &amp;&amp; resource.data.uid == request.auth.uid;
+    }
+  }
+}</pre>
+          </div>
+          <div class="example-box">
+            <div class="example-label">동작 순서</div>
+            <p style="font-size:14.5px;margin:0">학생 접속 → 익명 로그인 자동 실행 → uid 생성 →
+              문서 저장 시 uid가 함께 저장 → 자기 uid와 일치하는 문서만 수정·삭제</p>
+          </div>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 연수에서는</strong>
+            규칙과 앱 코드를 <b>동시에</b> 바꿔야 합니다. 저장할 때 uid를 안 넣으면 규칙에 막혀 저장 자체가 실패합니다.
+            시간이 부족하면 이 단계는 넣지 마세요.
+          </div>
         </div>
-        <div class="tip-box">
-          <strong><span class="material-symbols-outlined">emoji_objects</span> 연수에서는</strong>
-          Supabase 대시보드에서 익명 인증을 켜야 작동합니다. 시간이 부족하면 이 단계는 넣지 마세요.
-          <b>기능 욕심 때문에 실습 성공률을 낮추지 않는 것</b>이 더 중요합니다.
+
+        <!-- Cloudflare -->
+        <div class="plat" data-plat="cloudflare">
+          <p>Cloudflare Workers에는 <b>준비된 인증 기능이 없습니다.</b>
+            Worker가 직접 발급하고 검증해야 합니다. 흐름은 이렇습니다.</p>
+          <div class="example-box">
+            <div class="example-label">직접 만들어야 하는 순서</div>
+            <ol>
+              <li>학생이 처음 접속하면 Worker가 무작위 값을 만들고, <b>비밀키로 서명</b>해 쿠키로 내려줍니다</li>
+              <li>글을 저장할 때 그 값을 <b>author 칸에 함께 기록</b>합니다</li>
+              <li>수정·삭제 요청이 오면 <b>서명을 검증</b>하고, author가 같을 때만 실행합니다</li>
+            </ol>
+          </div>
+          <div class="warn-box">
+            <strong>서명이 빠지면 보호 장치가 아닙니다</strong>
+            서명 없이 무작위 번호만 주고받으면, 그 값을 그대로 바꿔 보낼 수 있습니다.
+            <b>흉내 낼 수 있는 값은 문지기가 될 수 없습니다.</b>
+          </div>
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">emoji_objects</span> 연수에서는</strong>
+            이 작업은 연수 범위를 넘습니다. 수정·삭제가 꼭 필요하다면
+            <b>Supabase나 Firebase의 익명 인증</b>을 쓰는 편이 훨씬 빠릅니다.
+            Cloudflare로 만든 앱이라면, 삭제는 교사가 D1 콘솔에서 처리하세요.
+          </div>
         </div>
       </div>
     </details>
@@ -1051,9 +1859,17 @@ create policy "delete_own" on checkins for delete
         <p>"교사용 화면은 비밀번호 4자리를 입력해야 열리게 해줘"라는 요청을 종종 하게 됩니다.
           하지만 <b>HTML 안에 넣은 비밀번호는 화면 구분용일 뿐 실제 보안 기능이 아닙니다.</b>
           브라우저 개발자 도구나 소스 보기로 그대로 확인할 수 있기 때문입니다.</p>
-        <p>그래서 이번 연수에서는 이 기능을 넣지 않고,
-          <b>교사 관리 작업은 Supabase 대시보드에서 직접</b> 합니다.
+        <p>그래서 이번 연수에서는 이 기능을 넣지 않고, 교사 관리 작업은 아래에서 직접 합니다.
           진짜 관리자 권한은 인증과 서버 권한으로 다루는 다음 단계의 주제입니다.</p>
+        <div class="example-box">
+          <div class="example-label">교사가 직접 관리하는 곳</div>
+          <p style="font-size:14.5px;margin:0">
+            <span class="plat" data-plat="sheets">구글 스프레드시트 — 해당 행을 지우면 됩니다</span>
+            <span class="plat" data-plat="supabase">Supabase 대시보드 — Table Editor에서 행을 지웁니다</span>
+            <span class="plat" data-plat="firebase">Firebase 콘솔 — Firestore 데이터 탭에서 문서를 지웁니다</span>
+            <span class="plat" data-plat="cloudflare">Cloudflare D1 콘솔 — delete SQL을 실행합니다</span>
+          </p>
+        </div>
       </div>
     </details>
 
@@ -1169,9 +1985,13 @@ create policy "delete_own" on checkins for delete
           <textarea class="inp" id="d_purpose" placeholder="예: 아침 조회에 학급 전체의 감정 분포를 익명으로 확인하는 사회정서교육 활동"></textarea></div>
         <div class="field"><label>데이터 저장 위치</label>
           <select class="inp" id="d_store">
-            <option>Supabase</option><option>Google 스프레드시트</option><option>Firebase</option>
-            <option>Cloudflare</option><option>사용자 기기 내부 (서버 미전송)</option>
-          </select></div>
+            <option value="sheets">구글 스프레드시트 + Apps Script</option>
+            <option value="supabase">Supabase</option>
+            <option value="firebase">Firebase (Firestore)</option>
+            <option value="cloudflare">Cloudflare Workers + D1</option>
+            <option value="local">사용자 기기 내부 (서버 미전송)</option>
+          </select>
+          <p style="font-size:13px;color:var(--text-dim);margin-top:6px">위쪽에서 고른 실습 플랫폼이 기본으로 선택됩니다. 다르면 직접 바꾸세요.</p></div>
 
         <div class="substep"><h4><span class="material-symbols-outlined">shield_person</span>개인정보 관련 검토</h4>
           <div id="revList"></div></div>
@@ -1226,6 +2046,8 @@ create policy "delete_own" on checkins for delete
   <div class="sub">VIBE CODING POST SEASON · 2026</div>
 </footer>
 
+<div class="ptoast" id="ptoast"></div>
+
 <!-- TOC -->
 <button class="toc-fab" id="tocFab" title="목차"><span class="material-symbols-outlined">format_list_bulleted</span></button>
 <div class="toc-ov" id="tocOv"></div>
@@ -1266,6 +2088,59 @@ function bindCopy(scope){
 }
 bindCopy();
 
+/* ═══ 실습 플랫폼 전환 ═══ */
+const PLAT={
+  sheets:{name:'구글 시트 + Apps Script',icon:'table_view',
+    store:'구글 스프레드시트 + Apps Script (저장·조회만 열어 둠)',
+    admin:'구글 스프레드시트'},
+  supabase:{name:'Supabase',icon:'bolt',
+    store:'Supabase (읽기·쓰기만 허용, 수정·삭제 정책 없음)',
+    admin:'Supabase 대시보드'},
+  firebase:{name:'Firebase (Firestore)',icon:'local_fire_department',
+    store:'Firebase Firestore (읽기·생성만 허용, 수정·삭제 규칙 없음)',
+    admin:'Firebase 콘솔'},
+  cloudflare:{name:'Cloudflare Workers + D1',icon:'cloud',
+    store:'Cloudflare Workers + D1 (저장·조회 경로만 구현)',
+    admin:'Cloudflare D1 콘솔'}
+};
+let curPlat='supabase';
+
+let toastTimer=null;
+function toast(msg){
+  const t=$('ptoast'); if(!t)return;
+  t.innerHTML='<span class="material-symbols-outlined">tune</span>';
+  t.appendChild(document.createTextNode(msg));
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+function setPlat(p,announce){
+  if(!PLAT[p])p='supabase';
+  curPlat=p;
+  document.documentElement.setAttribute('data-plat',p);
+  document.querySelectorAll('[data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  document.querySelectorAll('.pname').forEach(el=>el.textContent=PLAT[p].name);
+  document.querySelectorAll('.pnow > .material-symbols-outlined').forEach(el=>el.textContent=PLAT[p].icon);
+  const st=$('d_store');
+  if(st && st.value!=='local') st.value=p;
+  try{localStorage.setItem('vc_plat',p);}catch(e){}
+  if($('b_box') && $('b_box').classList.contains('show')) buildPrompt();
+  if(announce) toast(PLAT[p].name+' 기준으로 바뀌었습니다');
+}
+document.querySelectorAll('[data-p]').forEach(b=>{
+  b.addEventListener('click',()=>setPlat(b.dataset.p,true));
+  if(b.getAttribute('role')==='button')
+    b.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();setPlat(b.dataset.p,true);}
+    });
+});
+(function(){
+  let saved='supabase';
+  try{saved=localStorage.getItem('vc_plat')||'supabase';}catch(e){}
+  setPlat(saved,false);
+})();
+
 /* 체크리스트 */
 function bindCheck(l,b,t){
   const boxes=$(l).querySelectorAll('input[type=checkbox]');
@@ -1288,7 +2163,7 @@ if('IntersectionObserver' in window){
       const i=secEls.indexOf(e.target);
       navA.forEach((a,k)=>{a.classList.toggle('active',k===i);a.classList.toggle('passed',k<i);});
     });
-  },{rootMargin:'-70px 0px -62% 0px',threshold:0});
+  },{rootMargin:'-118px 0px -58% 0px',threshold:0});
   secEls.forEach(s=>io.observe(s));
 }
 
@@ -1298,7 +2173,7 @@ const TOC=[
   {id:'ch1',tag:'CHAPTER 01',name:'혼자 쓰던 앱, 무엇이 아쉬웠을까',
    sub:[['ch1-a1','두 종류의 앱'],['ch1-a2','서버가 필요해지는 순간'],['ch1-a3','3분 체험']]},
   {id:'ch2',tag:'CHAPTER 02',name:'앱을 서버에 연결하기',
-   sub:[['ch2-a1','용어 네 개만 쉬운 말로'],['ch2-a2','어디에 담을까 — 네 가지'],['ch2-a3','왜 Supabase인가']]},
+   sub:[['ch2-a1','용어 네 개만 쉬운 말로'],['ch2-a2','어디에 담을까 — 네 가지'],['ch2-a3','어떤 것을 고를까']]},
   {id:'ch3',tag:'CHAPTER 03',name:'함께 쓰는 앱 만들기',
    sub:[['ch3-s1','STEP 1 · 서버에 저장하기'],['ch3-s2','STEP 2 · 함께 보기'],
         ['ch3-s3','STEP 3 · 실시간 연결'],['ch3-s4','배포']]},
@@ -1308,7 +2183,7 @@ const TOC=[
   {id:'ch5',tag:'CHAPTER 05',name:'내 수업 앱으로 확장하기',
    sub:[['ch5-a1','같은 뼈대로 만들 수 있는 것들'],['ch5-a2','내 아이디어를 프롬프트로']]},
   {id:'ref',tag:'REFERENCE',name:'더 알아보기',
-   sub:[['ref-1','플랫폼 상세 비교'],['ref-2','익명 인증'],['ref-3','HTML 비밀번호에 대해'],
+   sub:[['ref-1','플랫폼 상세 비교'],['ref-2','수정·삭제와 사용자 구분'],['ref-3','HTML 비밀번호에 대해'],
         ['ref-4','학습지원 소프트웨어 선정 기준'],['ref-5','자주 나오는 질문'],['ref-6','교실 사용 전 검토 메모']]}
 ];
 $('tocNav').innerHTML=TOC.map(c=>`
@@ -1326,7 +2201,7 @@ $('tocNav').addEventListener('click',e=>{
   const el=$(a.dataset.go); if(!el)return;
   if(el.tagName==='DETAILS')el.open=true;
   tocOpen(false);
-  setTimeout(()=>window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'}),120);
+  setTimeout(()=>window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-124,behavior:'smooth'}),120);
 });
 
 /* ═══ 검토 메모 ═══ */
@@ -1398,7 +2273,7 @@ $('d_make').addEventListener('click',()=>{
   '<tr><th>사용 대상</th><td>'+esc(val('d_target')||'-')+'</td></tr>'+
   '<tr><th>사용 기간</th><td>'+esc(val('d_period')||'-')+'</td></tr>'+
   '<tr><th>사용 목적</th><td>'+esc(val('d_purpose')||'-')+'</td></tr>'+
-  '<tr><th>저장 위치</th><td>'+esc($('d_store').value)+'</td></tr></table>'+
+  '<tr><th>저장 위치</th><td>'+esc($('d_store').options[$('d_store').selectedIndex].text)+'</td></tr></table>'+
   '<h4>2. 개인정보 관련 검토</h4><table><tr><th style="width:44%">항목</th><th style="width:88px">상태</th><th>메모</th></tr>'+revRows(REV)+'</table>'+
   '<h4>3. 외부 서비스 이용 검토</h4><table><tr><th style="width:44%">항목</th><th style="width:88px">상태</th><th>메모</th></tr>'+revRows(CLOUD)+'</table>'+
   '<h4>4. 제도 검토</h4><table><tr><th style="width:44%">항목</th><th style="width:88px">상태</th><th>메모</th></tr>'+revRows(RULE)+'</table>'+
@@ -1442,7 +2317,192 @@ $('b_sample').addEventListener('click',()=>{
   $('b_out').value='오늘 올라온 질문을 최신순 카드로 보여주고, 같은 질문에 공감을 누를 수 있게';
 });
 
-$('b_make').addEventListener('click',()=>{
+/* ── 플랫폼별 백엔드 준비 코드 ── */
+function backendCode(p,name,fl,nick){
+  const keys=fl.map((f,i)=>'field'+(i+1));
+
+  if(p==='sheets'){
+    const head=['created_at','room_code'].concat(nick?['nickname']:[]).concat(keys);
+    const rows=['    new Date(),',"    String(d.room_code).slice(0, 40),"]
+      .concat(nick?["    String(d.nickname || '').slice(0, 20),"]:[])
+      .concat(keys.map((k,i)=>"    String(d."+k+" || '').slice(0, 300)"
+        +(i===keys.length-1?' ':',')+"  // "+fl[i]));
+    return ['// '+name+' — Apps Script 웹앱',
+      "// 시트 탭 이름 : entries",
+      '// 1행 머리글 순서 : '+head.join(' | '),
+      "const SHEET = 'entries';",'',
+      '// 저장 : 앱에서 등록하면 시트에 한 줄이 쌓입니다',
+      'function doPost(e) {',
+      '  const d = JSON.parse(e.postData.contents);',
+      '  if (!d.room_code) return json({ ok: false });',
+      '  SpreadsheetApp.getActive().getSheetByName(SHEET).appendRow([']
+      .concat(rows).concat([
+      '  ]);',
+      '  return json({ ok: true });',
+      '}','',
+      '// 불러오기 : 같은 수업 코드의 데이터만 돌려줍니다',
+      'function doGet(e) {',
+      "  const room = e.parameter.room_code || '';",
+      '  const rows = SpreadsheetApp.getActive().getSheetByName(SHEET)',
+      '                 .getDataRange().getValues();',
+      '  const head = rows.shift();',
+      '  const items = rows',
+      '    .filter(function (r) { return r[1] === room; })',
+      '    .map(function (r) {',
+      '      const o = {};',
+      '      head.forEach(function (h, i) { o[h] = r[i]; });',
+      '      return o;',
+      '    });',
+      '  return json({ items: items });',
+      '}','',
+      'function json(o) {',
+      '  return ContentService.createTextOutput(JSON.stringify(o))',
+      '    .setMimeType(ContentService.MimeType.JSON);',
+      '}','',
+      '// 수정·삭제 기능은 만들지 않았습니다. 삭제는 교사가 시트에서 행을 지웁니다.',
+      '// 배포 : 배포 → 새 배포 → 유형 웹 앱 / 실행 계정 : 나 / 액세스 권한 : 모든 사용자',
+      '// 코드를 고친 뒤에는 배포 관리 → 수정 → 새 버전 → 배포를 해야 반영됩니다.']).join('\n');
+  }
+
+  if(p==='firebase'){
+    const keyList=['room_code'].concat(nick?['nickname']:[]).concat(keys).concat(['created_at']);
+    return ['// '+name+' — Firestore 보안 규칙',
+      "// Firestore Database → '규칙' 탭에 붙여넣고 [게시]를 누르세요.",'',
+      "rules_version = '2';",
+      'service cloud.firestore {',
+      '  match /databases/{db}/documents {','',
+      '    match /entries/{id} {','',
+      '      // 읽기 허용',
+      '      allow read: if true;','',
+      '      // 쓰기 허용 — 정해 둔 칸만 저장할 수 있습니다',
+      '      allow create: if request.resource.data.keys().hasOnly([',
+      '                      '+keyList.map(k=>"'"+k+"'").join(', '),
+      '                    ])',
+      '                    && request.resource.data.room_code is string',
+      '                    && request.resource.data.room_code.size() < 40;','',
+      '      // 수정·삭제는 막습니다. 삭제는 교사가 콘솔에서 직접 처리합니다.',
+      '      allow update, delete: if false;',
+      '    }',
+      '  }',
+      '}','',
+      '// 칸 이름 대응 : '+keys.map((k,i)=>k+' = '+fl[i]).join(' / ')].join('\n');
+  }
+
+  if(p==='cloudflare'){
+    const dcols=['  id         integer primary key autoincrement,',
+      '  room_code  text not null,   -- 수업 코드']
+      .concat(nick?['  nickname   text,            -- 별명 (실명 저장 안 함)']:[])
+      .concat(keys.map((k,i)=>'  '+k+'     text,            -- '+fl[i]))
+      .concat(["  created_at text default (datetime('now'))"]);
+    const insCols=['room_code'].concat(nick?['nickname']:[]).concat(keys);
+    const binds=["        String(d.room_code).slice(0, 40),"]
+      .concat(nick?["        String(d.nickname || '').slice(0, 20),"]:[])
+      .concat(keys.map((k,i)=>"        String(d."+k+" || '').slice(0, 300)"+(i===keys.length-1?'':',')));
+    return ['-- '+name+' : ① D1 콘솔에서 표 만들기',
+      'create table entries ('].concat(dcols).concat([');','',
+      'create index idx_room on entries (room_code, created_at);','',
+      '',
+      '/* ────────────────────────────────────────────────',
+      '   ② 아래는 Worker 코드입니다. 별도로 붙여넣으세요.',
+      '   Workers & Pages → Settings → Bindings → D1 database',
+      '   변수 이름은 반드시 DB 로 설정합니다.',
+      '   ──────────────────────────────────────────────── */','',
+      'const CORS = {',
+      "  'Access-Control-Allow-Origin': '*',",
+      "  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',",
+      "  'Access-Control-Allow-Headers': 'content-type'",
+      '};','',
+      'export default {',
+      '  async fetch(request, env) {',
+      "    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });",
+      '    const url = new URL(request.url);','',
+      '    // 저장',
+      "    if (request.method === 'POST') {",
+      '      const d = await request.json();',
+      '      if (!d.room_code) {',
+      '        return Response.json({ ok: false }, { status: 400, headers: CORS });',
+      '      }',
+      '      await env.DB.prepare(',
+      "        'insert into entries ("+insCols.join(', ')+") '+",
+      "        'values ("+insCols.map(()=>'?').join(', ')+")'",
+      '      ).bind('])
+      .concat(binds).concat([
+      '      ).run();',
+      '      return Response.json({ ok: true }, { headers: CORS });',
+      '    }','',
+      '    // 불러오기 — 같은 수업 코드의 데이터만',
+      "    const room = url.searchParams.get('room_code') || '';",
+      '    const { results } = await env.DB.prepare(',
+      "      'select * from entries where room_code = ? order by id desc limit 200'",
+      '    ).bind(room).all();',
+      '    return Response.json({ items: results }, { headers: CORS });',
+      '  }',
+      '};','',
+      '// 수정·삭제 경로는 만들지 않았습니다. 없는 길로는 아무도 들어올 수 없습니다.',
+      '// 삭제가 필요하면 교사가 D1 콘솔에서 처리합니다.','',
+      '// 칸 이름 대응 : '+keys.map((k,i)=>k+' = '+fl[i]).join(' / ')]).join('\n');
+  }
+
+  /* supabase */
+  const cols=keys.map((k,i)=>'  '+k+'     text,          -- '+fl[i]).join('\n');
+  const nickCol = nick ? '  nickname   text,          -- 별명 (실명 저장 안 함)\n' : '';
+  return '-- '+name+' : 테이블 만들기 (Supabase SQL Editor)\n'+
+    'create table entries (\n'+
+    '  id         bigint generated always as identity primary key,\n'+
+    '  room_code  text not null, -- 수업 코드\n'+
+    nickCol+cols+'\n'+
+    '  created_at timestamptz default now()\n'+
+    ');\n\n'+
+    '-- 문지기(RLS) 켜기\n'+
+    'alter table entries enable row level security;\n\n'+
+    'create policy "read_all"   on entries for select using (true);\n'+
+    'create policy "insert_all" on entries for insert with check (true);\n\n'+
+    '-- 수정·삭제 정책은 만들지 않습니다.\n'+
+    '-- 정책이 없으면 막히는 것이 기본값이라, 학생은 남의 글을 고치거나 지울 수 없습니다.\n'+
+    '-- 교사의 삭제 작업은 Supabase 대시보드에서 직접 하세요.\n'+
+    '-- 학생 본인의 수정·삭제가 꼭 필요하다면 부록의 사용자 구분을 참고하세요.';
+}
+
+/* ── 플랫폼별 프롬프트 조각 ── */
+const DATA_SPEC={
+  sheets:
+"- 구글 스프레드시트 + Apps Script 웹앱에 저장해줘.\n"+
+"  웹앱 주소(/exec로 끝나는 주소)는 코드 맨 위에 상수로 빼줘.\n"+
+"- 저장은 그 주소로 POST, 불러오기는 GET으로 해줘.\n"+
+"  POST하는 fetch에 헤더(Content-Type 등)를 절대 붙이지 마.\n"+
+"  헤더를 붙이면 CORS 사전 요청 때문에 막힌다.",
+  supabase:
+"- Supabase에 저장해줘. Project URL과 공개 키는 코드 맨 위에 상수로 빼줘.",
+  firebase:
+"- Firebase Firestore에 저장해줘. firebaseConfig는 코드 맨 위에 상수로 빼줘.\n"+
+"  SDK는 CDN 모듈 방식으로 불러와줘.\n"+
+"- where와 orderBy를 같이 쓰면 색인이 필요할 수 있어.\n"+
+"  그때는 콘솔 오류 메시지의 링크로 색인을 만들면 된다고 주석에 적어줘.",
+  cloudflare:
+"- Cloudflare Worker(D1 연결)에 저장해줘. Worker 주소는 코드 맨 위에 상수로 빼줘.\n"+
+"- 저장은 POST, 불러오기는 GET으로 그 주소 하나만 쓰게 해줘."
+};
+const RT_SPEC={
+  sheets:
+"- 구글 시트에는 실시간 기능이 없으니, 8초마다 다시 불러오는 방식으로 자동 갱신해줘.\n"+
+"  숫자가 바뀐 항목만 잠깐 반짝이게 하고, '몇 초 전 갱신됨'을 작게 표시해줘.\n"+
+"  브라우저 탭이 보이지 않을 때는 요청을 멈췄다가, 돌아오면 한 번 불러와줘.",
+  supabase:
+"- Supabase Realtime을 연결해서 새 데이터가 들어오면 새로고침 없이 화면에 반영되게 해줘.\n"+
+"  대시보드에서 해당 테이블의 Realtime을 켜야 한다는 점을 코드 주석에 적어줘.",
+  firebase:
+"- Firestore onSnapshot으로 구독해서 새 문서가 들어오면 바로 화면에 반영되게 해줘.\n"+
+"- 수업 코드를 바꾸거나 화면을 벗어날 때 이전 구독을 반드시 해제(unsubscribe)해줘.\n"+
+"  구독을 안 끊으면 읽기 횟수가 계속 늘어나 무료 한도를 빨리 쓴다.",
+  cloudflare:
+"- Worker 주소로 5초마다 다시 불러오는 방식으로 자동 갱신해줘.\n"+
+"  숫자가 바뀐 항목만 잠깐 반짝이게 하고, '몇 초 전 갱신됨'을 작게 표시해줘.\n"+
+"  브라우저 탭이 보이지 않을 때는 요청을 멈췄다가, 돌아오면 한 번 불러와줘.\n"+
+"※ 진짜 실시간(WebSocket)은 Durable Objects가 필요해. 오늘은 넣지 마."
+};
+
+function buildPrompt(){
+  const p=curPlat;
   const name=val('b_name')||'우리 반 도우미';
   const grade=val('b_grade')||'초등학생';
   const why=val('b_why')||'(만드는 이유)';
@@ -1451,6 +2511,7 @@ $('b_make').addEventListener('click',()=>{
   const rt=document.querySelector('input[name=b_rt]:checked').value;
   const fields=val('b_in').split('\n').map(s=>s.trim()).filter(Boolean);
   const fl=fields.length?fields:['내용'];
+  const nick=idMode==='nick';
 
   $('b_plan').textContent=
 '[앱 이름]   '+name+'\n'+
@@ -1458,12 +2519,12 @@ $('b_make').addEventListener('click',()=>{
 '[문제]      '+why+'\n'+
 '[학생이 하는 일] '+fl.join(' / ')+' 입력하기\n'+
 '[화면에 보이는 것] '+outs+'\n'+
-'[사용자 구분] '+(idMode==='anon'?'구분하지 않음 (완전 익명)':'수업 코드 + 별명')+'\n'+
-'[화면 갱신]  '+(rt==='yes'?'실시간 반영':'새로고침 방식')+'\n'+
-'[저장]      Supabase (읽기·쓰기만 허용, 수정·삭제 정책 없음)\n'+
-'[관리]      Supabase 대시보드에서 교사가 직접 처리';
+'[사용자 구분] '+(nick?'수업 코드 + 별명':'구분하지 않음 (완전 익명)')+'\n'+
+'[화면 갱신]  '+(rt==='yes'?'자동 갱신':'새로고침 방식')+'\n'+
+'[저장]      '+PLAT[p].store+'\n'+
+'[관리]      '+PLAT[p].admin+'에서 교사가 직접 처리';
 
-  const idSpec = idMode==='anon'
+  const idSpec = !nick
 ? '- 이름, 학번, 출석번호, 이메일, 로그인 화면은 절대 만들지 마. 완전 익명으로 해줘.\n'
  +'- 학생을 구분하지 않으므로 수정·삭제 버튼도 만들지 마.'
 : '- 이름, 학번, 출석번호, 이메일, 로그인 화면은 절대 만들지 마.\n'
@@ -1471,10 +2532,8 @@ $('b_make').addEventListener('click',()=>{
  +'- 별명 입력칸 아래에 "실명 대신 별명을 사용하세요"라는 안내문을 넣어줘.\n'
  +'- 별명은 표시용일 뿐 본인 확인 수단이 아니므로 수정·삭제 버튼은 만들지 마.';
 
-  const rtSpec = rt==='yes'
-? '- Supabase Realtime을 연결해서 새 데이터가 들어오면 새로고침 없이 화면에 반영되게 해줘.\n'
- +'  대시보드에서 해당 테이블의 Realtime을 켜야 한다는 점을 코드 주석에 적어줘.'
-: '- 실시간 기능은 넣지 말고, 화면 위쪽에 \'새로고침\' 버튼을 하나 만들어줘.';
+  const rtSpec = rt==='yes' ? RT_SPEC[p]
+    : '- 실시간이나 자동 갱신은 넣지 말고, 화면 위쪽에 \'새로고침\' 버튼을 하나 만들어줘.';
 
   $('b_prompt').textContent=
 grade+'이 쓸 웹앱을 만들어줘. 앱 이름은 \''+name+'\'이야.\n\n'+
@@ -1485,12 +2544,12 @@ fl.map(f=>'   - '+f).join('\n')+'\n'+
 '2. 결과 화면 : '+outs+'\n'+
 '   개인이 무엇을 입력했는지를 다른 학생에게 특정해서 보여주지 마.\n\n'+
 '[사용자 구분 — 중요]\n'+idSpec+'\n\n'+
-'[데이터]\n'+
-'- Supabase에 저장해줘. Project URL과 공개 키는 코드 맨 위에 상수로 빼줘.\n'+
+'[데이터 — '+PLAT[p].name+']\n'+
+DATA_SPEC[p]+'\n'+
 '- 수업 코드를 주소(URL)에 붙일 수 있게 해서, 학생은 링크만 받으면 되게 해줘.\n'+
 rtSpec+'\n'+
 '- 관리자 비밀번호를 HTML 안에 넣지 마. 화면 안의 비밀번호는 실제 보안이 아니야.\n'+
-'  교사 관리 작업은 Supabase 대시보드에서 한다고 가정하고, 앱에는 관리자 화면을 만들지 마.\n'+
+'  교사 관리 작업은 '+PLAT[p].admin+'에서 한다고 가정하고, 앱에는 관리자 화면을 만들지 마.\n'+
 '- 데이터 보관 기간을 화면 안내문에 적을 수 있게, 안내 문구를 상수로 빼줘.\n\n'+
 '[디자인]\n'+
 '- 모든 내용을 하나의 HTML 파일에 담아 바로 실행할 수 있게 만들어줘.\n'+
@@ -1503,27 +2562,14 @@ rtSpec+'\n'+
 '- 화면 아래쪽에 "이 앱은 이름·학번·출석번호·이메일을 저장하지 않습니다"라는 한 줄 안내를 넣어줘.\n\n'+
 '먼저 이 요구사항에서 빠진 게 있는지 확인 질문을 3개만 하고, 그다음에 코드를 만들어줘.';
 
-  const cols=fl.map((f,i)=>'  field'+(i+1)+'     text,          -- '+f).join('\n');
-  const nick = idMode==='nick' ? '  nickname   text,          -- 별명 (실명 저장 안 함)\n' : '';
-  $('b_sql').textContent=
-'-- '+name+' : 테이블 만들기\n'+
-'create table entries (\n'+
-'  id         bigint generated always as identity primary key,\n'+
-'  room_code  text not null, -- 수업 코드\n'+
-nick+cols+'\n'+
-'  created_at timestamptz default now()\n'+
-');\n\n'+
-'-- 문지기(RLS) 켜기\n'+
-'alter table entries enable row level security;\n\n'+
-'create policy "read_all"   on entries for select using (true);\n'+
-'create policy "insert_all" on entries for insert with check (true);\n\n'+
-'-- 수정·삭제 정책은 만들지 않습니다.\n'+
-'-- 정책이 없으면 막히는 것이 기본값이라, 학생은 남의 글을 고치거나 지울 수 없습니다.\n'+
-'-- 교사의 삭제 작업은 Supabase 대시보드에서 직접 하세요.\n'+
-'-- 학생 본인의 수정·삭제가 꼭 필요하다면 부록의 익명 인증 방식을 참고하세요.';
+  $('b_sql').textContent=backendCode(p,name,fl,nick);
 
   $('b_box').classList.add('show');
   bindCopy($('b_box'));
+}
+
+$('b_make').addEventListener('click',()=>{
+  buildPrompt();
   $('b_box').scrollIntoView({behavior:'smooth',block:'start'});
 });
 </script>
