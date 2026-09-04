@@ -489,9 +489,18 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
 /* 단계 카드 : 지금 할 일 → 복사 → 다음 */
 .act{font-size:15.5px;color:var(--text);line-height:1.75;}
 .act b{font-weight:800;}
-.act ol{padding-left:22px;margin:8px 0;}
-.act ol li{margin-bottom:7px;}
-.act ol li::marker{font-weight:800;color:var(--blue);}
+/* 목록에 class="act" 를 직접 준 경우도 함께 잡습니다.
+   초기화(*{padding:0})로 들여쓰기가 사라져 번호가 상자에 붙어 보이던 문제를 막습니다. */
+ol.act,ul.act,.act ol,.act ul{padding-left:30px;margin:12px 0;}
+ol.act li,ul.act li,.act ol li,.act ul li{margin-bottom:10px;padding-left:5px;}
+ol.act li:last-child,ul.act li:last-child,
+.act ol li:last-child,.act ul li:last-child{margin-bottom:0;}
+ol.act li::marker,.act ol li::marker{font-weight:800;color:var(--blue);}
+ul.act li::marker,.act ul li::marker{color:var(--blue);}
+@media(max-width:560px){
+  ol.act,ul.act,.act ol,.act ul{padding-left:24px;margin:10px 0;}
+  ol.act li,ul.act li,.act ol li,.act ul li{padding-left:3px;margin-bottom:9px;}
+}
 .donechk{display:flex;align-items:center;gap:9px;margin-top:18px;padding-top:14px;
   border-top:1px dashed var(--line);font-size:14px;font-weight:700;color:var(--text-muted);
   cursor:pointer;}
