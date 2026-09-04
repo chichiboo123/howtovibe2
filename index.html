@@ -41,6 +41,8 @@ a{color:inherit;}
 .container{max-width:900px;margin:0 auto;padding:0 24px;}
 
 /* ═══════ 내비게이션 ═══════ */
+.rprog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--red);z-index:120;
+  transition:width .12s linear;pointer-events:none;}
 .navbar{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 92%,transparent);
   backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);}
 .nav-inner{max-width:1080px;margin:0 auto;padding:0 24px;height:var(--nav-h);
@@ -97,9 +99,9 @@ a{color:inherit;}
 @media(max-width:600px){.stat-div{display:none;} .hero-stats{gap:14px 24px;}}
 
 /* ═══════ 섹션 ═══════ */
-.section{padding:60px 0;scroll-margin-top:calc(var(--nav-h) + var(--bar-h));}
+.section{padding:52px 0;scroll-margin-top:calc(var(--nav-h) + var(--bar-h));}
 .section-alt{background:var(--bg-alt);}
-.section-header{margin-bottom:28px;}
+.section-header{margin-bottom:24px;}
 .section-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;
   letter-spacing:.13em;color:var(--blue);}
 .section-tag .chip{background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;
@@ -107,12 +109,14 @@ a{color:inherit;}
 [data-theme="dark"] .section-tag .chip{background:var(--blue);color:#0E141C;}
 .section-title{font-size:clamp(23px,4.2vw,32px);font-weight:800;letter-spacing:-.025em;
   margin:12px 0 0;line-height:1.28;}
-.section-desc{margin-top:12px;color:var(--text-muted);font-size:15.5px;max-width:660px;}
+.section-desc{margin-top:11px;color:var(--text-muted);font-size:15.5px;max-width:640px;line-height:1.72;}
 .section-desc b{color:var(--text);}
 
 /* ═══════ 스텝 아코디언 ═══════ */
 .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);}
+  margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);
+  scroll-margin-top:calc(var(--nav-h) + var(--bar-h) + 10px);}
+.climax,.codebox{scroll-margin-top:calc(var(--nav-h) + var(--bar-h) + 10px);}
 .step-header{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;
   list-style:none;user-select:none;transition:background .15s;}
 .step-header::-webkit-details-marker{display:none;}
@@ -327,6 +331,8 @@ select.inp{cursor:pointer;}
 .toc-ch{margin-bottom:6px;}
 .toc-ch > a{display:block;padding:9px 12px;border-radius:8px;text-decoration:none;cursor:pointer;}
 .toc-ch > a:hover{background:var(--bg-alt);}
+.toc-ch > a.cur{background:var(--blue-tint);}
+.toc-ch > a.cur .toc-tag{color:var(--red);}
 .toc-tag{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;color:var(--blue);}
 .toc-ch > a span:last-child{font-size:14.5px;font-weight:700;color:var(--text);}
 .toc-sub{padding-left:12px;border-left:2px solid var(--line);margin:2px 0 8px 14px;}
@@ -431,25 +437,30 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
 .donechk input{width:19px;height:19px;accent-color:var(--blue);cursor:pointer;flex-shrink:0;}
 .donechk input:checked ~ span{color:var(--blue);}
 
-/* 큰 복사 버튼 + 접히는 코드 */
-.drop{margin:14px 0;}
-.bigcopy{display:flex;align-items:center;gap:11px;width:100%;text-align:left;
-  background:var(--navy);color:#fff;border:none;border-radius:var(--radius);
-  padding:15px 18px;font-family:inherit;font-size:15.5px;font-weight:800;cursor:pointer;
-  transition:filter .15s;}
-.bigcopy:hover{filter:brightness(1.14);}
-[data-theme="dark"] .bigcopy{background:var(--blue);color:#0E141C;}
-.bigcopy .material-symbols-outlined{font-size:21px;flex-shrink:0;}
-.bigcopy em{font-style:normal;font-weight:600;font-size:12px;opacity:.72;
-  margin-left:auto;text-align:right;flex-shrink:0;}
-.peek{margin-top:8px;}
-.peek > summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;
-  font-size:13px;font-weight:700;color:var(--text-dim);padding:5px 2px;}
-.peek > summary::-webkit-details-marker{display:none;}
-.peek > summary:hover{color:var(--blue);}
-.peek > summary::before{content:"▸";font-size:11px;}
-.peek[open] > summary::before{content:"▾";}
-.peek .code{margin-top:6px;max-height:420px;overflow:auto;}
+/* 코드 아코디언 (제목 + 복사 + 펼치기) */
+.codebox{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  margin:13px 0;overflow:hidden;box-shadow:var(--shadow);}
+.codebox > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:11px;
+  padding:13px 15px;user-select:none;transition:background .15s;}
+.codebox > summary::-webkit-details-marker{display:none;}
+.codebox > summary:hover{background:var(--bg-alt);}
+.cb-ar{flex-shrink:0;color:var(--text-dim);font-size:10px;transition:transform .2s;}
+.codebox[open] .cb-ar{transform:rotate(90deg);}
+.cb-ic{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:var(--navy);
+  color:#fff;display:grid;place-items:center;}
+[data-theme="dark"] .cb-ic{background:var(--blue);color:#0E141C;}
+.cb-ic .material-symbols-outlined{font-size:18px;}
+.cb-nm{flex:1;min-width:0;}
+.cb-nm b{display:block;font-size:15px;font-weight:800;letter-spacing:-.01em;color:var(--text);}
+.cb-nm > span{font-size:12.5px;color:var(--text-dim);}
+.cb-copy{position:static;top:auto;right:auto;   /* .copy 의 absolute 배치를 되돌립니다 */
+  flex-shrink:0;background:var(--blue);color:#fff;border:none;border-radius:8px;
+  padding:9px 15px;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;transition:filter .15s;}
+.cb-copy:hover{filter:brightness(1.12);}
+.cb-copy .material-symbols-outlined{font-size:16px;}
+.codebox .code{margin:0;border-radius:0;border-top:1px solid var(--line);max-height:440px;}
+@media(max-width:520px){.cb-nm > span{display:none;} .cb-copy{padding:9px 12px;}}
 
 /* 클라이맥스 : 같이 써보기 */
 .climax{background:var(--navy);color:#fff;border-radius:var(--radius);padding:28px 24px;
@@ -524,6 +535,7 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
 </style>
 </head>
 <body>
+<div class="rprog" id="rprog"></div>
 
 <!-- ═══ 내비 ═══ -->
 <nav class="navbar">
@@ -572,14 +584,10 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
     <h1 class="hero-title">바이브코딩<span class="accent"> : </span>포스트시즌</h1>
     <div class="hero-sub">혼자 쓰는 앱에서, 함께 쓰는 앱으로.</div>
     <p class="hero-desc">
-      상반기에는 AI와 대화하며 <b>"나도 앱을 만들 수 있다"</b>는 감을 익혔습니다.
-      이번에는 그 앱을 서버와 연결합니다. 여러 사람이 같은 앱에 접속하고,
-      결과가 한 화면에 모이고, 누군가 입력하면 다른 화면에도 바로 나타나는
-      <b>교실에서 함께 쓰는 앱</b>을 만듭니다.
-      먼저 <b>완성된 앱을 복사해서 성공시키고</b>, 그다음 AI로 내 수업에 맞게 바꿉니다.
-      저장소는 <b>구글 시트 + Apps Script · Supabase · Firebase · Cloudflare Workers</b>
-      네 가지 중 하나를 골라 실습합니다. 화면 위 <b>실습 플랫폼</b> 바를 누르면
-      절차와 코드가 그 플랫폼에 맞게 통째로 바뀝니다.
+      상반기에는 <b>"나도 앱을 만들 수 있다"</b>는 감을 익혔습니다.
+      이번에는 그 앱을 서버에 연결합니다. 여러 사람이 같은 앱에 접속하고,
+      결과가 한 화면에 모이는 <b>교실에서 함께 쓰는 앱</b>을 만듭니다.
+      <b>완성된 앱을 복사해 먼저 성공시키고</b>, 그다음 AI로 내 수업 앱을 만듭니다.
     </p>
     <div class="hero-actions">
       <a href="#prep" class="btn btn-primary">연수 시작하기 →</a>
@@ -606,13 +614,12 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
       <span class="section-tag"><span class="chip">00</span> WARM UP</span>
       <h2 class="section-title">시작 전 준비물</h2>
       <p class="section-desc">계정 만들기에서 시간을 쓰지 않도록 미리 확인해 주세요.
-        아래 다섯 가지만 되어 있으면 <b>실습 시간이 30분 늘어납니다.</b>
         두 번째 항목은 <b>고른 플랫폼에 따라 달라집니다.</b></p>
     </div>
     <div class="mini" style="padding:20px 22px">
       <ul class="checks" id="prepList">
         <li><input type="checkbox" id="p1"><label for="p1">노트북 지참<em>크롬 또는 엣지 권장. 태블릿·휴대폰만으로는 실습이 어렵습니다</em></label></li>
-        <li><input type="checkbox" id="p2"><label for="p2"><span class="plat" data-plat="sheets">구글 계정 로그인 + 빈 스프레드시트 1개 만들기<em>드라이브에서 새 스프레드시트를 하나 만들어 두면 됩니다. 추가 가입은 없습니다</em></span><span class="plat" data-plat="supabase">Supabase 회원가입 + 빈 프로젝트 1개 생성<em>프로젝트 준비에 2~3분 걸립니다. 꼭 미리 해 오세요</em></span><span class="plat" data-plat="firebase">Firebase 프로젝트 + Firestore 데이터베이스 만들기<em>구글 계정으로 콘솔에 로그인해 만듭니다. 위치는 asia-northeast3(서울) 권장</em></span><span class="plat" data-plat="cloudflare">Cloudflare 회원가입 + D1 데이터베이스 1개 생성<em>Workers &amp; Pages 메뉴에서 만듭니다. 카드 등록은 필요 없습니다</em></span></label></li>
+        <li><input type="checkbox" id="p2"><label for="p2"><span class="plat" data-plat="sheets">구글 계정 로그인 + 빈 스프레드시트 1개 만들기<em>추가 가입 없이 구글 계정 하나면 됩니다</em></span><span class="plat" data-plat="supabase">Supabase 회원가입 + 빈 프로젝트 1개 생성<em>프로젝트 준비에 2~3분 걸립니다. 꼭 미리 해 오세요</em></span><span class="plat" data-plat="firebase">Firebase 프로젝트 + Firestore 데이터베이스 만들기<em>위치는 asia-northeast3(서울) 권장</em></span><span class="plat" data-plat="cloudflare">Cloudflare 회원가입 + D1 데이터베이스 1개 생성<em>카드 등록은 필요 없습니다</em></span></label></li>
         <li><input type="checkbox" id="p3"><label for="p3">평소 쓰는 AI 도구 로그인<em>Gemini, ChatGPT, Claude 중 익숙한 것 하나면 됩니다</em></label></li>
         <li><input type="checkbox" id="p4"><label for="p4">상반기에 만든 내 웹앱 링크 하나<em>없어도 괜찮습니다. 오늘 만드는 것부터 시작해도 됩니다</em></label></li>
         <li><input type="checkbox" id="p5"><label for="p5">우리 반에서 "매번 종이로 걷는 것" 하나 떠올려 오기<em>마지막 챕터에서 이걸 앱으로 바꿉니다</em></label></li>
@@ -623,17 +630,15 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
 
     <div class="tip-box" style="margin-top:18px">
       <strong><span class="material-symbols-outlined">tune</span> 플랫폼은 언제든 바꿀 수 있습니다</strong>
-      지금 선택된 것은 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 입니다.
-      화면 맨 위 <b>실습 플랫폼</b> 바에서 다른 것을 누르면
-      이 페이지의 준비물 · 실습 절차 · 코드 · 프롬프트 · 부록이 모두 그 플랫폼 기준으로 바뀝니다.
-      <b>어떤 것을 고를지 모르겠다면 구글 시트</b>로 두고 시작하세요. 가장 쉽습니다.
+      지금 선택된 것은 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span>.
+      맨 위 <b>실습 플랫폼</b> 바에서 바꾸면 준비물 · 절차 · 코드가 모두 따라 바뀝니다.
+      <b>모르겠으면 구글 시트</b>로 두세요. 가장 쉽습니다.
     </div>
 
     <div class="example-box" style="margin-top:14px">
-      <div class="example-label">오늘 코드를 직접 쓰지 않습니다</div>
-      <p style="font-size:14.5px;margin:0">완성된 서버 코드와 앱 코드는 <b>이 페이지의 복사 버튼</b>으로 받습니다.
-        여러분이 하는 일은 <b>저장할 곳을 만들고, 붙여넣고, 배포하고, 함께 써보는 것</b>입니다.
-        AI는 3장을 성공한 뒤 5장에서 씁니다.</p>
+      <div class="example-label">3장에서는 코드를 직접 쓰지 않습니다</div>
+      <p style="font-size:14.5px;margin:0">완성 코드는 <b>이 페이지의 복사 버튼</b>으로 받습니다.
+        AI는 5장에서 씁니다.</p>
     </div>
   </div>
 </section>
@@ -643,38 +648,35 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
   <div class="container">
     <div class="section-header">
       <span class="section-tag"><span class="chip">01</span> CHAPTER 01</span>
-      <h2 class="section-title">혼자 쓰던 앱, 무엇이 아쉬웠을까</h2>
-      <p class="section-desc">상반기에 만든 앱들에는 공통점이 있습니다.
-        잘 작동하지만, <b>옆자리 사람의 화면은 볼 수 없다</b>는 것.</p>
+      <h2 class="section-title">익숙한 에듀테크를 서버의 눈으로 보기</h2>
+      <p class="section-desc">새로 배울 개념이 아닙니다.
+        이미 매일 쓰는 도구 안에 <b>서버가 하는 일</b>이 그대로 들어 있습니다.</p>
     </div>
 
     <details class="step" open id="ch1-a1">
       <summary class="step-header">
         <div class="step-num">01</div>
-        <div class="step-tw"><h3>두 종류의 앱</h3><p>내 브라우저에서 끝나는 앱과 서버에 남는 앱</p></div>
+        <div class="step-tw"><h3>늘 쓰던 도구를 뜯어보기</h3><p>네 가지 도구가 하는 일은 사실 같습니다</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <div class="vs">
-          <div class="vs-col">
-            <div class="vs-label">혼자 쓰는 앱</div>
-            <h4>내 브라우저 안에서 끝난다</h4>
-            <p>결과가 내 기기에만 남습니다. 브라우저를 지우면 사라지고,
-              공유하려면 이미지나 파일로 따로 내보내야 합니다.
-              다른 사람이 뭘 썼는지는 알 수 없습니다.</p>
-          </div>
-          <div class="vs-col good">
-            <div class="vs-label">함께 쓰는 앱</div>
-            <h4>서버에 저장되고, 연결된다</h4>
-            <p>한 사람이 쓴 내용을 다른 사람이 볼 수 있습니다.
-              교사가 결과를 한 화면에서 확인할 수 있고,
-              누군가 입력하면 다른 화면에도 바로 나타납니다.</p>
-          </div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th style="width:104px">도구</th><th>저장</th><th>함께 보기</th><th>사용자 구분</th><th style="width:64px">실시간</th></tr></thead>
+            <tbody>
+              <tr><td><b>구글 설문</b></td><td>시트에 한 줄씩</td><td>응답 요약 화면</td><td>로그인 (선택)</td><td>✕</td></tr>
+              <tr><td><b>패들렛</b></td><td>담벼락에 카드</td><td>같은 담벼락</td><td>익명 또는 이름</td><td>○</td></tr>
+              <tr><td><b>멘티미터</b></td><td>서버에 집계</td><td>발표 화면</td><td>구분 안 함</td><td>○</td></tr>
+              <tr><td><b>카훗</b></td><td>서버에 기록</td><td>순위판</td><td>닉네임</td><td>○</td></tr>
+            </tbody>
+          </table>
         </div>
+        <p style="margin-top:14px">네 칸의 이름이 곧 <b>서버가 하는 일 전부</b>입니다.
+          오늘 만들 앱도 이 네 가지만 합니다.</p>
         <div class="tip-box">
-          <strong><span class="material-symbols-outlined">flag</span> 오늘 우리가 넘는 선</strong>
+          <strong><span class="material-symbols-outlined">flag</span> 오늘 넘는 선</strong>
           상반기 : <b>나도 앱을 만들 수 있다.</b><br />
-          포스트시즌 : <b>내가 만든 앱을 여러 사람이 함께 사용할 수 있다.</b>
+          포스트시즌 : <b>내가 만든 앱을 여러 사람이 함께 쓸 수 있다.</b>
         </div>
       </div>
     </details>
@@ -692,10 +694,10 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
           <div class="mini"><div class="ic"><span class="material-symbols-outlined">save</span></div>
             <p>"선생님, 제 거 저장됐어요?"</p></div>
           <div class="mini"><div class="ic"><span class="material-symbols-outlined">monitoring</span></div>
-            <p>"화면에 지금 몇 명이나 했어요?"</p></div>
+            <p>"지금 몇 명이나 했어요?"</p></div>
         </div>
-        <p style="margin-top:16px">세 질문 모두 <b>"내 화면 밖의 정보"</b>를 묻고 있습니다.
-          로컬 저장 앱으로는 답할 수 없는 질문입니다.</p>
+        <p style="margin-top:14px">셋 다 <b>내 화면 밖의 정보</b>를 묻고 있습니다.
+          내 기기에만 저장하는 앱으로는 답할 수 없습니다.</p>
       </div>
     </details>
 
@@ -707,12 +709,11 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p>강사 화면의 QR로 접속해서 지금 기분을 눌러주세요.
-          여러분이 누른 결과가 앞 화면에 실시간으로 쌓이는 것을 함께 봅니다.</p>
+        <p>강사 화면의 QR로 접속해 지금 기분을 눌러주세요.</p>
         <div class="moment">
           <div class="hp"><span class="material-symbols-outlined">check</span></div>
           <div><div class="m-t">확인 순간</div>
-            <div class="m-b">내가 누른 것이 <b>앞 화면 숫자에 반영되는 것</b>을 봅니다.
+            <div class="m-b">내가 누른 것이 <b>앞 화면 숫자에 반영됩니다.</b>
               오늘 만들 것이 바로 이겁니다.</div></div>
         </div>
       </div>
@@ -726,9 +727,8 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
     <div class="section-header">
       <span class="section-tag"><span class="chip">02</span> CHAPTER 02</span>
       <h2 class="section-title">어디에 연결할까</h2>
-      <p class="section-desc">"서버에 저장한다"는 말은 어렵지 않습니다.
-        <b>인터넷 어딘가에 있는 공동 스프레드시트에 한 줄씩 쌓는 것</b>이라고 생각하면 됩니다.
-        그 "어딘가"를 <b>네 가지 중에서 하나 고르는 것</b>, 이 챕터는 그것만 합니다.</p>
+      <p class="section-desc">수업 앱을 서버에 연결하는 방법은 여러 가지입니다.
+        네 가지를 훑어보고 <b>오늘 실습할 하나를 고르는 것</b>, 이 장은 그것만 합니다.</p>
     </div>
 
     <details class="step" open id="ch2-a1">
@@ -742,10 +742,10 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
           <table>
             <thead><tr><th style="width:128px">용어</th><th>쉬운 말</th></tr></thead>
             <tbody>
-              <tr><td><b>데이터베이스</b></td><td>인터넷에 있는 공동 스프레드시트 같은 저장공간. 누가 뭘 쓰면 한 줄씩 쌓입니다.</td></tr>
-              <tr><td><b>실시간</b><br /><span style="font-size:12px;color:var(--text-dim)">Realtime</span></td><td>누군가 글을 쓰면 다른 사람 화면에도 바로 나타나는 기능.</td></tr>
-              <tr><td><b>문지기</b><br /><span style="font-size:12px;color:var(--text-dim)">권한 · 규칙</span></td><td>누가 어떤 데이터를 볼 수 있고 고칠 수 있는지를 정하는 장치. 플랫폼마다 이름이 다릅니다.</td></tr>
-              <tr><td><b>사용자 구분</b><br /><span style="font-size:12px;color:var(--text-dim)">Auth</span></td><td>앱이 사용자를 구분하는 방법. 로그인 화면이 없어도 구분할 수 있습니다.</td></tr>
+              <tr><td><b>데이터베이스</b></td><td>인터넷에 있는 공동 스프레드시트. 누가 쓰면 한 줄씩 쌓입니다.</td></tr>
+              <tr><td><b>실시간</b></td><td>누가 쓰면 다른 사람 화면에도 바로 나타나는 기능.</td></tr>
+              <tr><td><b>문지기</b><br /><span style="font-size:12px;color:var(--text-dim)">권한 · 규칙</span></td><td>누가 무엇을 보고 고칠 수 있는지 정하는 장치. 플랫폼마다 이름이 다릅니다.</td></tr>
+              <tr><td><b>사용자 구분</b><br /><span style="font-size:12px;color:var(--text-dim)">Auth</span></td><td>앱이 사용자를 구분하는 방법. 로그인 화면 없이도 됩니다.</td></tr>
             </tbody>
           </table>
         </div>
@@ -760,10 +760,8 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p>네 가지 모두 <b>완성 코드가 준비되어 있어 이 자료 그대로 끝까지 실습할 수 있습니다.</b>
-          아래에서 하나를 누르면 3장의 절차와 코드, 5장의 프롬프트, 부록까지 전부 그 플랫폼 기준으로 바뀝니다.
-          <b>처음이면 구글 시트</b>가 가장 쉽습니다. 특정 플랫폼이 더 좋은 기술이라서가 아니라,
-          용도에 맞는 것이 다를 뿐입니다.</p>
+        <p>네 가지 모두 완성 코드가 준비되어 있습니다. 하나를 누르면
+          3장의 절차와 코드가 그 플랫폼으로 바뀝니다. <b>처음이면 구글 시트</b>가 가장 쉽습니다.</p>
         <div class="cards c2">
           <div class="mini pick" data-p="sheets" role="button" tabindex="0">
             <div class="pk"><div class="ic"><span class="material-symbols-outlined">table_view</span></div>
@@ -771,32 +769,31 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
             <div class="badge">지금 선택됨</div>
             <span class="tagpill t-easy">EASY</span><p style="font-size:12.5px;font-weight:700;color:var(--text-dim);margin:6px 0 4px">가장 익숙한 구글 도구로 시작</p>
             <h4>구글 시트 + Apps Script</h4>
-            <p>추가 가입 없이 익숙한 도구로 시작하고, 결과를 시트에서 바로 정렬·집계·인쇄하고 싶을 때</p></div>
+            <p>추가 가입 없이 시작하고, 결과를 시트에서 바로 정리하고 싶을 때</p></div>
           <div class="mini pick" data-p="supabase" role="button" tabindex="0">
             <div class="pk"><div class="ic"><span class="material-symbols-outlined">bolt</span></div>
               <span class="material-symbols-outlined">check_circle</span></div>
             <div class="badge">지금 선택됨</div>
             <span class="tagpill t-rec">RECOMMENDED</span><p style="font-size:12.5px;font-weight:700;color:var(--text-dim);margin:6px 0 4px">동시 사용 + 실시간에 적합</p>
             <h4>Supabase</h4>
-            <p>한 반이 동시에 쓰고, 결과가 실시간으로 모여야 할 때. 표처럼 생겨서 설명이 가장 쉽습니다</p></div>
+            <p>한 반이 동시에 쓰고 결과가 실시간으로 모여야 할 때</p></div>
           <div class="mini pick" data-p="firebase" role="button" tabindex="0">
             <div class="pk"><div class="ic"><span class="material-symbols-outlined">local_fire_department</span></div>
               <span class="material-symbols-outlined">check_circle</span></div>
             <div class="badge">지금 선택됨</div>
             <span class="tagpill t-real">REALTIME</span><p style="font-size:12.5px;font-weight:700;color:var(--text-dim);margin:6px 0 4px">실시간 기능이 강력</p>
             <h4>Firebase</h4>
-            <p>실시간 동기화가 핵심이거나, 구글 계정 인증을 함께 붙이고 싶을 때</p></div>
+            <p>실시간이 앱의 핵심이거나 구글 인증을 붙이고 싶을 때</p></div>
           <div class="mini pick" data-p="cloudflare" role="button" tabindex="0">
             <div class="pk"><div class="ic"><span class="material-symbols-outlined">cloud</span></div>
               <span class="material-symbols-outlined">check_circle</span></div>
             <div class="badge">지금 선택됨</div>
             <span class="tagpill t-chal">CHALLENGE</span><p style="font-size:12.5px;font-weight:700;color:var(--text-dim);margin:6px 0 4px">서버까지 직접 다뤄보기</p>
             <h4>Cloudflare Workers + D1</h4>
-            <p>서버 코드를 직접 쓰고, 배포·도메인·데이터베이스를 한곳에서 관리하고 싶을 때</p></div>
+            <p>서버 코드를 직접 쓰고 한곳에서 관리하고 싶을 때</p></div>
         </div>
-        <p style="margin-top:16px">자세한 비교는 <a href="#ref" style="color:var(--blue);font-weight:700">부록</a>에 정리해 두었습니다.
-          <b>처음이라면 Supabase나 구글 시트</b>를 권합니다.
-          연수 시간에는 <b>한 가지만 골라 끝까지</b> 해 보고, 나머지는 나중에 이 페이지에서 바꿔 보세요.</p>
+        <p style="margin-top:16px">연수 시간에는 <b>한 가지만 골라 끝까지</b> 해 보세요.
+          자세한 비교는 <a href="#ref" style="color:var(--blue);font-weight:700">부록</a>에 있습니다.</p>
       </div>
     </details>
 
@@ -819,67 +816,13 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
             </tbody>
           </table>
         </div>
-        <div class="example-box">
-          <div class="example-label">실제로 겪은 일</div>
-          <p style="font-size:14.5px;margin:0">Apps Script와 스프레드시트로 질문 공유 앱을 만들어 본 적이 있습니다.
-            혼자 쓸 땐 훌륭했는데, 한 반이 동시에 접속하니 느려지고 가끔 글이 겹쳐 쓰였습니다.
-            그 뒤로 <b>동시에 쓰는 앱은 Supabase</b>, <b>교사가 정리해서 쓰는 앱은 시트</b>로 나눠 쓰고 있습니다.</p>
-        </div>
         <div class="tip-box">
           <strong><span class="material-symbols-outlined">emoji_objects</span> 결론</strong>
           <b>더 좋은 기술이 있는 게 아니라, 용도에 맞는 기술이 있습니다.</b>
-          한 명씩 순서대로 쓰고 교사만 확인하는 앱이라면 Apps Script가 오히려 편하고,
-          한 반이 동시에 누르는 앱이라면 Supabase나 Firebase가 편합니다.
+          한 반이 동시에 누르는 앱이라면 Supabase·Firebase가, 교사가 정리해서 쓰는 앱이라면
+          시트가 오히려 편합니다. 플랫폼별 장단점은 <a href="#ref-1" style="color:var(--blue);font-weight:700">부록</a>에 있습니다.
         </div>
 
-        <div class="substep">
-          <h4><span class="material-symbols-outlined">balance</span>지금 고른 <span class="pname">Supabase</span>는 이렇습니다</h4>
-
-          <div class="vs plat" data-plat="sheets">
-            <div class="vs-col good"><div class="vs-label">좋은 점</div>
-              <h4>추가 가입도, 새 화면도 없다</h4>
-              <p>구글 계정 하나로 끝납니다. 결과가 시트에 쌓이니 정렬·집계·인쇄가 자유롭고,
-                학교 업무 문서와 그대로 이어집니다. 데이터가 눈에 보여서 안심이 됩니다.</p></div>
-            <div class="vs-col"><div class="vs-label">주의할 점</div>
-              <h4>동시 사용과 실시간에 약하다</h4>
-              <p>웹앱 배포에서 실행 계정·액세스 권한 설정에 많이 막힙니다.
-                한 반이 동시에 누르면 느려지거나 글이 겹쳐 쓰일 수 있고, 실시간 기능이 없어
-                몇 초마다 다시 불러오는 방식으로 대신해야 합니다.</p></div>
-          </div>
-
-          <div class="vs plat" data-plat="supabase">
-            <div class="vs-col good"><div class="vs-label">좋은 점</div>
-              <h4>표처럼 생겼는데 동시 사용에 강하다</h4>
-              <p>화면이 스프레드시트처럼 생겨서 설명이 거의 필요 없고, 여러 명이 동시에 써도 버팁니다.
-                실시간 기능이 준비되어 있고, 무엇보다 <b>로그인을 붙이지 않아도 잘 돌아갑니다.</b></p></div>
-            <div class="vs-col"><div class="vs-label">주의할 점</div>
-              <h4>문지기(RLS)를 정확히 써야 한다</h4>
-              <p>RLS를 켜고 정책을 안 만들면 아무것도 안 보입니다.
-                무료 프로젝트는 오래 안 쓰면 일시 중지될 수 있고, 데이터는 해외에 저장됩니다.</p></div>
-          </div>
-
-          <div class="vs plat" data-plat="firebase">
-            <div class="vs-col good"><div class="vs-label">좋은 점</div>
-              <h4>실시간 동기화가 가장 강하다</h4>
-              <p>onSnapshot 한 줄로 화면이 저절로 따라옵니다. 별도 설정 없이 바로 실시간이고,
-                구글 계정 인증·익명 로그인 연동이 쉽습니다.</p></div>
-            <div class="vs-col"><div class="vs-label">주의할 점</div>
-              <h4>표가 아니라 문서 구조다</h4>
-              <p>컬렉션·문서 개념을 새로 설명해야 하고, 보안 규칙 문법도 따로 배워야 합니다.
-                구독을 안 끊으면 읽기 횟수가 계속 늘어 무료 한도를 빨리 씁니다.</p></div>
-          </div>
-
-          <div class="vs plat" data-plat="cloudflare">
-            <div class="vs-col good"><div class="vs-label">좋은 점</div>
-              <h4>배포·서버·DB가 한곳에</h4>
-              <p>Worker와 D1, 그리고 Pages 배포까지 같은 계정에서 끝납니다.
-                커스텀 도메인 연결이 쉽고, 허용할 요청을 내가 직접 정하므로 문지기 개념이 가장 명확합니다.</p></div>
-            <div class="vs-col"><div class="vs-label">주의할 점</div>
-              <h4>서버 코드를 직접 써야 한다</h4>
-              <p>CORS·바인딩 설정 같은 개발자 개념이 바로 등장합니다.
-                데이터를 표처럼 눈으로 확인하기 불편하고, 진짜 실시간은 Durable Objects가 따로 필요합니다.</p></div>
-          </div>
-        </div>
       </div>
     </details>
   </div>
@@ -891,16 +834,14 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
     <div class="section-header">
       <span class="section-tag"><span class="chip">03</span> CHAPTER 03 · 오늘의 핵심</span>
       <h2 class="section-title">함께 쓰는 앱, 일단 성공하기</h2>
-      <p class="section-desc">처음부터 만들지 않습니다. <b>붙여넣고, 연결하고, 함께 씁니다.</b>
-        저장 · 함께 보기 · 자동 갱신이 <b>처음부터 다 들어 있는 완성 앱</b>을 그대로 씁니다.
-        "됐다!"를 먼저 겪고, 바꾸는 것은 다음 장에서 합니다.</p>
+      <p class="section-desc">준비된 <b>완성 코드를 복붙</b>해 서버에 연결하고,
+        배포한 앱을 옆 사람과 실제로 함께 써봅니다. 만드는 것은 5장에서 합니다.</p>
     </div>
 
     <div class="nowbar">
       <span class="pnow"><span class="material-symbols-outlined">table_view</span><span class="pname">구글 시트 + Apps Script</span></span>
       <span class="tagpill t-easy" id="platTag">EASY</span>
-      <span class="nowbar-note">아래 절차와 코드가 이 플랫폼 기준으로 표시됩니다.
-        위쪽 <b>실습 플랫폼</b> 바에서 언제든 바꿀 수 있습니다.</span>
+      <span class="nowbar-note">아래 절차와 코드가 이 플랫폼 기준입니다.</span>
     </div>
 
     <div class="bases" id="bases">
@@ -913,9 +854,8 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
 
     <div class="tip-box" style="margin-bottom:20px">
       <strong><span class="material-symbols-outlined">shield</span> 이 앱이 지키는 것</strong>
-      이름·학번·출석번호·이메일·로그인을 받지 않습니다. <b>수업 코드와 익명 접속</b>만 씁니다.
-      화면에는 개인이 무엇을 골랐는지가 아니라 <b>학급 전체의 감정 분포</b>만 보여줍니다.
-      수정·삭제 기능은 일부러 넣지 않았습니다.
+      이름·학번·출석번호·이메일·로그인을 받지 않습니다. <b>수업 코드 + 익명</b>만 씁니다.
+      화면에는 <b>학급 전체 분포</b>만 보이고, 수정·삭제 기능은 일부러 넣지 않았습니다.
     </div>
 
     <!-- ① 저장할 곳 준비하기 -->
@@ -929,12 +869,11 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
       <div class="step-content">
 
         <div class="plat" data-plat="sheets">
-          <p class="act">시트 이름도, 머리글도 <b>직접 쓰지 않습니다.</b> 코드가 자동으로 만들어 줍니다.</p>
           <ol class="act">
             <li>구글 드라이브에서 <b>새 스프레드시트</b> 하나 만들기</li>
             <li>상단 메뉴 <b>확장 프로그램 → Apps Script</b> 열기</li>
           </ol>
-          <p class="act">여기까지가 전부입니다. 다음 단계로 가세요.</p>
+          <p class="act">끝입니다. 시트 이름과 머리글은 <b>코드가 자동으로 만듭니다.</b></p>
         </div>
 
         <div class="plat" data-plat="supabase">
@@ -942,11 +881,14 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
             <li>Supabase 프로젝트를 열고 왼쪽 <b>SQL Editor</b> 클릭</li>
             <li>아래 SQL을 <b>전체 복사</b>해서 붙여넣고 <b>Run</b></li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="sb_sql">
-              <span class="material-symbols-outlined">content_copy</span>Supabase 준비 SQL 전체 복사<em>50줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="sb_sql">-- 우리 반 감정 체크인 : Supabase 준비 SQL
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">database</span></span>
+              <span class="cb-nm"><b>Supabase 준비 SQL</b><span>50줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="sb_sql"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="sb_sql">-- 우리 반 감정 체크인 : Supabase 준비 SQL
 -- 대시보드 → SQL Editor 에 전체를 붙여넣고 [Run] 을 누르세요.
 -- 표 만들기 · 문지기(RLS) 세우기 · 실시간 켜기까지 한 번에 끝납니다.
 -- 여러 번 실행해도 안전합니다.
@@ -996,14 +938,9 @@ end $$;
 -- 수정·삭제 정책은 일부러 만들지 않았습니다.
 -- 정책이 없으면 막히는 것이 기본값이라, 학생은 남의 글을 고치거나 지울 수 없습니다.
 -- 잘못 올라온 글은 교사가 Table Editor 에서 그 줄을 지우면 됩니다.</pre></div>
-            </details>
-          </div>
-          <p class="act">이 한 번으로 <b>표 · 문지기(RLS) · 읽기 정책 · 쓰기 정책 · 실시간</b>이 모두 준비됩니다.</p>
-          <div class="tip-box">
-            <strong><span class="material-symbols-outlined">bolt</span> 실시간은 대시보드에서 따로 켜지 않아도 됩니다</strong>
-            SQL 마지막 5번 블록이 <b>이 표를 실시간 목록에 넣어 줍니다.</b>
-            메뉴를 찾아 헤맬 일이 없습니다.
-          </div>
+          </details>
+          <p class="act">한 번으로 <b>표 · 문지기(RLS) · 읽기/쓰기 정책 · 실시간</b>이 모두 준비됩니다.
+            실시간을 대시보드에서 따로 켜지 않아도 됩니다.</p>
         </div>
 
         <div class="plat" data-plat="firebase">
@@ -1013,11 +950,14 @@ end $$;
               위치는 <b>asia-northeast3 (서울)</b>, 모드는 <b>프로덕션 모드</b></li>
             <li><b>규칙</b> 탭을 열고, 아래 규칙을 전체 복사해 붙여넣은 뒤 <b>게시</b></li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="fb_rules">
-              <span class="material-symbols-outlined">content_copy</span>Firestore 보안 규칙 전체 복사<em>33줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="fb_rules">rules_version = '2';
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">shield</span></span>
+              <span class="cb-nm"><b>Firestore 보안 규칙</b><span>33줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="fb_rules"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="fb_rules">rules_version = '2';
 
 // 우리 반 감정 체크인 : Firestore 보안 규칙 (= 문지기)
 // Firestore Database → [규칙] 탭에 전체를 붙여넣고 [게시] 를 누르세요.
@@ -1050,12 +990,10 @@ service cloud.firestore {
     }
   }
 }</pre></div>
-            </details>
-          </div>
+          </details>
           <div class="warn-box">
             <strong>테스트 모드로 만들지 마세요</strong>
-            테스트 모드는 <b>30일 동안 누구나 읽고 쓰고 지울 수 있는 상태</b>입니다.
-            위 규칙을 게시하면 읽기와 쓰기만 열리고 수정·삭제는 막힙니다.
+            30일 동안 누구나 읽고 쓰고 <b>지울 수</b> 있는 상태가 됩니다.
           </div>
         </div>
 
@@ -1065,11 +1003,14 @@ service cloud.firestore {
               이름은 <b>checkin-db</b></li>
             <li>만든 데이터베이스의 <b>Console</b> 탭에서 아래 SQL을 붙여넣고 실행</li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="cf_sql">
-              <span class="material-symbols-outlined">content_copy</span>D1 준비 SQL 전체 복사<em>19줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="cf_sql">-- 우리 반 감정 체크인 : D1 준비 SQL
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">database</span></span>
+              <span class="cb-nm"><b>D1 준비 SQL</b><span>19줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="cf_sql"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="cf_sql">-- 우리 반 감정 체크인 : D1 준비 SQL
 -- Cloudflare 대시보드 → D1 → (내 데이터베이스) → Console 에 붙여넣고 실행하세요.
 -- 여러 번 실행해도 안전합니다.
 
@@ -1088,8 +1029,7 @@ create index if not exists checkins_room_time_idx
 -- 없는 길로는 아무도 들어올 수 없습니다.
 -- 잘못 올라온 글은 교사가 이 콘솔에서 지우면 됩니다.
 --   예)  delete from checkins where id = 12;</pre></div>
-            </details>
-          </div>
+          </details>
         </div>
 
         <label class="donechk"><input type="checkbox" data-step="1"><span>여기까지 했습니다</span></label>
@@ -1110,11 +1050,14 @@ create index if not exists checkins_room_time_idx
           <ol class="act">
             <li>Apps Script 편집기의 기본 코드를 <b>전부 지우고</b> 아래를 붙여넣기 → 저장</li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="gs_code">
-              <span class="material-symbols-outlined">content_copy</span>Code.gs 전체 복사<em>93줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="gs_code">/**
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">code</span></span>
+              <span class="cb-nm"><b>Code.gs</b><span>93줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="gs_code"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="gs_code">/**
  * 우리 반 감정 체크인 — 서버 코드 (Google Apps Script)
  * 바이브코딩 : 포스트시즌
  *
@@ -1207,18 +1150,19 @@ function getRows(roomCode) {
 // 수정·삭제 기능은 일부러 만들지 않았습니다.
 // 없는 기능은 뚫릴 수도 없습니다.
 // 잘못 올라온 글은 교사가 시트에서 그 행을 지우면 됩니다.</pre></div>
-            </details>
-          </div>
+          </details>
           <ol class="act" start="2">
-            <li>왼쪽 <b>파일 + → HTML</b>, 이름을 <b>index</b>로 만들기<br />
-              <span style="font-size:13.5px;color:var(--text-dim)">.html은 붙이지 않아도 됩니다</span></li>
+            <li>왼쪽 <b>파일 + → HTML</b>, 이름을 <b>index</b>로 만들기 (.html은 안 붙여도 됩니다)</li>
             <li>그 안의 내용을 <b>전부 지우고</b> 아래를 붙여넣기 → 저장</li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="gs_html">
-              <span class="material-symbols-outlined">content_copy</span>index.html 전체 복사<em>513줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="gs_html">&lt;!DOCTYPE html&gt;
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">html</span></span>
+              <span class="cb-nm"><b>index.html</b><span>513줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="gs_html"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="gs_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8" /&gt;
@@ -1731,12 +1675,10 @@ if (document.readyState === 'loading') {
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
-            </details>
-          </div>
+          </details>
           <ol class="act" start="4">
             <li>위쪽 함수 목록에서 <b>setup</b>을 골라 <b>실행</b><br />
-              <span style="font-size:13.5px;color:var(--text-dim)">권한 승인 창이 뜨면 내 계정으로 허용해 주세요.
-              "승인되지 않은 앱" 화면에서는 <b>고급 → 안전하지 않은 페이지로 이동</b></span></li>
+              <span style="font-size:13.5px;color:var(--text-dim)">"승인되지 않은 앱" 화면이 뜨면 <b>고급 → 안전하지 않은 페이지로 이동</b></span></li>
           </ol>
           <div class="moment">
             <div class="hp"><span class="material-symbols-outlined">check</span></div>
@@ -1746,13 +1688,16 @@ if (document.readyState === 'loading') {
         </div>
 
         <div class="plat" data-plat="supabase">
-          <p class="act">아래 코드를 복사해 컴퓨터에 <b>index.html</b>이라는 이름으로 저장하세요.
-            메모장에 붙여넣고 저장할 때 <b>파일 형식: 모든 파일</b>, 이름 <b>index.html</b>로 하면 됩니다.</p>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="sb_html">
-              <span class="material-symbols-outlined">content_copy</span>index.html 전체 복사<em>550줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="sb_html">&lt;!DOCTYPE html&gt;
+          <p class="act">아래 코드를 복사해 <b>index.html</b>로 저장하세요.
+            메모장이라면 <b>파일 형식: 모든 파일</b>로 두고 저장합니다.</p>
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">html</span></span>
+              <span class="cb-nm"><b>index.html</b><span>550줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="sb_html"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="sb_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8" /&gt;
@@ -2302,23 +2247,24 @@ if (document.readyState === 'loading') {
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
-            </details>
-          </div>
-          <p class="act">저장 · 함께 보기 · <b>Realtime 구독</b> · 연결 상태 표시가 처음부터 다 들어 있습니다.</p>
+          </details>
+          <p class="act">저장 · 함께 보기 · <b>Realtime 구독</b>이 처음부터 다 들어 있습니다.</p>
         </div>
 
         <div class="plat" data-plat="firebase">
           <ol class="act">
-            <li>Firebase 콘솔 → <b>프로젝트 설정 → 내 앱 → 웹(&lt;/&gt;) 추가</b><br />
-              앱 이름은 아무거나. Hosting 설정은 <b>체크하지 않습니다.</b></li>
-            <li>나오는 <b>firebaseConfig</b> 값을 잠시 창에 띄워 두세요 (다음 단계에서 씁니다)</li>
+            <li>Firebase 콘솔 → <b>프로젝트 설정 → 내 앱 → 웹(&lt;/&gt;) 추가</b></li>
+            <li>나오는 <b>firebaseConfig</b>를 띄워 두세요 (다음 단계에서 씁니다)</li>
             <li>아래 코드를 복사해 <b>index.html</b>로 저장</li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="fb_html">
-              <span class="material-symbols-outlined">content_copy</span>index.html 전체 복사<em>559줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="fb_html">&lt;!DOCTYPE html&gt;
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">html</span></span>
+              <span class="cb-nm"><b>index.html</b><span>559줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="fb_html"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="fb_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8" /&gt;
@@ -2877,9 +2823,8 @@ if (document.readyState === 'loading') {
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
-            </details>
-          </div>
-          <p class="act">저장 · 함께 보기 · <b>onSnapshot 실시간 구독</b> · 구독 해제 처리가 처음부터 다 들어 있습니다.</p>
+          </details>
+          <p class="act">저장 · 함께 보기 · <b>onSnapshot 실시간 구독</b>이 처음부터 다 들어 있습니다.</p>
         </div>
 
         <div class="plat" data-plat="cloudflare">
@@ -2887,11 +2832,14 @@ if (document.readyState === 'loading') {
             <li><b>Workers &amp; Pages → Create → Worker</b>, 이름은 <b>checkin-api</b></li>
             <li>편집기의 기본 코드를 전부 지우고 아래를 붙여넣기</li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="cf_work">
-              <span class="material-symbols-outlined">content_copy</span>Worker 코드 전체 복사<em>86줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="cf_work">/**
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">code</span></span>
+              <span class="cb-nm"><b>Worker 코드</b><span>86줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="cf_work"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="cf_work">/**
  * 우리 반 감정 체크인 — Cloudflare Worker (서버 코드)
  * 바이브코딩 : 포스트시즌
  *
@@ -2977,20 +2925,21 @@ export default {
     return reply({ ok: false, error: '허용하지 않는 방식입니다.' }, 405);
   }
 };</pre></div>
-            </details>
-          </div>
+          </details>
           <ol class="act" start="3">
-            <li><b>Settings → Bindings → Add → D1 database</b><br />
-              변수 이름 <b>DB</b>, 데이터베이스 <b>checkin-db</b>
-              <span style="font-size:13.5px;color:var(--text-dim)">— 변수 이름이 DB가 아니면 동작하지 않습니다</span></li>
+            <li><b>Settings → Bindings → Add → D1 database</b> · 변수 이름 <b>DB</b>, 데이터베이스 <b>checkin-db</b>
+              <span style="font-size:13.5px;color:var(--text-dim)">— 이름이 DB가 아니면 동작하지 않습니다</span></li>
             <li><b>Deploy</b> 누르고, 나오는 주소를 복사해 두기</li>
             <li>아래 코드를 복사해 <b>index.html</b>로 저장</li>
           </ol>
-          <div class="drop">
-            <button class="bigcopy" type="button" data-copy="cf_html">
-              <span class="material-symbols-outlined">content_copy</span>index.html 전체 복사<em>524줄 · 완성 코드</em></button>
-            <details class="peek"><summary>코드 펼쳐 보기</summary>
-              <div class="code"><pre id="cf_html">&lt;!DOCTYPE html&gt;
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">html</span></span>
+              <span class="cb-nm"><b>index.html</b><span>524줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="cf_html"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="cf_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8" /&gt;
@@ -3514,8 +3463,7 @@ if (document.readyState === 'loading') {
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
-            </details>
-          </div>
+          </details>
         </div>
 
         <label class="donechk"><input type="checkbox" data-step="2"><span>여기까지 했습니다</span></label>
@@ -3534,9 +3482,8 @@ if (document.readyState === 'loading') {
 
         <div class="plat" data-plat="sheets">
           <div class="tip-box">
-            <strong><span class="material-symbols-outlined">check_circle</span> 이 플랫폼은 바꿀 것이 없습니다</strong>
-            화면과 데이터를 <b>Apps Script가 함께 서비스</b>하기 때문에 주소도, 키도 넣을 곳이 없습니다.
-            <b>네 플랫폼 중 가장 단순합니다.</b> 바로 다음 단계로 가세요.
+            <strong><span class="material-symbols-outlined">check_circle</span> 바꿀 것이 없습니다</strong>
+            화면과 데이터를 <b>Apps Script가 함께 서비스</b>해서 주소도 키도 넣을 곳이 없습니다. 다음 단계로 가세요.
           </div>
         </div>
 
@@ -3554,8 +3501,7 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
           </div>
           <div class="warn-box">
             <strong>service_role 키는 절대 넣지 마세요</strong>
-            브라우저에 들어가는 것은 <b>anon public</b> 키뿐입니다.
-            service_role 키는 문지기를 통째로 지나가는 열쇠라서, 화면 코드에 넣으면 누구나 볼 수 있습니다.
+            문지기를 통째로 지나가는 열쇠입니다. 브라우저에 넣는 것은 <b>anon public</b> 키뿐입니다.
           </div>
         </div>
 
@@ -3576,8 +3522,7 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
 };
 /* ↑ 여기까지만 바꾸면 됩니다 */</pre>
           </div>
-          <p class="act" style="font-size:14px;color:var(--text-dim)">콘솔에서 복사한 값에는
-            measurementId가 더 있을 수 있습니다. 있어도 문제되지 않습니다.</p>
+          <p class="act" style="font-size:14px;color:var(--text-dim)">measurementId가 더 있어도 괜찮습니다.</p>
         </div>
 
         <div class="plat" data-plat="cloudflare">
@@ -3590,13 +3535,12 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
 <pre id="fx_cf">var WORKER_URL = '여기에 Worker 주소 붙여넣기';
 /* ↑ 여기까지만 바꾸면 됩니다 */</pre>
           </div>
-          <p class="act" style="font-size:14px;color:var(--text-dim)">주소 끝에 슬래시(/)가 붙어도 코드가 알아서 정리합니다.</p>
+          <p class="act" style="font-size:14px;color:var(--text-dim)">끝에 슬래시(/)가 붙어도 코드가 알아서 정리합니다.</p>
         </div>
 
         <div class="tip-box plat" data-plat="supabase firebase cloudflare">
-          <strong><span class="material-symbols-outlined">visibility</span> 잘 바뀌었는지 바로 확인하는 법</strong>
-          index.html을 브라우저로 그냥 열어 보세요.
-          <b>"연결 설정이 아직 비어 있습니다"</b>가 뜨면 아직 안 바뀐 것이고,
+          <strong><span class="material-symbols-outlined">visibility</span> 바로 확인하는 법</strong>
+          index.html을 브라우저로 열어 보세요. <b>"연결 설정이 아직 비어 있습니다"</b>가 뜨면 아직 안 바뀐 것,
           수업 코드 입력칸이 보이면 잘 바뀐 것입니다.
         </div>
 
@@ -3614,60 +3558,99 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
       </summary>
       <div class="step-content">
 
+        <!-- 구글 시트 : Apps Script 자체 배포 -->
         <div class="plat" data-plat="sheets">
           <div class="tip-box">
-            <strong><span class="material-symbols-outlined">check_circle</span> 다른 서비스가 필요 없습니다</strong>
+            <strong><span class="material-symbols-outlined">check_circle</span> 자체 배포 — 다른 서비스가 필요 없습니다</strong>
             Apps Script가 화면까지 서비스하므로 <b>여기서 나오는 주소 하나로 끝</b>입니다.
           </div>
           <ol class="act">
-            <li>Apps Script 편집기 오른쪽 위 <b>배포 → 새 배포</b></li>
-            <li>유형 선택(톱니바퀴) → <b>웹 앱</b></li>
+            <li>오른쪽 위 <b>배포 → 새 배포</b>, 유형(톱니바퀴) → <b>웹 앱</b></li>
             <li><b>실행 계정 : 나</b></li>
             <li><b>액세스 권한 : 모든 사용자</b>
-              <span style="font-size:13.5px;color:var(--text-dim)">— 이걸 안 바꾸면 학생이 로그인을 요구받습니다</span></li>
-            <li><b>배포</b> → 나오는 <b>/exec로 끝나는 주소</b>를 복사</li>
+              <span style="font-size:13.5px;color:var(--text-dim)">— 안 바꾸면 학생이 로그인을 요구받습니다</span></li>
+            <li><b>배포</b> → 나오는 <b>/exec 주소</b>를 복사</li>
           </ol>
           <div class="warn-box">
             <strong>코드를 고친 뒤에는</strong>
-            Apps Script는 <b>배포한 버전</b>이 돌아갑니다.
-            <b>배포 → 배포 관리 → 연필(수정) → 버전: 새 버전 → 배포</b>로 하면
-            주소가 그대로 유지되면서 반영됩니다.
+            <b>배포 → 배포 관리 → 연필 → 버전: 새 버전 → 배포.</b> 주소는 그대로 유지됩니다.
           </div>
         </div>
 
-        <div class="plat" data-plat="supabase firebase cloudflare">
-          <p class="act">앱 화면(HTML 파일 하나)을 링크로 만듭니다. 아래 셋 중 <b>하나만</b> 하면 됩니다.</p>
+        <!-- Firebase : Firebase Hosting 자체 배포 -->
+        <div class="plat" data-plat="firebase">
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">check_circle</span> 자체 배포 — Firebase Hosting</strong>
+            데이터와 화면이 <b>한 프로젝트 안</b>에 있게 됩니다. 명령줄 도구(CLI) 설치가 필요합니다.
+          </div>
+          <ol class="act">
+            <li>index.html을 빈 폴더 하나에 넣기</li>
+            <li>그 폴더에서 터미널을 열고 아래를 차례로 실행</li>
+          </ol>
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">terminal</span></span>
+              <span class="cb-nm"><b>Firebase Hosting 배포</b><span>4줄 · 눌러서 명령 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="fbdeploy"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="fbdeploy">npm install -g firebase-tools
+firebase login
+firebase init hosting     # public 폴더를 고르고, 그 안에 index.html을 둡니다
+firebase deploy           # ○○○.web.app 주소가 나옵니다</pre></div>
+          </details>
+          <div class="warn-box">
+            <strong>5분 안에 안 되면 넘어가세요</strong>
+            Node.js 설치나 학교 노트북 제한으로 막히면
+            <a href="#ref-7" style="color:var(--red);font-weight:800">부록의 다른 배포 방법</a>(GitHub Pages)으로 가세요.
+            Hosting은 집에서 해도 늦지 않습니다.
+          </div>
+        </div>
 
+        <!-- Cloudflare : Cloudflare Pages 자체 배포 -->
+        <div class="plat" data-plat="cloudflare">
+          <div class="tip-box">
+            <strong><span class="material-symbols-outlined">check_circle</span> 자체 배포 — Cloudflare Pages</strong>
+            이미 쓰고 있는 계정에서 끝납니다. 새로 가입할 곳이 없습니다.
+          </div>
+          <ol class="act">
+            <li><b>Workers &amp; Pages → Create → Pages → Upload assets</b></li>
+            <li>프로젝트 이름을 정하고 <b>index.html을 끌어다 놓기</b></li>
+            <li><b>Deploy</b> → <b>○○○.pages.dev</b> 주소가 나옵니다</li>
+          </ol>
+          <p class="act" style="font-size:14px;color:var(--text-dim)">고칠 때는 같은 프로젝트에
+            <b>Create new deployment</b>으로 파일을 다시 올리면 됩니다.</p>
+        </div>
+
+        <!-- Supabase : 자체 호스팅 없음 → 외부 3가지 -->
+        <div class="plat" data-plat="supabase">
+          <div class="warn-box">
+            <strong>Supabase에는 화면을 올리는 기능이 없습니다</strong>
+            데이터·인증·실시간만 담당합니다. 화면은 아래 셋 중 <b>하나만</b> 골라 올리면 됩니다.
+          </div>
           <div class="substep">
             <h4><span class="material-symbols-outlined">folder_copy</span>① GitHub Pages<span class="rec">추천</span></h4>
-            <p class="act">브라우저만으로 되고, 고친 기록이 남아 되돌리기 쉽습니다.</p>
             <div class="example-box"><ol>
-              <li>github.com → <b>New repository</b> → 이름 정하고 <b>Public</b>으로 만들기</li>
-              <li><b>Add file → Upload files</b>에 index.html 끌어다 놓고 <b>Commit changes</b></li>
-              <li><b>Settings → Pages → Branch: main → Save</b></li>
-              <li>1~2분 뒤 <b>https://아이디.github.io/저장소이름/</b> 주소가 나옵니다</li>
+              <li>github.com → <b>New repository</b> → <b>Public</b>으로 만들기</li>
+              <li><b>Add file → Upload files</b>에 index.html을 올리고 <b>Commit changes</b></li>
+              <li><b>Settings → Pages → Branch: main → Save</b> → 1~2분 뒤 주소가 나옵니다</li>
             </ol></div>
           </div>
-
           <div class="substep">
             <h4><span class="material-symbols-outlined">bolt</span>② Netlify</h4>
-            <p class="act">로그인한 뒤 <b>Add new project → Deploy manually</b>에 폴더를 끌어다 놓습니다.
-              고칠 때는 프로젝트 화면의 <b>Production deploys</b> 영역에 다시 끌어다 놓으면 됩니다.</p>
+            <p class="act">로그인 후 <b>Add new project → Deploy manually</b>에 폴더를 끌어다 놓습니다.
+              고칠 때는 프로젝트 화면에 다시 끌어다 놓으면 됩니다.</p>
           </div>
-
           <div class="substep">
             <h4><span class="material-symbols-outlined">cloud</span>③ Cloudflare Pages</h4>
-            <p class="act"><b>Workers &amp; Pages → Create → Pages → Upload assets</b>에 파일을 끌어다 놓으면
-              <b>○○○.pages.dev</b> 주소가 나옵니다.
-              <span class="plat" data-plat="cloudflare">이미 Cloudflare 계정을 쓰고 있으니 한곳에서 끝납니다.</span></p>
+            <p class="act"><b>Workers &amp; Pages → Create → Pages → Upload assets</b>에 파일을 끌어다 놓습니다.</p>
           </div>
+        </div>
 
-          <div class="warn-box">
-            <strong>로그인 없이 쓰는 Drop 서비스는 오늘 쓰지 않습니다</strong>
-            Netlify Drop과 Cloudflare Drop은 로그인 없이 30초 만에 주소를 주지만,
-            <b>1시간 안에 로그인해서 내 계정으로 가져오지 않으면 사이트가 지워집니다.</b>
-            내일 교실에서 쓸 앱이라면 위 세 가지 중 하나로 하세요. (자세한 내용은 부록)
-          </div>
+        <div class="warn-box plat" data-plat="supabase firebase cloudflare">
+          <strong>로그인 없이 쓰는 Drop 서비스는 1시간 뒤 사라집니다</strong>
+          Netlify Drop과 Cloudflare Drop은 편하지만 <b>1시간 안에 내 계정으로 가져오지 않으면 삭제</b>됩니다.
+          교실에서 쓸 앱은 위 방법으로 하세요.
         </div>
 
         <label class="donechk"><input type="checkbox" data-step="4"><span>여기까지 했습니다</span></label>
@@ -3682,14 +3665,13 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
       </svg>
       <span class="ctag"><span class="material-symbols-outlined" style="font-size:14px">groups</span>STEP 5 · 오늘의 클라이맥스</span>
       <h3>같이 써보기</h3>
-      <p>이제 옆 선생님에게 링크를 보내세요.<br />
-        앱의 결과 화면에 있는 <b>[이 수업 링크 복사하기]</b> 버튼을 누르면
-        수업 코드까지 붙은 주소가 복사됩니다.</p>
+      <p>이제 옆 선생님에게 링크를 보내세요.
+        앱 결과 화면의 <b>[이 수업 링크 복사하기]</b>를 누르면 수업 코드까지 붙은 주소가 복사됩니다.</p>
       <ul class="cchk" id="climaxList">
-        <li><input type="checkbox" id="cx1"><label for="cx1">두 사람이 같은 수업 코드로 접속했다<em>링크를 받은 사람은 코드를 칠 필요가 없습니다</em></label></li>
-        <li><input type="checkbox" id="cx2"><label for="cx2">각자 다른 감정을 눌렀다<em>한 사람은 기쁨, 한 사람은 걱정처럼 다르게</em></label></li>
+        <li><input type="checkbox" id="cx1"><label for="cx1">두 사람이 같은 수업 코드로 접속했다</label></li>
+        <li><input type="checkbox" id="cx2"><label for="cx2">각자 다른 감정을 눌렀다</label></li>
         <li><input type="checkbox" id="cx3"><label for="cx3">서버에 데이터가 저장되었다<em><span class="plat" data-plat="sheets">스프레드시트의 checkins 시트에 줄이 쌓였습니다</span><span class="plat" data-plat="supabase">Table Editor의 checkins 표에 줄이 쌓였습니다</span><span class="plat" data-plat="firebase">Firestore 데이터 탭에 문서가 쌓였습니다</span><span class="plat" data-plat="cloudflare">D1 콘솔에서 select * from checkins 로 확인됩니다</span></em></label></li>
-        <li><input type="checkbox" id="cx4"><label for="cx4">두 사람의 결과가 한 화면에 모였다<em>모두 2명 · 감정별 막대가 각각 1</em></label></li>
+        <li><input type="checkbox" id="cx4"><label for="cx4">두 사람의 결과가 한 화면에 모였다<em>모두 2명 · 막대가 각각 1</em></label></li>
         <li><input type="checkbox" id="cx5"><label for="cx5">아무것도 누르지 않았는데 화면이 최신 결과로 바뀌었다<em><span class="plat" data-plat="sheets">8초마다 스스로 다시 불러옵니다</span><span class="plat" data-plat="supabase">Realtime 구독으로 바로 바뀝니다</span><span class="plat" data-plat="firebase">onSnapshot 구독으로 바로 바뀝니다</span><span class="plat" data-plat="cloudflare">5초마다 스스로 다시 불러옵니다</span></em></label></li>
       </ul>
       <div class="hp-big">
@@ -3698,8 +3680,7 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
           <div class="m-t">확인 순간</div>
           <div class="m-b">옆 사람이 누른 감정이 내 화면에 나타났습니다.</div>
           <div class="m-s">내 화면을 벗어난 데이터가 들어오는 순간,
-            혼자 쓰는 앱은 함께 쓰는 앱이 됩니다.
-            <b>지금 이 앱은 더 이상 혼자 쓰는 앱이 아닙니다.</b></div>
+            <b>혼자 쓰는 앱은 함께 쓰는 앱이 됩니다.</b></div>
         </div>
       </div>
     </div>
@@ -3721,8 +3702,7 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
 
         <div class="substep">
           <h4><span class="material-symbols-outlined">content_cut</span>네 플랫폼 코드는 한 덩어리만 다릅니다</h4>
-          <p>방금 붙여넣은 index.html을 펼쳐 보면 <b>Backend</b>라고 적힌 덩어리가 있습니다.
-            그 아래 화면 코드는 <b>네 플랫폼이 글자 하나까지 똑같습니다.</b>
+          <p>index.html의 <b>Backend</b> 덩어리 아래 화면 코드는 <b>네 플랫폼이 글자 하나까지 같습니다.</b>
             플랫폼을 바꾼다는 건 이 덩어리만 갈아 끼우는 일입니다.</p>
           <div class="tbl"><table>
             <thead><tr><th style="width:150px">플랫폼</th><th>Backend가 하는 일</th></tr></thead>
@@ -3740,12 +3720,12 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
           <div class="tbl"><table>
             <thead><tr><th style="width:190px">바꿀 곳</th><th>바뀌는 것</th></tr></thead>
             <tbody>
-              <tr><td><b>EMOTIONS</b> 배열<br /><span style="font-size:12px;color:var(--text-dim)">index.html 위쪽</span></td>
+              <tr><td><b>EMOTIONS</b> 배열</td>
                 <td>감정 선택지의 이름 · 아이콘 · 색. 네 플랫폼 모두 이 한 곳입니다.</td></tr>
               <tr><td><b>&lt;title&gt;</b>과 <b>app-head</b></td><td>앱 제목과 안내 문구</td></tr>
               <tr><td><b>:root</b>의 색 변수</td><td>전체 색감</td></tr>
               <tr><td><b>Backend.pollMs</b></td><td>자동 갱신 주기<span class="plat" data-plat="supabase firebase"> (이 플랫폼은 실시간이라 쓰지 않습니다)</span></td></tr>
-              <tr><td><b>note</b> 관련 부분</td><td>한 줄 메모 기능. 없애려면 입력칸과 표시 부분을 함께 지웁니다</td></tr>
+              <tr><td><b>note</b> 관련 부분</td><td>한 줄 메모 기능</td></tr>
               <tr><td>서버 쪽 길이 검사<br /><span style="font-size:12px;color:var(--text-dim)"><span class="plat" data-plat="sheets">Code.gs의 slice</span><span class="plat" data-plat="supabase">SQL의 with check</span><span class="plat" data-plat="firebase">규칙의 size()</span><span class="plat" data-plat="cloudflare">Worker의 slice</span></span></td>
                 <td>저장할 수 있는 값의 범위. <b>화면만 바꾸고 여기를 안 바꾸면 저장이 막힙니다.</b></td></tr>
             </tbody>
@@ -3754,9 +3734,8 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
 
         <div class="tip-box">
           <strong><span class="material-symbols-outlined">arrow_forward</span> 다음 장으로</strong>
-          여기까지 왔으면 준비가 끝났습니다.
-          <a href="#ch5" style="color:var(--blue);font-weight:700">CHAPTER 05</a>에서
-          이 앱을 <b>AI와 함께 내 수업 앱으로</b> 바꿉니다.
+          여기까지 왔으면 준비 끝. <a href="#ch5" style="color:var(--blue);font-weight:700">CHAPTER 05</a>에서
+          <b>AI와 함께 내 수업 앱</b>을 만듭니다.
         </div>
       </div>
     </details>
@@ -3823,8 +3802,7 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
         </div>
         <div class="tip-box">
           <strong><span class="material-symbols-outlined">emoji_objects</span> 그래도 안 되면</strong>
-          코드를 손으로 고치지 말고 <b>다시 전체 복사해서 붙여넣으세요.</b>
-          완성 코드는 그대로 붙이면 돌아갑니다. 한 글자 지워진 것을 찾는 데 시간을 쓰지 않는 편이 빠릅니다.
+          손으로 고치지 말고 <b>다시 전체 복사해서 붙여넣으세요.</b> 한 글자 찾는 것보다 빠릅니다.
         </div>
       </div>
     </details>
@@ -3837,46 +3815,35 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
     <div class="section-header">
       <span class="section-tag"><span class="chip">04</span> CHAPTER 04</span>
       <h2 class="section-title">교실에서 안전하게 쓰기</h2>
-      <p class="section-desc">겁을 주려는 것이 아닙니다.
-        <b>내가 만든 앱을 학생들과 실제로 쓰기 전에 무엇을 확인해야 하는가</b>, 그것만 다룹니다.</p>
+      <p class="section-desc">교육부 「학습지원 소프트웨어 선정기준 및 가이드라인」을 바탕으로,
+        <b>개인정보 최소화</b>와 <b>교사·학생 권한 구분</b>만 짚습니다. 제도 세부 내용은 부록에 있습니다.</p>
     </div>
 
     <details class="step" open id="ch4-a1">
       <summary class="step-header">
         <div class="step-num">01</div>
-        <div class="step-tw"><h3>안전한 설계 3원칙</h3><p>만들 때부터 지키면 나중이 편합니다</p></div>
+        <div class="step-tw"><h3>안전한 설계 3원칙</h3><p>만들 때 지키면 나중이 편합니다</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
         <div class="cards c3">
           <div class="mini"><div class="badge">원칙 1</div>
             <h4>적게 받으면 지킬 것도 줄어든다</h4>
-            <p>이름·학번·이메일·계정 대신 <b>수업 코드 + 익명</b>.
-              별명을 쓴다면 "실명 대신 별명을 사용하세요"를 화면에 안내합니다.</p></div>
+            <p>이름·학번·이메일 대신 <b>수업 코드 + 익명</b>.
+              별명을 쓴다면 "실명 대신 별명" 안내를 화면에 넣습니다.</p></div>
           <div class="mini"><div class="badge">원칙 2</div>
-            <h4>주소나 키를 숨기는 게 보안이 아니다</h4>
-            <p>브라우저에 넣은 주소·공개 키·설정값은 누구나 볼 수 있습니다.
-              핵심은 <b>문지기로 접근을 제한하는 것</b>입니다.
-              <span class="plat" data-plat="sheets">시트에서는 <b>웹앱 액세스 설정과 Apps Script 코드</b>가 문지기입니다.</span>
-              <span class="plat" data-plat="supabase">Supabase에서는 <b>RLS 정책</b>이 문지기입니다.</span>
-              <span class="plat" data-plat="firebase">Firebase에서는 <b>보안 규칙</b>이 문지기입니다.</span>
-              <span class="plat" data-plat="cloudflare">Cloudflare에서는 <b>Worker 코드에 만든 길</b>이 문지기입니다.</span></p></div>
+            <h4>키를 숨기는 게 보안이 아니다</h4>
+            <p>브라우저에 넣은 주소·공개 키는 누구나 볼 수 있습니다.
+              보호는 <b>문지기</b>가 합니다.
+              <span class="plat" data-plat="sheets">여기서는 웹앱 액세스 설정과 Apps Script 코드입니다.</span><span class="plat" data-plat="supabase">여기서는 RLS 정책입니다.</span><span class="plat" data-plat="firebase">여기서는 보안 규칙입니다.</span><span class="plat" data-plat="cloudflare">여기서는 Worker에 만든 길입니다.</span></p></div>
           <div class="mini"><div class="badge">원칙 3</div>
             <h4>지울 수 있어야 한다</h4>
-            <p>언제 어떻게 지울지를 처음부터 정합니다.
+            <p>언제 어떻게 지울지 처음부터 정합니다.
               수업이 끝나면 남길 이유가 없는 데이터는 남기지 않습니다.</p></div>
         </div>
         <div class="warn-box">
-          <strong>출석번호에 대해</strong>
-          출석번호도 <b>학급 안에서 특정 학생을 식별할 수 있는 경우 개인정보에 해당할 수 있습니다.</b>
-          그래서 오늘 실습에서는 쓰지 않습니다. 꼭 필요한 앱이라면 무엇을 위해 필요한지 먼저 따져보세요.
-        </div>
-        <div class="warn-box">
-          <strong>개인정보를 안 받아도 끝이 아닙니다</strong>
-          개인정보 처리 부담은 낮아지지만,
-          <b>학생이 작성한 내용의 공개 범위와 접근 권한은 별도로 보호해야 합니다.</b>
-          익명이라도 감정이나 고민을 쓴 글은 함부로 노출되면 안 되고,
-          부적절한 글이 올라올 가능성도 함께 생각해야 합니다.
+          <strong>출석번호도 개인정보일 수 있습니다</strong>
+          학급 안에서 특정 학생을 식별할 수 있기 때문입니다. 그래서 오늘 실습에서는 쓰지 않습니다.
         </div>
       </div>
     </details>
@@ -3884,58 +3851,64 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
     <details class="step" id="ch4-a2">
       <summary class="step-header">
         <div class="step-num">02</div>
-        <div class="step-tw"><h3>감정 데이터를 다루는 방식</h3><p>집계는 보여주고, 개인은 감춥니다</p></div>
+        <div class="step-tw"><h3>교사와 학생의 권한을 나눈다</h3><p>학생은 쓰기만, 관리는 교사가</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p>감정 기록은 그 자체로 조심스러운 정보입니다.
-          그래서 이 앱은 <b>개인의 감정을 장기간 누적해 추적하지 않고</b>,
-          오늘 우리 반의 전체적인 분포를 익명으로 확인하는 구조를 기본으로 합니다.</p>
-        <div class="example-box">
-          <div class="example-label">학생이 보는 화면</div>
-          <p style="font-size:15px;margin:0;font-weight:700;color:var(--text)">기쁨 12 · 평온 7 · 걱정 3 · 피곤 2</p>
-          <p style="font-size:13.5px;margin:6px 0 0">누가 무엇을 골랐는지는 표시하지 않습니다.</p>
+        <p>오늘 만든 앱은 <b>학생 화면에 관리 기능이 아예 없습니다.</b>
+          없는 기능은 뚫릴 수도 없습니다.</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th style="width:96px">누가</th><th style="width:34%">할 수 있는 일</th><th>어디에서</th></tr></thead>
+            <tbody>
+              <tr><td><b>학생</b></td><td>등록하기 · 학급 전체 결과 보기</td><td>앱 화면 (링크만 있으면 접속)</td></tr>
+              <tr><td><b>교사</b></td><td>지우기 · 내려받기 · 정리하기</td>
+                <td><span class="plat" data-plat="sheets">구글 스프레드시트</span><span class="plat" data-plat="supabase">Supabase 대시보드</span><span class="plat" data-plat="firebase">Firebase 콘솔</span><span class="plat" data-plat="cloudflare">Cloudflare D1 콘솔</span> — 교사만 로그인할 수 있는 곳</td></tr>
+            </tbody>
+          </table>
         </div>
-        <p>교사 화면에서도 필요 이상으로 학생을 특정하지 않습니다.
-          한 줄 메모는 작성자 정보 없이 내용만 보여줍니다.</p>
+        <div class="warn-box">
+          <strong>화면 안의 비밀번호는 권한 구분이 아닙니다</strong>
+          "교사용 화면은 비밀번호 4자리"는 소스 보기로 그대로 보입니다.
+          권한은 <b>학생 화면에 그 기능을 만들지 않는 것</b>으로 나눕니다.
+        </div>
+        <p>개인정보를 받지 않아도 끝이 아닙니다.
+          익명이라도 학생이 쓴 내용은 <b>공개 범위</b>를 따로 지켜야 하고,
+          부적절한 글이 올라올 가능성도 함께 생각해야 합니다.</p>
       </div>
     </details>
 
     <details class="step" id="ch4-a3">
       <summary class="step-header">
         <div class="step-num">03</div>
-        <div class="step-tw"><h3>학습지원 소프트웨어와 학교운영위원회</h3><p>2026학년도부터 달라진 것</p></div>
+        <div class="step-tw"><h3>학습지원 소프트웨어에 해당하나요</h3><p>2026학년도부터 달라진 것</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
         <p>2026학년도부터 학습지원 소프트웨어 선정 기준과 학교운영위원회 심의 절차가 적용됩니다.
-          학생 개인정보를 처리하는 경우, 또는 일정한 조건의 교과 성취기준 연계 학습콘텐츠를 포함하는 경우
-          해당 여부를 확인해야 하며,
           <b>교사가 직접 만든 앱도 조건에 해당하면 검토 대상이 될 수 있습니다.</b></p>
         <div class="warn-box">
           <strong>이것만 기억하세요</strong>
-          개인정보를 최소화하면 개인정보 관련 부담을 크게 낮출 수 있지만,
-          <b>학습지원 소프트웨어 해당 여부와 학교운영위원회 심의 여부는 별도로 확인해야 합니다.</b>
-          제도와 지침은 변경될 수 있으므로, 실제 학교 사용 전 최신 교육부·교육청 공문과
-          학교 담당자의 안내를 확인하세요.
+          개인정보를 최소화하면 부담이 크게 줄지만,
+          <b>학습지원 소프트웨어 해당 여부와 학운위 심의 여부는 별도로 확인해야 합니다.</b>
+          제도는 바뀔 수 있으니 최신 공문과 학교 담당자 안내를 확인하세요.
         </div>
-        <p>제도 세부 내용, 필수기준 항목, 선정 절차, 자주 나오는 질문,
-          그리고 <b>교실 사용 전 검토 메모 도우미</b>는
-          <a href="#ref" style="color:var(--blue);font-weight:700">부록</a>에 정리해 두었습니다.</p>
+        <p>대상 요건, 필수기준, 선정 절차, 자주 나오는 질문, <b>교실 사용 전 검토 메모 도우미</b>는
+          <a href="#ref" style="color:var(--blue);font-weight:700">부록</a>에 있습니다.</p>
       </div>
     </details>
 
-    <h3 style="font-size:18px;font-weight:800;margin:32px 0 12px;display:flex;align-items:center;gap:8px">
+    <h3 style="font-size:18px;font-weight:800;margin:28px 0 12px;display:flex;align-items:center;gap:8px">
       <span class="material-symbols-outlined" style="color:var(--blue)">checklist</span> 배포 전 자가진단</h3>
     <div class="mini" style="padding:20px 22px">
       <ul class="checks" id="safeList">
-        <li><input type="checkbox" id="s1"><label for="s1">이름·학번·출석번호·이메일·계정 정보를 저장하지 않는다</label></li>
-        <li><input type="checkbox" id="s2"><label for="s2">문지기를 세웠고, 필요한 것만 정확히 허용했다<em><span class="plat" data-plat="sheets">웹앱 액세스 권한을 확인했고, Apps Script에 수정·삭제 기능을 만들지 않았습니다</span><span class="plat" data-plat="supabase">RLS를 켰습니다. 켜기만 하고 정책이 없으면 아무것도 안 보입니다</span><span class="plat" data-plat="firebase">보안 규칙을 게시했습니다. 테스트 모드로 두면 누구나 지울 수 있습니다</span><span class="plat" data-plat="cloudflare">Worker에 저장·조회 경로만 만들었고, CORS 설정을 확인했습니다</span></em></label></li>
-        <li><input type="checkbox" id="s3"><label for="s3">개인이 무엇을 선택했는지가 다른 학생에게 노출되지 않는다</label></li>
-        <li><input type="checkbox" id="s4"><label for="s4">부적절한 글이 올라왔을 때 지울 방법이 있다<em>대시보드 접근 또는 관리 절차</em></label></li>
-        <li><input type="checkbox" id="s5"><label for="s5">수업이 끝나면 데이터를 언제 어떻게 지울지 정해 두었다</label></li>
-        <li><input type="checkbox" id="s6"><label for="s6">수업 코드로 학급이 섞이지 않고, 링크를 아는 사람만 들어온다</label></li>
-        <li><input type="checkbox" id="s7"><label for="s7">앱 화면에 "무엇을 저장하고 저장하지 않는지" 한 줄 안내가 있다</label></li>
+        <li><input type="checkbox" id="s1"><label for="s1">이름·학번·출석번호·이메일을 저장하지 않는다</label></li>
+        <li><input type="checkbox" id="s2"><label for="s2">문지기를 세웠고, 필요한 것만 허용했다<em><span class="plat" data-plat="sheets">웹앱 액세스 권한 확인</span><span class="plat" data-plat="supabase">RLS를 켜고 정책 두 개를 만들었습니다</span><span class="plat" data-plat="firebase">보안 규칙을 게시했습니다</span><span class="plat" data-plat="cloudflare">저장·조회 경로만 만들었습니다</span></em></label></li>
+        <li><input type="checkbox" id="s3"><label for="s3">개인이 무엇을 선택했는지가 다른 학생에게 보이지 않는다</label></li>
+        <li><input type="checkbox" id="s4"><label for="s4">학생 화면에 관리·삭제 기능이 없고, 교사만 관리할 수 있다</label></li>
+        <li><input type="checkbox" id="s5"><label for="s5">부적절한 글이 올라왔을 때 지울 방법이 있다</label></li>
+        <li><input type="checkbox" id="s6"><label for="s6">수업이 끝나면 언제 어떻게 지울지 정해 두었다</label></li>
+        <li><input type="checkbox" id="s7"><label for="s7">앱 화면에 "무엇을 저장하지 않는지" 한 줄 안내가 있다</label></li>
         <li><input type="checkbox" id="s8"><label for="s8">학습지원 소프트웨어 해당 여부를 학교 담당자에게 확인했다</label></li>
       </ul>
       <div class="bar"><i id="safeBar"></i></div>
@@ -3949,28 +3922,161 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
   <div class="container">
     <div class="section-header">
       <span class="section-tag"><span class="chip">05</span> CHAPTER 05</span>
-      <h2 class="section-title">이제 내 앱으로 바꾸기</h2>
-      <p class="section-desc">여기서 처음 AI를 씁니다.
-        <b>이미 돌아가는 앱</b>이 있으니, 처음부터 만들 때보다 훨씬 안전합니다.
-        서버 연결은 그대로 두고 <b>화면과 내용만</b> 바꾸는 것부터 시작합니다.</p>
+      <h2 class="section-title">서버까지 포함한 내 수업 앱 만들기 도전</h2>
+      <p class="section-desc">3장에서 익힌 서버 연결 구조를 그대로 씁니다.
+        이번에는 <b>내 수업에 필요한 앱을 처음부터 설계</b>해 AI와 함께 만들고, 서로 나눕니다.</p>
     </div>
 
     <div class="spine">
-      <span class="n">작은 수정</span><span class="a">→</span>
-      <span class="n">내용 바꾸기</span><span class="a">→</span>
-      <span class="n">구조 변형</span><span class="a">→</span>
-      <span class="n last">내 수업 앱</span>
+      <span class="n">무엇을 만들지</span><span class="a">→</span>
+      <span class="n">프롬프트</span><span class="a">→</span>
+      <span class="n">만들고 배포</span><span class="a">→</span>
+      <span class="n last">서로 나누기</span>
     </div>
 
-    <details class="step" open style="margin-top:20px" id="ch5-a0">
+    <details class="step" open style="margin-top:20px" id="ch5-a1">
       <summary class="step-header">
-        <div class="step-num"><span class="material-symbols-outlined" style="font-size:19px">shield</span></div>
-        <div class="step-tw"><h3>먼저 이 프롬프트를 복사하세요</h3><p>돌아가는 앱을 망가뜨리지 않는 안전장치</p></div>
+        <div class="step-num">01</div>
+        <div class="step-tw"><h3>① 무엇을 만들지 정하기</h3><p>우리 반에서 매번 종이로 걷던 그것</p></div>
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p class="act">초보자가 가장 많이 겪는 일은 <b>"고쳐달라고 했더니 AI가 앱을 통째로 다시 만들어서 안 되게 된 것"</b>입니다.
-          그래서 무엇을 바꾸든 <b>이 프롬프트를 먼저 붙여넣고</b>, 대괄호 안만 채웁니다.</p>
+        <p class="act">3장에서 만든 앱의 뼈대는 하나입니다.
+          <b>무엇을 입력받고 무엇을 보여줄지</b>만 바꾸면 전혀 다른 앱이 됩니다.</p>
+        <div class="cards c4">
+          <div class="mini"><h4>실시간 질문판</h4><p>궁금한 것을 익명으로 올리고 함께 보기</p></div>
+          <div class="mini"><h4>학급회의 투표</h4><p>안건에 투표하면 바로 집계</p></div>
+          <div class="mini"><h4>롤링페이퍼</h4><p>감사 편지를 한 화면에 모으기</p></div>
+          <div class="mini"><h4>아이디어 보드</h4><p>모둠 생각을 붙이고 서로 참고하기</p></div>
+          <div class="mini"><h4>익명 의견함</h4><p>하고 싶은 말을 남기고 교사가 확인</p></div>
+          <div class="mini"><h4>준비물 체크</h4><p>아침에 다 같이 눌러 한눈에 확인</p></div>
+          <div class="mini"><h4>작품 공유 게시판</h4><p>완성한 작품 링크를 모아 보기</p></div>
+          <div class="mini"><h4>감정 체크인</h4><p>3장에서 만든 그 앱</p></div>
+        </div>
+        <div class="tip-box">
+          <strong><span class="material-symbols-outlined">lightbulb</span> 고르는 기준</strong>
+          <b>여러 사람이 입력하고, 결과를 함께 봐야 하는 것.</b>
+          혼자 쓰고 끝나는 것이라면 서버가 필요 없습니다.
+        </div>
+      </div>
+    </details>
+
+    <details class="step" open id="ch5-a2">
+      <summary class="step-header">
+        <div class="step-num"><span class="material-symbols-outlined" style="font-size:19px">auto_awesome</span></div>
+        <div class="step-tw"><h3>② 프롬프트 만들기</h3><p>안전한 기본 설정이 자동으로 포함됩니다</p></div>
+        <span class="step-toggle">▼</span>
+      </summary>
+      <div class="step-content">
+        <p>좋은 프롬프트는 글솜씨가 아니라 <b>기획의 완성도</b>에서 나옵니다.
+          칸을 채우면 AI에게 붙여넣을 프롬프트와 백엔드 준비 코드가 만들어집니다.
+          지금 고른 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 기준입니다.</p>
+
+        <div class="frow" style="margin-top:16px">
+          <div class="field"><label><span class="material-symbols-outlined">push_pin</span>앱 이름</label>
+            <input class="inp" id="b_name" placeholder="예: 우리 반 실시간 질문판" /></div>
+          <div class="field"><label><span class="material-symbols-outlined">school</span>사용 대상</label>
+            <input class="inp" id="b_grade" placeholder="예: 초등학교 5학년" /></div>
+        </div>
+        <div class="field"><label><span class="material-symbols-outlined">lightbulb</span>왜 만드나요? <em>— 불편한 순간 한 문장</em></label>
+          <textarea class="inp" id="b_why" placeholder="예: 수업 중 궁금한 게 생겨도 손 들기 부담스러워하는 학생이 많습니다."></textarea></div>
+        <div class="field"><label><span class="material-symbols-outlined">edit_note</span>학생이 입력하는 것 <em>— 한 줄에 하나씩</em></label>
+          <textarea class="inp" id="b_in" placeholder="질문 내용&#10;관련 단원"></textarea></div>
+        <div class="field"><label><span class="material-symbols-outlined">visibility</span>화면에 보여줄 것</label>
+          <textarea class="inp" id="b_out" placeholder="예: 오늘 올라온 질문을 최신순 카드로. 같은 질문에 공감 버튼."></textarea></div>
+        <div class="field"><label><span class="material-symbols-outlined">person</span>학생을 어떻게 구분하나요?</label>
+          <div class="radios">
+            <label><input type="radio" name="b_id" value="anon" checked /> 구분하지 않음 (완전 익명)</label>
+            <label><input type="radio" name="b_id" value="nick" /> 수업 코드 + 별명</label>
+          </div>
+          <p style="font-size:13px;color:var(--text-dim);margin-top:8px">
+            이름·학번·출석번호는 선택지에 두지 않았습니다.</p>
+        </div>
+        <div class="field"><label><span class="material-symbols-outlined">sync</span>화면이 저절로 갱신되어야 하나요?</label>
+          <div class="radios">
+            <label><input type="radio" name="b_rt" value="yes" checked /> 실시간으로 반영</label>
+            <label><input type="radio" name="b_rt" value="no" /> 새로고침해도 괜찮음</label>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="b_make"><span class="material-symbols-outlined">bolt</span>프롬프트 만들기</button>
+          <button class="btn btn-line" id="b_sample"><span class="material-symbols-outlined">auto_fix_high</span>예시로 채우기</button>
+        </div>
+
+        <div class="out" id="b_box">
+          <div class="substep"><h4><span class="material-symbols-outlined">description</span>① 기획 한 장 요약</h4>
+            <div class="code"><button class="copy" data-copy="b_plan"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_plan"></pre></div>
+          </div>
+          <div class="substep"><h4><span class="material-symbols-outlined">smart_toy</span>② AI에게 붙여넣을 프롬프트</h4>
+            <div class="code"><button class="copy" data-copy="b_prompt"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_prompt"></pre></div>
+          </div>
+          <div class="substep"><h4><span class="material-symbols-outlined">database</span>③ 백엔드 준비 코드 —
+              <span style="font-weight:600;color:var(--text-dim)"><span class="pname">Supabase</span></span></h4>
+            <div class="code"><button class="copy" data-copy="b_sql"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_sql"></pre></div>
+            <p style="font-size:13.5px;color:var(--text-dim)">칸 이름(field1, field2 …)은 나중에 바꿔도 됩니다.
+              바꿀 때는 이 코드와 앱 코드를 함께 바꿔야 합니다.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="step" id="ch5-a3">
+      <summary class="step-header">
+        <div class="step-num">03</div>
+        <div class="step-tw"><h3>③ 만들고 배포하기</h3><p>3장에서 한 것을 그대로 반복합니다</p></div>
+        <span class="step-toggle">▼</span>
+      </summary>
+      <div class="step-content">
+        <ol class="act">
+          <li>②의 <b>프롬프트</b>를 AI에 붙여넣기 → 확인 질문 3개에 답하기 → 코드 받기</li>
+          <li>②의 <b>백엔드 준비 코드</b>를 3장 ①과 같은 자리에 붙여넣고 실행</li>
+          <li>연결 정보를 넣고, 3장 ④와 같은 방법으로 배포</li>
+        </ol>
+        <div class="warn-box">
+          <strong>한 번에 다 만들려고 하지 마세요</strong>
+          먼저 <b>저장과 목록 보기</b>까지만 되게 하고, 되는 것을 확인한 뒤 나머지를 요청하세요.
+          안 될 때는 <b>"지금 코드에서 이 부분만 고쳐줘"</b>라고 범위를 좁혀 말합니다.
+        </div>
+        <p class="act">3장의 안전 기본값(익명, 수정·삭제 없음, 관리자 화면 없음)은
+          프롬프트에 이미 들어 있습니다. <b>지우지 마세요.</b></p>
+      </div>
+    </details>
+
+    <details class="step" id="ch5-a4">
+      <summary class="step-header">
+        <div class="step-num dia"><span><i>4</i></span></div>
+        <div class="step-tw"><h3>④ 서로 나누기</h3><p>오늘의 마지막 순서</p></div>
+        <span class="step-toggle">▼</span>
+      </summary>
+      <div class="step-content">
+        <p class="act">완성한 앱의 링크를 옆 선생님과 교환하고, <b>서로의 앱에 실제로 들어가 봅니다.</b></p>
+        <div class="example-box">
+          <div class="example-label">나눌 때 함께 말해 주세요</div>
+          <ul>
+            <li>우리 반에서 <b>무엇이 불편해서</b> 만들었는지</li>
+            <li>학생은 <b>무엇을 입력</b>하고, 화면에는 <b>무엇이 보이는지</b></li>
+            <li>개인정보를 <b>무엇까지 안 받았는지</b></li>
+          </ul>
+        </div>
+        <div class="moment">
+          <div class="hp"><span class="material-symbols-outlined">check</span></div>
+          <div><div class="m-t">확인 순간</div>
+            <div class="m-b">옆 선생님이 만든 화면에 <b>내 흔적이 남습니다.</b>
+              오늘 배운 것이 여기서 완성됩니다.</div></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="step" id="ch5-a0">
+      <summary class="step-header">
+        <div class="step-num"><span class="material-symbols-outlined" style="font-size:19px">shield</span></div>
+        <div class="step-tw"><h3>이미 만든 앱을 고칠 때</h3><p>돌아가는 앱을 망가뜨리지 않는 프롬프트</p></div>
+        <span class="step-toggle">▼</span>
+      </summary>
+      <div class="step-content">
+        <p class="act">초보자가 가장 많이 겪는 사고는
+          <b>"고쳐달라고 했더니 AI가 앱을 통째로 다시 만들어서 안 되게 된 것"</b>입니다.
+          무엇을 바꾸든 이 프롬프트를 먼저 붙여넣고 대괄호 안만 채우세요.</p>
         <div class="code">
           <button class="copy" data-copy="safeprompt"><span class="material-symbols-outlined">content_copy</span>복사</button>
 <pre id="safeprompt">현재 앱은 정상 작동하고 있습니다.
@@ -3996,203 +4102,21 @@ var SUPABASE_ANON_KEY = '여기에 anon public 키 붙여넣기';
 1) 붙여넣을 수 있는 전체 파일을 한 덩어리로 주고
 2) 무엇을 바꿨는지 세 줄로 알려주세요.</pre>
         </div>
-        <div class="tip-box">
-          <strong><span class="material-symbols-outlined">emoji_objects</span> 한 번에 한 가지만</strong>
-          두 가지를 같이 요청하면 어디서 틀어졌는지 알 수 없습니다.
-          <b>고치고 → 열어서 확인하고 → 다음 것</b>. 이 순서를 지키면 거의 실패하지 않습니다.
-        </div>
-        <div class="warn-box">
-          <strong>고치기 전에 지금 파일을 복사해 두세요</strong>
-          index.html을 <b>index_원본.html</b>처럼 하나 복사해 두면,
-          망가졌을 때 1초 만에 되돌릴 수 있습니다.
-          <span class="plat" data-plat="sheets">Apps Script라면 파일 이름을 바꿔 사본을 하나 더 만들어 두세요.</span>
-          <span class="plat" data-plat="supabase firebase cloudflare">GitHub에 올려 두었다면 이미 지난 버전이 남아 있습니다.</span>
-        </div>
-      </div>
-    </details>
-
-    <details class="step" id="ch5-a3">
-      <summary class="step-header">
-        <div class="step-num">01</div>
-        <div class="step-tw"><h3>가장 쉬운 것부터 — 5분 안에 되는 수정</h3><p>서버를 건드리지 않는 변경들</p></div>
-        <span class="step-toggle">▼</span>
-      </summary>
-      <div class="step-content">
-        <p class="act">아래는 모두 <b>index.html 한 곳만</b> 바꾸면 되는 것들입니다.
-          위 안전 프롬프트의 대괄호 안에 그대로 넣으세요.</p>
         <div class="tbl">
           <table>
-            <thead><tr><th style="width:150px">바꾸고 싶은 것</th><th>대괄호 안에 넣을 말</th></tr></thead>
+            <thead><tr><th style="width:132px">바꾸고 싶은 것</th><th>대괄호 안에 넣을 말</th></tr></thead>
             <tbody>
-              <tr><td><b>감정 선택지</b></td>
-                <td>EMOTIONS 배열을 기쁨 / 보통 / 속상함 / 화남 네 개로 바꿔줘.
-                  아이콘과 파스텔 색도 어울리게 골라줘.</td></tr>
-              <tr><td><b>앱 제목</b></td>
-                <td>&lt;title&gt;과 화면 맨 위 제목을 '우리 반 아침 인사'로 바꾸고,
-                  그 아래 안내 문구도 어울리게 바꿔줘.</td></tr>
-              <tr><td><b>색감</b></td>
-                <td>:root 의 색 변수만 바꿔서 전체를 초록 계열 파스텔로 바꿔줘.
-                  다른 코드는 건드리지 마.</td></tr>
-              <tr><td><b>메모 없애기</b></td>
-                <td>한 줄 메모 기능을 없애줘. 입력칸과 결과 화면의 메모 목록을 함께 지워줘.
-                  저장할 때 note는 빈 값으로 보내면 되니 <b>서버 쪽은 건드리지 마.</b></td></tr>
-              <tr><td><b>결과를 막대 대신<br />큰 숫자로</b></td>
-                <td>감정별 결과를 막대 대신 큰 숫자 카드로 보여줘.
-                  집계하는 부분(summarize)은 그대로 두고 그리는 부분만 바꿔줘.</td></tr>
+              <tr><td><b>선택지</b></td><td>EMOTIONS 배열을 ○○ / ○○ / ○○ 로 바꿔줘. 아이콘과 파스텔 색도 어울리게 골라줘.</td></tr>
+              <tr><td><b>앱 제목</b></td><td>&lt;title&gt;과 화면 맨 위 제목을 '○○○'으로 바꿔줘.</td></tr>
+              <tr><td><b>색감</b></td><td>:root 의 색 변수만 바꿔서 전체를 초록 계열 파스텔로 바꿔줘.</td></tr>
+              <tr><td><b>메모 없애기</b></td><td>한 줄 메모 입력칸과 결과 목록을 함께 지워줘. <b>서버 쪽은 건드리지 마.</b></td></tr>
             </tbody>
           </table>
         </div>
         <div class="warn-box">
-          <strong>칸을 하나 늘리는 것은 여기에 없습니다</strong>
-          "질문 내용을 하나 더 받고 싶다"처럼 <b>저장하는 칸이 늘어나는 변경</b>은
+          <strong>저장 칸이 늘어나는 변경은 서버도 함께</strong>
           화면만 고치면 저장이 막힙니다.
-          <span class="plat" data-plat="sheets">Code.gs의 HEADERS와 저장 부분</span><span class="plat" data-plat="supabase">SQL의 표와 쓰기 정책</span><span class="plat" data-plat="firebase">보안 규칙의 칸 목록</span><span class="plat" data-plat="cloudflare">D1 표와 Worker의 insert 부분</span>도
-          함께 바꿔야 합니다. 아래 <b>구조 변형</b>에서 다룹니다.
-        </div>
-        <div class="moment">
-          <div class="hp"><span class="material-symbols-outlined">check</span></div>
-          <div><div class="m-t">확인 순간</div>
-            <div class="m-b">감정 선택지를 바꿨는데도 <b>저장과 집계가 그대로 잘 돌아갑니다.</b>
-              구조를 건드리지 않으면 앱은 잘 버팁니다.</div></div>
-        </div>
-      </div>
-    </details>
-
-    <details class="step" id="ch5-a4">
-      <summary class="step-header">
-        <div class="step-num">02</div>
-        <div class="step-tw"><h3>구조 변형 — 다른 앱으로 바꾸기</h3><p>감정 체크인의 뼈대를 그대로 씁니다</p></div>
-        <span class="step-toggle">▼</span>
-      </summary>
-      <div class="step-content">
-        <p class="act">중요한 것은 <b>서버 코드를 새로 만드는 것이 아니라</b>,
-          <b>이미 연결된 구조를 AI에게 설명하고 내 수업에 맞게 변형하는 것</b>입니다.
-          감정 하나를 고르던 자리에 무엇을 넣을지만 바꾸면 전혀 다른 앱이 됩니다.</p>
-        <div class="tbl">
-          <table>
-            <thead><tr><th style="width:132px">바꿀 앱</th><th style="width:34%">감정 자리에 들어가는 것</th><th>결과 화면</th></tr></thead>
-            <tbody>
-              <tr><td><b>실시간 질문판</b></td><td>질문 한 줄 (자유 입력)</td><td>막대 대신 질문 카드 목록. 공감 수 표시</td></tr>
-              <tr><td><b>학급회의 투표</b></td><td>안건 선택지 (찬성/반대/보류)</td><td>그대로 막대 집계</td></tr>
-              <tr><td><b>롤링페이퍼</b></td><td>받는 사람 + 하고 싶은 말</td><td>받는 사람별 카드 묶음</td></tr>
-              <tr><td><b>아이디어 보드</b></td><td>모둠 이름 + 아이디어</td><td>모둠별 색이 다른 카드</td></tr>
-              <tr><td><b>준비물 체크</b></td><td>준비물 항목 여러 개 체크</td><td>항목별 완료 인원 막대</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="act">투표처럼 <b>선택지만 바뀌는 앱</b>은 위의 "감정 선택지 바꾸기"로 끝납니다.
-          질문판처럼 <b>자유 입력이 들어가는 앱</b>은 서버까지 함께 바꿔야 합니다.
-          그때는 아래 프롬프트를 쓰세요.</p>
-        <div class="code">
-          <button class="copy" data-copy="morphprompt"><span class="material-symbols-outlined">content_copy</span>복사</button>
-<pre id="morphprompt">현재 '우리 반 감정 체크인' 앱이 정상 작동하고 있습니다.
-이 앱을 '우리 반 실시간 질문판'으로 바꾸고 싶습니다.
-
-지금 구조는 이렇습니다.
-- 수업 코드로 방을 나눈다
-- 한 사람이 항목 하나를 골라 저장한다
-- 같은 수업 코드의 오늘 데이터만 불러와 화면에 모아 보여준다
-- 자동 갱신(또는 실시간)으로 최신 결과가 반영된다
-
-이 구조를 그대로 유지하면서 아래만 바꿔주세요.
-
-1. 감정 버튼 대신 '질문 한 줄' 입력칸을 만들어줘.
-2. 결과 화면은 막대 대신, 올라온 질문을 최신순 카드로 보여줘.
-   작성자 정보는 절대 표시하지 마.
-3. 이름 · 학번 · 출석번호 · 이메일 · 로그인은 절대 만들지 마.
-
-저장하는 칸이 바뀌므로 서버 쪽도 함께 바꿔야 합니다.
-화면 코드와 서버 코드(그리고 필요하면 보안 규칙/SQL)를
-서로 어긋나지 않게 같이 고쳐서, 각각 전체 파일로 주세요.
-
-Backend 덩어리의 연결 방식(주소 · 키 · 호출 방법)은 그대로 두세요.
-마지막에 무엇을 바꿨는지 세 줄로 알려주세요.</pre>
-        </div>
-        <div class="tip-box">
-          <strong><span class="material-symbols-outlined">emoji_objects</span> 왜 "지금 구조는 이렇습니다"를 적어주나요</strong>
-          AI에게 <b>이미 돌아가는 구조를 먼저 설명</b>하면, 그 구조를 지키려고 합니다.
-          이 네 줄을 빼면 AI가 자기 방식으로 다시 설계할 가능성이 훨씬 높아집니다.
-        </div>
-      </div>
-    </details>
-
-    <details class="step" style="margin-top:20px" id="ch5-a1">
-      <summary class="step-header">
-        <div class="step-num">03</div>
-        <div class="step-tw"><h3>같은 뼈대로 만들 수 있는 것들</h3><p>여덟 가지 변형</p></div>
-        <span class="step-toggle">▼</span>
-      </summary>
-      <div class="step-content">
-        <div class="cards c4">
-          <div class="mini"><h4>실시간 질문판</h4><p>수업 중 궁금한 것을 익명으로 올리고 함께 봅니다</p></div>
-          <div class="mini"><h4>롤링페이퍼</h4><p>학기말 감사 편지를 한 화면에 모읍니다</p></div>
-          <div class="mini"><h4>아이디어 보드</h4><p>모둠별 생각을 붙이고 서로 참고합니다</p></div>
-          <div class="mini"><h4>학급회의 투표</h4><p>안건에 투표하면 결과가 바로 집계됩니다</p></div>
-          <div class="mini"><h4>익명 의견함</h4><p>하고 싶은 말을 남기고 교사가 확인합니다</p></div>
-          <div class="mini"><h4>준비물 체크</h4><p>아침에 다 같이 눌러 한눈에 확인합니다</p></div>
-          <div class="mini"><h4>작품 공유 게시판</h4><p>완성한 작품 링크를 모아 함께 봅니다</p></div>
-          <div class="mini"><h4>감정 체크인</h4><p>오늘 만든 그 앱. 매일 아침 씁니다</p></div>
-        </div>
-      </div>
-    </details>
-
-    <details class="step" open id="ch5-a2">
-      <summary class="step-header">
-        <div class="step-num"><span class="material-symbols-outlined" style="font-size:19px">auto_awesome</span></div>
-        <div class="step-tw"><h3>내 아이디어를 프롬프트로</h3><p>안전한 기본 설정이 자동으로 포함됩니다</p></div>
-        <span class="step-toggle">▼</span>
-      </summary>
-      <div class="step-content">
-        <p>좋은 프롬프트는 글솜씨가 아니라 <b>기획의 완성도</b>에서 나옵니다.
-          아래 칸을 채우면 AI에게 그대로 붙여넣을 프롬프트와 백엔드 준비 코드가 만들어집니다.
-          결과는 지금 고른 <span class="pnow"><span class="material-symbols-outlined">bolt</span><span class="pname">Supabase</span></span> 기준으로 만들어집니다.
-          위쪽 <b>실습 플랫폼</b> 바에서 바꾸고 다시 누르면 그 플랫폼용으로 다시 만들어집니다.</p>
-
-        <div class="frow" style="margin-top:16px">
-          <div class="field"><label><span class="material-symbols-outlined">push_pin</span>앱 이름</label>
-            <input class="inp" id="b_name" placeholder="예: 우리 반 실시간 질문판" /></div>
-          <div class="field"><label><span class="material-symbols-outlined">school</span>사용 대상</label>
-            <input class="inp" id="b_grade" placeholder="예: 초등학교 5학년" /></div>
-        </div>
-        <div class="field"><label><span class="material-symbols-outlined">lightbulb</span>왜 만드나요? <em>— 불편한 순간 한 문장</em></label>
-          <textarea class="inp" id="b_why" placeholder="예: 수업 중 궁금한 게 생겨도 손 들기 부담스러워하는 학생이 많습니다."></textarea></div>
-        <div class="field"><label><span class="material-symbols-outlined">edit_note</span>학생이 입력하는 것 <em>— 한 줄에 하나씩</em></label>
-          <textarea class="inp" id="b_in" placeholder="질문 내용&#10;관련 단원"></textarea></div>
-        <div class="field"><label><span class="material-symbols-outlined">visibility</span>화면에 보여줄 것</label>
-          <textarea class="inp" id="b_out" placeholder="예: 오늘 올라온 질문을 최신순 카드로. 같은 질문에 공감 버튼."></textarea></div>
-        <div class="field"><label><span class="material-symbols-outlined">person</span>학생을 어떻게 구분하나요?</label>
-          <div class="radios">
-            <label><input type="radio" name="b_id" value="anon" checked /> 구분하지 않음 (완전 익명)</label>
-            <label><input type="radio" name="b_id" value="nick" /> 수업 코드 + 별명</label>
-          </div>
-          <p style="font-size:13px;color:var(--text-dim);margin-top:8px">
-            이름·학번·출석번호는 선택지에 두지 않았습니다.
-            학급 안에서 특정 학생을 식별할 수 있는 정보는 개인정보에 해당할 수 있습니다.</p>
-        </div>
-        <div class="field"><label><span class="material-symbols-outlined">sync</span>화면이 저절로 갱신되어야 하나요?</label>
-          <div class="radios">
-            <label><input type="radio" name="b_rt" value="yes" checked /> 실시간으로 반영</label>
-            <label><input type="radio" name="b_rt" value="no" /> 새로고침해도 괜찮음</label>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" id="b_make"><span class="material-symbols-outlined">bolt</span>프롬프트 만들기</button>
-          <button class="btn btn-line" id="b_sample"><span class="material-symbols-outlined">auto_fix_high</span>예시로 채우기</button>
-        </div>
-
-        <div class="out" id="b_box">
-          <div class="substep"><h4><span class="material-symbols-outlined">description</span>① 기획 한 장 요약</h4>
-            <div class="code"><button class="copy" data-copy="b_plan"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_plan"></pre></div>
-          </div>
-          <div class="substep"><h4><span class="material-symbols-outlined">smart_toy</span>② AI에게 붙여넣을 프롬프트</h4>
-            <div class="code"><button class="copy" data-copy="b_prompt"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_prompt"></pre></div>
-          </div>
-          <div class="substep"><h4><span class="material-symbols-outlined">database</span>③ 백엔드 준비 코드 —
-              <span style="font-weight:600;color:var(--text-dim)"><span class="pname">Supabase</span></span></h4>
-            <div class="code"><button class="copy" data-copy="b_sql"><span class="material-symbols-outlined">content_copy</span>복사</button><pre id="b_sql"></pre></div>
-            <p style="font-size:13.5px;color:var(--text-dim)">칸 이름(field1, field2 …)은 앱이 만들어진 뒤 원하는 이름으로 바꿔도 됩니다.
-              바꿀 때는 이 코드와 앱 코드를 함께 바꿔야 합니다.</p>
-          </div>
+          <span class="plat" data-plat="sheets">Code.gs의 HEADERS와 저장 부분</span><span class="plat" data-plat="supabase">SQL의 표와 쓰기 정책</span><span class="plat" data-plat="firebase">보안 규칙의 칸 목록</span><span class="plat" data-plat="cloudflare">D1 표와 Worker의 insert</span>도 같이 바꿔야 합니다.
         </div>
       </div>
     </details>
@@ -4537,42 +4461,45 @@ service cloud.firestore {
         <span class="step-toggle">▼</span>
       </summary>
       <div class="step-content">
-        <p>3장에서는 헤매지 않도록 <b>GitHub Pages · Netlify · Cloudflare Pages</b> 세 가지만 안내했습니다.
-          (구글 시트는 Apps Script가 화면까지 서비스하므로 배포가 이미 끝나 있습니다.)
-          아래는 그 밖의 선택지와, 알아 두면 좋은 함정입니다.</p>
-
-        <div class="warn-box">
-          <strong>로그인 없이 쓰는 Drop 서비스는 1시간 뒤 사라집니다</strong>
-          <b>Netlify Drop</b>과 <b>Cloudflare Drop</b>은 계정 없이 파일을 끌어다 놓으면
-          바로 주소를 줍니다. 아주 편하지만,
-          <b>1시간 안에 로그인해서 내 계정으로 가져오지(claim) 않으면 사이트가 삭제됩니다.</b>
-          강사가 시범을 보일 때나 잠깐 확인할 때만 쓰고,
-          <b>교실에서 쓸 앱은 반드시 계정에 붙여 두세요.</b>
-        </div>
+        <p>3장은 <b>그 플랫폼 안에서 끝내는 방법</b>을 먼저 안내합니다.
+          (구글 시트 → Apps Script 웹앱 / Firebase → Hosting / Cloudflare → Pages)
+          여기는 그게 막혔을 때, 또는 다른 방법을 쓰고 싶을 때 보는 곳입니다.</p>
 
         <div class="substep">
-          <h4><span class="material-symbols-outlined">local_fire_department</span>Firebase Hosting</h4>
-          <p>Firebase를 쓰고 있다면 데이터와 화면을 한 프로젝트에 둘 수 있습니다.
-            다만 <b>콘솔에서 파일을 올리는 기능이 없어</b> 명령줄 도구(CLI)를 설치해야 합니다.
-            그래서 기본 실습에서는 뺐습니다.</p>
-          <div class="code">
-            <button class="copy" data-copy="fbhost"><span class="material-symbols-outlined">content_copy</span>복사</button>
-<pre id="fbhost"># Node.js가 먼저 설치되어 있어야 합니다
-npm install -g firebase-tools
+          <h4><span class="material-symbols-outlined">folder_copy</span>어느 플랫폼이든 쓸 수 있는 세 가지</h4>
+          <div class="tbl"><table>
+            <thead><tr><th style="width:150px">방법</th><th>이렇게 합니다</th></tr></thead>
+            <tbody>
+              <tr><td><b>GitHub Pages</b><br /><span style="font-size:12px;color:var(--text-dim)">브라우저만으로</span></td>
+                <td>New repository(Public) → Add file → Upload files → Commit →
+                  Settings → Pages → Branch: main → Save. 고친 기록이 남아 되돌리기 쉽습니다.</td></tr>
+              <tr><td><b>Netlify</b></td>
+                <td>로그인 → Add new project → Deploy manually에 폴더 드래그.
+                  고칠 때 프로젝트 화면에 다시 드래그.</td></tr>
+              <tr><td><b>Cloudflare Pages</b></td>
+                <td>Workers &amp; Pages → Create → Pages → Upload assets에 파일 드래그.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
 
-firebase login
-firebase init hosting     # public 폴더를 고르고, 그 안에 index.html을 둡니다
-firebase deploy           # 끝나면 ○○○.web.app 주소가 나옵니다</pre>
-          </div>
+        <div class="warn-box">
+          <strong>로그인 없이 쓰는 Drop 서비스는 1시간 뒤 삭제됩니다</strong>
+          <b>Netlify Drop</b>과 <b>Cloudflare Drop</b>은 계정 없이 바로 주소를 주지만,
+          1시간 안에 로그인해 내 계정으로 가져오지(claim) 않으면 사이트가 사라집니다.
+          시범용으로만 쓰고, <b>교실에서 쓸 앱은 계정에 붙여 두세요.</b>
         </div>
 
         <div class="substep">
           <h4><span class="material-symbols-outlined">merge</span>Cloudflare — 주소를 하나로 합치기</h4>
-          <p>Worker가 <b>화면(HTML)까지 같이 내려주게</b> 하면 주소가 하나로 줄고
-            CORS 설정도 필요 없어집니다. 경로로 나누면 됩니다.</p>
-          <div class="code">
-            <button class="copy" data-copy="cfmerge"><span class="material-symbols-outlined">content_copy</span>복사</button>
-<pre id="cfmerge">// /api 로 시작하면 데이터, 나머지 주소는 화면(HTML)을 돌려줍니다
+          <p>Worker가 화면(HTML)까지 내려주게 하면 주소가 하나로 줄고 CORS 설정도 사라집니다.</p>
+          <details class="codebox">
+            <summary>
+              <span class="cb-ar">▶</span>
+              <span class="cb-ic"><span class="material-symbols-outlined">code</span></span>
+              <span class="cb-nm"><b>경로로 나누기</b><span>13줄 · 눌러서 코드 보기</span></span>
+              <button class="cb-copy copy" type="button" data-copy="cfmerge"><span class="material-symbols-outlined">content_copy</span>복사</button>
+            </summary>
+            <div class="code"><pre id="cfmerge">// /api 로 시작하면 데이터, 나머지 주소는 화면(HTML)을 돌려줍니다
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -4585,24 +4512,16 @@ export default {
 
 // handleApi : 3장 Worker 코드의 저장·조회 부분을 이 함수로 옮겨 둡니다
 // APP_HTML  : 앱 화면 HTML을 백틱(`) 문자열 상수로 넣어 둡니다
-//             HTML 안에 백틱이나 ${ } 가 있으면 깨지니 주의하세요</pre>
-          </div>
+//             HTML 안에 백틱이나 ${ } 가 있으면 깨지니 주의하세요</pre></div>
+          </details>
         </div>
 
         <div class="substep">
-          <h4><span class="material-symbols-outlined">table_view</span>Apps Script — 화면을 따로 올리고 싶다면</h4>
-          <p>Apps Script 화면은 주소가 길고 위에 구글 안내 줄이 붙습니다.
-            짧은 주소를 쓰고 싶다면 화면만 GitHub Pages 등에 올리고,
-            데이터는 <b>/exec 주소로 fetch</b>하는 방식으로 바꿀 수 있습니다.
-            이때는 <b>POST에 헤더를 붙이지 마세요.</b> 붙이면 CORS 사전 요청 때문에 막힙니다.</p>
-          <p style="font-size:13.5px;color:var(--text-dim)">대신 google.script.run을 쓸 수 없게 되므로,
-            3장의 완성 코드를 그대로 쓸 수는 없습니다. 코드를 고쳐야 합니다.</p>
-        </div>
-
-        <div class="tip-box">
-          <strong><span class="material-symbols-outlined">emoji_objects</span> 고칠 일이 많은 앱이라면</strong>
-          <b>GitHub에 올려 두고 Netlify를 연결</b>해 두는 편이 가장 편합니다.
-          GitHub에서 파일을 고치면 사이트가 저절로 다시 배포되고, 지난 버전으로 되돌리기도 쉽습니다.
+          <h4><span class="material-symbols-outlined">table_view</span>Apps Script — 짧은 주소를 쓰고 싶다면</h4>
+          <p>Apps Script 주소는 길고 위에 구글 안내 줄이 붙습니다.
+            화면만 GitHub Pages에 올리고 데이터는 <b>/exec 주소로 fetch</b>할 수 있지만,
+            그러면 <b>google.script.run을 못 쓰게 되어</b> 3장 완성 코드를 고쳐야 합니다.
+            POST에 헤더를 붙이면 CORS로 막히는 점도 함께 주의하세요.</p>
         </div>
       </div>
     </details>
@@ -4684,8 +4603,7 @@ export default {
   <div class="container">
     <p>상반기에는 만든 앱을 서로 <b>보여주었습니다.</b></p>
     <p>이번에는 서로의 앱 <b>안으로 들어갑니다.</b><br />
-      옆 선생님이 만든 화면에 내 흔적이 남는 것,<br />
-      그게 함께 쓰는 앱의 첫 경험입니다.</p>
+      옆 선생님이 만든 화면에 내 흔적이 남는 것.</p>
     <div class="cta-fin">혼자 쓰는 앱에서, 함께 쓰는 앱으로.</div>
   </div>
 </section>
@@ -4726,6 +4644,7 @@ function bindCopy(scope){
     if(b.dataset.bound)return; b.dataset.bound='1';
     b.addEventListener('click',async e=>{
       e.preventDefault();
+      e.stopPropagation();   /* summary 안의 복사 버튼이 아코디언을 여닫지 않도록 */
       const el=$(b.dataset.copy); if(!el)return;
       /* textContent 를 씁니다. 접혀 있는 코드 블록은 innerText 가 빈 값이 됩니다 */
       try{await navigator.clipboard.writeText(el.textContent);
@@ -4742,6 +4661,17 @@ function bindCopy(scope){
   });
 }
 bindCopy();
+
+/* 읽기 진행 바 */
+(function(){
+  const bar=$('rprog'); if(!bar)return;
+  const upd=()=>{
+    const h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?Math.min(100,window.scrollY/h*100):0)+'%';
+  };
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd); upd();
+})();
 
 /* ═══ 실습 플랫폼 전환 ═══ */
 const PLAT={
@@ -4860,6 +4790,9 @@ if('IntersectionObserver' in window){
       if(!e.isIntersecting)return;
       const i=secEls.indexOf(e.target);
       navA.forEach((a,k)=>{a.classList.toggle('active',k===i);a.classList.toggle('passed',k<i);});
+      const sec=navA[i]&&navA[i].dataset.sec;
+      document.querySelectorAll('#tocNav .toc-ch > a').forEach(a=>
+        a.classList.toggle('cur',a.dataset.go===sec));
     });
   },{rootMargin:'-118px 0px -58% 0px',threshold:0});
   secEls.forEach(s=>io.observe(s));
@@ -4868,8 +4801,8 @@ if('IntersectionObserver' in window){
 /* TOC */
 const TOC=[
   {id:'prep',tag:'WARM UP',name:'시작 전 준비물',sub:[]},
-  {id:'ch1',tag:'CHAPTER 01',name:'혼자 쓰던 앱, 무엇이 아쉬웠을까',
-   sub:[['ch1-a1','두 종류의 앱'],['ch1-a2','서버가 필요해지는 순간'],['ch1-a3','3분 체험']]},
+  {id:'ch1',tag:'CHAPTER 01',name:'익숙한 에듀테크를 서버의 눈으로 보기',
+   sub:[['ch1-a1','늘 쓰던 도구를 뜯어보기'],['ch1-a2','서버가 필요해지는 순간'],['ch1-a3','3분 체험']]},
   {id:'ch2',tag:'CHAPTER 02',name:'어디에 연결할까',
    sub:[['ch2-a1','용어 네 개만 쉬운 말로'],['ch2-a2','네 가지 중 하나 고르기'],['ch2-a3','어떤 것을 고를까']]},
   {id:'ch3',tag:'CHAPTER 03',name:'함께 쓰는 앱, 일단 성공하기',
@@ -4878,12 +4811,12 @@ const TOC=[
         ['ch3-s5','⑤ 같이 써보기'],['ch3-s6','이 앱은 어떻게 동작하나요?'],
         ['ch3-s7','문제가 생겼나요?']]},
   {id:'ch4',tag:'CHAPTER 04',name:'교실에서 안전하게 쓰기',
-   sub:[['ch4-a1','안전한 설계 3원칙'],['ch4-a2','감정 데이터를 다루는 방식'],
-        ['ch4-a3','학습지원 소프트웨어와 학운위']]},
-  {id:'ch5',tag:'CHAPTER 05',name:'이제 내 앱으로 바꾸기',
-   sub:[['ch5-a0','안전 수정 프롬프트'],['ch5-a3','가장 쉬운 것부터'],
-        ['ch5-a4','구조 변형'],['ch5-a1','같은 뼈대로 만들 수 있는 것들'],
-        ['ch5-a2','내 아이디어를 프롬프트로']]},
+   sub:[['ch4-a1','안전한 설계 3원칙'],['ch4-a2','교사와 학생의 권한 구분'],
+        ['ch4-a3','학습지원 소프트웨어 해당 여부']]},
+  {id:'ch5',tag:'CHAPTER 05',name:'서버까지 포함한 내 수업 앱 만들기',
+   sub:[['ch5-a1','① 무엇을 만들지 정하기'],['ch5-a2','② 프롬프트 만들기'],
+        ['ch5-a3','③ 만들고 배포하기'],['ch5-a4','④ 서로 나누기'],
+        ['ch5-a0','이미 만든 앱을 고칠 때']]},
   {id:'ref',tag:'REFERENCE',name:'더 알아보기',
    sub:[['ref-1','플랫폼 상세 비교'],['ref-2','수정·삭제와 사용자 구분'],['ref-3','HTML 비밀번호에 대해'],
         ['ref-4','학습지원 소프트웨어 선정 기준'],['ref-5','자주 나오는 질문'],
