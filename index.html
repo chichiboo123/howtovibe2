@@ -28,7 +28,10 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+/* 아코디언을 여닫아 높이가 바뀌는 동안에는 스냅을 잠시 끕니다 */
+html.nosnap{scroll-snap-type:none;}
+@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto;}}
 body{
   font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
   font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);
@@ -99,7 +102,9 @@ a{color:inherit;}
 @media(max-width:600px){.stat-div{display:none;} .hero-stats{gap:14px 24px;}}
 
 /* ═══════ 섹션 ═══════ */
-.section{padding:52px 0;scroll-margin-top:calc(var(--nav-h) + var(--bar-h));}
+.section{padding:52px 0;scroll-margin-top:calc(var(--nav-h) + var(--bar-h));
+  scroll-snap-align:start;scroll-snap-stop:normal;}
+.hero,.cta{scroll-snap-align:start;}
 .section-alt{background:var(--bg-alt);}
 .section-header{margin-bottom:24px;}
 .section-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;
@@ -438,7 +443,8 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
 .donechk input:checked ~ span{color:var(--blue);}
 
 /* 스크롤에 따라 부드럽게 등장 */
-.rise{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;}
+.rise{opacity:0;transform:translateY(18px);
+  transition:opacity .55s cubic-bezier(.22,.7,.3,1),transform .55s cubic-bezier(.22,.7,.3,1);}
 .rise.in{opacity:1;transform:none;}
 @media(prefers-reduced-motion:reduce){.rise{opacity:1;transform:none;transition:none;}}
 
@@ -455,7 +461,25 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
   color:var(--text);margin-top:3px;}
 .nextnav .material-symbols-outlined{flex-shrink:0;color:var(--blue);font-size:22px;}
 
-/* 목차 버튼 위의 현재 위치 칩 */
+/* 오른쪽 단계 인디케이터 */
+.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:88;
+  display:none;flex-direction:column;gap:2px;}
+@media(min-width:1180px){.rail{display:flex;}}
+.rail a{display:flex;align-items:center;gap:10px;justify-content:flex-end;
+  padding:5px 0;text-decoration:none;cursor:pointer;}
+.rail .rl{font-size:12px;font-weight:700;color:var(--text-dim);white-space:nowrap;
+  opacity:0;transform:translateX(6px);transition:.2s;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:4px 11px;box-shadow:var(--shadow);}
+.rail a:hover .rl{opacity:1;transform:none;}
+.rail .rd{width:9px;height:9px;flex-shrink:0;background:var(--line);
+  transform:rotate(45deg);border-radius:2px;transition:.22s;}
+.rail a:hover .rd{background:var(--blue-2);}
+.rail a.on .rd{background:var(--red);width:11px;height:11px;}
+.rail a.on .rl{opacity:1;transform:none;color:var(--text);}
+.rail a.done .rd{background:var(--blue);}
+
+/* 목차 버튼 위의 현재 위치 칩 (좁은 화면에서만) */
 .here{position:fixed;right:20px;bottom:78px;z-index:90;background:var(--navy);color:#fff;
   border-radius:999px;padding:7px 14px;font-size:12px;font-weight:800;letter-spacing:.02em;
   box-shadow:0 4px 14px rgba(13,27,46,.28);opacity:0;transform:translateY(6px);
@@ -463,6 +487,7 @@ html[data-plat="cloudflare"] .plat:not([data-plat~="cloudflare"]){display:none !
   overflow:hidden;text-overflow:ellipsis;}
 [data-theme="dark"] .here{background:var(--blue);color:#0E141C;}
 .here.on{opacity:1;transform:none;}
+@media(min-width:1180px){.here{display:none;}}
 
 /* 코드 아코디언 (제목 + 복사 + 펼치기) */
 .codebox{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
@@ -4594,6 +4619,7 @@ export default {
   <div class="sub">VIBE CODING POST SEASON · 2026</div>
 </footer>
 
+<nav class="rail" id="rail" aria-label="섹션 이동"></nav>
 <div class="here" id="hereChip"></div>
 <div class="ptoast" id="ptoast"></div>
 
@@ -4652,12 +4678,17 @@ bindCopy();
   window.addEventListener('resize',upd); upd();
 })();
 
-/* 스크롤에 따라 블록이 하나씩 떠오르게 (JS로 클래스를 붙여, 스크립트가 없으면 그냥 보입니다) */
+/* 섹션에 들어서면 그 안의 블록이 차례로 떠오릅니다 (스크립트가 없으면 그냥 보입니다) */
 (function(){
   if(!('IntersectionObserver' in window))return;
   const targets=[...document.querySelectorAll(
     '.section .container > *, .cta .container > *')];
-  targets.forEach(el=>el.classList.add('rise'));
+  targets.forEach(el=>{
+    el.classList.add('rise');
+    /* 같은 섹션 안에서 몇 번째인지에 따라 조금씩 늦게 나타나게 */
+    const sib=[...el.parentElement.children].indexOf(el);
+    el.style.transitionDelay=Math.min(sib,5)*70+'ms';
+  });
   const io=new IntersectionObserver((es,ob)=>{
     es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); ob.unobserve(e.target); } });
   },{rootMargin:'0px 0px -8% 0px',threshold:0.03});
@@ -4835,6 +4866,17 @@ $('tocNav').innerHTML=TOC.map(c=>`
     ${c.sub.length?`<div class="toc-sub">${c.sub.map(s=>`<a data-go="${s[0]}">${s[1]}</a>`).join('')}</div>`:''}
   </div>`).join('');
 
+/* 아코디언으로 높이가 바뀌는 동안에는 스냅이 끼어들지 않게 합니다 */
+(function(){
+  let t=null;
+  document.addEventListener('toggle',e=>{
+    if(!(e.target instanceof HTMLDetailsElement))return;
+    document.documentElement.classList.add('nosnap');
+    clearTimeout(t);
+    t=setTimeout(()=>document.documentElement.classList.remove('nosnap'),800);
+  },true);
+})();
+
 /* 각 섹션 끝에 '다음 장' 버튼을 붙입니다 */
 (function(){
   const order=['prep',...TOC.map(c=>c.id)].filter((v,i,a)=>a.indexOf(v)===i);
@@ -4863,27 +4905,56 @@ $('tocNav').innerHTML=TOC.map(c=>`
   }
 })();
 
-/* 지금 보고 있는 장을 알려주는 칩 (스크롤 중에만 보입니다) */
+/* 오른쪽 단계 인디케이터 + 좁은 화면용 현재 위치 칩 */
 (function(){
-  const chip=$('hereChip'); if(!chip)return;
-  const names={prep:'준비물'};
-  TOC.forEach(c=>names[c.id]=c.name);
-  const ids=Object.keys(names);
-  let hideT=null;
+  const rail=$('rail'), chip=$('hereChip');
+  /* TOC 는 prep 으로 시작하고 ref 로 끝납니다. 번호는 장에만 붙입니다 */
+  let ch=0;
+  const steps=[{id:'hero',no:'',name:'시작'}].concat(TOC.map(c=>({
+    id:c.id,
+    no:c.id==='prep'?'00':(c.id==='ref'?'＋':String(++ch).padStart(2,'0')),
+    name:c.name
+  })));
+
+  if(rail){
+    rail.innerHTML=steps.map(st=>
+      '<a data-go="'+st.id+'" title="'+st.name+'"><span class="rl"></span><span class="rd"></span></a>'
+    ).join('');
+    [...rail.querySelectorAll('.rl')].forEach((el,i)=>{
+      el.textContent=(steps[i].no?steps[i].no+' · ':'')+steps[i].name;
+    });
+    rail.addEventListener('click',e=>{
+      const a=e.target.closest('[data-go]'); if(!a)return;
+      const el=$(a.dataset.go); if(!el)return;
+      window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-
+        (a.dataset.go==='hero'?0:124),behavior:'smooth'});
+    });
+  }
+
+  let hideT=null, last=-1;
   const upd=()=>{
-    let cur='';
-    for(const id of ids){
-      const el=$(id); if(!el)continue;
-      if(el.getBoundingClientRect().top<=160) cur=id;
+    let cur=0;
+    steps.forEach((st,i)=>{
+      const el=$(st.id);
+      if(el && el.getBoundingClientRect().top<=170) cur=i;
+    });
+    if(rail){
+      [...rail.children].forEach((a,i)=>{
+        a.classList.toggle('on',i===cur);
+        a.classList.toggle('done',i<cur);
+      });
     }
-    if(!cur){ chip.classList.remove('on'); return; }
-    const idx=ids.indexOf(cur);
-    chip.textContent=(cur==='prep'?'':'CH '+String(idx).padStart(2,'0')+' · ')+names[cur];
-    chip.classList.add('on');
-    clearTimeout(hideT);
-    hideT=setTimeout(()=>chip.classList.remove('on'),1600);
+    if(chip && cur!==0){
+      chip.textContent=(steps[cur].no?steps[cur].no+' · ':'')+steps[cur].name;
+      chip.classList.add('on');
+      clearTimeout(hideT);
+      hideT=setTimeout(()=>chip.classList.remove('on'),1600);
+    }
+    last=cur;
   };
   window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
 })();
 
 function tocOpen(v){$('toc').classList.toggle('on',v);$('tocOv').classList.toggle('on',v);}
