@@ -2642,7 +2642,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-t" data-step="3" id="m3-t">
             <header class="pane-h"><span class="pane-k"><i class="pk-n">3</i>해결방법</span><h2>필요한 기술을 찾고, 프롬프트로 옮기기</h2>
               <p>앞에서 떠올린 것과 비교해 보세요. 카드를 누르면 어떤 기술인지 나옵니다.</p></header>
-            <div class="techs"><button type="button" class="tc"><span class="need">바깥 정보 창구</span><span class="ans"><code>API · Open-Meteo</code></span><span class="why">날씨를 무료로 알려주는 창구. 가입도 키도 필요 없습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">학생 대신 주방이 묻기</span><span class="ans"><code>UrlFetchApp</code></span><span class="why">Code.gs가 바깥에 물어봅니다. 학생 브라우저가 직접 묻지 않아 키를 숨길 수 있습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">15개 도시를 한 번에</span><span class="ans"><code>fetchAll</code></span><span class="why">도시마다 하나씩 기다리지 않고 동시에 물어봅니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">반 전체가 열어도 한 번만</span><span class="ans"><code>CacheService</code></span><span class="why">받은 결과를 20분 보관해 다시 씁니다. 바깥 창구에 부담을 주지 않습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">정보의 출처</span><span class="ans"><code>출처 표기</code></span><span class="why">무료 데이터 대부분이 출처를 적는 것을 조건으로 합니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button></div>
+            <div class="techs"><button type="button" class="tc"><span class="need">바깥 정보 창구</span><span class="ans"><code>API · Open-Meteo</code></span><span class="why">날씨를 무료로 알려주는 창구. 가입도 키도 필요 없습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">학생 대신 주방이 묻기</span><span class="ans"><code>UrlFetchApp</code></span><span class="why">Code.gs가 바깥에 물어봅니다. 학생 브라우저가 직접 묻지 않아 키를 숨길 수 있습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">15개 도시를 한 번에</span><span class="ans"><code>위도·경도를 쉼표로 이어서</code></span><span class="why">도시마다 따로 묻지 않고 한 번에 묻습니다. 여러 명이 동시에 열어도 요청이 몰리지 않습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">반 전체가 열어도 한 번만</span><span class="ans"><code>CacheService</code></span><span class="why">받은 결과를 20분 보관해 다시 씁니다. 바깥 창구에 부담을 주지 않습니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button><button type="button" class="tc"><span class="need">정보의 출처</span><span class="ans"><code>출처 표기</code></span><span class="why">무료 데이터 대부분이 출처를 적는 것을 조건으로 합니다</span><span class="peek"><span class="material-icons-outlined">visibility</span>어떤 기술일까?</span></button></div>
             <button type="button" class="techs-all">모두 펼치기</button>
                     <div class="concept">
           <span class="material-icons-outlined">swap_calls</span>
@@ -2666,7 +2666,7 @@ if (document.readyState === 'loading') {
 [외부 데이터 — 이 앱의 핵심]
 - 날씨는 키가 필요 없는 Open-Meteo API 를 써줘.
 - API 는 화면에서 부르지 말고 Code.gs 에서 UrlFetchApp 으로 불러줘.
-  여러 도시는 UrlFetchApp.fetchAll 로 한 번에.
+  여러 도시는 위도·경도를 쉼표로 이어 붙여 한 번의 요청으로 물어봐줘.
 - 받은 결과는 CacheService 로 20분 보관해서, 반 전체가 열어도 API 는 한 번만 부르게 해줘.
 - 한 도시가 실패해도 나머지는 보이게 해줘.
 - 화면 아래에 데이터 출처(Open-Meteo.com, CC BY 4.0)를 적어줘.
@@ -2789,29 +2789,32 @@ function getWeather() {
   }
 }
 
-/** Open-Meteo 에 도시마다 한 번씩, 동시에 물어봅니다 */
+/**
+ * Open-Meteo 에 15개 도시를 '한 번에' 물어봅니다.
+ * 도시마다 따로 물어보면 연수처럼 여러 명이 동시에 setup 을 누를 때
+ * 요청이 몰려 거절될 수 있습니다. 위도·경도를 쉼표로 이어 붙이면 한 번이면 됩니다.
+ */
 function fetchWeather_() {
-  var requests = CITIES.map(function (c) {
-    return {
-      url: 'https://api.open-meteo.com/v1/forecast' +
-        '?latitude=' + c.lat + '&amp;longitude=' + c.lon +
-        '&amp;current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day' +
-        '&amp;daily=temperature_2m_max,temperature_2m_min' +
-        '&amp;timezone=auto&amp;forecast_days=1',
-      muteHttpExceptions: true
-    };
-  });
-  var responses = UrlFetchApp.fetchAll(requests);
+  var lats = CITIES.map(function (c) { return c.lat; }).join(',');
+  var lons = CITIES.map(function (c) { return c.lon; }).join(',');
+  var zones = CITIES.map(function () { return 'auto'; }).join(',');   // 도시마다 현지 시간대
+  var url = 'https://api.open-meteo.com/v1/forecast' +
+    '?latitude=' + lats + '&amp;longitude=' + lons +
+    '&amp;current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day' +
+    '&amp;daily=temperature_2m_max,temperature_2m_min' +
+    '&amp;timezone=' + zones + '&amp;forecast_days=1';
 
-  var cities = [];
-  responses.forEach(function (res, i) {
-    var c = CITIES[i];
-    if (res.getResponseCode() !== 200) {
-      cities.push({ name: c.name, country: c.country, error: true });
-      return;
-    }
-    var j = JSON.parse(res.getContentText());
-    cities.push({
+  var res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+  if (res.getResponseCode() !== 200) {
+    throw new Error('날씨 서버에 연결하지 못했습니다. 잠시 뒤 다시 시도해주세요.');
+  }
+  var list = JSON.parse(res.getContentText());
+  if (!Array.isArray(list)) list = [list];       // 도시가 하나뿐이면 목록이 아니라 하나로 옵니다
+
+  var cities = CITIES.map(function (c, i) {      // 답은 CITIES 와 같은 순서로 옵니다
+    var j = list[i];
+    if (!j || !j.current || !j.daily) return { name: c.name, country: c.country, error: true };
+    return {
       name: c.name,
       country: c.country,
       temp: Math.round(j.current.temperature_2m),
@@ -2822,11 +2825,8 @@ function fetchWeather_() {
       max: Math.round(j.daily.temperature_2m_max[0]),
       min: Math.round(j.daily.temperature_2m_min[0]),
       offset: j.utc_offset_seconds                                  // 현지 시각 계산용
-    });
+    };
   });
-  if (!cities.some(function (c) { return !c.error; })) {
-    throw new Error('날씨 서버에 연결하지 못했습니다. 잠시 뒤 다시 시도해주세요.');
-  }
   return { updatedAt: new Date().toISOString(), cities: cities };
 }
 
@@ -4467,7 +4467,7 @@ function callPublicApi_(baseUrl, params) {
             <tbody>
               <tr><td><b>동시에 실행</b></td><td>30개</td><td>한 반이 동시에 눌러도 대부분 괜찮습니다. 자동 갱신 간격을 너무 짧게(1~2초) 하지 마세요.</td></tr>
               <tr><td><b>한 번 실행 시간</b></td><td>6분</td><td>문집처럼 큰 작업도 보통 수십 초 안에 끝납니다.</td></tr>
-              <tr><td><b>외부 요청(UrlFetch)</b></td><td>하루 20,000번</td><td>[3]은 캐시 덕분에 20분마다 15번이면 충분합니다.</td></tr>
+              <tr><td><b>외부 요청(UrlFetch)</b></td><td>하루 20,000번</td><td>[3]은 15개 도시를 한 번에 묻고 20분 동안 보관하므로, 20분마다 1번이면 충분합니다.</td></tr>
               <tr><td><b>트리거 실행 시간</b></td><td>하루 90분</td><td>매일 한 번 도는 기록용 트리거는 몇 초면 끝납니다.</td></tr>
             </tbody>
           </table>
