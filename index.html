@@ -761,6 +761,75 @@ html[data-present] .present-chip{display:inline-flex;}
 .btn-primary{background:var(--blue);color:#fff;} .btn-primary:hover{background:var(--blue-d);}
 .bar{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin-top:14px;}
 .bar i{display:block;height:100%;width:0;background:var(--grass);border-radius:999px;transition:width .3s;}
+
+/* ══════ v5 — 넘침 방지 · 다듬기 ══════ */
+/* 그리드 안의 긴 코드가 칸을 밀어내지 않게 */
+.ref-grid{grid-template-columns:minmax(0,1fr);}
+@media (min-width:1024px){.ref-grid{grid-template-columns:260px minmax(0,1fr);}}
+.ref-grid>*,.kit-grid>*,.cards>*,.fncards>*,.techs>*,.vs>*,.trio>*,.howto>*,.frow>*,.kitchen>*,.prompt-wrap>*,.bento>*,.blockrow>*,.frame4>*{min-width:0;}
+.code,.tbl{max-width:100%;}
+/* 줄바꿈: 제목은 고르게, 본문은 외톨이 낱말 없이 */
+h1,h2,h3,.idea q,.check h3{text-wrap:balance;}
+p,li,.d,.why,.w,.kc2-can{text-wrap:pretty;}
+/* 모바일 상단 바: 찾기 아이콘이 사라지던 문제 */
+@media (max-width:900px){.search-btn span.material-icons-outlined{display:inline-block;}}
+/* 복사 버튼이 첫 줄을 가리지 않게 — 코드 상자 위쪽에 띠를 둡니다 */
+.code:has(> .copy) > pre{padding-top:54px;}
+.code:has(> .copy)::before{content:"";position:absolute;left:0;right:0;top:0;height:46px;border-bottom:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(rgba(255,255,255,.035),rgba(255,255,255,.015));pointer-events:none;}
+.code:has(> .copy)::after{content:"";position:absolute;left:16px;top:19px;width:8px;height:8px;border-radius:50%;
+  background:#FF6B6F;box-shadow:14px 0 0 #F5B547,28px 0 0 #3DD68C;opacity:.75;pointer-events:none;}
+.code .copy{top:7px;right:8px;box-shadow:none;}
+/* AI에게 주는 글(프롬프트)은 읽기 쉬운 본문 글꼴로 */
+.code.wrap pre{font-family:var(--body);font-size:14.2px;line-height:1.75;letter-spacing:-.005em;}
+/* 입력칸은 내용(안내 문구)만큼 늘어납니다 */
+textarea.inp{min-height:100px;field-sizing:content;}
+.note textarea{field-sizing:content;}
+/* 카드 · 아코디언 손맛 */
+.tile{transition:border-color .2s,transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;}
+.tile:hover{transform:translateY(-2px);box-shadow:var(--lift);}
+.step > summary{transition:background .15s;}
+.step > summary:hover{background:color-mix(in srgb,var(--sunk) 55%,transparent);}
+.step[open]{border-color:color-mix(in srgb,var(--ink) 30%,var(--line));box-shadow:var(--lift);}
+.more > summary .material-icons-outlined,.kc2-more > summary .material-icons-outlined{transition:transform .2s;}
+.radios input{accent-color:var(--blue);}
+/* 프롬프트 상자가 페이지 여백(.wrap)을 물려받아 안쪽으로 밀리던 문제 */
+.code.wrap{max-width:none;margin:0;padding:0;}
+/* 좁은 화면 표: 줄마다 카드처럼 쌓습니다 */
+@media (max-width:600px){
+  .tbl{border:none;background:none;overflow:visible;}
+  .tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%;}
+  .tbl thead{display:none;}
+  .tbl tr{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 0;margin-bottom:8px;}
+  .tbl td{border:none;padding:6px 14px;}
+  .tbl td:first-child{font-weight:800;color:var(--ink);padding-top:10px;}
+  .tbl td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:12px;font-weight:800;color:var(--faint);margin-bottom:1px;}
+  .kit-tabs{display:grid;grid-template-columns:1fr 1fr;width:100%;}
+  .kit-tabs button{justify-content:center;padding:0 8px;}
+}
+.tb-lab{font-style:normal;font-size:12px;font-weight:800;color:var(--faint);align-self:center;margin-right:2px;white-space:nowrap;}
+@media (max-width:900px){.tb-lab{display:grid;place-items:center;padding:0 6px;}}
+.kit-tabs button{white-space:nowrap;}
+@media (max-width:400px){.kit-tabs button{font-size:13.5px;gap:5px;} .kit-tabs button > .material-icons-outlined{display:none;}}
+@media (min-width:901px) and (max-width:1100px){
+  .search-btn span:not(.material-icons-outlined),.search-btn kbd{display:none;}
+  .search-btn{padding:0;width:38px;justify-content:center;}
+  .tb-nav a{padding:0 10px;} .tb-inn a{width:30px;padding:0;} .tb-in{gap:12px;}
+}
+/* 좁은 화면 단계 목록: 지금 단계만 이름을 보여 줍니다 */
+@media (max-width:560px){
+  .steps{gap:2px;}
+  .steps button{padding:6px;gap:7px;}
+  .steps button:not(.cur) .t{display:none;}
+  .steps li:has(.cur){flex:1;}
+}
+/* 좁은 화면 부록 목차: 칩으로 접어 둡니다 */
+@media (max-width:1023px){
+  .refnav{display:flex;flex-wrap:wrap;gap:6px;padding:14px;}
+  .refnav h4{flex-basis:100%;margin:6px 0 0;}
+  .refnav h4:first-child{margin-top:0;}
+  .refnav a{padding:6px 11px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;background:var(--paper);}
+}
 </style>
 </head>
 <body>
@@ -769,7 +838,7 @@ html[data-present] .present-chip{display:inline-flex;}
   <a class="brand" href="#/"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="17" height="17" rx="5" fill="var(--blue)"/><rect x="12" y="12" width="17" height="17" rx="5" fill="var(--ink)" fill-opacity=".9"/></svg><b>바이브코딩 : 포스트시즌</b></a>
   <nav class="tb-nav" id="tbNav" aria-label="주요 메뉴">
     <a href="#/warmup" data-nav="warmup">워밍업</a>
-    <span class="tb-inn"><a href="#/m1" data-nav="m1" title="실습 1 기록하기">1</a><a href="#/m2" data-nav="m2" title="실습 2 실시간 공유">2</a><a href="#/m3" data-nav="m3" title="실습 3 외부 데이터">3</a><a href="#/m4" data-nav="m4" title="실습 4 구글도구 연결">4</a></span>
+    <span class="tb-inn"><em class="tb-lab">실습</em><a href="#/m1" data-nav="m1" title="실습 1 기록하기">1</a><a href="#/m2" data-nav="m2" title="실습 2 실시간 공유">2</a><a href="#/m3" data-nav="m3" title="실습 3 외부 데이터">3</a><a href="#/m4" data-nav="m4" title="실습 4 구글도구 연결">4</a></span>
     <a href="#/stove" data-nav="stove">내 앱 설계</a>
     <a href="#/kit" data-nav="kit">도구 모음</a>
     <a href="#/ref" data-nav="ref">부록</a>
@@ -4053,7 +4122,7 @@ fetch 로 바꾸지 말고 google.script.run 을 계속 써주세요.
         </div>
         <div class="kit-grid">
       <article class="kc2" data-tags="none" id="api-weather">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">partly_cloudy_day</span></span><div><b>Open-Meteo 날씨</b><span>전 세계 현재 날씨 · 7일 예보 · 일출 일몰</span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">wb_cloudy</span></span><div><b>Open-Meteo 날씨</b><span>전 세계 현재 날씨 · 7일 예보 · 일출 일몰</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>세계 도시 날씨 비교, 현장체험학습 날씨 확인, 날씨와 기분 기록</span></p>
         <p class="kc2-src">open-meteo.com · 비상업·교육 무료 · 출처 표기(CC BY 4.0)</p>
@@ -4879,6 +4948,9 @@ function showStep(view,k){
   const total=parseInt(sec.dataset.steps,10);
   const pn=sec.querySelector('.prog-n'), pb=sec.querySelector('.prog-bar i');
   if(pn) pn.textContent=k; if(pb) pb.style.width=(k/total*100)+'%';
+  /* 좁은 화면: 가로로 넘치는 단계 목록에서 지금 단계가 보이게 */
+  const cur=sec.querySelector('.steps button.cur'), ol=sec.querySelector('.steps');
+  if(cur&&ol&&ol.scrollWidth>ol.clientWidth){const d=cur.getBoundingClientRect().left-ol.getBoundingClientRect().left;ol.scrollLeft+=d-(ol.clientWidth-cur.offsetWidth)/2;}
   paintTopNav();
 }
 window.addEventListener('hashchange',render);
@@ -4963,7 +5035,8 @@ document.querySelectorAll('.cchk').forEach(list=>{
 });
 
 /* ── 기술 카드 ── */
-document.querySelectorAll('.tc').forEach(c=>c.addEventListener('click',()=>{c.classList.toggle('open');c.setAttribute('aria-expanded',c.classList.contains('open'));}));
+document.querySelectorAll('.tc').forEach(c=>{c.setAttribute('aria-expanded','false');c.addEventListener('click',()=>{c.classList.toggle('open');c.setAttribute('aria-expanded',c.classList.contains('open'));
+  const all=c.closest('.techs'), b=all&&all.nextElementSibling; if(b&&b.classList.contains('techs-all')) b.textContent=[...all.querySelectorAll('.tc')].every(x=>x.classList.contains('open'))?'모두 접기':'모두 펼치기';});});
 document.querySelectorAll('.techs-all').forEach(b=>b.addEventListener('click',()=>{
   const cards=b.previousElementSibling.querySelectorAll('.tc'); const open=[...cards].some(c=>!c.classList.contains('open'));
   cards.forEach(c=>c.classList.toggle('open',open)); b.textContent=open?'모두 접기':'모두 펼치기';
@@ -4998,6 +5071,11 @@ function bindCheck(l,b,t){
     txt.textContent=n+' / '+boxes.length+' 완료'+(n===boxes.length?', 준비 끝!':'');};
   boxes.forEach(x=>{x.checked=!!S.chk[x.id]; x.addEventListener('change',()=>{S.chk[x.id]=x.checked?1:0;persist();upd();});}); upd();
 }
+/* 좁은 화면에서 표를 카드로 쌓을 때 쓸 칸 이름 */
+document.querySelectorAll('.tbl table').forEach(t=>{
+  const hs=t.tHead?[...t.tHead.rows[0].cells].map(c=>c.textContent.trim()):[];
+  [...t.tBodies].forEach(b=>[...b.rows].forEach(r=>[...r.cells].forEach((c,i)=>{if(hs[i]) c.dataset.label=hs[i];})));
+});
 bindCheck('prepList','prepBar','prepTxt');
 bindCheck('safeList','safeBar','safeTxt');
 
@@ -5022,6 +5100,12 @@ const IDX=[];
   document.querySelectorAll('#v-ref details.step').forEach(d=>{
     const t=d.querySelector('h3').textContent.trim(); const sub=(d.querySelector('.step-tw p')||{}).textContent||'';
     add(t,'부록 · '+sub,'menu_book',{id:d.id},d.textContent.slice(0,1500));
+  });
+  add('도구 모음','외부 데이터 API · 구글 도구','widgets',{route:'#/kit'},'api 연동 코드');
+  add('부록','오류 해결 · 사용 한도 · 보안 · 교실 적용','menu_book',{route:'#/ref'});
+  document.querySelectorAll('#v-kit .kc2[id]').forEach(c=>{
+    const t=c.querySelector('.kc2-h b'), sub=c.querySelector('.kc2-h > div > span');
+    add(t?t.textContent.trim():c.id,'도구 모음 · '+(sub?sub.textContent.trim():''),c.classList.contains('g')?'apps':'public',{id:c.id},c.textContent.slice(0,600));
   });
   ['m1','m2','m3','m4'].forEach((m,i)=>{
     add('실습 '+(i+1)+' 코드 (Code.gs, index.html)','바로 복사하기','content_copy',{id:m+'-s2'});
@@ -5133,7 +5217,7 @@ const GLOSS={
     const used=new Set();
     const walker=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT,{acceptNode(n){
       const p=n.parentElement;
-      if(!p||p.closest('pre,code,button,a,summary,label,textarea,input,.term,h2,h3,.pane-k,.steps,.tc,.keys .q')) return NodeFilter.FILTER_REJECT;
+      if(!p||p.closest('pre,code,button,a,summary,label,textarea,input,.term,h2,h3,h4,.rt-h,.kc-t,.kc-mid,.pane-k,.steps,.tc,.keys .q')) return NodeFilter.FILTER_REJECT;
       return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP;
     }});
     const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
@@ -5371,18 +5455,18 @@ function buildPrompt(){
   const keep=val('b_keep'), outs=val('b_out'), api=val('b_api'), gdoc=val('b_doc');
 
   $('b_plan').textContent=
-'[앱 이름]   '+name+'\n'+
-'[누가]      '+grade+'\n'+
-'[문제상황]  '+why+'\n'+
-'[아이디어]  '+idea+'\n'+
+'[앱 이름] '+name+'\n'+
+'[누가] '+grade+'\n'+
+'[문제상황] '+why+'\n'+
+'[아이디어] '+idea+'\n'+
 '[기능 블록] '+(fns.length?fns.map(f=>FN_NAME[f]).join(' + '):'(고르지 않음)')+'\n'+
-'[입력]      '+fl.join(' / ')+'\n'+
-(has('rec')?'[기록]      '+(keep||'날짜와 함께 저장해 다시 보기')+'\n':'')+
+'[입력] '+fl.join(' / ')+'\n'+
+(has('rec')?'[기록] '+(keep||'날짜와 함께 저장해 다시 보기')+'\n':'')+
 (has('share')?'[함께 보기] '+(outs||'모두의 입력이 함께 보이게')+'\n':'')+
 (has('api')?'[외부 데이터] '+(api||'(어떤 데이터인지 정하기)')+'\n':'')+
-(has('gdoc')?'[결과물]    '+(gdoc||'(어떤 문서로 만들지 정하기)')+'\n':'')+
+(has('gdoc')?'[결과물] '+(gdoc||'(어떤 문서로 만들지 정하기)')+'\n':'')+
 '[학생 구분] '+(nick?'수업 코드 + 별명(필명)':'구분하지 않음 (완전 익명)')+' · 관리는 교사가 시트에서\n'+
-'[기술]      구글 스프레드시트 + Apps Script 웹앱';
+'[기술] 구글 스프레드시트 + Apps Script 웹앱';
 
   const sec=[];
   sec.push(grade+'이 교실에서 사용할 웹앱을 만들고 싶어. 앱 이름은 \''+name+'\'이야.');
