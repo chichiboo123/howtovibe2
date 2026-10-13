@@ -806,7 +806,8 @@ textarea.inp{min-height:100px;field-sizing:content;}
   .tbl td{border:none;padding:6px 14px;}
   .tbl td:first-child{font-weight:800;color:var(--ink);padding-top:10px;}
   .tbl td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:12px;font-weight:800;color:var(--faint);margin-bottom:1px;}
-  .kit-tabs{display:grid;grid-template-columns:1fr 1fr;width:100%;}
+  .kit-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;}
+  .kit-tabs button{font-size:13.5px;gap:4px;padding:0 4px;} .kit-tabs button > .material-icons-outlined{display:none;}
   .kit-tabs button{justify-content:center;padding:0 8px;}
 }
 .tb-lab{font-style:normal;font-size:12px;font-weight:800;color:var(--faint);align-self:center;margin-right:2px;white-space:nowrap;}
@@ -1154,24 +1155,26 @@ ul.plain b{margin-right:6px;}
 .hx-card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--fd) 45%,transparent);box-shadow:0 26px 50px -30px color-mix(in srgb,var(--fd) 70%,transparent);}
 .hx-art{width:100%;height:auto;aspect-ratio:320/150;margin-bottom:10px;overflow:visible;}
 .hx-art *{vector-effect:non-scaling-stroke;}
-.hx-art.a3{overflow:hidden;}
+.hx-art.a3{overflow:visible;}
+.hx-art .draw,.hx-art .wgrid{vector-effect:none;}
 .hx-k{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--fd);}
 .hx-card b{font-size:clamp(20px,2vw,24px);font-weight:800;letter-spacing:-.04em;color:var(--ink);}
 .hx-d{font-size:14px;line-height:1.6;color:var(--muted);}
 /* 1 점에서 선으로 */
-.a1 .track{fill:none;stroke:color-mix(in srgb,var(--fd) 18%,transparent);stroke-width:2;stroke-dasharray:2 8;stroke-linecap:round;}
-.a1 .draw{fill:none;stroke:var(--fd);stroke-width:3;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;}
+.a1 .track{fill:none;stroke:color-mix(in srgb,var(--fd) 22%,transparent);stroke-width:2;stroke-dasharray:2 7;stroke-linecap:round;stroke-linejoin:round;}
+.a1 .draw{fill:none;stroke:var(--fd);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;}
 .a1 .pt{fill:var(--surface);stroke:var(--fd);stroke-width:2.5;transform-box:fill-box;transform-origin:center;}
 .a1 .pt.end{fill:var(--fd);}
 .hx-card.play .a1 .pt{animation:hxPop .5s cubic-bezier(.3,1.6,.5,1) both calc(.7s + var(--i)*.12s);}
 .hx-card.play .a1 .draw{animation:hxDraw 1.6s cubic-bezier(.6,0,.2,1) forwards 1.2s;}
 /* 2 거울에서 창으로 */
-.a2 .frame,.a2 .pane{fill:none;stroke:var(--fd);stroke-width:2.5;stroke-linecap:round;}
-.a2 .pane{stroke-dasharray:250;stroke-dashoffset:250;}
+.a2 .frame,.a2 .wgrid{fill:none;stroke:var(--fd);stroke-width:2.5;stroke-linecap:round;}
+.a2 .wgrid{stroke-dasharray:1;stroke-dashoffset:1;}
 .a2 .me{fill:var(--fd);}
 .a2 .you{fill:color-mix(in srgb,var(--fd) 45%,var(--surface));transform-box:fill-box;transform-origin:center;opacity:0;}
 .a2 .ray{fill:none;stroke:color-mix(in srgb,var(--fd) 35%,transparent);stroke-width:2;stroke-dasharray:3 7;stroke-linecap:round;opacity:0;}
-.hx-card.play .a2 .pane{animation:hxDraw 1s cubic-bezier(.6,0,.2,1) forwards .9s;}
+.hx-card.play .a2 .wgrid{animation:hxDraw .7s cubic-bezier(.6,0,.2,1) forwards .9s;}
+.hx-card.play .a2 .wgrid.p2{animation-delay:1.15s;}
 .hx-card.play .a2 .you{animation:hxPopIn .55s cubic-bezier(.3,1.6,.5,1) forwards calc(1.5s + var(--i)*.16s);}
 .hx-card.play .a2 .ray{animation:hxFadeIn .8s ease forwards 2.1s;}
 /* 3 우물에서 바다로 */
@@ -1196,10 +1199,59 @@ ul.plain b{margin-right:6px;}
 @keyframes hxWave{from{transform:translateX(0);}to{transform:translateX(40px);}}
 /* 움직임 줄이기: 처음부터 완성된 그림 */
 @media (prefers-reduced-motion:reduce){
-  .a1 .draw,.a2 .pane{stroke-dashoffset:0;} .a2 .you,.a2 .ray,.a3 .sun,.a3 .sea{opacity:1;} .a3 .well{opacity:0;} .a3 .horizon{transform:none;}
+  .a1 .draw,.a2 .wgrid{stroke-dashoffset:0;} .a2 .you,.a2 .ray,.a3 .sun,.a3 .sea{opacity:1;} .a3 .well{opacity:0;} .a3 .horizon{transform:none;}
 }
 .home-foot{padding-top:8px;}
 html[data-present] .hx-bg{opacity:.6;}
+
+/* ══════ 도구 모음 v2 ══════ */
+.kit-bar{flex-direction:column;align-items:flex-start;gap:8px;}
+.kit-one{font-size:13.5px;color:var(--muted);}
+.kit-one b{color:var(--ink-2);}
+.kc2{gap:8px;}
+.kc2-h b{font-size:16px;}
+.kc2-idea{background:none;padding:0;font-size:13.8px;color:var(--ink-2);}
+.kc2-more{margin-top:auto;}
+.kc2-more .kc2-p > span{margin-top:14px;}
+.kc2-more > .code{margin-top:10px;}
+.kc2-more .kc2-src{margin-top:10px;}
+/* UI·UX 사전 */
+.dic{display:flex;flex-direction:column;gap:14px;max-width:880px;}
+.dic-hero{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 20px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--lift);}
+.dic-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--blue-tint);flex-shrink:0;}
+.dic-ic .material-icons-outlined{color:var(--blue);font-size:24px;}
+.dic-hero > div{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px;}
+.dic-hero b{font-size:16.5px;letter-spacing:-.02em;}
+.dic-hero > div span{font-size:14px;color:var(--muted);line-height:1.55;}
+.dic-search{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 14px;border-radius:16px;background:var(--surface);border:1.5px solid var(--line);}
+.dic-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 18%,transparent);}
+.dic-search > .material-icons-outlined{color:var(--faint);}
+.dic-search input{flex:1;min-width:0;border:none;outline:none;background:none;font:inherit;font-size:15.5px;color:var(--ink);height:40px;}
+.dic-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:-6px;}
+.dic-chips a{height:34px;display:inline-flex;align-items:center;padding:0 13px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink-2);text-decoration:none;transition:border-color .15s,color .15s;}
+.dic-chips a:hover{border-color:var(--blue);color:var(--blue);}
+.dic-tip{display:flex;gap:9px;align-items:flex-start;font-size:14px;color:var(--ink-2);line-height:1.6;background:var(--blue-tint);border-radius:var(--r-md);padding:12px 14px;}
+.dic-tip .material-icons-outlined{color:var(--blue);font-size:19px;}
+.dic-link{display:inline-flex;align-items:center;gap:5px;font-size:13.5px;font-weight:700;color:var(--blue);text-decoration:none;}
+.dic-link .material-icons-outlined{font-size:16px;}
+
+/* ══════ 자주 찾는 질문 ══════ */
+#v-ref .ref-grid{grid-template-columns:minmax(0,1fr) !important;max-width:880px;}
+.faq-bar{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;max-width:880px;}
+.faq-search{display:flex;align-items:center;gap:8px;padding:0 14px;height:52px;border-radius:16px;background:var(--surface);border:1.5px solid var(--line);}
+.faq-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 18%,transparent);}
+.faq-search .material-icons-outlined{color:var(--faint);}
+.faq-search input{flex:1;min-width:0;border:none;outline:none;background:none;font:inherit;font-size:16px;color:var(--ink);}
+.faq-empty{color:var(--muted);font-size:14.5px;padding:20px 0;}
+#v-ref .refgroup{font-size:15px;font-weight:800;color:var(--muted);margin:26px 0 10px;letter-spacing:-.01em;}
+#v-ref .refgroup .material-icons-outlined{font-size:19px;}
+#v-ref .refgroup:first-child{margin-top:0;}
+.step.faq{margin-bottom:8px;}
+.step.faq > summary{padding:14px 16px;}
+.step.faq .step-num{background:var(--blue-tint);}
+.step.faq .step-num .material-icons-outlined{color:var(--blue);}
+.step.faq .step-tw h3{font-size:16px;}
+.step.faq.hide{display:none;}
 /* 좁은 화면 단계 목록: 지금 단계만 이름을 보여 줍니다 */
 @media (max-width:560px){
   .steps{gap:2px;}
@@ -1225,7 +1277,7 @@ html[data-present] .hx-bg{opacity:.6;}
     <a href="#/m1" data-nav="m">실습</a>
     <a href="#/stove" data-nav="stove">내 앱 설계</a>
     <a href="#/kit" data-nav="kit">도구 모음</a>
-    <a href="#/ref" data-nav="ref">부록</a>
+    <a href="#/ref" data-nav="ref">자주 찾는 질문</a>
   </nav>
   <button class="icon-btn" type="button" data-cmdk aria-label="찾기 (Ctrl K)" title="찾기 (Ctrl K)"><span class="material-icons-outlined">search</span></button>
   <button class="icon-btn tb-menu" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false"><span class="material-icons-outlined">menu</span></button>
@@ -1250,11 +1302,9 @@ html[data-present] .hx-bg{opacity:.6;}
         <div class="hx-trio">
           <a class="hx-card fn1" href="#/m1" style="--d:0s">
             <svg class="hx-art a1" viewBox="0 0 320 150" aria-hidden="true">
-              <path class="track" d="M24 122 C80 118 96 92 140 86 S214 52 296 26"/>
-              <path class="draw" d="M24 122 C80 118 96 92 140 86 S214 52 296 26"/>
-              <circle class="pt" style="--i:0" cx="24" cy="122" r="6"/><circle class="pt" style="--i:1" cx="84" cy="112" r="6"/>
-              <circle class="pt" style="--i:2" cx="140" cy="86" r="6"/><circle class="pt" style="--i:3" cx="204" cy="62" r="6"/>
-              <circle class="pt end" style="--i:4" cx="296" cy="26" r="9"/>
+              <path class="track" d="M24 118 L90 104 L156 80 L222 62 L296 30"/>
+              <path class="draw" pathLength="100" d="M24 118 L90 104 L156 80 L222 62 L296 30"/>
+              <circle class="pt" style="--i:0" cx="24" cy="118" r="6"/><circle class="pt" style="--i:1" cx="90" cy="104" r="6"/><circle class="pt" style="--i:2" cx="156" cy="80" r="6"/><circle class="pt" style="--i:3" cx="222" cy="62" r="6"/><circle class="pt end" style="--i:4" cx="296" cy="30" r="8"/>
             </svg>
             <span class="hx-k">실습 1</span>
             <b>점에서 선으로</b>
@@ -1263,7 +1313,7 @@ html[data-present] .hx-bg{opacity:.6;}
           <a class="hx-card fn2" href="#/m2" style="--d:.12s">
             <svg class="hx-art a2" viewBox="0 0 320 150" aria-hidden="true">
               <rect class="frame" x="96" y="14" width="128" height="122" rx="18"/>
-              <path class="pane" d="M160 14 V136 M96 75 H224"/>
+              <path class="wgrid" pathLength="1" d="M160 14 V136"/><path class="wgrid p2" pathLength="1" d="M96 75 H224"/>
               <circle class="me" cx="128" cy="44" r="12"/>
               <circle class="you" style="--i:0" cx="192" cy="44" r="12"/><circle class="you" style="--i:1" cx="128" cy="106" r="12"/><circle class="you" style="--i:2" cx="192" cy="106" r="12"/>
               <path class="ray" d="M70 75 H30 M250 75 H290"/>
@@ -1276,8 +1326,9 @@ html[data-present] .hx-bg{opacity:.6;}
             <svg class="hx-art a3" viewBox="0 0 320 150" aria-hidden="true">
               <circle class="sun" cx="236" cy="40" r="14"/>
               <path class="horizon" d="M20 78 H300"/>
-              <g class="sea"><path class="wave" d="M-40 102 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
-              <path class="wave w2" d="M-40 124 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/></g>
+              <defs><clipPath id="hxSeaClip"><rect x="20" y="84" width="280" height="56"/></clipPath></defs>
+              <g class="sea" clip-path="url(#hxSeaClip)"><path class="wave" d="M-20 104 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
+              <path class="wave w2" d="M-20 126 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/></g>
               <ellipse class="well" cx="160" cy="78" rx="24" ry="6"/>
             </svg>
             <span class="hx-k">실습 3 · 4</span>
@@ -1304,7 +1355,6 @@ html[data-present] .hx-bg{opacity:.6;}
 
   <section class="view" id="v-warmup" data-view="warmup" data-steps="4">
     <div class="wrap stage-v">
-      <div class="crumb"><a href="#/">홈</a><span class="material-icons-outlined">chevron_right</span>워밍업</div>
       <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">play_circle</span></span><div><h1>워밍업</h1><p>늘 쓰던 도구를 다시 보고, Apps Script를 시작합니다.</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
@@ -1579,7 +1629,7 @@ html[data-present] .hx-bg{opacity:.6;}
                   <li><b>실행 기록</b> 왼쪽 메뉴. 학생이 앱을 쓰다 난 오류</li>
                   <li><b>앱 화면의 빨간 안내</b> 저장·불러오기에 실패한 이유</li>
                 </ul>
-                <a class="inl" href="#ref-8">부록 · 오류 해결 표 →</a>
+                <a class="inl" href="#ref-8">자주 찾는 질문 · 오류 해결 →</a>
               </div>
             </details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/warmup/3"><span class="material-icons-outlined">arrow_back</span>편집기 둘러보기</a><a class="btn btn-ink btn-sm nx" href="#/m1"><small>다음</small>실습 1 기록하기<span class="material-icons-outlined">arrow_forward</span></a></nav>
@@ -1671,7 +1721,7 @@ Pretendard GOV, 구글 머테리얼 아이콘, 파스텔 카드, 휴대폰에서
                 <li>써 보고 이상한 점을 그대로 AI에게 말합니다. &ldquo;저장은 되는데 목록이 안 보여&rdquo;처럼.</li>
                 <li>고친 코드를 붙인 뒤 <b>새 버전</b>으로 다시 배포합니다.</li>
               </ol>
-              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요.</p>
+              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요. 화면 요소 이름이 떠오르지 않으면 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
             </div>
             
       <details class="step" id="m1-s1">
@@ -2501,7 +2551,7 @@ Pretendard GOV, 머테리얼 아이콘, 파스텔 포스트잇 카드, 넓은 �
                 <li>써 보고 이상한 점을 그대로 AI에게 말합니다. &ldquo;저장은 되는데 목록이 안 보여&rdquo;처럼.</li>
                 <li>고친 코드를 붙인 뒤 <b>새 버전</b>으로 다시 배포합니다.</li>
               </ol>
-              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요.</p>
+              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요. 화면 요소 이름이 떠오르지 않으면 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
             </div>
             
       <details class="step" id="m2-s1">
@@ -2938,7 +2988,7 @@ function renderSwatches() {
 }
 
 /* 공감은 '이 브라우저에서 한 번'만 누를 수 있게 기억해 둡니다.
-   브라우저 기억일 뿐, 막는 장치는 아닙니다. (부록 참고) */
+   브라우저 기억일 뿐, 막는 장치는 아닙니다. (연수 사이트 &lsquo;자주 찾는 질문&rsquo; 참고) */
 function likedKey(id) { return 'liked:' + id; }
 
 function renderBoard() {
@@ -3177,7 +3227,7 @@ if (document.readyState === 'loading') {
               <p class="dim">AI에게 지금의 Code.gs와 index.html을 함께 붙여넣고 이 요청을 보내세요. 받은 코드를 붙인 뒤 <a href="#rp-update" class="inl">새 버전으로 배포</a>합니다.</p>        <div class="warn-box">
           <strong>♥ 한 번만 누르기는 &lsquo;약속&rsquo;이지 &lsquo;보안&rsquo;이 아닙니다</strong>
           한 번 누른 카드는 <b>그 브라우저가 기억</b>해서 다시 못 누르게 할 뿐입니다. 시크릿 창에서는 또 누를 수 있습니다.
-          투표처럼 정확해야 하는 일에는 쓰지 않습니다. 이유는 <a href="#ref-2" class="inl">부록</a>에 있습니다.
+          투표처럼 정확해야 하는 일에는 쓰지 않습니다. 이유는 <a href="#ref-2" class="inl">자주 찾는 질문</a>에 있습니다.
         </div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/3"><span class="material-icons-outlined">arrow_back</span>해결방법</a><a class="btn btn-ink btn-sm nx" href="#/m3"><small>다음</small>실습 3 외부 데이터<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
@@ -3268,7 +3318,7 @@ Pretendard GOV, 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘
                 <li>써 보고 이상한 점을 그대로 AI에게 말합니다. &ldquo;저장은 되는데 목록이 안 보여&rdquo;처럼.</li>
                 <li>고친 코드를 붙인 뒤 <b>새 버전</b>으로 다시 배포합니다.</li>
               </ol>
-              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요.</p>
+              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요. 화면 요소 이름이 떠오르지 않으면 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
             </div>
             
       <details class="step" id="m3-s1">
@@ -3416,7 +3466,7 @@ function fetchWeather_() {
 
 // 이 앱은 우리 반 데이터를 밖으로 보내지 않습니다. 날씨를 '가져오기만' 합니다.
 // API 키가 필요한 서비스를 쓸 때는 키를 이 파일에 적지 말고
-// [프로젝트 설정 → 스크립트 속성]에 넣고 PropertiesService 로 읽으세요. (부록 참고)</pre></div>
+// [프로젝트 설정 → 스크립트 속성]에 넣고 PropertiesService 로 읽으세요. (연수 사이트 &lsquo;자주 찾는 질문&rsquo; 참고)</pre></div>
         </details>
 
         <details class="codebox">
@@ -3826,7 +3876,7 @@ CITIES 부분만 붙여넣을 수 있게 주고, 바꾼 뒤 setup 을 한 번 �
                     <div class="concept">
           <span class="material-icons-outlined">admin_panel_settings</span>
           <div><b>학생은 웹앱, 교사는 시트 메뉴.</b> 로그인 화면 없이도 할 수 있는 일이 저절로 나뉩니다.
-            &lsquo;화면에 버튼을 안 만드는 것&rsquo;만으로는 부족한 이유는 <a href="#ref-sec" class="inl">부록</a>에 있습니다.</div>
+            &lsquo;화면에 버튼을 안 만드는 것&rsquo;만으로는 부족한 이유는 <a href="#ref-sec" class="inl">자주 찾는 질문</a>에 있습니다.</div>
         </div>
             <a class="kitlink" href="#gt-sheet"><span class="material-icons-outlined">apps</span><span><b>문서 말고 다른 구글 도구도 연결하고 싶다면</b>슬라이드, 설문지, 캘린더, 지메일, 번역, 클래스룸까지. 연결 가능한 구글 도구 12가지</span><span class="material-icons-outlined">arrow_forward</span></a>
             <h3 class="sub-h"><span class="material-icons-outlined">smart_toy</span>이 앱을 AI에게 요청한다면</h3>
@@ -3877,7 +3927,7 @@ Pretendard GOV, 머테리얼 아이콘, 글쓰기에 집중되는 차분한 카�
                 <li>써 보고 이상한 점을 그대로 AI에게 말합니다. &ldquo;저장은 되는데 목록이 안 보여&rdquo;처럼.</li>
                 <li>고친 코드를 붙인 뒤 <b>새 버전</b>으로 다시 배포합니다.</li>
               </ol>
-              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요.</p>
+              <p class="dim">막히면 &lsquo;따라 만들기&rsquo;의 완성 코드와 비교해 보세요. 화면 요소 이름이 떠오르지 않으면 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
             </div>
             
       <details class="step" id="m4-s1">
@@ -4520,7 +4570,6 @@ if (document.readyState === 'loading') {
 
   <section class="view" id="v-stove" data-view="stove" data-steps="4">
     <div class="wrap stage-v">
-      <div class="crumb"><a href="#/">홈</a><span class="material-icons-outlined">chevron_right</span>내 앱 설계</div>
       <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">edit_note</span></span><div><h1>내 앱 설계</h1><p>학생이 겪을 배움에서 출발해, AI에게 줄 프롬프트까지 만듭니다.</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
@@ -4640,6 +4689,7 @@ if (document.readyState === 'loading') {
           <li>받은 코드를 <a href="#rp-routine" class="inl">다섯 단계</a>대로 붙이고 배포합니다.</li>
           <li>블록을 하나씩 더합니다. 기록 → 공유 → 결과물 순서로, 더할 때마다 <a href="#rp-update" class="inl">새 버전으로 배포</a>.</li>
         </ol>
+        <p class="dim">화면을 다듬을 때는 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a>에서 정확한 이름을 찾아 AI에게 말하세요.</p>
       
             <h3 class="sub-h" id="st-fix"><span class="material-icons-outlined">shield</span>이미 만든 앱을 고칠 때</h3>
             
@@ -4688,7 +4738,7 @@ fetch 로 바꾸지 말고 google.script.run 을 계속 써주세요.
         </details>
         <div class="refl final"><label for="note-final"><span class="material-icons-outlined">school</span>다시 교육으로: 이 앱으로 학생은 무엇을 새로 경험하나요?</label>
           <textarea id="note-final" data-note="final" placeholder="처음의 아쉬운 점이 풀렸는지, 수업에 쓰려면 무엇을 바꿀지도 함께 적어 보세요."></textarea></div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/stove/3"><span class="material-icons-outlined">arrow_back</span>나누기</a><a class="btn btn-ink btn-sm nx" href="#/ref"><small>다음</small>부록 둘러보기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/stove/3"><span class="material-icons-outlined">arrow_back</span>나누기</a><a class="btn btn-ink btn-sm nx" href="#/ref"><small>다음</small>자주 찾는 질문<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
       </div>
@@ -4697,31 +4747,27 @@ fetch 로 바꾸지 말고 google.script.run 을 계속 써주세요.
 
   <section class="view" id="v-kit" data-view="kit">
     <div class="wrap stage-v">
-      <div class="crumb"><a href="#/">홈</a><span class="material-icons-outlined">chevron_right</span>도구 모음</div>
       <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">widgets</span></span><div><h1>도구 모음</h1>
-        <p>내 앱에 붙일 수 있는 외부 데이터와 구글 도구를 모았습니다. 코드와 프롬프트를 바로 복사해 쓰세요.</p></div></div>
+        <p>내 앱에 붙일 바깥 데이터와 구글 도구, 화면 이름을 찾는 사전.</p></div></div>
       <div class="kit-tabs" role="tablist">
-        <button role="tab" aria-selected="true" data-kit="api"><span class="material-icons-outlined">public</span>외부 데이터 API <em>9</em></button>
+        <button role="tab" aria-selected="true" data-kit="api"><span class="material-icons-outlined">public</span>바깥 데이터 <em>9</em></button>
         <button role="tab" aria-selected="false" data-kit="gt"><span class="material-icons-outlined">apps</span>구글 도구 <em>12</em></button>
+        <button role="tab" aria-selected="false" data-kit="dic"><span class="material-icons-outlined">menu_book</span>UI·UX 사전</button>
       </div>
 
       <div class="kit-panel" data-panel="api">
         <div class="kit-bar">
+          <p class="kit-one">키 없음은 붙이면 바로, 무료 키는 발급받아 <b>스크립트 속성</b>에 넣고 씁니다.</p>
           <div class="chips" data-filter="api"><button class="on" data-f="all">전체</button><button data-f="none">키 없이 바로</button><button data-f="key">무료 키 발급</button></div>
-        </div>
-        <div class="kit-guide">
-          <div><span class="material-icons-outlined">check_circle</span><span><b>키 없음</b>은 코드를 붙이면 바로 동작합니다. 실습 3과 같은 방식입니다.</span></div>
-          <div><span class="material-icons-outlined">key</span><span><b>무료 키 발급</b>은 사이트에서 인증키를 받은 뒤 <a href="#ref-3" class="inl">스크립트 속성</a>에 넣고 씁니다. 코드에 키를 적지 마세요.</span></div>
-          <div><span class="material-icons-outlined">cached</span><span>여러 명이 함께 쓰는 앱은 <b>CacheService로 결과를 잠시 보관</b>해 같은 요청을 줄이세요.</span></div>
         </div>
         <div class="kit-grid">
       <article class="kc2" data-tags="none" id="api-weather">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">wb_cloudy</span></span><div><b>Open-Meteo 날씨</b><span>전 세계 현재 날씨 · 7일 예보 · 일출 일몰</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>세계 도시 날씨 비교, 현장체험학습 날씨 확인, 날씨와 기분 기록</span></p>
-        <p class="kc2-src">open-meteo.com · 비상업·교육 무료 · 출처 표기(CC BY 4.0)</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-weather-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-weather-code">// 서울의 지금 기온과 날씨 코드
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-weather-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-weather-pr">Open-Meteo API(키 없음)로 [도시]의 오늘 날씨를 Code.gs에서 UrlFetchApp으로 가져오고 CacheService로 20분 보관해줘. 출처 Open-Meteo.com을 화면 아래에 적어줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-weather-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-weather-code">// 서울의 지금 기온과 날씨 코드
 function getWeather_() {
   var url = 'https://api.open-meteo.com/v1/forecast'
     + '?latitude=37.57&amp;longitude=126.98'
@@ -4729,99 +4775,93 @@ function getWeather_() {
   var res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
   var j = JSON.parse(res.getContentText());
   return { temp: j.current.temperature_2m, code: j.current.weather_code };
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-weather-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-weather-pr">Open-Meteo API(키 없음)로 [도시]의 오늘 날씨를 Code.gs에서 UrlFetchApp으로 가져오고 CacheService로 20분 보관해줘. 출처 Open-Meteo.com을 화면 아래에 적어줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">open-meteo.com · 비상업·교육 무료 · 출처 표기(CC BY 4.0)</p>
         </details>
       </article>
       <article class="kc2" data-tags="none" id="api-air">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">air</span></span><div><b>Open-Meteo 대기질</b><span>미세먼지(PM10) · 초미세먼지(PM2.5) · 자외선</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>오늘 바깥 놀이 가능한지 신호등으로 보여주기, 주간 미세먼지 그래프</span></p>
-        <p class="kc2-src">open-meteo.com · 모델 추정값(공식 측정값은 에어코리아)</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-air-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-air-code">// 학교 위치의 지금 미세먼지
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-air-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-air-pr">Open-Meteo 대기질 API(키 없음)로 우리 학교 위치의 PM10 · PM2.5를 가져와 좋음/보통/나쁨/매우나쁨 신호등 화면을 만들어줘. 공식 값이 아니라는 안내도 넣어줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-air-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-air-code">// 학교 위치의 지금 미세먼지
 function getAir_() {
   var url = 'https://air-quality-api.open-meteo.com/v1/air-quality'
     + '?latitude=37.90&amp;longitude=127.06'
     + '&amp;current=pm10,pm2_5,uv_index&amp;timezone=Asia/Seoul';
   var j = JSON.parse(UrlFetchApp.fetch(url).getContentText());
   return j.current;   // { pm10, pm2_5, uv_index, ... }
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-air-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-air-pr">Open-Meteo 대기질 API(키 없음)로 우리 학교 위치의 PM10 · PM2.5를 가져와 좋음/보통/나쁨/매우나쁨 신호등 화면을 만들어줘. 공식 값이 아니라는 안내도 넣어줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">open-meteo.com · 모델 추정값(공식 측정값은 에어코리아)</p>
         </details>
       </article>
       <article class="kc2" data-tags="none" id="api-geo">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">travel_explore</span></span><div><b>Open-Meteo 지명 검색</b><span>도시 이름 → 위도·경도 (한국어 검색 가능)</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>학생이 도시 이름을 입력하면 그 도시 날씨 보여주기</span></p>
-        <p class="kc2-src">open-meteo.com · 날씨 API와 함께 쓰기 좋음</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-geo-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-geo-code">// '나이로비' → 위도·경도
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-geo-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-geo-pr">학생이 도시 이름을 입력하면 Open-Meteo 지명 검색 API로 좌표를 찾고, 그 좌표로 날씨를 보여주게 해줘. 결과가 없으면 다시 입력하라고 안내해줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-geo-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-geo-code">// '나이로비' → 위도·경도
 function findCity_(name) {
   var url = 'https://geocoding-api.open-meteo.com/v1/search?count=1&amp;language=ko&amp;name='
     + encodeURIComponent(name);
   var j = JSON.parse(UrlFetchApp.fetch(url).getContentText());
   var r = j.results &amp;&amp; j.results[0];
   return r ? { name: r.name, country: r.country, lat: r.latitude, lon: r.longitude } : null;
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-geo-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-geo-pr">학생이 도시 이름을 입력하면 Open-Meteo 지명 검색 API로 좌표를 찾고, 그 좌표로 날씨를 보여주게 해줘. 결과가 없으면 다시 입력하라고 안내해줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">open-meteo.com · 날씨 API와 함께 쓰기 좋음</p>
         </details>
       </article>
       <article class="kc2" data-tags="none" id="api-country">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">flag</span></span><div><b>REST Countries 나라 정보</b><span>수도 · 인구 · 면적 · 언어 · 통화 · 국기 · 한국어 이름</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>나라 카드 만들기, 국기 퀴즈, 사회 시간 나라 비교표</span></p>
-        <p class="kc2-src">restcountries.com · 무료 · 필요한 항목만 fields로 요청</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-country-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-country-code">// 나라 코드로 한국어 이름 · 수도 · 인구 · 국기
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-country-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-country-pr">REST Countries API(키 없음)로 나라 코드를 받아 한국어 이름, 수도, 인구, 국기 그림을 카드로 보여주는 국기 퀴즈를 만들어줘. fields 매개변수로 필요한 항목만 요청해줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-country-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-country-code">// 나라 코드로 한국어 이름 · 수도 · 인구 · 국기
 function getCountry_(code) {   // 예: 'KE'
   var url = 'https://restcountries.com/v3.1/alpha/' + code
     + '?fields=name,translations,capital,population,flags';
   var c = JSON.parse(UrlFetchApp.fetch(url).getContentText());
   return { ko: c.translations.kor.common, capital: c.capital[0],
            population: c.population, flag: c.flags.png };
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-country-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-country-pr">REST Countries API(키 없음)로 나라 코드를 받아 한국어 이름, 수도, 인구, 국기 그림을 카드로 보여주는 국기 퀴즈를 만들어줘. fields 매개변수로 필요한 항목만 요청해줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">restcountries.com · 무료 · 필요한 항목만 fields로 요청</p>
         </details>
       </article>
       <article class="kc2" data-tags="none" id="api-holiday">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">event</span></span><div><b>Nager.Date 공휴일</b><span>나라별 공휴일 · 다음 공휴일 · 긴 연휴</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>다음 공휴일까지 D-day, 세계 여러 나라의 명절 비교</span></p>
-        <p class="kc2-src">date.nager.at · 무료 · 한국(KR) 포함, 대체공휴일은 학교 일정과 대조</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-holiday-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-holiday-code">// 올해 한국 공휴일 목록
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-holiday-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-holiday-pr">Nager.Date API(키 없음)로 올해 한국 공휴일을 가져와 다음 공휴일까지 남은 날을 크게 보여주고, 아래에 남은 공휴일 목록을 보여줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-holiday-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-holiday-code">// 올해 한국 공휴일 목록
 function getHolidays_() {
   var y = new Date().getFullYear();
   var url = 'https://date.nager.at/api/v3/PublicHolidays/' + y + '/KR';
   var list = JSON.parse(UrlFetchApp.fetch(url).getContentText());
   return list.map(function (h) { return { date: h.date, name: h.localName }; });
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-holiday-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-holiday-pr">Nager.Date API(키 없음)로 올해 한국 공휴일을 가져와 다음 공휴일까지 남은 날을 크게 보여주고, 아래에 남은 공휴일 목록을 보여줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">date.nager.at · 무료 · 한국(KR) 포함, 대체공휴일은 학교 일정과 대조</p>
         </details>
       </article>
       <article class="kc2" data-tags="none" id="api-money">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">currency_exchange</span></span><div><b>Frankfurter 환율</b><span>유럽중앙은행 기준 환율 · 원화(KRW) 포함 · 과거 환율</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>경제 수업 환율 계산기, 해외여행 용돈 계획, 과거와 지금 비교</span></p>
-        <p class="kc2-src">frankfurter.app · 무료 · 하루 한 번 갱신</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-money-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-money-code">// 1달러는 몇 원?
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-money-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-money-pr">Frankfurter 환율 API(키 없음)로 달러·엔·유로를 원화로 바꾸는 계산기를 만들어줘. 기준 날짜를 함께 보여주고, 결과는 CacheService로 6시간 보관해줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-money-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-money-code">// 1달러는 몇 원?
 function getRate_() {
   var url = 'https://api.frankfurter.app/latest?from=USD&amp;to=KRW';
   var j = JSON.parse(UrlFetchApp.fetch(url).getContentText());
   return { date: j.date, krw: j.rates.KRW };
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-money-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-money-pr">Frankfurter 환율 API(키 없음)로 달러·엔·유로를 원화로 바꾸는 계산기를 만들어줘. 기준 날짜를 함께 보여주고, 결과는 CacheService로 6시간 보관해줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">frankfurter.app · 무료 · 하루 한 번 갱신</p>
         </details>
       </article>
       <article class="kc2" data-tags="none" id="api-wiki">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">menu_book</span></span><div><b>위키백과 요약</b><span>낱말·인물·장소의 한국어 요약과 대표 그림</span></div>
           <span class="badge ok">키 없음</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>조사 학습 카드, 인물 소개 카드, 낱말 뜻 미리보기</span></p>
-        <p class="kc2-src">ko.wikipedia.org · 무료 · 출처 표기(CC BY-SA)</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-wiki-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-wiki-code">// '세종' → 한국어 위키백과 요약
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-wiki-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-wiki-pr">학생이 낱말을 입력하면 한국어 위키백과 요약 API로 요약과 그림을 보여주는 조사 카드를 만들어줘. 출처와 원문 링크를 꼭 함께 보여줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-wiki-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-wiki-code">// '세종' → 한국어 위키백과 요약
 function getSummary_(title) {
   var url = 'https://ko.wikipedia.org/api/rest_v1/page/summary/'
     + encodeURIComponent(title);
@@ -4829,17 +4869,16 @@ function getSummary_(title) {
   if (res.getResponseCode() !== 200) return null;
   var j = JSON.parse(res.getContentText());
   return { title: j.title, text: j.extract, img: j.thumbnail &amp;&amp; j.thumbnail.source };
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-wiki-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-wiki-pr">학생이 낱말을 입력하면 한국어 위키백과 요약 API로 요약과 그림을 보여주는 조사 카드를 만들어줘. 출처와 원문 링크를 꼭 함께 보여줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">ko.wikipedia.org · 무료 · 출처 표기(CC BY-SA)</p>
         </details>
       </article>
       <article class="kc2" data-tags="key" id="api-neis">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">restaurant</span></span><div><b>나이스 급식 · 학사일정</b><span>우리 학교 급식 식단 · 학사일정 · 시간표</span></div>
           <span class="badge key">무료 키 발급</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>오늘 급식 알림판, 급식 메뉴 별점, 이번 달 학사일정 달력</span></p>
-        <p class="kc2-src">open.neis.go.kr · 교육정보 개방 포털 · 무료 인증키 발급</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-neis-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-neis-code">// 우리 학교 오늘 급식 (키는 스크립트 속성 NEIS_KEY 에)
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-neis-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-neis-pr">나이스 교육정보 개방 포털 급식식단정보 API로 우리 학교 오늘 급식을 보여줘. 인증키는 스크립트 속성 NEIS_KEY에서 읽고, 교육청 코드와 학교 코드는 Code.gs 맨 위 상수로 빼줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-neis-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-neis-code">// 우리 학교 오늘 급식 (키는 스크립트 속성 NEIS_KEY 에)
 function getMeal_(ymd) {            // 예: '20261017'
   var key = PropertiesService.getScriptProperties().getProperty('NEIS_KEY');
   var url = 'https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json'
@@ -4852,17 +4891,16 @@ function getMeal_(ymd) {            // 예: '20261017'
   return j.mealServiceDietInfo[1].row.map(function (r) {
     return { kind: r.MMEAL_SC_NM, menu: r.DDISH_NM.split('&lt;br/&gt;') };
   });
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-neis-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-neis-pr">나이스 교육정보 개방 포털 급식식단정보 API로 우리 학교 오늘 급식을 보여줘. 인증키는 스크립트 속성 NEIS_KEY에서 읽고, 교육청 코드와 학교 코드는 Code.gs 맨 위 상수로 빼줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">open.neis.go.kr · 교육정보 개방 포털 · 무료 인증키 발급</p>
         </details>
       </article>
       <article class="kc2" data-tags="key" id="api-public">
         <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">account_balance</span></span><div><b>공공데이터포털</b><span>에어코리아 대기오염 · 기상청 예보 · 특일(공휴일) 정보 등</span></div>
           <span class="badge key">무료 키 발급</span></div>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>공식 미세먼지 측정값, 기상청 동네예보, 공식 공휴일 달력</span></p>
-        <p class="kc2-src">data.go.kr · 회원가입 → 활용신청 → 인증키 · 무료</p>
-        <details class="kc2-more"><summary>연동 코드 · 프롬프트 보기<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="code"><button class="copy" data-copy="api-public-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-public-code">// 공공데이터포털 API 공통 틀 (키는 스크립트 속성 DATA_KEY 에)
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-public-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-public-pr">공공데이터포털의 [API 이름] API로 [하고 싶은 일]을 해줘. 인증키는 스크립트 속성 DATA_KEY에서 읽고, 응답 구조를 먼저 Logger로 찍어 확인하는 테스트 함수도 만들어줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-public-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-public-code">// 공공데이터포털 API 공통 틀 (키는 스크립트 속성 DATA_KEY 에)
 function callPublicApi_(baseUrl, params) {
   var key = PropertiesService.getScriptProperties().getProperty('DATA_KEY');
   var q = Object.keys(params).map(function (k) {
@@ -4870,8 +4908,7 @@ function callPublicApi_(baseUrl, params) {
   }).join('&amp;');
   var url = baseUrl + '?serviceKey=' + key + '&amp;returnType=json&amp;' + q;
   return JSON.parse(UrlFetchApp.fetch(url).getContentText());
-}</pre></div>
-          <div class="kc2-p"><span>AI에게 이렇게 요청하세요</span><div class="code wrap"><button class="copy" data-copy="api-public-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-public-pr">공공데이터포털의 [API 이름] API로 [하고 싶은 일]을 해줘. 인증키는 스크립트 속성 DATA_KEY에서 읽고, 응답 구조를 먼저 Logger로 찍어 확인하는 테스트 함수도 만들어줘.</pre></div></div>
+}</pre></div></div><p class="kc2-src">data.go.kr · 회원가입 → 활용신청 → 인증키 · 무료</p>
         </details>
       </article>
         </div>
@@ -4881,134 +4918,135 @@ function callPublicApi_(baseUrl, params) {
 
       <div class="kit-panel" data-panel="gt" hidden>
         <div class="kit-bar">
+          <p class="kit-one">처음 쓸 때 권한을 한 번 더 묻습니다. 문서·메일을 만드는 기능은 교사용 시트 메뉴에 두세요.</p>
           <div class="chips" data-filter="gt"><button class="on" data-f="all">전체</button><button data-f="basic">바로 쓰기</button><button data-f="adv">고급 서비스</button></div>
-        </div>
-        <div class="kit-guide">
-          <div><span class="material-icons-outlined">bolt</span><span><b>바로 쓰기</b> 도구는 Code.gs에서 이름만 부르면 됩니다. 처음 실행할 때 권한 승인 창이 한 번 더 뜹니다.</span></div>
-          <div><span class="material-icons-outlined">add_box</span><span><b>고급 서비스</b>는 편집기 왼쪽 <b>서비스 +</b>에서 추가한 뒤 씁니다.</span></div>
-          <div><span class="material-icons-outlined">admin_panel_settings</span><span>문서 · 메일 · 드라이브를 움직이는 기능은 <a href="#m4-t" class="inl">실습 4</a>처럼 <b>교사용 시트 메뉴</b>에 두세요.</span></div>
         </div>
         <div class="kit-grid">
       <article class="kc2 g" data-tags="basic" id="gt-sheet">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">table_chart</span></span><div><b>구글 시트</b><span><code>SpreadsheetApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">table_chart</span></span><div><b>구글 시트</b><span>읽기 · 쓰기 · 정렬 · 서식 · 차트 · 새 시트 만들기</span></div>
           </div>
-        <p class="kc2-can">읽기 · 쓰기 · 정렬 · 서식 · 차트 · 새 시트 만들기</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>기록 저장, 학급 통계표 자동 정리, 날짜별 탭 만들기</span></p>
-        
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-sheet-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-sheet-pr">저장된 기록을 날짜별로 집계해 summary 시트에 표와 막대 차트로 만들어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-doc">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">description</span></span><div><b>구글 문서</b><span><code>DocumentApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">description</span></span><div><b>구글 문서</b><span>새 문서 · 제목과 본문 · 표 · 그림 · 템플릿의 {{자리}} 바꾸기</span></div>
           </div>
-        <p class="kc2-can">새 문서 · 제목과 본문 · 표 · 그림 · 템플릿의 {{자리}} 바꾸기</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>학급문집, 가정통신문, 개인별 피드백 문서</span></p>
-        
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-doc-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-doc-pr">템플릿 문서를 복사해 {{이름}}, {{내용}} 자리를 시트의 각 줄로 채운 문서를 한 명씩 만들어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-slide">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">slideshow</span></span><div><b>구글 슬라이드</b><span><code>SlidesApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">slideshow</span></span><div><b>구글 슬라이드</b><span>슬라이드 추가 · 글상자 · 그림 · 템플릿 복제</span></div>
           </div>
-        <p class="kc2-can">슬라이드 추가 · 글상자 · 그림 · 템플릿 복제</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>모둠 발표 자료 틀, 상장 · 명찰 일괄 제작, 학급 앨범</span></p>
-        
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-slide-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-slide-pr">시트의 이름 목록으로 상장 슬라이드 템플릿을 복제해 이름 자리를 채운 슬라이드를 만들어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-form">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">quiz</span></span><div><b>구글 설문지</b><span><code>FormApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">quiz</span></span><div><b>구글 설문지</b><span>설문 · 퀴즈 만들기 · 문항 추가 · 정답과 점수 설정 · 응답 읽기</span></div>
           </div>
-        <p class="kc2-can">설문 · 퀴즈 만들기 · 문항 추가 · 정답과 점수 설정 · 응답 읽기</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>시트에 적은 문제로 퀴즈 설문 자동 생성, 단원평가 응답 정리</span></p>
-        
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-form-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-form-pr">시트의 문제 · 보기 · 정답으로 퀴즈 모드 구글 설문지를 만들고 링크를 알려줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-drive">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">folder</span></span><div><b>구글 드라이브</b><span><code>DriveApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">folder</span></span><div><b>구글 드라이브</b><span>폴더 만들기 · 파일 복사 · 이동 · PDF로 저장 · 공유 설정</span></div>
           </div>
-        <p class="kc2-can">폴더 만들기 · 파일 복사 · 이동 · PDF로 저장 · 공유 설정</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>학생별 폴더 자동 생성, 결과물 PDF 모아 두기</span></p>
-        <p class="kc2-warn"><span class="material-icons-outlined">info</span><span>공유 설정을 바꾸는 코드는 꼭 확인 후 실행</span></p>
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-drive-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-drive-pr">결과물을 '2학기 문집' 폴더에 PDF로 모아 저장하고, 폴더가 없으면 만들어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-mail">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">mail</span></span><div><b>지메일</b><span><code>MailApp · GmailApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">mail</span></span><div><b>지메일</b><span>메일 보내기 · 첨부 · 받은 메일 찾기</span></div>
           </div>
-        <p class="kc2-can">메일 보내기 · 첨부 · 받은 메일 찾기</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>매일 저녁 활동 요약을 내 메일로 받기, 문집 PDF를 나에게 보내기</span></p>
-        <p class="kc2-warn"><span class="material-icons-outlined">info</span><span>학생 메일 주소를 수집하지 않기. 개인 계정은 하루 보낼 수 있는 수가 적음</span></p>
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-mail-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-mail-pr">매일 오후 5시에 그날의 기록 요약을 내 메일로 보내는 함수와 트리거를 만들어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-cal">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">calendar_month</span></span><div><b>구글 캘린더</b><span><code>CalendarApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">calendar_month</span></span><div><b>구글 캘린더</b><span>일정 만들기 · 읽기 · 알림 설정</span></div>
           </div>
-        <p class="kc2-can">일정 만들기 · 읽기 · 알림 설정</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>학사일정 시트를 캘린더에 한 번에 등록, 수행평가 일정 알림</span></p>
-        
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-cal-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-cal-pr">시트의 날짜와 행사명을 내 캘린더에 일정으로 등록하고, 이미 있는 일정은 건너뛰어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-trans">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">translate</span></span><div><b>번역</b><span><code>LanguageApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">translate</span></span><div><b>번역</b><span>구글 번역 (키 필요 없음)</span></div>
           </div>
-        <p class="kc2-can">구글 번역 (키 필요 없음)</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>다문화 가정용 안내문 번역, 외국어 인사말 카드</span></p>
-        <p class="kc2-warn"><span class="material-icons-outlined">info</span><span>기계 번역이므로 중요한 안내는 확인 후 배부</span></p>
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-trans-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-trans-pr">가정통신문 문서를 영어 · 베트남어 · 중국어로 번역한 문서를 각각 만들어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-map">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">map</span></span><div><b>지도</b><span><code>Maps</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">map</span></span><div><b>지도</b><span>주소 → 좌표 · 거리와 이동 시간 · 지도 그림</span></div>
           </div>
-        <p class="kc2-can">주소 → 좌표 · 거리와 이동 시간 · 지도 그림</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>현장체험학습 경로 안내, 우리 동네 지도 탐구</span></p>
-        
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-map-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-map-pr">출발지와 도착지 주소로 이동 거리와 시간을 계산해 시트에 적어줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="basic" id="gt-trigger">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">schedule</span></span><div><b>시간 · 이벤트 트리거</b><span><code>ScriptApp</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">schedule</span></span><div><b>시간 · 이벤트 트리거</b><span>매일 · 매주 정해진 시간에 실행 · 설문 제출 시 실행</span></div>
           </div>
-        <p class="kc2-can">매일 · 매주 정해진 시간에 실행 · 설문 제출 시 실행</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>매일 아침 날씨 기록, 매주 금요일 주간 요약 문서 만들기</span></p>
-        <p class="kc2-warn"><span class="material-icons-outlined">info</span><span>같은 트리거가 여러 번 만들어지지 않게 확인</span></p>
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-trigger-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-trigger-pr">매일 오전 8시에 이 함수를 실행하는 트리거를 한 번만 만들어 주는 setupTrigger 함수를 추가해줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="adv" id="gt-class">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">school</span></span><div><b>구글 클래스룸</b><span><code>Classroom (고급 서비스)</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">school</span></span><div><b>구글 클래스룸</b><span>수업 목록 · 과제 · 공지 · 학생 명단 읽기</span></div>
           <span class="badge adv">고급 서비스</span></div>
-        <p class="kc2-can">수업 목록 · 과제 · 공지 · 학생 명단 읽기</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>과제 제출 현황 시트로 정리, 공지 일괄 게시</span></p>
-        <p class="kc2-warn"><span class="material-icons-outlined">info</span><span>학교 워크스페이스 계정 필요. 편집기 왼쪽 서비스 + 에서 추가. 학생 개인정보 다루므로 학교 기준 확인</span></p>
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-class-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-class-pr">클래스룸 고급 서비스로 내 수업의 과제별 제출 현황을 시트에 정리해줘.</pre></div>
         </details>
       </article>
       <article class="kc2 g" data-tags="adv" id="gt-yt">
-        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">smart_display</span></span><div><b>유튜브</b><span><code>YouTube (고급 서비스)</code></span></div>
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">smart_display</span></span><div><b>유튜브</b><span>영상 검색 · 재생목록 읽기</span></div>
           <span class="badge adv">고급 서비스</span></div>
-        <p class="kc2-can">영상 검색 · 재생목록 읽기</p>
         <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>수업 영상 재생목록을 시트로 정리</span></p>
-        <p class="kc2-warn"><span class="material-icons-outlined">info</span><span>편집기 왼쪽 서비스 + 에서 추가</span></p>
-        <details class="kc2-more"><summary>프롬프트 예시<span class="material-icons-outlined">expand_more</span></summary>
+        <details class="kc2-more"><summary>프롬프트<span class="material-icons-outlined">expand_more</span></summary>
           <div class="code wrap"><button class="copy" data-copy="gt-yt-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="gt-yt-pr">내 재생목록의 영상 제목과 링크를 시트에 정리해줘.</pre></div>
         </details>
       </article>
+        </div>
+      </div>
+
+      <div class="kit-panel" data-panel="dic" hidden>
+        <div class="dic" id="kit-dic">
+          <div class="dic-hero">
+            <span class="dic-ic"><span class="material-icons-outlined">menu_book</span></span>
+            <div><b>VibeDic · 바이브코딩 UI·UX 사전</b><span>버튼, 모달, 토스트처럼 화면 요소의 정확한 이름을 찾고, 직접 눌러 보고, 프롬프트를 복사합니다.</span></div>
+            <a class="btn btn-ink btn-sm" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">사전 열기<span class="material-icons-outlined">open_in_new</span></a>
+          </div>
+          <form class="dic-search" id="dicForm" role="search">
+            <span class="material-icons-outlined">search</span>
+            <input id="dicQ" type="search" placeholder="찾고 싶은 화면 요소 (예: 알림창, 아래에서 올라오는 창)" aria-label="UI·UX 사전에서 찾기" />
+            <button class="btn btn-blue btn-sm" type="submit">찾기</button>
+          </form>
+          <p class="kit-one">실습 앱에 나온 화면 요소</p>
+          <div class="dic-chips">
+            <a href="https://vibedic.chichiboo.link/#/ui/card" target="_blank" rel="noopener">카드</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/chip" target="_blank" rel="noopener">칩</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/toast" target="_blank" rel="noopener">토스트</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/modal" target="_blank" rel="noopener">모달</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/tab" target="_blank" rel="noopener">탭</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/segmented-control" target="_blank" rel="noopener">세그먼트 컨트롤</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/bottom-sheet" target="_blank" rel="noopener">바텀 시트</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/skeleton" target="_blank" rel="noopener">스켈레톤</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/empty-state" target="_blank" rel="noopener">빈 화면</a>
+            <a href="https://vibedic.chichiboo.link/#/ui/date-picker" target="_blank" rel="noopener">날짜 선택</a>
+          </div>
+          <div class="dic-tip"><span class="material-icons-outlined">tips_and_updates</span><span>AI에게 &ldquo;아래에서 올라오는 창&rdquo; 대신 <b>&ldquo;바텀 시트&rdquo;</b>라고 말하면 원하는 화면이 더 정확하게 나옵니다.</span></div>
         </div>
       </div>
     </div>
@@ -5016,12 +5054,15 @@ function callPublicApi_(baseUrl, params) {
 
   <section class="view" id="v-ref" data-view="ref">
     <div class="wrap stage-v">
-      <div class="crumb"><a href="#/">홈</a><span class="material-icons-outlined">chevron_right</span>부록</div>
-      <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">menu_book</span></span><div><h1>부록</h1><p>따라 하다 막히거나, 더 궁금할 때 찾아보는 곳입니다.</p></div></div>
+      <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">help_outline</span></span><div><h1>자주 찾는 질문</h1><p>막힐 때, 궁금할 때 여기서 찾으세요.</p></div></div>
+      <div class="faq-bar">
+        <label class="faq-search"><span class="material-icons-outlined">search</span><input id="faqQ" type="search" placeholder="궁금한 것을 적어 보세요 (예: 로그인, 주소, 권한)" aria-label="질문 찾기" /></label>
+        <div class="chips faq-chips" id="faqCats"><button class="on" data-f="all">전체</button><button data-f="stuck">막혔을 때</button><button data-f="more">더 알고 싶을 때</button><button data-f="class">교실에서 쓸 때</button></div>
+      </div>
+      <p class="faq-empty" id="faqEmpty" hidden>찾는 질문이 없습니다. 다른 낱말로 찾아보세요.</p>
       <div class="ref-grid">
-        <nav class="refnav" aria-label="부록 목차"><h4>막혔을 때</h4><a href="#ref-8">오류 해결</a><a href="#ref-q">Apps Script 사용 한도</a><a href="#ref-0">Apps Script 용어를 쉬운 말로</a><h4>더 깊이 알기</h4><a href="#ref-9">실시간과 자동 갱신은 어떻게 다른가요</a><a href="#ref-10">네 앱은 어떻게 생겼나요?</a><a href="#ref-sec">google.script.run과 보안</a><a href="#ref-2">&lsquo;내 글만 삭제&rsquo;를 넣고 싶다면</a><a href="#ref-3">비밀번호와 API 키는 스크립트 속성에</a><a href="#ref-7">만든 앱 나누고 관리하기</a><h4>교실에 적용하기</h4><a href="#ref-safe">교실에서 안전하게 쓰기</a><a href="#ref-4">학습지원 소프트웨어 선정 기준</a><a href="#ref-5">자주 나오는 질문</a><a href="#ref-6">교실 사용 전 검토 메모</a></nav>
-        <div><h2 class="refgroup" id="ref-g1"><span class="material-icons-outlined">support</span>막혔을 때</h2>    <details class="step" id="ref-8">
-      <summary><span class="step-num"><span class="material-icons-outlined">report</span></span><span class="step-tw"><h3>오류 해결</h3><p>실습 중 많이 막히는 곳</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+        <div><h2 class="refgroup" id="ref-g1" data-cat="stuck"><span class="material-icons-outlined">support</span>막혔을 때</h2>    <details class="step faq" id="ref-8" data-cat="stuck">
+      <summary><span class="step-num"><span class="material-icons-outlined">report</span></span><span class="step-tw"><h3>오류가 났어요. 어디부터 볼까요?</h3><p>증상별로 확인할 곳을 표로 정리했습니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="tbl">
@@ -5050,8 +5091,8 @@ function callPublicApi_(baseUrl, params) {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-q">
-      <summary><span class="step-num"><span class="material-icons-outlined">speed</span></span><span class="step-tw"><h3>Apps Script 사용 한도</h3><p>무료지만 하루에 쓸 수 있는 양이 정해져 있습니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-q" data-cat="stuck">
+      <summary><span class="step-num"><span class="material-icons-outlined">speed</span></span><span class="step-tw"><h3>하루에 얼마나 쓸 수 있나요?</h3><p>무료지만 하루 사용량에 한도가 있습니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <p>실행 계정이 &lsquo;나&rsquo;이므로 <b>학생 요청은 모두 선생님 계정의 한도</b>로 계산됩니다. 개인 구글 계정 기준입니다.</p>
@@ -5070,8 +5111,8 @@ function callPublicApi_(baseUrl, params) {
           <a href="https://developers.google.com/apps-script/guides/services/quotas" target="_blank" rel="noopener" class="inl">구글 공식 안내</a>에서 확인하세요.</p>
       </div>
     </details>
-    <details class="step" id="ref-0">
-      <summary><span class="step-num"><span class="material-icons-outlined">translate</span></span><span class="step-tw"><h3>Apps Script 용어를 쉬운 말로</h3><p>외우지 않아도 실습은 됩니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-0" data-cat="stuck">
+      <summary><span class="step-num"><span class="material-icons-outlined">translate</span></span><span class="step-tw"><h3>Apps Script 용어가 어려워요</h3><p>웹앱, 배포, 실행 계정 같은 말을 쉬운 말로</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="tbl">
@@ -5091,8 +5132,8 @@ function callPublicApi_(baseUrl, params) {
         </div>
       </div>
     </details>
-<h2 class="refgroup" id="ref-g2"><span class="material-icons-outlined">psychology</span>더 깊이 알기</h2>    <details class="step" id="ref-9">
-      <summary><span class="step-num"><span class="material-icons-outlined">bolt</span></span><span class="step-tw"><h3>실시간과 자동 갱신은 어떻게 다른가요</h3><p>그리고 다른 플랫폼이 필요한 때</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+<h2 class="refgroup" id="ref-g2" data-cat="more"><span class="material-icons-outlined">psychology</span>더 알고 싶을 때</h2>    <details class="step faq" id="ref-9" data-cat="more">
+      <summary><span class="step-num"><span class="material-icons-outlined">bolt</span></span><span class="step-tw"><h3>실시간과 자동 갱신은 뭐가 달라요?</h3><p>몇 초 늦어도 되는지에 따라 고릅니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="vs">
@@ -5123,8 +5164,8 @@ function callPublicApi_(baseUrl, params) {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-10">
-      <summary><span class="step-num"><span class="material-icons-outlined">schema</span></span><span class="step-tw"><h3>네 앱은 어떻게 생겼나요?</h3><p>어디를 바꾸면 무엇이 바뀌나</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-10" data-cat="more">
+      <summary><span class="step-num"><span class="material-icons-outlined">schema</span></span><span class="step-tw"><h3>네 앱은 어디를 바꾸면 되나요?</h3><p>실습 앱마다 고칠 곳 한 군데씩</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="tbl">
@@ -5142,8 +5183,8 @@ function callPublicApi_(baseUrl, params) {
           저장할 수 있는 글자 수는 <b>Code.gs의 slice(0, 숫자)</b>가 정합니다. 화면의 maxlength만 늘리면 저장할 때 잘립니다.</p>
       </div>
     </details>
-    <details class="step" id="ref-sec">
-      <summary><span class="step-num"><span class="material-icons-outlined">admin_panel_settings</span></span><span class="step-tw"><h3>google.script.run과 보안</h3><p>학생 화면에 없는 버튼도 눌릴 수 있습니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-sec" data-cat="more">
+      <summary><span class="step-num"><span class="material-icons-outlined">admin_panel_settings</span></span><span class="step-tw"><h3>화면에 없는 기능도 누군가 부를 수 있나요?</h3><p>그래서 검사와 교사용 기능은 서버 쪽에 둡니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <p>google.script.run은 Code.gs에서 <b>이름이 _로 끝나지 않는 함수라면 무엇이든</b> 부를 수 있습니다.
@@ -5162,8 +5203,8 @@ function callPublicApi_(baseUrl, params) {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-2">
-      <summary><span class="step-num"><span class="material-icons-outlined">badge</span></span><span class="step-tw"><h3>&lsquo;내 글만 삭제&rsquo;를 넣고 싶다면</h3><p>로그인 없이 쓴 사람을 알아보는 법</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-2" data-cat="more">
+      <summary><span class="step-num"><span class="material-icons-outlined">badge</span></span><span class="step-tw"><h3>학생이 자기 글만 지우게 할 수 있나요?</h3><p>로그인 없이 쓴 사람을 알아보는 방법</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <p>실습 앱들에 수정·삭제가 없는 이유는 <b>&ldquo;누가 쓴 글인지&rdquo;를 앱이 알아야 하기 때문</b>입니다.
@@ -5209,8 +5250,8 @@ function deleteCard(payload) {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-3">
-      <summary><span class="step-num"><span class="material-icons-outlined">key</span></span><span class="step-tw"><h3>비밀번호와 API 키는 스크립트 속성에</h3><p>스크립트 속성 쓰는 법</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-3" data-cat="more">
+      <summary><span class="step-num"><span class="material-icons-outlined">key</span></span><span class="step-tw"><h3>비밀번호나 API 키는 어디에 두나요?</h3><p>코드가 아니라 스크립트 속성에 둡니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <p><b>HTML 안에 넣은 비밀번호는 보안이 아닙니다.</b> 소스 보기로 그대로 보이기 때문입니다.
@@ -5246,8 +5287,8 @@ function apiKey_() {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-7">
-      <summary><span class="step-num"><span class="material-icons-outlined">share</span></span><span class="step-tw"><h3>만든 앱 나누고 관리하기</h3><p>다른 선생님께 주기 · 짧은 주소 · 되돌리기</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-7" data-cat="more">
+      <summary><span class="step-num"><span class="material-icons-outlined">share</span></span><span class="step-tw"><h3>만든 앱을 다른 선생님께 줄 수 있나요?</h3><p>복사해 주기, 짧은 주소, 이전 버전으로 되돌리기</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="tbl"><table>
@@ -5268,8 +5309,8 @@ function apiKey_() {
         </table></div>
       </div>
     </details>
-<h2 class="refgroup" id="ref-g3"><span class="material-icons-outlined">school</span>교실에 적용하기</h2>    <details class="step" id="ref-safe">
-      <summary><span class="step-num"><span class="material-icons-outlined">health_and_safety</span></span><span class="step-tw"><h3>교실에서 안전하게 쓰기</h3><p>배포 전 자가진단</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+<h2 class="refgroup" id="ref-g3" data-cat="class"><span class="material-icons-outlined">school</span>교실에서 쓸 때</h2>    <details class="step faq" id="ref-safe" data-cat="class">
+      <summary><span class="step-num"><span class="material-icons-outlined">health_and_safety</span></span><span class="step-tw"><h3>수업에 쓰기 전에 무엇을 확인하나요?</h3><p>배포 전 자가진단 9가지</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="qalist">
@@ -5303,8 +5344,8 @@ function apiKey_() {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-4">
-      <summary><span class="step-num"><span class="material-icons-outlined">gavel</span></span><span class="step-tw"><h3>학습지원 소프트웨어 선정 기준</h3><p>무엇이 대상이고 무엇이 제외인가</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-4" data-cat="class">
+      <summary><span class="step-num"><span class="material-icons-outlined">gavel</span></span><span class="step-tw"><h3>학습지원 소프트웨어 심의를 받아야 하나요?</h3><p>대상과 제외, 필수 기준, 선정 절차</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <p class="dim">아래는 2025년 발표 자료를 요약한 것입니다. 실제 적용은 교육부·시도교육청의 최신 안내와 학교 담당자에게 확인하세요.</p>
@@ -5348,8 +5389,8 @@ function apiKey_() {
         </div>
       </div>
     </details>
-    <details class="step" id="ref-5">
-      <summary><span class="step-num"><span class="material-icons-outlined">quiz</span></span><span class="step-tw"><h3>자주 나오는 질문</h3><p>교육부 심의 가이드 문답에서</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-5" data-cat="class">
+      <summary><span class="step-num"><span class="material-icons-outlined">quiz</span></span><span class="step-tw"><h3>심의에 대해 자주 묻는 질문</h3><p>교육부 심의 가이드 문답 요약</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="tbl"><table>
@@ -5374,8 +5415,8 @@ function apiKey_() {
           </ul></div></div>
       </div>
     </details>
-    <details class="step" id="ref-6">
-      <summary><span class="step-num"><span class="material-icons-outlined">assignment</span></span><span class="step-tw"><h3>교실 사용 전 검토 메모</h3><p>학교 담당자와 확인할 항목을 정리합니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
+    <details class="step faq" id="ref-6" data-cat="class">
+      <summary><span class="step-num"><span class="material-icons-outlined">assignment</span></span><span class="step-tw"><h3>학교 담당자와 확인할 메모를 만들고 싶어요</h3><p>항목을 고르면 검토 메모 초안이 만들어집니다</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
         <div class="disclaimer">
@@ -5464,7 +5505,7 @@ const S=load(); S.visit=S.visit||{}; S.last=S.last||{}; S.chk=S.chk||{}; S.notes
 const persist=()=>save(S);
 const MODS=['m1','m2','m3','m4'];
 const MOD_NAME={m1:'실습 1 기록하기',m2:'실습 2 실시간 공유',m3:'실습 3 외부 데이터',m4:'실습 4 구글도구 연결'};
-const VIEW_TITLE={home:'',warmup:'워밍업',m1:'실습 1 기록하기',m2:'실습 2 실시간 공유',m3:'실습 3 외부 데이터',m4:'실습 4 구글도구 연결',stove:'내 앱 설계',kit:'도구 모음',ref:'부록'};
+const VIEW_TITLE={home:'',warmup:'워밍업',m1:'실습 1 기록하기',m2:'실습 2 실시간 공유',m3:'실습 3 외부 데이터',m4:'실습 4 구글도구 연결',stove:'내 앱 설계',kit:'도구 모음',ref:'자주 찾는 질문'};
 
 /* ── 화면 모드 ── */
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);
@@ -5697,6 +5738,29 @@ document.querySelectorAll('.dx-all').forEach(b=>b.addEventListener('click',()=>{
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('play');io.unobserve(e.target);}}),{threshold:.35});
   cards.forEach(c=>io.observe(c));
 })();
+/* ── UI·UX 사전(VibeDic) 검색 ── */
+(function(){
+  const f=$('dicForm'); if(!f) return;
+  f.addEventListener('submit',e=>{e.preventDefault(); const q=val('dicQ');
+    window.open('https://vibedic.chichiboo.link/#/'+(q?'search?q='+encodeURIComponent(q):''),'_blank','noopener');});
+})();
+/* ── 자주 찾는 질문: 찾기 · 분류 ── */
+(function(){
+  const q=$('faqQ'), cats=$('faqCats'); if(!q||!cats) return;
+  const items=[...document.querySelectorAll('#v-ref details.faq')], groups=[...document.querySelectorAll('#v-ref .refgroup')];
+  let cat='all';
+  const run=()=>{
+    const words=q.value.trim().toLowerCase().split(/\s+/).filter(Boolean); let shown=0;
+    items.forEach(d=>{const t=d.textContent.toLowerCase();
+      const ok=(cat==='all'||d.dataset.cat===cat)&&words.every(w=>t.includes(w));
+      d.classList.toggle('hide',!ok); if(ok) shown++;});
+    groups.forEach(g=>g.classList.toggle('hide',!items.some(d=>d.dataset.cat===g.dataset.cat&&!d.classList.contains('hide'))));
+    $('faqEmpty').hidden=shown>0;
+  };
+  q.addEventListener('input',run);
+  cats.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return;
+    cat=b.dataset.f; cats.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); run();});
+})();
 /* 좁은 화면에서 표를 카드로 쌓을 때 쓸 칸 이름 */
 document.querySelectorAll('.tbl table').forEach(t=>{
   const hs=t.tHead?[...t.tHead.rows[0].cells].map(c=>c.textContent.trim()):[];
@@ -5725,10 +5789,11 @@ const IDX=[];
   });
   document.querySelectorAll('#v-ref details.step').forEach(d=>{
     const t=d.querySelector('h3').textContent.trim(); const sub=(d.querySelector('.step-tw p')||{}).textContent||'';
-    add(t,'부록 · '+sub,'menu_book',{id:d.id},d.textContent.slice(0,1500));
+    add(t,'자주 찾는 질문 · '+sub,'help_outline',{id:d.id},d.textContent.slice(0,1500));
   });
-  add('도구 모음','외부 데이터 API · 구글 도구','widgets',{route:'#/kit'},'api 연동 코드');
-  add('부록','오류 해결 · 사용 한도 · 보안 · 교실 적용','menu_book',{route:'#/ref'});
+  add('도구 모음','바깥 데이터 · 구글 도구 · UI·UX 사전','widgets',{route:'#/kit'},'api 연동 코드');
+  add('UI·UX 사전 (VibeDic)','화면 요소 이름 찾기 · 도구 모음','menu_book',{id:'kit-dic'},'vibedic 버튼 모달 토스트 카드 탭 화면 디자인 ui ux');
+  add('자주 찾는 질문','오류 · 사용 한도 · 보안 · 교실 적용','help_outline',{route:'#/ref'},'부록 faq');
   document.querySelectorAll('#v-kit .kc2[id]').forEach(c=>{
     const t=c.querySelector('.kc2-h b'), sub=c.querySelector('.kc2-h > div > span');
     add(t?t.textContent.trim():c.id,'도구 모음 · '+(sub?sub.textContent.trim():''),c.classList.contains('g')?'apps':'public',{id:c.id},c.textContent.slice(0,600));
@@ -5787,7 +5852,7 @@ function setKitTab(name){
   document.querySelectorAll('.kit-panel').forEach(p=>p.hidden=p.dataset.panel!==name);
 }
 document.querySelectorAll('.kit-tabs button').forEach(b=>b.addEventListener('click',()=>setKitTab(b.dataset.kit)));
-document.querySelectorAll('.chips').forEach(ch=>ch.addEventListener('click',e=>{
+document.querySelectorAll('.kit-panel .chips').forEach(ch=>ch.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   ch.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
   const panel=ch.closest('.kit-panel'); const f=b.dataset.f;
