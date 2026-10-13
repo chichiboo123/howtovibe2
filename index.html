@@ -1115,6 +1115,91 @@ ul.plain b{margin-right:6px;}
 .views3{margin-bottom:16px;}
 .rail-foot,.prog{display:none !important;}
 .mswitch + .vhead{margin-top:2px;}
+
+/* ══════ 홈 히어로 v7 — 큰 글자 · 부드러운 그라데이션 · 세 방향 선 그림 ══════ */
+.hx{position:relative;overflow:hidden;padding:clamp(56px,9vw,112px) 0 clamp(40px,6vw,72px);isolation:isolate;}
+.hx-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent);}
+.hx-bg i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75;animation:hxFloat 18s ease-in-out infinite alternate;}
+.hx-bg .b1{width:46vw;height:46vw;max-width:620px;max-height:620px;left:-10%;top:-18%;background:oklch(90% .07 155);}
+.hx-bg .b2{width:42vw;height:42vw;max-width:560px;max-height:560px;right:-8%;top:-10%;background:oklch(88% .07 245);animation-delay:-6s;}
+.hx-bg .b3{width:38vw;height:38vw;max-width:520px;max-height:520px;left:34%;top:38%;background:oklch(94% .08 95);animation-delay:-12s;}
+.hx-bg::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.07;mix-blend-mode:multiply;}
+[data-theme="dark"] .hx-bg i{opacity:.35;}
+[data-theme="dark"] .hx-bg .b1{background:oklch(42% .09 155);} [data-theme="dark"] .hx-bg .b2{background:oklch(40% .1 245);} [data-theme="dark"] .hx-bg .b3{background:oklch(42% .08 95);}
+[data-theme="dark"] .hx-bg::after{mix-blend-mode:screen;opacity:.05;}
+@keyframes hxFloat{from{transform:translate3d(0,0,0) scale(1);}to{transform:translate3d(4%,6%,0) scale(1.08);}}
+.hx-in{text-align:center;}
+.hx-eyebrow{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:700;color:var(--ink-2);
+  background:color-mix(in srgb,var(--surface) 62%,transparent);border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.hx-title{margin:22px auto 0;font-size:clamp(40px,7.4vw,96px);font-weight:800;line-height:1.06;letter-spacing:-.055em;text-wrap:balance;}
+.hx-title .ln{display:block;overflow:hidden;padding-bottom:.06em;}
+.hx-title .ln > span{display:inline-block;animation:hxUp .9s cubic-bezier(.2,.8,.2,1) both;}
+.hx-title .ln:nth-child(2) > span{animation-delay:.12s;}
+.hx-title em{font-style:normal;background:linear-gradient(100deg,var(--f1d),var(--blue) 55%,var(--f4d));-webkit-background-clip:text;background-clip:text;color:transparent;}
+@keyframes hxUp{from{transform:translateY(105%);}to{transform:none;}}
+.hx-lede{max-width:34em;text-wrap:balance;margin:22px auto 0;font-size:clamp(16px,1.6vw,19px);line-height:1.7;color:var(--muted);animation:hxFade .8s ease both .35s;}
+.hx-cta{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:30px;animation:hxFade .8s ease both .45s;}
+.btn-glass{background:color-mix(in srgb,var(--surface) 60%,transparent);color:var(--ink);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 12%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.btn-glass:hover{background:var(--surface);}
+@keyframes hxFade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+.hx-trio{display:grid;gap:14px;margin-top:clamp(40px,6vw,72px);text-align:left;grid-template-columns:minmax(0,1fr);}
+@media (min-width:860px){.hx-trio{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}}
+.hx-card{position:relative;display:flex;flex-direction:column;gap:4px;padding:18px 20px 20px;border-radius:24px;text-decoration:none;color:var(--ink);
+  background:color-mix(in srgb,var(--surface) 70%,transparent);border:1px solid color-mix(in srgb,var(--ink) 9%,transparent);
+  backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 18px 40px -28px rgba(23,28,38,.35);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .25s;animation:hxFade .8s ease both calc(.55s + var(--d));}
+[data-theme="dark"] .hx-card{box-shadow:0 18px 40px -28px rgba(0,0,0,.8);}
+.hx-card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--fd) 45%,transparent);box-shadow:0 26px 50px -30px color-mix(in srgb,var(--fd) 70%,transparent);}
+.hx-art{width:100%;height:auto;aspect-ratio:320/150;margin-bottom:10px;overflow:visible;}
+.hx-art *{vector-effect:non-scaling-stroke;}
+.hx-art.a3{overflow:hidden;}
+.hx-k{font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--fd);}
+.hx-card b{font-size:clamp(20px,2vw,24px);font-weight:800;letter-spacing:-.04em;color:var(--ink);}
+.hx-d{font-size:14px;line-height:1.6;color:var(--muted);}
+/* 1 점에서 선으로 */
+.a1 .track{fill:none;stroke:color-mix(in srgb,var(--fd) 18%,transparent);stroke-width:2;stroke-dasharray:2 8;stroke-linecap:round;}
+.a1 .draw{fill:none;stroke:var(--fd);stroke-width:3;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;}
+.a1 .pt{fill:var(--surface);stroke:var(--fd);stroke-width:2.5;transform-box:fill-box;transform-origin:center;}
+.a1 .pt.end{fill:var(--fd);}
+.hx-card.play .a1 .pt{animation:hxPop .5s cubic-bezier(.3,1.6,.5,1) both calc(.7s + var(--i)*.12s);}
+.hx-card.play .a1 .draw{animation:hxDraw 1.6s cubic-bezier(.6,0,.2,1) forwards 1.2s;}
+/* 2 거울에서 창으로 */
+.a2 .frame,.a2 .pane{fill:none;stroke:var(--fd);stroke-width:2.5;stroke-linecap:round;}
+.a2 .pane{stroke-dasharray:250;stroke-dashoffset:250;}
+.a2 .me{fill:var(--fd);}
+.a2 .you{fill:color-mix(in srgb,var(--fd) 45%,var(--surface));transform-box:fill-box;transform-origin:center;opacity:0;}
+.a2 .ray{fill:none;stroke:color-mix(in srgb,var(--fd) 35%,transparent);stroke-width:2;stroke-dasharray:3 7;stroke-linecap:round;opacity:0;}
+.hx-card.play .a2 .pane{animation:hxDraw 1s cubic-bezier(.6,0,.2,1) forwards .9s;}
+.hx-card.play .a2 .you{animation:hxPopIn .55s cubic-bezier(.3,1.6,.5,1) forwards calc(1.5s + var(--i)*.16s);}
+.hx-card.play .a2 .ray{animation:hxFadeIn .8s ease forwards 2.1s;}
+/* 3 우물에서 바다로 */
+.a3 .horizon{fill:none;stroke:var(--fd);stroke-width:2.5;stroke-linecap:round;transform-box:fill-box;transform-origin:center;transform:scaleX(.16);}
+.a3 .well{fill:color-mix(in srgb,var(--fd) 20%,var(--surface));stroke:var(--fd);stroke-width:2.5;}
+.a3 .sun{fill:color-mix(in srgb,var(--fd) 55%,var(--surface));opacity:0;transform-box:fill-box;transform-origin:center;}
+.a3 .wave{fill:none;stroke:var(--fd);stroke-width:2.5;stroke-linecap:round;}
+.a3 .wave.w2{opacity:.4;}
+.a3 .sea{opacity:0;}
+.hx-card.play .a3 .horizon{animation:hxWide 1.4s cubic-bezier(.6,0,.2,1) forwards 1s;}
+.hx-card.play .a3 .well{animation:hxFadeOut .6s ease forwards 1.1s;}
+.hx-card.play .a3 .sea{animation:hxFadeIn .8s ease forwards 1.8s;}
+.hx-card.play .a3 .wave{animation:hxWave 6s linear infinite;}
+.hx-card.play .a3 .wave.w2{animation-duration:9s;}
+.hx-card.play .a3 .sun{animation:hxPopIn .8s ease forwards 2.1s;}
+@keyframes hxDraw{to{stroke-dashoffset:0;}}
+@keyframes hxPop{from{transform:scale(0);}to{transform:scale(1);}}
+@keyframes hxPopIn{from{opacity:0;transform:scale(.3);}to{opacity:1;transform:scale(1);}}
+@keyframes hxFadeIn{to{opacity:1;}}
+@keyframes hxFadeOut{to{opacity:0;}}
+@keyframes hxWide{to{transform:scaleX(1);}}
+@keyframes hxWave{from{transform:translateX(0);}to{transform:translateX(40px);}}
+/* 움직임 줄이기: 처음부터 완성된 그림 */
+@media (prefers-reduced-motion:reduce){
+  .a1 .draw,.a2 .pane{stroke-dashoffset:0;} .a2 .you,.a2 .ray,.a3 .sun,.a3 .sea{opacity:1;} .a3 .well{opacity:0;} .a3 .horizon{transform:none;}
+}
+.home-foot{padding-top:8px;}
+html[data-present] .hx-bg{opacity:.6;}
 /* 좁은 화면 단계 목록: 지금 단계만 이름을 보여 줍니다 */
 @media (max-width:560px){
   .steps{gap:2px;}
@@ -1151,73 +1236,58 @@ ul.plain b{margin-right:6px;}
 <main id="main">
 
   <section class="view" id="v-home" data-view="home">
-    <div class="hero"><div class="wrap">
-      <div class="hero-txt">
-        <span class="pill"><span class="material-icons-outlined">auto_awesome</span>교사를 위한 바이브코딩 실습</span>
-        <h1>배움의 경험을<br />넓히는 바이브코딩</h1>
-        <p class="lede">늘 하던 교실 활동을 기록하고, 연결하고, 세상으로 넓히는 앱을 AI와 함께 만듭니다.</p>
-        <div class="hero-cta">
+    <div class="hx">
+      <div class="hx-bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+      <div class="wrap hx-in">
+        <span class="hx-eyebrow">교사를 위한 바이브코딩 실습 · Apps Script</span>
+        <h1 class="hx-title"><span class="ln"><span>배움의 경험을</span></span><span class="ln"><span><em>넓히는</em> 바이브코딩</span></span></h1>
+        <p class="hx-lede">늘 하던 교실 활동을 기록하고, 연결하고, 세상으로 넓히는 앱을 AI와 함께 만듭니다.</p>
+        <div class="hx-cta">
           <a class="btn btn-ink" href="#/warmup">처음부터 시작하기<span class="material-icons-outlined">arrow_forward</span></a>
+          <a class="btn btn-glass" href="#/stove">내 앱 설계</a>
+        </div>
+
+        <div class="hx-trio">
+          <a class="hx-card fn1" href="#/m1" style="--d:0s">
+            <svg class="hx-art a1" viewBox="0 0 320 150" aria-hidden="true">
+              <path class="track" d="M24 122 C80 118 96 92 140 86 S214 52 296 26"/>
+              <path class="draw" d="M24 122 C80 118 96 92 140 86 S214 52 296 26"/>
+              <circle class="pt" style="--i:0" cx="24" cy="122" r="6"/><circle class="pt" style="--i:1" cx="84" cy="112" r="6"/>
+              <circle class="pt" style="--i:2" cx="140" cy="86" r="6"/><circle class="pt" style="--i:3" cx="204" cy="62" r="6"/>
+              <circle class="pt end" style="--i:4" cx="296" cy="26" r="9"/>
+            </svg>
+            <span class="hx-k">실습 1</span>
+            <b>점에서 선으로</b>
+            <span class="hx-d">한 번의 활동이 쌓여 지난 배움과 이어집니다.</span>
+          </a>
+          <a class="hx-card fn2" href="#/m2" style="--d:.12s">
+            <svg class="hx-art a2" viewBox="0 0 320 150" aria-hidden="true">
+              <rect class="frame" x="96" y="14" width="128" height="122" rx="18"/>
+              <path class="pane" d="M160 14 V136 M96 75 H224"/>
+              <circle class="me" cx="128" cy="44" r="12"/>
+              <circle class="you" style="--i:0" cx="192" cy="44" r="12"/><circle class="you" style="--i:1" cx="128" cy="106" r="12"/><circle class="you" style="--i:2" cx="192" cy="106" r="12"/>
+              <path class="ray" d="M70 75 H30 M250 75 H290"/>
+            </svg>
+            <span class="hx-k">실습 2</span>
+            <b>거울에서 창으로</b>
+            <span class="hx-d">내 생각이 친구들의 생각과 만나 넓어집니다.</span>
+          </a>
+          <a class="hx-card fn3" href="#/m3" style="--d:.24s">
+            <svg class="hx-art a3" viewBox="0 0 320 150" aria-hidden="true">
+              <circle class="sun" cx="236" cy="40" r="14"/>
+              <path class="horizon" d="M20 78 H300"/>
+              <g class="sea"><path class="wave" d="M-40 102 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
+              <path class="wave w2" d="M-40 124 q20 -12 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/></g>
+              <ellipse class="well" cx="160" cy="78" rx="24" ry="6"/>
+            </svg>
+            <span class="hx-k">실습 3 · 4</span>
+            <b>우물에서 바다로</b>
+            <span class="hx-d">교실 안의 질문이 바깥 세상의 자료와 이어집니다.</span>
+          </a>
         </div>
       </div>
-      <div class="bento">
-        <a class="bento-c fn1 b1" href="#/m1" data-mod="m1">
-          <div class="bc-top"><span class="bc-no">실습 1</span><span class="bc-fn">기록하기</span></div>
-          <div class="mk mk-bars"><i style="--h:72%;--c:#FFD86B"></i><i style="--h:48%;--c:#9ED8B5"></i><i style="--h:88%;--c:#F7A8C0"></i><i style="--h:30%;--c:#A9CDF0"></i><i style="--h:56%;--c:#C9B8F2"></i></div>
-          <div class="bc-b"><b>기분 체크인</b><p>매일 하는데, 아무것도 남지 않는다</p></div>
-          <div class="bc-foot"><span class="segs" data-segs="m1"><i></i><i></i><i></i><i></i></span><span class="bc-st" data-st="m1">시작하기</span></div>
-        </a>
-        <a class="bento-c fn2 b2" href="#/m2" data-mod="m2">
-          <div class="bc-top"><span class="bc-no">실습 2</span><span class="bc-fn">실시간 공유</span></div>
-          <div class="mk mk-notes"><span style="--c:#FFF3B0">체육대회 이름은 번개!<em>♥ 4</em></span><span style="--c:#C8EDD9">모두가 주인공 운동회<em>♥ 7</em></span><span style="--c:#FFD6E0">하늘반 올림픽<em>♥ 2</em></span></div>
-          <div class="bc-b"><b>의견 보드</b><p>말하는 학생만 말하고, 보이는 의견만 보인다</p></div>
-          <div class="bc-foot"><span class="segs" data-segs="m2"><i></i><i></i><i></i><i></i></span><span class="bc-st" data-st="m2">시작하기</span></div>
-        </a>
-        <a class="bento-c fn3 b3" href="#/m3" data-mod="m3">
-          <div class="bc-top"><span class="bc-no">실습 3</span><span class="bc-fn">외부 데이터</span></div>
-          <div class="mk mk-wx"><span><b>서울</b><em>18°</em></span><span><b>나이로비</b><em>22°</em></span><span><b>레이캬비크</b><em>4°</em></span></div>
-          <div class="bc-b"><b>세계 도시 날씨</b><p>매일 바뀌는 정보를, 매번 누군가 옮겨 적는다</p></div>
-          <div class="bc-foot"><span class="segs" data-segs="m3"><i></i><i></i><i></i><i></i></span><span class="bc-st" data-st="m3">시작하기</span></div>
-        </a>
-        <a class="bento-c fn4 b4" href="#/m4" data-mod="m4">
-          <div class="bc-top"><span class="bc-no">실습 4</span><span class="bc-fn">구글도구 연결</span></div>
-          <div class="mk mk-doc"><b>우리 반 학급문집</b><i></i><i></i><i style="width:70%"></i><i></i><i style="width:55%"></i></div>
-          <div class="bc-b"><b>매일 글쓰기 → 학급문집</b><p>기록은 쌓였는데, 결과물로 만드는 데 며칠이 걸린다</p></div>
-          <div class="bc-foot"><span class="segs" data-segs="m4"><i></i><i></i><i></i><i></i></span><span class="bc-st" data-st="m4">시작하기</span></div>
-        </a>
-      </div>
-    </div></div>
-    <div class="sec"><div class="wrap">
-      <div class="sec-h"><h2>앱보다 먼저, 학생이 겪을 배움</h2><p>네 실습은 이 세 가지 방향으로 배움을 넓힙니다.</p></div>
-      <div class="views3">
-        <a class="v3 fn1" href="#/m1">
-          <svg class="v3-art" viewBox="0 0 240 96" aria-hidden="true">
-            <g class="v3-dots"><circle cx="22" cy="70" r="5"/><circle cx="58" cy="30" r="5"/><circle cx="40" cy="52" r="5"/><circle cx="16" cy="34" r="5"/></g>
-            <path class="v3-line" d="M120 78 L150 62 L176 66 L200 40 L224 24"/>
-            <g class="v3-pts"><circle cx="120" cy="78" r="5"/><circle cx="150" cy="62" r="5"/><circle cx="176" cy="66" r="5"/><circle cx="200" cy="40" r="5"/><circle cx="224" cy="24" r="6"/></g>
-            <path class="v3-arrow" d="M80 50 h20 m-6 -6 l6 6 l-6 6"/>
-          </svg>
-          <b>점에서 선으로</b><p>한 번의 활동이 쌓여, 지난 배움을 다시 보게 됩니다.</p><span class="v3-go">실습 1 기록하기</span>
-        </a>
-        <a class="v3 fn2" href="#/m2">
-          <svg class="v3-art" viewBox="0 0 240 96" aria-hidden="true">
-            <rect class="v3-frame" x="14" y="22" width="44" height="54" rx="10"/><circle class="v3-me" cx="36" cy="49" r="8"/>
-            <path class="v3-arrow" d="M80 50 h20 m-6 -6 l6 6 l-6 6"/>
-            <rect class="v3-frame" x="120" y="12" width="104" height="74" rx="12"/><path class="v3-frame" d="M172 12 v74 M120 49 h104"/>
-            <circle class="v3-me" cx="146" cy="31" r="7"/><circle class="v3-you" cx="198" cy="31" r="7"/><circle class="v3-you" cx="146" cy="68" r="7"/><circle class="v3-you" cx="198" cy="68" r="7"/>
-          </svg>
-          <b>거울에서 창으로</b><p>내 생각을 넘어, 친구들의 생각을 만나 함께 넓어집니다.</p><span class="v3-go">실습 2 실시간 공유</span>
-        </a>
-        <a class="v3 fn3" href="#/m3">
-          <svg class="v3-art" viewBox="0 0 240 96" aria-hidden="true">
-            <ellipse class="v3-frame" cx="36" cy="40" rx="22" ry="7"/><path class="v3-frame" d="M14 40 v30 a22 7 0 0 0 44 0 v-30"/><path class="v3-wave" d="M22 58 q7 -4 14 0 t14 0"/>
-            <path class="v3-arrow" d="M80 50 h20 m-6 -6 l6 6 l-6 6"/>
-            <path class="v3-frame" d="M116 40 H230"/><circle class="v3-sun" cx="200" cy="26" r="9"/>
-            <path class="v3-wave" d="M116 58 q12 -8 24 0 t24 0 t24 0 t24 0 t18 0"/><path class="v3-wave soft" d="M116 74 q12 -8 24 0 t24 0 t24 0 t24 0 t18 0"/>
-          </svg>
-          <b>우물에서 바다로</b><p>교실 안의 질문이 바깥 세상의 자료와 만나 넓어집니다.</p><span class="v3-go">실습 3 외부 데이터 · 실습 4 구글도구</span>
-        </a>
-      </div>
+    </div>
+    <div class="sec home-foot"><div class="wrap">
       <div class="backup" id="backup">
         <span class="bk-ic"><span class="material-icons-outlined">cloud_off</span></span>
         <div class="bk-t"><b>진도와 메모는 이 브라우저에만 저장됩니다</b>
@@ -5521,6 +5591,7 @@ function paintHome(){
     document.querySelectorAll('[data-segs="'+m+'"] i').forEach((b,i)=>b.classList.toggle('v',p.score||vis.includes(i+1)));
     const st=document.querySelector('[data-st="'+m+'"]');
     const card=document.querySelector('.bento-c[data-mod="'+m+'"]');
+    if(!st||!card) return;
     st.classList.remove('run','done');
     if(p.score){st.textContent='완료';st.classList.add('done');}
     else if(p.started){st.textContent=STEP_NAME[p.last]+'부터 이어 하기';st.classList.add('run');}
@@ -5619,6 +5690,13 @@ document.querySelectorAll('.dx').forEach(card=>{
 });
 document.querySelectorAll('.dx-all').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.dx').forEach(revealDx); b.hidden=true;}));
+/* ── 홈 히어로: 그림은 화면에 보일 때 그려집니다 ── */
+(function(){
+  const cards=document.querySelectorAll('.hx-card');
+  if(!('IntersectionObserver' in window)){cards.forEach(c=>c.classList.add('play'));return;}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('play');io.unobserve(e.target);}}),{threshold:.35});
+  cards.forEach(c=>io.observe(c));
+})();
 /* 좁은 화면에서 표를 카드로 쌓을 때 쓸 칸 이름 */
 document.querySelectorAll('.tbl table').forEach(t=>{
   const hs=t.tHead?[...t.tHead.rows[0].cells].map(c=>c.textContent.trim()):[];
