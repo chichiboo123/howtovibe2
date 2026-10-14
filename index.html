@@ -3218,7 +3218,7 @@ if (document.readyState === 'loading') {
   <section class="view fn3" id="v-m3" data-view="m3" data-steps="4">
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록하기</a><a href="#/m2" data-m="m2"><i>2</i>함께 보기</a><a href="#/m3" data-m="m3" class="on" aria-current="page"><i>3</i>외부 데이터</a><a href="#/m4" data-m="m4"><i>4</i>구글도구 연결</a></nav>
-      <div class="vhead"><div><h1>세계 도시 날씨 만들기</h1><p><span class="vw">우물에서 바다로</span>교실 밖 세상의 정보가 스스로 들어오는 앱.</p></div></div>
+      <div class="vhead"><div><h1>오늘의 궁금증 탐험대</h1><p><span class="vw">우물에서 바다로</span>하나의 질문에서 시작해 더 넓은 세상을 탐험하는 앱.</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
@@ -3226,18 +3226,19 @@ if (document.readyState === 'loading') {
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m3-p">
-            <header class="pane-h"><span class="pane-k">문제상황</span><h2>매일 바뀌는 정보를, 매번 누군가 옮겨 적는다</h2></header>
-            <ul class="pains"><li>&ldquo;지금 그 나라는 몇 시고, 날씨는 어때요?&rdquo; 세계시민 수업에서 이 질문이 나오면 <b>교사가 사이트를 하나씩</b> 띄워야 합니다.</li><li>급식 · 날씨 · 미세먼지 · 학사일정처럼 <b>매일 바뀌는 정보</b>를 학급 게시판에 누군가 매번 옮겨 적습니다.</li><li>내가 만든 앱은 <b>내가 입력한 것</b>만 보여줄 수 있습니다.</li></ul>
-            <div class="note"><div class="note-h"><span class="material-icons-outlined">edit_note</span>우리 교실이라면?<span class="opt">선택</span></div><p>수업에서 바깥 세상과 이어 보고 싶은 질문은 무엇인가요? (교류 학교 도시, 우리 동네 공기, 오늘 급식…)</p>
+            <header class="pane-h"><span class="pane-k">문제상황</span><h2>궁금증은 쏟아지는데, 탐구로 이어지기 어렵다</h2></header>
+            <ul class="pains"><li>&ldquo;선생님, 무지개는 왜 생겨요?&rdquo; 수업마다 질문이 쏟아지지만, <b>교사가 모든 자료를 미리 준비</b>할 수는 없습니다.</li><li>검색창을 열어 주면 광고 · 영상 · 쇼핑 결과에 묻혀 <b>궁금증이 길을 잃습니다</b>.</li><li>답을 바로 알려 주는 도구는 편하지만, 학생이 <b>읽고 생각하는 과정</b>을 건너뛰게 됩니다.</li></ul>
+            <div class="note"><div class="note-h"><span class="material-icons-outlined">edit_note</span>우리 교실이라면?<span class="opt">선택</span></div><p>학생들이 자주 묻는 질문, 단원에서 더 넓혀 보고 싶은 주제는 무엇인가요? (과학 현상, 역사 인물, 세계의 자연…)</p>
               <textarea id="note-m3" data-note="m3" placeholder="떠오르는 장면을 한 줄로 적어 두세요"></textarea>
               <small>적어 둔 메모는 &lsquo;내 앱 설계&rsquo;에서 다시 꺼내 쓸 수 있습니다.</small></div>
             <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m3/2"><small>다음</small>아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-i" data-step="2" id="m3-i">
-            <header class="pane-h"><span class="pane-k">아이디어</span><h2>스스로 최신 정보를 가져오는 앱</h2></header>
-            <div class="idea"><q>&ldquo;앱이 바깥에 직접 물어보고, 최신 정보를 받아 보여준다면?&rdquo;</q><p>날씨 · 급식 · 공휴일 같은 정보는 기관들이 <b>API</b>로 공개해 두었습니다. 앱이 API에 물어보면 아무도 입력하지 않아도 늘 최신입니다.</p></div>
-            <p class="think"><span class="material-icons-outlined">psychology</span><span>바깥 데이터가 들어오면, 학생은 <b>어떤 새 질문</b>을 하게 될까요?</span></p>
-            <div class="ext"><span class="ext-k">이렇게도 넓힐 수 있어요</span><span>교류 학교의 날씨와 생활</span><span>세계 기후 탐구</span><span>우리 동네 환경 관찰</span><span>공공데이터로 지역 알기</span></div>
+            <header class="pane-h"><span class="pane-k">아이디어</span><h2>자료는 API가 찾고, 생각은 학생이 하는 앱</h2></header>
+            <div class="idea"><q>&ldquo;궁금한 낱말을 넣으면 백과사전 자료가 찾아오고, 학생은 그것을 읽고 자기 말로 정리한다면?&rdquo;</q><p>한국어 위키백과는 검색 결과를 <b>API</b>로 공개해 두었습니다. 교사가 모든 정보를 준비하지 않아도, 외부 데이터를 연결하면 <b>학생의 탐구를 돕는 앱</b>을 만들 수 있습니다.</p></div>
+            <ol class="path4" style="margin-top:16px"><li>궁금한 주제 검색하기</li><li>위키백과 자료 만나기</li><li>읽고 생각하기</li></ol>
+            <p class="think"><span class="material-icons-outlined">psychology</span><span>앱이 답을 대신 써 주지 않는다면, 학생은 자료를 읽고 <b>어떤 새 질문</b>을 하게 될까요?</span></p>
+            <div class="ext"><span class="ext-k">이렇게도 넓힐 수 있어요</span><span>단원 마무리 탐구 질문</span><span>책 속 낯선 낱말 찾기</span><span>인물 · 장소 조사</span><span>꼬리에 꼬리를 무는 질문 지도</span></div>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m3/3"><small>다음</small>해결방법<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-t" data-step="3" id="m3-t">
@@ -3245,48 +3246,63 @@ if (document.readyState === 'loading') {
               </header>
             <ol class="path4"><li>원하는 경험</li><li>필요한 기능</li><li>AI에게 줄 조건</li></ol>
             
-            <div class="techs"><div class="tc"><span class="need">바깥 정보 가져오기</span><span class="why">날씨를 무료로 알려주는 API. 가입도 키도 필요 없습니다</span></div><div class="tc"><span class="need">학생 대신 주방이 묻기</span><span class="why">Code.gs가 바깥에 물어봅니다. 학생 브라우저가 직접 묻지 않아 키를 숨길 수 있습니다</span></div><div class="tc"><span class="need">15개 도시를 한 번에</span><span class="why">도시마다 따로 묻지 않고 한 번에 묻습니다. 여러 명이 동시에 열어도 요청이 몰리지 않습니다</span></div><div class="tc"><span class="need">반 전체가 열어도 한 번만</span><span class="why">받은 결과를 20분 보관해 다시 씁니다. 날씨 서버에 부담을 주지 않습니다</span></div><div class="tc"><span class="need">정보의 출처</span><span class="why">무료 데이터 대부분이 출처를 적는 것을 조건으로 합니다</span></div></div>
+            <div class="techs"><div class="tc"><span class="need">바깥 자료 가져오기</span><span class="why">한국어 위키백과 검색 API. 가입도 키도 필요 없습니다</span></div><div class="tc"><span class="need">학생 대신 주방이 묻기</span><span class="why">Code.gs가 UrlFetchApp으로 위키백과에 물어봅니다. 키가 필요한 API로 바꿔도 키가 드러나지 않습니다</span></div><div class="tc"><span class="need">검색 한 번, 카드 세 장</span><span class="why">검색 API 하나가 제목 · 설명 · 발췌문을 함께 돌려줍니다. 문서 본문을 따로 묻지 않습니다</span></div><div class="tc"><span class="need">바깥 글은 글자로만</span><span class="why">발췌문 속 강조 태그를 지우고 textContent로 넣습니다. 바깥 글이 화면의 코드가 되지 않습니다</span></div><div class="tc"><span class="need">생각은 학생의 것</span><span class="why">학생이 쓴 답은 서버로 보내지 않습니다. AI가 답을 만들거나 평가하지도 않습니다</span></div><div class="tc"><span class="need">출처와 원문</span><span class="why">위키백과는 CC BY-SA. 출처를 적고 원문 보기 링크를 함께 둡니다</span></div></div>
                     <div class="concept">
           <span class="material-icons-outlined">swap_calls</span>
-          <div><b>흐름</b> — 학생 화면 → 주방(Code.gs) → Open-Meteo → 주방이 20분 보관 → 학생 화면.
+          <div><b>흐름</b> — 학생 화면 → google.script.run → 주방(Code.gs) → UrlFetchApp → 위키백과 검색 API → 카드 3장 → 학생 화면. 같은 낱말은 주방이 30분 보관해 다시 씁니다.
             키가 필요한 API(나이스 급식, 공공데이터포털)도 같은 흐름입니다. 키는 <a href="#ref-3" class="inl">스크립트 속성</a>에 넣습니다.</div>
         </div>
             <a class="kitlink" href="#/kit"><span class="material-icons-outlined">widgets</span><span><b>다른 데이터도 가져오고 싶다면</b>미세먼지, 나라 정보, 공휴일, 환율, 급식까지. 교육용 추천 API 9가지와 연동 코드</span><span class="material-icons-outlined">arrow_forward</span></a>
             <h3 class="sub-h"><span class="material-icons-outlined">smart_toy</span>이 앱을 AI에게 요청한다면</h3>
             <div class="prompt-wrap">
-              <div class="code wrap"><button class="copy" data-copy="m3_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_prompt">세계 여러 도시의 지금 날씨를 보여주는 웹앱을 구글 Apps Script 웹앱으로 만들어줘.
+              <div class="code wrap"><button class="copy" data-copy="m3_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_prompt">궁금한 낱말을 한국어 위키백과에서 찾아 읽고, 자기 생각을 정리하는 웹앱을 구글 Apps Script 웹앱으로 만들어줘.
+앱 이름은 '오늘의 궁금증 탐험대'야.
 
 [문제상황]
-세계시민 수업에서 '지금 그 나라 날씨와 시각'을 물으면 사이트를 하나씩 띄워야 해.
+수업 중 학생들의 궁금증은 많은데, 교사가 모든 자료를 미리 준비할 수는 없어.
+답을 대신 알려 주는 앱이 아니라, 학생이 자료를 읽고 스스로 생각하게 돕는 앱이 필요해.
 
-[화면]
-- 서울, 도쿄, 방콕, 나이로비, 파리, 뉴욕, 시드니 등 15개 도시를 카드로 보여줘.
-- 카드마다: 도시 · 나라 · 현지 시각 · 날씨(우리말 + 아이콘) · 기온 · 최고/최저 · 습도 · 바람.
-- 기온에 따라 카드 색을 다르게, 정렬은 기본 / 더운 순 / 추운 순.
-- 맨 위에 '가장 따뜻한 곳 · 가장 추운 곳 · 서울과의 기온 차'를 요약해줘.
+[화면 — 한 화면, 세 가지 활동]
+① 궁금한 주제 검색하기
+- 낱말 입력칸과 [찾기] 버튼. 질문 문장보다 핵심 낱말로 찾도록 안내해줘.
+- 예시 낱말(무지개, 사막, 세종대왕, 블랙홀, 산호초)을 누르면 바로 찾아줘.
+② 위키백과 자료 만나기
+- 결과를 최대 3장의 카드로: 문서 제목 · 짧은 설명 · 발췌문 · [원문 보기] 링크(새 탭).
+- 작은 그림이 있으면 보여주고, 없어도 깔끔하게.
+- 결과가 없으면 다른 낱말로 찾아보라고 안내해줘.
+③ 읽고 생각하기
+- '새롭게 알게 된 것은 무엇인가요?', '새롭게 궁금해진 것은 무엇인가요?' 두 칸.
+- 두 답을 한 번에 복사하는 [내 생각 복사] 버튼.
 
 [외부 데이터 — 이 앱의 핵심]
-- 날씨는 키가 필요 없는 Open-Meteo API 를 써줘.
+- 한국어 위키백과 검색 API 를 써줘. 키는 필요 없어.
+  https://ko.wikipedia.org/w/rest.php/v1/search/page?q=낱말&amp;limit=3
 - API 는 화면에서 부르지 말고 Code.gs 에서 UrlFetchApp 으로 불러줘.
-  여러 도시는 위도·경도를 쉼표로 이어 붙여 한 번의 요청으로 물어봐줘.
-- 받은 결과는 CacheService 로 20분 보관해서, 반 전체가 열어도 API 는 한 번만 부르게 해줘.
-- 한 도시가 실패해도 나머지는 보이게 해줘.
-- 화면 아래에 데이터 출처(Open-Meteo.com, CC BY 4.0)를 적어줘.
+- 응답의 pages 에서 title · description · excerpt · thumbnail 만 골라 화면에 넘겨줘.
+  문서 본문을 부르는 API 는 따로 쓰지 마.
+- excerpt 에 든 HTML 태그는 지우고 글자로만 보여줘. 화면에는 textContent 로 넣어줘.
+- 원문 링크는 문서 key 를 encodeURIComponent 로 인코딩해 https://ko.wikipedia.org/wiki/ 뒤에 붙여줘.
+- 같은 낱말은 CacheService 로 30분 보관해서, 반 전체가 같은 낱말을 찾아도 API 는 한 번만 부르게 해줘.
+- 화면 아래에 출처(한국어 위키백과, CC BY-SA 4.0)를 적어줘.
+
+[하지 않을 것]
+- 학생이 쓴 생각은 서버나 시트에 저장하지 마.
+- AI 가 답을 만들거나, 질문에서 낱말을 자동으로 뽑거나, 답을 평가하는 기능은 넣지 마.
 
 [기술 조건]
 - Code.gs 와 index.html 두 파일, doGet 으로 서비스, google.script.run 사용.
-- 도시 목록은 Code.gs 맨 위에 이름 · 나라 · 위도 · 경도로 정리해서 쉽게 고칠 수 있게.
+- Code.gs 는 doGet · searchWikipedia(keyword) · setup 중심으로 간결하게.
 - 처음 한 번 실행해서 권한을 승인할 setup 함수를 만들어줘.
 
 [디자인]
 앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div>
-              <div class="keys"><div class="keys-h"><span class="material-icons-outlined">key</span>이 문장이 빠지면 다른 앱이 나옵니다</div><ol><li><span class="q">&ldquo;API 는 화면에서 부르지 말고 Code.gs 에서 UrlFetchApp 으로&rdquo;</span><span class="w">화면에서 부르면 API 키가 소스 보기로 드러나고, 일부 API는 브라우저 요청을 막습니다.</span></li><li><span class="q">&ldquo;CacheService 로 20분 보관&rdquo;</span><span class="w">없으면 학생 수 × 새로고침 횟수만큼 바깥에 묻습니다. 사용 한도와 상대 서버 모두에 부담입니다.</span></li><li><span class="q">&ldquo;한 도시가 실패해도 나머지는 보이게&rdquo;</span><span class="w">바깥 서버는 언제든 멈출 수 있습니다. 실패를 미리 생각하는 것이 외부 데이터의 기본입니다.</span></li></ol></div>
+              <div class="keys"><div class="keys-h"><span class="material-icons-outlined">key</span>이 문장이 빠지면 다른 앱이 나옵니다</div><ol><li><span class="q">&ldquo;API 는 화면에서 부르지 말고 Code.gs 에서 UrlFetchApp 으로&rdquo;</span><span class="w">화면에서 부르면 API 키가 소스 보기로 드러나고, 일부 API는 브라우저 요청을 막습니다. 키 없는 위키백과로 익힌 흐름이 키가 필요한 API에도 그대로 쓰입니다.</span></li><li><span class="q">&ldquo;excerpt 에 든 HTML 태그는 지우고 글자로만&rdquo;</span><span class="w">빠지면 &lt;span class=&quot;searchmatch&quot;&gt; 같은 태그가 화면에 그대로 보이거나, 바깥 글이 innerHTML로 들어가 코드처럼 실행될 수 있습니다.</span></li><li><span class="q">&ldquo;학생이 쓴 생각은 저장하지 마 · AI 가 답을 만들지 마&rdquo;</span><span class="w">빠지면 AI는 친절하게 &lsquo;요약해 주기&rsquo;나 &lsquo;정답 만들기&rsquo;를 더합니다. 이 앱의 목적은 학생이 읽고 생각하는 것입니다.</span></li></ol></div>
             </div>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/2"><span class="material-icons-outlined">arrow_back</span>아이디어</a><a class="btn btn-ink btn-sm nx" href="#/m3/4"><small>다음</small>만들기<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="4" id="m3-x">
-            <header class="pane-h"><span class="pane-k">만들기</span><h2>세계 도시 날씨 만들기</h2></header>
-            <div class="appline"><span class="ic"><span class="material-icons-outlined">public</span></span><p>무료 날씨 API Open-Meteo에 물어 15개 도시의 날씨와 현지 시각을 카드로 보여줍니다.</p></div>
+            <header class="pane-h"><span class="pane-k">만들기</span><h2>오늘의 궁금증 탐험대 만들기</h2></header>
+            <div class="appline"><span class="ic"><span class="material-icons-outlined">travel_explore</span></span><p>한국어 위키백과 검색 API에 물어 궁금한 낱말의 자료 카드 3장을 보여주고, 학생은 읽은 뒤 자기 말로 생각을 정리합니다.</p></div>
             <div class="paths" role="group" aria-label="만드는 방법 고르기" data-mod="m3">
               <button type="button" class="pth on" data-path="a"><span class="material-icons-outlined">content_paste</span><b>따라 만들기 <i class="pth-tag">기본</i></b><span>완성 코드로 먼저 성공해 보기</span></button>
               <button type="button" class="pth" data-path="b"><span class="material-icons-outlined">smart_toy</span><b>AI와 처음부터 <i class="pth-tag">선택</i></b><span>먼저 끝냈다면 프롬프트로 직접 만들기</span></button>
@@ -3306,8 +3322,8 @@ if (document.readyState === 'loading') {
           <span class="step-tw"><h3>새 시트 만들기</h3><p>sheets.new → Apps Script</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
         <div class="step-content">
           <p class="act"><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a>로 새 스프레드시트를 만들고, 메뉴 <b>확장 프로그램 → Apps Script</b>를 엽니다.</p>
-          <div class="namebox"><span class="material-icons-outlined">edit</span>시트와 프로젝트 이름 <b>[3] 세계 날씨</b></div>
-        <p class="dim">이번에는 시트에 저장하지 않지만 같은 루틴으로 엽니다. <b>script.google.com → 새 프로젝트</b>로 열어도 됩니다.</p>
+          <div class="namebox"><span class="material-icons-outlined">edit</span>시트와 프로젝트 이름 <b>[3] 궁금증 탐험대</b></div>
+        <p class="dim">이번 앱은 시트에 아무것도 저장하지 않지만 같은 루틴으로 엽니다. <b>script.google.com → 새 프로젝트</b>로 열어도 됩니다.</p>
           <label class="donechk"><input type="checkbox" data-mod="m3" data-step="1">여기까지 했습니다</label>
         </div>
       </details>
@@ -3323,11 +3339,11 @@ if (document.readyState === 'loading') {
             <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
             <button class="copy" type="button" data-copy="m3_gs"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m3_gs">/**
- * [3] 외부 데이터 활용 — 세계 도시 오늘의 날씨 : 서버 코드 (Code.gs)
+ * [3] 외부 데이터 활용 — 오늘의 궁금증 탐험대 : 서버 코드 (Code.gs)
  * 바이브코딩 : 포스트시즌
  *
- * 날씨는 Open-Meteo(open-meteo.com)의 무료 API에서 가져옵니다.
- * 가입도, API 키도 필요 없습니다. (비상업·교육용 무료, 출처 표기 필요)
+ * 자료는 한국어 위키백과(ko.wikipedia.org)의 검색 API에서 가져옵니다.
+ * 가입도, API 키도 필요 없습니다. (화면에 출처 표기 필요, CC BY-SA 4.0)
  *
  * 이 코드를 Code.gs 에 붙여넣은 뒤
  *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
@@ -3341,112 +3357,80 @@ if (document.readyState === 'loading') {
  * 코드를 고친 뒤에는 [배포] → 배포 관리 → 수정 → 버전: 새 버전 → 배포
  */
 
-/* 도시 목록 — 한 줄을 더하거나 지우면 화면의 도시가 바뀝니다.
-   위도(lat)·경도(lon)는 지도 앱에서 그 도시를 길게 눌러 확인할 수 있습니다. */
-var CITIES = [
-  { name: '서울',           country: '대한민국',       lat: 37.5665,  lon: 126.9780 },
-  { name: '도쿄',           country: '일본',           lat: 35.6762,  lon: 139.6503 },
-  { name: '베이징',         country: '중국',           lat: 39.9042,  lon: 116.4074 },
-  { name: '방콕',           country: '태국',           lat: 13.7563,  lon: 100.5018 },
-  { name: '뉴델리',         country: '인도',           lat: 28.6139,  lon: 77.2090 },
-  { name: '두바이',         country: '아랍에미리트',   lat: 25.2048,  lon: 55.2708 },
-  { name: '나이로비',       country: '케냐',           lat: -1.2921,  lon: 36.8219 },
-  { name: '카이로',         country: '이집트',         lat: 30.0444,  lon: 31.2357 },
-  { name: '파리',           country: '프랑스',         lat: 48.8566,  lon: 2.3522 },
-  { name: '런던',           country: '영국',           lat: 51.5074,  lon: -0.1278 },
-  { name: '레이캬비크',     country: '아이슬란드',     lat: 64.1466,  lon: -21.9426 },
-  { name: '뉴욕',           country: '미국',           lat: 40.7128,  lon: -74.0060 },
-  { name: '멕시코시티',     country: '멕시코',         lat: 19.4326,  lon: -99.1332 },
-  { name: '리우데자네이루', country: '브라질',         lat: -22.9068, lon: -43.1729 },
-  { name: '시드니',         country: '호주',           lat: -33.8688, lon: 151.2093 }
-];
+var MAX_RESULTS = 3;     // 자료 카드를 몇 장 보여줄지
+var CACHE_MIN = 30;      // 같은 낱말의 검색 결과를 몇 분 동안 다시 쓸지
+var API_URL = 'https://ko.wikipedia.org/w/rest.php/v1/search/page';
 
-var CACHE_MIN = 20;               // 몇 분 동안 받아 둔 날씨를 다시 쓸지
-var CACHE_KEY = 'weather_v1';
-
-/** 처음 한 번 실행하세요 — 날씨를 한 번 받아 보면서 권한을 승인합니다 */
+/** 처음 한 번 실행하세요 — 위키백과에 한 번 물어보면서 권한을 승인합니다 */
 function setup() {
-  var data = fetchWeather_();
-  Logger.log('준비 완료 — ' + data.cities.length + '개 도시의 날씨를 받았습니다.');
-  Logger.log('예) ' + data.cities[0].name + ' ' + data.cities[0].temp + '°C');
+  var data = searchWikipedia('무지개');
+  Logger.log('준비 완료 — 위키백과에서 자료 ' + data.pages.length + '개를 찾았습니다.');
+  if (data.pages.length) Logger.log('예) ' + data.pages[0].title);
   return 'ok';
 }
 
 /** 앱 화면을 서비스합니다 */
 function doGet() {
   return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('세계 도시 오늘의 날씨')
+    .setTitle('오늘의 궁금증 탐험대')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
 /**
- * 화면이 부르는 함수.
- * 받아 둔 날씨가 있으면 그것을, 없으면 새로 받아서 돌려줍니다.
- * 반 전체가 동시에 열어도 Open-Meteo 에는 보통 20분에 한 번만 물어봅니다.
+ * 화면이 부르는 함수. 낱말 하나로 위키백과를 찾아 자료 카드에 쓸 정보만 돌려줍니다.
+ * 검색 API 한 번이면 제목 · 설명 · 발췌문이 함께 오므로 문서 본문은 따로 묻지 않습니다.
+ * 같은 낱말은 30분 동안 보관해 다시 씁니다. (반 전체가 '무지개'를 찾아도 위키백과에는 한 번)
  */
-function getWeather() {
+function searchWikipedia(keyword) {
+  var q = String(keyword || '').replace(/\s+/g, ' ').trim().slice(0, 50);
+  if (!q) throw new Error('궁금한 낱말을 입력해 주세요.');
+
   var cache = CacheService.getScriptCache();
-  var saved = cache.get(CACHE_KEY);
+  var key = 'wiki_' + Utilities.base64EncodeWebSafe(q, Utilities.Charset.UTF_8);
+  var saved = cache.get(key);
   if (saved) return JSON.parse(saved);
 
-  // 캐시가 비었을 때 여러 명이 동시에 열어도 한 명만 바깥에 물어보게 잠급니다
-  var lock = LockService.getScriptLock();
-  lock.waitLock(20000);
-  try {
-    saved = cache.get(CACHE_KEY);              // 기다리는 동안 다른 사람이 받아 왔을 수 있습니다
-    if (saved) return JSON.parse(saved);
-    var data = fetchWeather_();
-    cache.put(CACHE_KEY, JSON.stringify(data), CACHE_MIN * 60);
-    return data;
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-/**
- * Open-Meteo 에 15개 도시를 '한 번에' 물어봅니다.
- * 도시마다 따로 물어보면 연수처럼 여러 명이 동시에 setup 을 누를 때
- * 요청이 몰려 거절될 수 있습니다. 위도·경도를 쉼표로 이어 붙이면 한 번이면 됩니다.
- */
-function fetchWeather_() {
-  var lats = CITIES.map(function (c) { return c.lat; }).join(',');
-  var lons = CITIES.map(function (c) { return c.lon; }).join(',');
-  var zones = CITIES.map(function () { return 'auto'; }).join(',');   // 도시마다 현지 시간대
-  var url = 'https://api.open-meteo.com/v1/forecast' +
-    '?latitude=' + lats + '&amp;longitude=' + lons +
-    '&amp;current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day' +
-    '&amp;daily=temperature_2m_max,temperature_2m_min' +
-    '&amp;timezone=' + zones + '&amp;forecast_days=1';
-
-  var res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
-  if (res.getResponseCode() !== 200) {
-    throw new Error('날씨 서버에 연결하지 못했습니다. 잠시 뒤 다시 시도해주세요.');
-  }
-  var list = JSON.parse(res.getContentText());
-  if (!Array.isArray(list)) list = [list];       // 도시가 하나뿐이면 목록이 아니라 하나로 옵니다
-
-  var cities = CITIES.map(function (c, i) {      // 답은 CITIES 와 같은 순서로 옵니다
-    var j = list[i];
-    if (!j || !j.current || !j.daily) return { name: c.name, country: c.country, error: true };
-    return {
-      name: c.name,
-      country: c.country,
-      temp: Math.round(j.current.temperature_2m),
-      humidity: j.current.relative_humidity_2m,
-      wind: Math.round(j.current.wind_speed_10m / 3.6 * 10) / 10,   // km/h → m/s
-      code: j.current.weather_code,
-      isDay: j.current.is_day === 1,
-      max: Math.round(j.daily.temperature_2m_max[0]),
-      min: Math.round(j.daily.temperature_2m_min[0]),
-      offset: j.utc_offset_seconds                                  // 현지 시각 계산용
-    };
+  var url = API_URL + '?q=' + encodeURIComponent(q) + '&amp;limit=' + MAX_RESULTS;
+  var res = UrlFetchApp.fetch(url, {
+    muteHttpExceptions: true,
+    headers: { 'Api-User-Agent': 'CuriosityExplorer/1.0 (Google Apps Script classroom app)' }
   });
-  return { updatedAt: new Date().toISOString(), cities: cities };
+  if (res.getResponseCode() !== 200) {
+    throw new Error('위키백과에 연결하지 못했습니다. 잠시 뒤 다시 찾아보세요.');
+  }
+
+  var pages = (JSON.parse(res.getContentText()).pages || []).slice(0, MAX_RESULTS);
+  var data = {
+    keyword: q,
+    pages: pages.map(function (p) {
+      var thumb = p.thumbnail &amp;&amp; p.thumbnail.url ? String(p.thumbnail.url) : '';
+      if (thumb.indexOf('//') === 0) thumb = 'https:' + thumb;   // 주소가 //upload... 로 오기도 합니다
+      return {
+        title: cleanText_(p.title),
+        description: cleanText_(p.description),
+        excerpt: cleanText_(p.excerpt),
+        // 원문 주소: 문서 이름(key)을 안전하게 인코딩해 붙입니다
+        url: 'https://ko.wikipedia.org/wiki/' + encodeURIComponent(p.key || String(p.title).replace(/ /g, '_')),
+        thumb: thumb
+      };
+    })
+  };
+  cache.put(key, JSON.stringify(data), CACHE_MIN * 60);
+  return data;
 }
 
-// 이 앱은 우리 반 데이터를 밖으로 보내지 않습니다. 날씨를 '가져오기만' 합니다.
+/** 발췌문 속 HTML 태그(검색어 강조 &lt;span&gt; 등)를 지우고 글자만 남깁니다 */
+function cleanText_(html) {
+  return String(html || '')
+    .replace(/&lt;[^&gt;]*&gt;/g, '')
+    .replace(/&amp;quot;/g, '"').replace(/&amp;#0?39;/g, "'").replace(/&amp;nbsp;/g, ' ')
+    .replace(/&amp;lt;/g, '&lt;').replace(/&amp;gt;/g, '&gt;').replace(/&amp;amp;/g, '&amp;')
+    .replace(/\s+/g, ' ').trim();
+}
+
+// 이 앱은 학생이 쓴 생각을 어디에도 보내거나 저장하지 않습니다. 위키백과에서 자료를 '가져오기만' 합니다.
 // API 키가 필요한 서비스를 쓸 때는 키를 이 파일에 적지 말고
-// [프로젝트 설정 → 스크립트 속성]에 넣고 PropertiesService 로 읽으세요. (연수 사이트 &lsquo;자주 찾는 질문&rsquo; 참고)</pre></div>
+// [프로젝트 설정 → 스크립트 속성]에 넣고 PropertiesService 로 읽으세요. (연수 사이트 '자주 찾는 질문' 참고)</pre></div>
         </details>
 
         <details class="codebox">
@@ -3458,7 +3442,7 @@ function fetchWeather_() {
 &lt;head&gt;
 &lt;meta charset="UTF-8" /&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
-&lt;title&gt;세계 도시 오늘의 날씨&lt;/title&gt;
+&lt;title&gt;오늘의 궁금증 탐험대&lt;/title&gt;
 &lt;link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" /&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
 &lt;style&gt;
@@ -3467,6 +3451,7 @@ function fetchWeather_() {
   --color-error:#D32F2F; --color-success:#388E3C;
   --gray-900:#1A1A1A; --gray-700:#404040; --gray-500:#767676; --gray-300:#B2B2B2;
   --gray-100:#F5F5F5; --white:#FFFFFF;
+  --sky:#E3F1FF; --mint:#DDF3EA; --sun:#FFF4C7;
   --r-sm:4px; --r-md:8px; --r-lg:16px;
   --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px; --s-xl:40px;
 }
@@ -3474,97 +3459,158 @@ function fetchWeather_() {
   font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 body{font-size:16px;line-height:1.6;color:var(--gray-900);background:var(--gray-100);
   min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
-main{flex:1;width:100%;max-width:960px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
+main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
 :focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;border-radius:var(--r-sm);}
 .material-icons-outlined{vertical-align:middle;}
 .hide{display:none !important;}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 
 .app-head{text-align:center;margin-bottom:var(--s-lg);}
 .app-head h1{font-size:1.75rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;
   display:inline-flex;align-items:center;gap:var(--s-sm);}
-.app-head h1 .material-icons-outlined{font-size:26px;color:var(--color-primary);}
-.app-head .sub{font-size:.875rem;color:var(--gray-500);margin-top:var(--s-xs);}
+.app-head h1 .material-icons-outlined{font-size:28px;color:var(--color-primary);}
+.app-head .sub{font-size:.9375rem;color:var(--gray-500);margin-top:var(--s-xs);}
 
-.bar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-sm);margin-bottom:var(--s-md);}
-.stamp{font-size:.8125rem;color:var(--gray-500);}
-.seg{margin-left:auto;display:inline-flex;background:var(--white);border:1px solid var(--gray-300);
-  border-radius:999px;padding:3px;}
-.seg button{border:none;background:none;padding:6px 12px;border-radius:999px;font-size:.8125rem;
-  font-weight:700;color:var(--gray-500);cursor:pointer;}
-.seg button[aria-pressed="true"]{background:var(--gray-900);color:#fff;}
+/* 세 가지 활동 상자 */
+.box{background:var(--white);border-radius:var(--r-lg);padding:var(--s-lg);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:var(--s-md);}
+.box h2{font-size:1.1875rem;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;
+  gap:10px;margin-bottom:var(--s-md);}
+.num{width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;
+  font-size:.9375rem;font-weight:800;flex-shrink:0;}
+.b1 .num{background:var(--sky);color:var(--color-primary-dark);}
+.b2 .num{background:var(--mint);color:#1A6B47;}
+.b3 .num{background:var(--sun);color:#7A6000;}
+
+/* ① 검색 */
+.search{display:flex;gap:var(--s-sm);}
+.search input{flex:1;min-width:0;font-size:1.0625rem;padding:12px 16px;border:2px solid var(--gray-300);
+  border-radius:999px;background:var(--white);color:var(--gray-900);}
+.search input:focus{border-color:var(--color-primary);outline:none;}
+.btn-main{display:inline-flex;align-items:center;gap:var(--s-xs);padding:0 22px;border:none;
+  border-radius:999px;background:var(--color-primary);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;
+  flex-shrink:0;min-height:48px;}
+.btn-main:hover{background:var(--color-primary-dark);}
+.btn-main:disabled{background:var(--gray-300);cursor:default;}
+.hint{font-size:.875rem;color:var(--gray-700);margin-top:var(--s-sm);display:flex;gap:6px;align-items:flex-start;}
+.hint .material-icons-outlined{font-size:18px;color:#C99A00;margin-top:2px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--s-sm);}
+.chip{border:1px solid var(--gray-300);background:var(--white);color:var(--gray-700);border-radius:999px;
+  padding:5px 13px;font-size:.875rem;font-weight:600;cursor:pointer;}
+.chip:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.trail{margin-top:var(--s-md);padding-top:var(--s-sm);border-top:1px dashed var(--gray-300);
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.875rem;}
+.trail-k{font-weight:700;color:var(--gray-500);display:inline-flex;align-items:center;gap:4px;margin-right:4px;}
+.trail-k .material-icons-outlined{font-size:18px;}
+.trail .chip{background:var(--sky);border-color:transparent;color:var(--color-primary-dark);}
+.trail .arrow{color:var(--gray-300);}
+
+/* ② 자료 카드 */
+.status{font-size:.9375rem;color:var(--gray-500);}
+.cards{display:grid;gap:var(--s-sm);margin-top:var(--s-sm);}
+.card{display:flex;gap:var(--s-md);align-items:flex-start;background:var(--mint);border-radius:var(--r-lg);
+  padding:var(--s-md) 20px;}
+.card .body{flex:1;min-width:0;}
+.card .no{display:inline-block;font-size:.75rem;font-weight:800;color:#1A6B47;background:rgba(255,255,255,.7);
+  border-radius:999px;padding:1px 9px;}
+.card h3{font-size:1.1875rem;font-weight:800;letter-spacing:-.02em;line-height:1.35;margin-top:6px;
+  overflow-wrap:anywhere;}
+.card .desc{font-size:.875rem;font-weight:700;color:#1A6B47;margin-top:2px;}
+.card .excerpt{font-size:.9375rem;color:var(--gray-700);margin-top:var(--s-sm);line-height:1.7;overflow-wrap:anywhere;}
+.card .more{display:inline-flex;align-items:center;gap:4px;margin-top:var(--s-sm);font-size:.875rem;font-weight:700;
+  color:var(--color-primary-dark);text-decoration:none;background:var(--white);border-radius:999px;padding:5px 12px;}
+.card .more:hover{text-decoration:underline;}
+.card .more .material-icons-outlined{font-size:16px;}
+.card .thumb{width:64px;height:64px;object-fit:cover;border-radius:var(--r-md);flex-shrink:0;background:var(--white);}
+.empty{background:var(--gray-100);border:1px dashed var(--gray-300);border-radius:var(--r-lg);
+  padding:var(--s-md) 20px;color:var(--gray-700);font-size:.9375rem;}
+.empty b{display:block;color:var(--gray-900);margin-bottom:4px;}
+.tip{font-size:.8125rem;color:var(--gray-500);margin-top:var(--s-md);display:flex;gap:6px;align-items:flex-start;}
+.tip .material-icons-outlined{font-size:17px;margin-top:1px;}
+
+/* ③ 생각 */
+.lead{font-size:.9375rem;color:var(--gray-700);margin-bottom:var(--s-md);}
+.q{display:block;font-weight:800;font-size:1rem;margin:var(--s-md) 0 6px;}
+.lead + .q{margin-top:0;}
+textarea{width:100%;font-size:1rem;line-height:1.6;padding:12px 14px;border:2px solid var(--gray-300);
+  border-radius:var(--r-md);resize:vertical;background:#FFFDF3;color:var(--gray-900);}
+textarea:focus{border-color:#E0B400;outline:none;}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-sm);margin-top:var(--s-md);}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s-xs);
-  padding:8px 14px;border-radius:999px;font-size:.8125rem;font-weight:700;cursor:pointer;
+  padding:9px 16px;border-radius:999px;font-size:.875rem;font-weight:700;cursor:pointer;
   border:1px solid var(--gray-300);background:var(--white);color:var(--gray-700);}
 .btn:hover{border-color:var(--color-primary);color:var(--color-primary);}
-.btn .material-icons-outlined{font-size:17px;}
+.btn .material-icons-outlined{font-size:18px;}
+.btn.strong{background:var(--gray-900);border-color:var(--gray-900);color:#fff;}
+.btn.strong:hover{background:var(--gray-700);color:#fff;}
+.msg{font-size:.875rem;font-weight:700;color:var(--color-success);}
+.msg.bad{color:var(--color-error);}
+.small{font-size:.8125rem;color:var(--gray-500);margin-top:var(--s-sm);}
 
-.facts{display:grid;gap:var(--s-sm);margin-bottom:var(--s-md);}
-@media(min-width:640px){.facts{grid-template-columns:repeat(3,1fr);}}
-.fact{background:var(--white);border:1px solid var(--gray-300);border-radius:var(--r-lg);
-  padding:12px var(--s-md);font-size:.875rem;color:var(--gray-700);}
-.fact b{display:block;font-size:1.0625rem;color:var(--gray-900);margin-top:2px;}
-
-.grid{display:grid;gap:var(--s-md);grid-template-columns:1fr;}
-@media(min-width:480px){.grid{grid-template-columns:repeat(2,1fr);}}
-@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr);}}
-.city{border-radius:var(--r-lg);padding:var(--s-md) var(--s-lg);box-shadow:0 2px 8px rgba(0,0,0,.06);
-  position:relative;}
-.city .top{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s-sm);}
-.city h2{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;line-height:1.3;}
-.city .ct{font-size:.8125rem;opacity:.8;}
-.city .clock{font-size:.8125rem;font-weight:700;opacity:.85;margin-top:2px;
-  font-variant-numeric:tabular-nums;}
-.city .top &gt; div{min-width:0;}
-.city .wx{font-size:40px;flex-shrink:0;width:44px;overflow:hidden;}
-.city .temp{font-size:2.5rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:var(--s-sm);}
-.city .desc{font-size:.9375rem;font-weight:700;}
-.city .meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.8125rem;margin-top:var(--s-sm);opacity:.85;}
-.city .meta span{display:inline-flex;align-items:center;gap:3px;}
-.city .meta .material-icons-outlined{font-size:15px;}
-.home{position:absolute;top:-9px;left:var(--s-md);background:var(--gray-900);color:#fff;
-  font-size:.6875rem;font-weight:800;padding:2px 9px;border-radius:999px;letter-spacing:.04em;}
-.t-cold{background:#BFD9F2;color:#1A5F8A;}
-.t-cool{background:#C8EDD9;color:#1A6B47;}
-.t-warm{background:#FFF3B0;color:#7A6000;}
-.t-hot{background:#FFD6E0;color:#8A2840;}
-.t-err{background:var(--white);color:var(--gray-500);border:1px dashed var(--gray-300);}
-
-.loading{text-align:center;color:var(--gray-500);padding:var(--s-xl) 0;font-size:.9375rem;}
 .err{margin-top:var(--s-md);background:#FDECEC;color:var(--color-error);
   border-radius:var(--r-md);padding:11px var(--s-md);font-size:.875rem;font-weight:600;line-height:1.5;}
 .credit{font-size:.75rem;color:var(--gray-500);text-align:center;margin-top:var(--s-lg);line-height:1.6;}
 .credit a{color:var(--gray-700);}
 
+@media(max-width:480px){
+  .box{padding:20px var(--s-md);}
+  .btn-main{padding:0 16px;}
+  .card{padding:14px var(--s-md);}
+  .card .thumb{width:52px;height:52px;}
+}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;main&gt;
   &lt;header class="app-head"&gt;
-    &lt;h1&gt;&lt;span class="material-icons-outlined"&gt;public&lt;/span&gt;세계 도시 오늘의 날씨&lt;/h1&gt;
-    &lt;p class="sub"&gt;지금 이 순간, 세계의 친구들은 어떤 하늘 아래 있을까요?&lt;/p&gt;
+    &lt;h1&gt;&lt;span class="material-icons-outlined"&gt;travel_explore&lt;/span&gt;오늘의 궁금증 탐험대&lt;/h1&gt;
+    &lt;p class="sub"&gt;하나의 질문에서 시작해, 더 넓은 세상으로&lt;/p&gt;
   &lt;/header&gt;
 
-  &lt;div class="bar"&gt;
-    &lt;span class="stamp" id="stamp"&gt;날씨를 받아오는 중...&lt;/span&gt;
-    &lt;button class="btn" id="reload" type="button"&gt;&lt;span class="material-icons-outlined"&gt;refresh&lt;/span&gt;새로 보기&lt;/button&gt;
-    &lt;div class="seg" role="group" aria-label="정렬"&gt;
-      &lt;button type="button" data-sort="list" aria-pressed="true"&gt;기본&lt;/button&gt;
-      &lt;button type="button" data-sort="hot" aria-pressed="false"&gt;더운 순&lt;/button&gt;
-      &lt;button type="button" data-sort="cold" aria-pressed="false"&gt;추운 순&lt;/button&gt;
+  &lt;section class="box b1" aria-labelledby="h1-search"&gt;
+    &lt;h2 id="h1-search"&gt;&lt;span class="num"&gt;1&lt;/span&gt;궁금한 주제 검색하기&lt;/h2&gt;
+    &lt;form class="search" id="form" role="search"&gt;
+      &lt;label class="sr" for="q"&gt;궁금한 낱말&lt;/label&gt;
+      &lt;input id="q" type="search" maxlength="50" autocomplete="off" placeholder="궁금한 낱말을 적어요. 예: 무지개" /&gt;
+      &lt;button class="btn-main" id="go" type="submit"&gt;&lt;span class="material-icons-outlined"&gt;search&lt;/span&gt;찾기&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;p class="hint"&gt;&lt;span class="material-icons-outlined"&gt;lightbulb&lt;/span&gt;
+      &lt;span&gt;질문 문장보다 &lt;b&gt;핵심 낱말&lt;/b&gt;로 찾아요. &amp;ldquo;무지개는 왜 생길까?&amp;rdquo; → &lt;b&gt;무지개&lt;/b&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;div class="chips" id="examples" aria-label="예시 낱말"&gt;&lt;/div&gt;
+    &lt;div class="trail hide" id="trail"&gt;&lt;span class="trail-k"&gt;&lt;span class="material-icons-outlined"&gt;explore&lt;/span&gt;오늘 지나온 길&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class="box b2" aria-labelledby="h2-cards"&gt;
+    &lt;h2 id="h2-cards"&gt;&lt;span class="num"&gt;2&lt;/span&gt;위키백과 자료 만나기&lt;/h2&gt;
+    &lt;p class="status" id="status" aria-live="polite"&gt;궁금한 낱말을 찾으면 여기에 자료 카드가 나타나요.&lt;/p&gt;
+    &lt;div class="cards" id="cards"&gt;&lt;/div&gt;
+    &lt;p class="err hide" id="err" role="alert"&gt;&lt;/p&gt;
+    &lt;p class="tip"&gt;&lt;span class="material-icons-outlined"&gt;fact_check&lt;/span&gt;
+      &lt;span&gt;위키백과는 누구나 고칠 수 있는 백과사전이에요. 중요한 내용은 원문을 읽고, 책이나 다른 자료로도 확인해요.&lt;/span&gt;&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;section class="box b3" aria-labelledby="h3-think"&gt;
+    &lt;h2 id="h3-think"&gt;&lt;span class="num"&gt;3&lt;/span&gt;읽고 생각하기&lt;/h2&gt;
+    &lt;p class="lead"&gt;자료는 앱이 찾아 주지만, 생각은 내가 해요. 읽은 내용을 &lt;b&gt;내 말로&lt;/b&gt; 적어 보세요.&lt;/p&gt;
+    &lt;label class="q" for="learned"&gt;새롭게 알게 된 것은 무엇인가요?&lt;/label&gt;
+    &lt;textarea id="learned" rows="3" maxlength="1000" placeholder="자료를 읽고 처음 알게 된 사실을 내 말로 적어요."&gt;&lt;/textarea&gt;
+    &lt;label class="q" for="wonder"&gt;새롭게 궁금해진 것은 무엇인가요?&lt;/label&gt;
+    &lt;textarea id="wonder" rows="3" maxlength="1000" placeholder="읽고 나니 더 알고 싶어진 것을 적어요. 그 안의 낱말로 다시 찾아볼 수 있어요."&gt;&lt;/textarea&gt;
+    &lt;div class="row"&gt;
+      &lt;button class="btn strong" id="copy" type="button"&gt;&lt;span class="material-icons-outlined"&gt;content_copy&lt;/span&gt;내 생각 복사&lt;/button&gt;
+      &lt;button class="btn" id="again" type="button"&gt;&lt;span class="material-icons-outlined"&gt;travel_explore&lt;/span&gt;새 낱말로 다시 찾기&lt;/button&gt;
+      &lt;span class="msg" id="msg" aria-live="polite"&gt;&lt;/span&gt;
     &lt;/div&gt;
-  &lt;/div&gt;
+    &lt;p class="small"&gt;이 칸에 쓴 글은 어디에도 저장되지 않아요. 복사해서 공책이나 학습지에 옮겨 두세요.&lt;/p&gt;
+  &lt;/section&gt;
 
-  &lt;div class="facts hide" id="facts"&gt;&lt;/div&gt;
-  &lt;div class="grid" id="grid"&gt;&lt;p class="loading"&gt;세계 곳곳의 하늘을 살펴보는 중...&lt;/p&gt;&lt;/div&gt;
-  &lt;p class="err hide" id="err"&gt;&lt;/p&gt;
-
-  &lt;p class="credit"&gt;날씨 데이터: &lt;a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer"&gt;Open-Meteo.com&lt;/a&gt; (CC BY 4.0)
-    · 20분마다 새로 받아옵니다 · 이 앱은 아무것도 저장하지 않습니다&lt;/p&gt;
+  &lt;p class="credit"&gt;자료: &lt;a href="https://ko.wikipedia.org/" target="_blank" rel="noopener noreferrer"&gt;한국어 위키백과&lt;/a&gt; (CC BY-SA 4.0)
+    · 같은 낱말의 검색 결과는 30분 동안 보관해 다시 씁니다 · 학생이 쓴 생각은 저장하지 않습니다&lt;/p&gt;
 &lt;/main&gt;
 
 
 &lt;script&gt;
-/* ── 서버 부르기 ── 날씨는 서버(Code.gs)가 대신 받아와 줍니다 ── */
+/* ── 서버 부르기 ── 위키백과 검색은 서버(Code.gs)가 대신 해 줍니다 ── */
 function callServer(name, arg) {
   return new Promise(function (resolve, reject) {
     if (!(window.google &amp;&amp; google.script &amp;&amp; google.script.run)) {
@@ -3582,171 +3628,187 @@ function callServer(name, arg) {
 }
 
 var Backend = {
-  load: function () { return callServer('getWeather'); }
+  search: function (keyword) { return callServer('searchWikipedia', keyword); }
 };
 
 /* ══════════════════════════════════════════════════════
    여기서부터는 화면 코드입니다.
    ══════════════════════════════════════════════════════ */
 
-/* 날씨 코드(WMO) → 우리말과 아이콘 */
-function describe(code, isDay) {
-  if (code === 0) return ['맑음', isDay ? 'wb_sunny' : 'nights_stay'];
-  if (code === 1) return ['대체로 맑음', isDay ? 'wb_sunny' : 'nights_stay'];
-  if (code === 2) return ['구름 조금', 'filter_drama'];
-  if (code === 3) return ['흐림', 'cloud'];
-  if (code === 45 || code === 48) return ['안개', 'blur_on'];
-  if (code &gt;= 51 &amp;&amp; code &lt;= 57) return ['이슬비', 'grain'];
-  if (code &gt;= 61 &amp;&amp; code &lt;= 67) return ['비', 'umbrella'];
-  if (code &gt;= 71 &amp;&amp; code &lt;= 77) return ['눈', 'ac_unit'];
-  if (code &gt;= 80 &amp;&amp; code &lt;= 82) return ['소나기', 'umbrella'];
-  if (code === 85 || code === 86) return ['눈보라', 'ac_unit'];
-  if (code &gt;= 95) return ['뇌우', 'flash_on'];
-  return ['알 수 없음', 'help_outline'];
-}
+/* 예시 낱말 — 우리 단원에 맞게 바꿔 보세요 */
+var EXAMPLES = ['무지개', '사막', '세종대왕', '블랙홀', '산호초'];
 
-/* 기온에 따라 카드 색을 고릅니다 */
-function tone(t) {
-  if (t &lt; 5) return 't-cold';
-  if (t &lt; 15) return 't-cool';
-  if (t &lt; 25) return 't-warm';
-  return 't-hot';
-}
-
-var data = null, sortBy = 'list', clockTimer = null;
+var trail = [];       // 오늘 찾아본 낱말들 (이 화면에만 있고, 새로고침하면 사라집니다)
+var lastKeyword = '';
+var ticket = 0;       // 빠르게 여러 번 찾을 때 마지막 결과만 보여주기 위한 번호
 
 function $(id) { return document.getElementById(id); }
 function show(id, on) { $(id).classList.toggle('hide', !on); }
-function pad(n) { return (n &lt; 10 ? '0' : '') + n; }
-
-/* 그 도시의 지금 시각 — 서버가 알려준 '세계표준시와의 차이'로 계산합니다 */
-function localTime(offsetSec) {
-  var d = new Date(Date.now() + offsetSec * 1000);
-  var h = d.getUTCHours(), m = d.getUTCMinutes();
-  var ampm = h &lt; 12 ? '오전' : '오후';
-  var h12 = h % 12 === 0 ? 12 : h % 12;
-  return ampm + ' ' + h12 + ':' + pad(m);
-}
-
-/* 받침이 있으면 '과', 없으면 '와' */
-function gwa(word) {
-  var c = word.charCodeAt(word.length - 1);
-  if (c &lt; 0xAC00 || c &gt; 0xD7A3) return '와';
-  return (c - 0xAC00) % 28 ? '과' : '와';
-}
 
 function el(tag, cls, text) {
   var e = document.createElement(tag);
   if (cls) e.className = cls;
-  if (text !== undefined) e.textContent = text;
+  if (text !== undefined) e.textContent = text;   // 바깥에서 온 글은 늘 '글자'로만 넣습니다
   return e;
 }
 
-function renderFacts(list) {
-  var ok = list.filter(function (c) { return !c.error; });
-  if (!ok.length) { show('facts', false); return; }
-  var hot = ok.reduce(function (a, b) { return b.temp &gt; a.temp ? b : a; });
-  var cold = ok.reduce(function (a, b) { return b.temp &lt; a.temp ? b : a; });
-  var home = ok[0];
-  var box = $('facts');
+function icon(name) { return el('span', 'material-icons-outlined', name); }
+
+/* 받침이 있으면 '을', 없으면 '를' */
+function eul(word) {
+  var c = word.charCodeAt(word.length - 1);
+  if (c &lt; 0xAC00 || c &gt; 0xD7A3) return '을(를)';
+  return (c - 0xAC00) % 28 ? '을' : '를';
+}
+
+function chip(word) {
+  var b = el('button', 'chip', word);
+  b.type = 'button';
+  b.addEventListener('click', function () { $('q').value = word; search(word); });
+  return b;
+}
+
+function renderExamples() {
+  var box = $('examples');
+  EXAMPLES.forEach(function (w) { box.appendChild(chip(w)); });
+}
+
+/* 오늘 지나온 길 — 우물에서 바다로 넓어지는 흔적 */
+function renderTrail() {
+  var box = $('trail');
+  while (box.children.length &gt; 1) box.removeChild(box.lastChild);
+  trail.forEach(function (w, i) {
+    if (i) box.appendChild(el('span', 'arrow', '→'));
+    box.appendChild(chip(w));
+  });
+  show('trail', trail.length &gt; 0);
+}
+
+function renderCards(data) {
+  var box = $('cards');
   box.innerHTML = '';
-  [['가장 따뜻한 곳', hot.name + ' ' + hot.temp + '°'],
-   ['가장 추운 곳', cold.name + ' ' + cold.temp + '°'],
-   [home.name + gwa(home.name) + ' 가장 따뜻한 곳의 차이', (hot.temp - home.temp) + '°']
-  ].forEach(function (f) {
-    var d = el('div', 'fact', f[0]);
-    d.appendChild(el('b', '', f[1]));
-    box.appendChild(d);
-  });
-  show('facts', true);
-}
-
-function render() {
-  if (!data) return;
-  var list = data.cities.slice();
-  if (sortBy !== 'list') {
-    list.sort(function (a, b) {
-      if (a.error) return 1;
-      if (b.error) return -1;
-      return sortBy === 'hot' ? b.temp - a.temp : a.temp - b.temp;
-    });
+  if (!data.pages.length) {
+    $('status').textContent = '';
+    var empty = el('div', 'empty');
+    empty.appendChild(el('b', '', '‘' + data.keyword + '’에 맞는 자료를 찾지 못했어요.'));
+    empty.appendChild(document.createTextNode('더 짧은 낱말로, 맞춤법을 확인해서, 또는 비슷한 말로 바꿔 다시 찾아보세요.'));
+    box.appendChild(empty);
+    return;
   }
-  var grid = $('grid');
-  grid.innerHTML = '';
-  list.forEach(function (c) {
-    var card = el('article', 'city ' + (c.error ? 't-err' : tone(c.temp)));
-    if (c === data.cities[0]) card.appendChild(el('span', 'home', '우리 동네'));
-    var top = el('div', 'top');
-    var left = el('div');
-    left.appendChild(el('h2', '', c.name));
-    left.appendChild(el('div', 'ct', c.country));
-    if (!c.error) {
-      var clk = el('div', 'clock', '현지 ' + localTime(c.offset));
-      clk.dataset.offset = c.offset;
-      left.appendChild(clk);
+  $('status').textContent = '‘' + data.keyword + '’에 대한 자료 ' + data.pages.length +
+    '개를 찾았어요. 읽어 보고 아래에 내 생각을 적어 보세요.';
+  data.pages.forEach(function (p, i) {
+    var card = el('article', 'card');
+    var body = el('div', 'body');
+    body.appendChild(el('span', 'no', '자료 ' + (i + 1)));
+    body.appendChild(el('h3', '', p.title));
+    if (p.description) body.appendChild(el('p', 'desc', p.description));
+    if (p.excerpt) body.appendChild(el('p', 'excerpt', p.excerpt + ' …'));
+    var a = el('a', 'more');
+    a.href = p.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.appendChild(document.createTextNode('원문 보기'));
+    a.appendChild(icon('open_in_new'));
+    body.appendChild(a);
+    card.appendChild(body);
+    if (/^https:\/\//.test(p.thumb || '')) {          // 그림이 있을 때만 작게 보여줍니다
+      var img = el('img', 'thumb');
+      img.src = p.thumb;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.onerror = function () { img.remove(); };
+      card.appendChild(img);
     }
-    top.appendChild(left);
-    if (c.error) {
-      card.appendChild(top);
-      card.appendChild(el('p', 'desc', '지금은 날씨를 받지 못했어요'));
-      grid.appendChild(card);
-      return;
-    }
-    var d = describe(c.code, c.isDay);
-    top.appendChild(el('span', 'wx material-icons-outlined', d[1]));
-    card.appendChild(top);
-    card.appendChild(el('div', 'temp', c.temp + '°'));
-    card.appendChild(el('div', 'desc', d[0]));
-    var meta = el('div', 'meta');
-    [['thermostat', '최고 ' + c.max + '° / 최저 ' + c.min + '°'],
-     ['water_drop', '습도 ' + c.humidity + '%'],
-     ['air', '바람 ' + c.wind + 'm/s']].forEach(function (m) {
-      var s = el('span');
-      s.appendChild(el('span', 'material-icons-outlined', m[0]));
-      s.appendChild(document.createTextNode(m[1]));
-      meta.appendChild(s);
-    });
-    card.appendChild(meta);
-    grid.appendChild(card);
-  });
-  renderFacts(data.cities);
-}
-
-function tickClocks() {
-  document.querySelectorAll('.clock').forEach(function (c) {
-    c.textContent = '현지 ' + localTime(Number(c.dataset.offset));
+    box.appendChild(card);
   });
 }
 
-function load() {
-  $('stamp').textContent = '날씨를 받아오는 중...';
+function search(word) {
+  var q = String(word || '').replace(/\s+/g, ' ').trim();
+  if (!q) { $('q').focus(); return; }
+  var my = ++ticket;
+  $('go').disabled = true;
   show('err', false);
-  Backend.load().then(function (d) {
-    data = d;
-    var t = new Date(d.updatedAt);
-    $('stamp').textContent = pad(t.getHours()) + ':' + pad(t.getMinutes()) + ' 에 받은 날씨';
-    render();
+  $('cards').innerHTML = '';
+  $('status').textContent = '‘' + q + '’' + eul(q) + ' 위키백과에서 찾는 중...';
+  Backend.search(q).then(function (data) {
+    if (my !== ticket) return;
+    if (data.pages.length) {                         // 자료를 찾은 낱말만 '지나온 길'에 남깁니다
+      lastKeyword = data.keyword;
+      if (trail.indexOf(data.keyword) &lt; 0) { trail.push(data.keyword); renderTrail(); }
+    }
+    renderCards(data);
   })['catch'](function (e) {
-    $('stamp').textContent = '연결 확인 필요';
-    $('grid').innerHTML = '';
-    $('err').textContent = '날씨를 불러오지 못했습니다. ' + (e &amp;&amp; e.message ? e.message : '');
+    if (my !== ticket) return;
+    $('status').textContent = '';
+    $('err').textContent = '자료를 불러오지 못했습니다. ' + (e &amp;&amp; e.message ? e.message : '');
     show('err', true);
+  }).then(function () {
+    if (my === ticket) $('go').disabled = false;
   });
+}
+
+/* ③ 내 생각 복사 — 두 답을 한 번에 */
+function myThoughts() {
+  var learned = $('learned').value.trim(), wonder = $('wonder').value.trim();
+  if (!learned &amp;&amp; !wonder) return '';
+  return '[오늘의 궁금증 탐험대]\n' +
+    (trail.length ? '찾아본 낱말: ' + trail.join(' → ') + '\n' : '') +
+    '\n새롭게 알게 된 것\n' + (learned || '(아직 적지 않음)') +
+    '\n\n새롭게 궁금해진 것\n' + (wonder || '(아직 적지 않음)');
+}
+
+function copyText(text) {
+  if (navigator.clipboard &amp;&amp; window.isSecureContext) {
+    return navigator.clipboard.writeText(text)['catch'](function () { return oldCopy(text); });
+  }
+  return oldCopy(text);
+}
+
+function oldCopy(text) {           // 클립보드 권한이 막힌 화면을 위한 예전 방식
+  return new Promise(function (resolve, reject) {
+    var t = document.createElement('textarea');
+    t.value = text;
+    t.setAttribute('readonly', '');
+    t.style.position = 'fixed';
+    t.style.opacity = '0';
+    document.body.appendChild(t);
+    t.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(t);
+    if (ok) resolve(); else reject(new Error('copy'));
+  });
+}
+
+var msgTimer = null;
+function say(text, bad) {
+  var m = $('msg');
+  m.textContent = text;
+  m.classList.toggle('bad', !!bad);
+  clearTimeout(msgTimer);
+  msgTimer = setTimeout(function () { m.textContent = ''; }, 3000);
 }
 
 function init() {
-  $('reload').addEventListener('click', load);
-  document.querySelectorAll('.seg button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      sortBy = b.dataset.sort;
-      document.querySelectorAll('.seg button').forEach(function (x) {
-        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
-      });
-      render();
-    });
+  renderExamples();
+  $('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    search($('q').value);
   });
-  load();
-  clockTimer = setInterval(tickClocks, 15000);
+  $('copy').addEventListener('click', function () {
+    var text = myThoughts();
+    if (!text) { say('먼저 내 생각을 적어 주세요.', true); $('learned').focus(); return; }
+    copyText(text).then(function () { say('복사했어요. 공책이나 학습지에 붙여 넣으세요.'); },
+      function () { say('복사하지 못했어요. 글을 직접 골라 복사해 주세요.', true); });
+  });
+  $('again').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    $('q').value = '';
+    $('q').placeholder = lastKeyword ? '‘' + lastKeyword + '’ 다음엔 무엇이 궁금한가요?' : '궁금한 낱말을 적어요. 예: 무지개';
+    $('q').focus({ preventScroll: true });
+  });
 }
 
 if (document.readyState === 'loading') {
@@ -3770,7 +3832,7 @@ if (document.readyState === 'loading') {
           <p class="act">함수 목록에서 <b>setup</b>을 고르고 <b>▷ 실행</b> → <b>권한 검토 → 내 계정</b>. 로그에 &lsquo;준비 완료&rsquo;가 보이면 성공입니다.</p>
           <p class="dim">&lsquo;확인하지 않은 앱&rsquo;이 뜨면 왼쪽 아래 <b>고급 → (프로젝트 이름)(으)로 이동</b>을 누르고 허용합니다. 내가 붙여 넣은 연수 코드일 때만 이렇게 합니다.</p>
           <div class="namebox"><span class="material-icons-outlined">verified_user</span>이번에 묻는 권한 <b><b>외부 서비스에 연결</b></b></div>
-        <p class="dim">setup이 날씨를 한 번 받아 보면서 권한을 확인합니다. 로그에 서울 기온이 찍히면 성공입니다.</p>
+        <p class="dim">setup이 위키백과에서 &lsquo;무지개&rsquo;를 한 번 찾아 보면서 권한을 확인합니다. 로그에 &lsquo;예) 무지개&rsquo;처럼 문서 제목이 찍히면 성공입니다.</p>
           <label class="donechk"><input type="checkbox" data-mod="m3" data-step="3">여기까지 했습니다</label>
         </div>
       </details>
@@ -3785,25 +3847,24 @@ if (document.readyState === 'loading') {
         </div>
       </details>
             <div class="check" id="m3-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>문제가 풀렸나?</span>
-              <h3>지금, 세계의 하늘</h3>
-              <p class="ck-k">앱이 잘 되나요?</p><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx1" data-mod="m3"><label for="m3-cx1">15개 도시의 날씨와 <b>현지 시각</b>이 보인다</label></li><li><input type="checkbox" id="m3-cx2" data-mod="m3"><label for="m3-cx2"><b>더운 순 · 추운 순</b>으로 바꿔 비교했다</label></li></ul><p class="ck-k">수업으로 이어 보기 <small>연수 중에 정할 것</small></p><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx3" data-mod="m3"><label for="m3-cx3">이 데이터로 학생이 던질 만한 새 질문을 하나 떠올렸다</label></li><li><input type="checkbox" id="m3-cx4" data-mod="m3"><label for="m3-cx4"><b>날씨</b>(오늘의 상태)와 <b>기후</b>(오랜 평균)의 차이를 짚었다</label></li></ul>
-              <div class="refl"><label for="note-m3r"><span class="material-icons-outlined">edit_note</span>우리 수업의 어떤 질문을 바깥 데이터와 이어 볼 수 있을까요?<span class="opt">선택</span></label>
+              <h3>하나의 질문에서, 더 넓은 세상으로</h3>
+              <p class="ck-k">앱이 잘 되나요?</p><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx1" data-mod="m3"><label for="m3-cx1">낱말을 찾으면 <b>자료 카드</b>가 보이고, <b>원문 보기</b>가 새 탭으로 열린다</label></li><li><input type="checkbox" id="m3-cx2" data-mod="m3"><label for="m3-cx2"><b>결과가 없는 낱말</b>을 넣어 다시 찾아보라는 안내를 확인했다</label></li></ul><p class="ck-k">수업으로 이어 보기 <small>연수 중에 정할 것</small></p><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx3" data-mod="m3"><label for="m3-cx3"><b>새롭게 궁금해진 것</b>으로 한 번 더 찾아, 질문이 넓어지는 흐름을 경험했다</label></li><li><input type="checkbox" id="m3-cx4" data-mod="m3"><label for="m3-cx4">위키백과 내용을 <b>원문과 다른 자료로 확인</b>하도록 안내할 방법을 정했다</label></li></ul>
+              <div class="refl"><label for="note-m3r"><span class="material-icons-outlined">edit_note</span>우리 수업의 어떤 질문을 바깥 자료와 이어 볼 수 있을까요?<span class="opt">선택</span></label>
                 <textarea id="note-m3r" data-note="m3r" placeholder="한 줄이면 됩니다. 내 앱 설계에서 다시 볼 수 있습니다."></textarea></div></div>
             <details class="more" id="m3-learn"><summary>더 해 보기 — 내 교실 버전으로<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="more-body"><p>도시 목록을 우리 교실에 맞게 바꿔 봅니다. 국제교류를 하는 학급이라면 <b>교류 학교가 있는 도시</b>로, 사회 수업이라면 <b>배우는 대륙의 도시</b>로.</p>
-              <div class="code wrap"><button class="copy" data-copy="m3_twist"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_twist">지금 Apps Script 세계 날씨 앱은 정상 작동하고 있어. (Code.gs 와 index.html 을 붙여넣을게)
+          <div class="more-body"><p>예시 낱말을 우리 단원에 맞게 바꿔 봅니다. 과학 &lsquo;화산과 지진&rsquo; 단원이라면 <b>화산 · 마그마 · 지진</b>으로, 사회 역사 단원이라면 <b>그 시대의 인물과 유적</b>으로.</p>
+              <div class="code wrap"><button class="copy" data-copy="m3_twist"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_twist">지금 Apps Script 궁금증 탐험대 앱은 정상 작동하고 있어. (Code.gs 와 index.html 을 붙여넣을게)
 
-Code.gs 맨 위 CITIES 목록만 바꿔줘.
-- 첫 줄은 서울로 그대로 두고,
-- 나머지는 [여기에 도시 이름을 적으세요. 예: 하노이, 울란바토르, 아디스아바바, 리마] 로 바꿔줘.
-- 각 도시의 나라 이름(한국어)과 위도 · 경도를 정확히 넣어줘.
+index.html 의 EXAMPLES(예시 낱말) 목록만 바꿔줘.
+- [여기에 단원을 적으세요. 예: 4학년 과학 &#39;화산과 지진&#39;] 에 어울리는 낱말 5개로 바꿔줘.
+- 초등학생이 한국어 위키백과에서 찾았을 때 자료가 잘 나오는 낱말로 골라줘.
 
-UrlFetchApp · CacheService · 화면 코드는 건드리지 마.
-CITIES 부분만 붙여넣을 수 있게 주고, 바꾼 뒤 setup 을 한 번 실행하라고 알려줘.</pre></div>
-              <p class="dim">AI에게 지금의 Code.gs와 index.html을 함께 붙여넣고 이 요청을 보내세요. 받은 코드를 붙인 뒤 <b>배포 → 배포 관리 → 연필 → 새 버전</b>으로 다시 배포합니다.</p><div class="tip-box"><strong><span class="material-icons-outlined">dataset</span> 데이터를 정확하게 쓰려면</strong>날씨는 오늘의 상태, 기후는 수십 년의 평균입니다. 이 앱은 받아 온 날씨를 20분 동안 보관한 뒤 새로 받습니다. 출처는 Open-Meteo이며 비상업적 사용은 무료, 화면에 출처를 적어야 합니다(CC BY 4.0).</div>        <div class="tip-box">
-          <strong><span class="material-icons-outlined">add_circle</span> 더 해 보기 — 기록하기와 합치면</strong>
-          Apps Script의 <b>시간 트리거</b>로 매일 아침 서울 날씨를 시트에 한 줄씩 저장할 수 있습니다. 실습 1의 기분 기록과 나란히 두면
-          &ldquo;비 오는 날 우리 반 기분은?&rdquo; 같은 탐구가 됩니다. AI에게 <b>&ldquo;매일 오전 8시에 서울 날씨를 weather_log 시트에 한 줄씩 저장하는 함수와, 그 시간 트리거를 만드는 함수를 추가해줘&rdquo;</b>라고 요청해 보세요.
+Code.gs · 검색 · 카드 · 생각 쓰기 코드는 건드리지 마.
+EXAMPLES 부분만 붙여넣을 수 있게 줘.</pre></div>
+              <p class="dim">AI에게 지금의 Code.gs와 index.html을 함께 붙여넣고 이 요청을 보내세요. 받은 코드를 붙인 뒤 <b>배포 → 배포 관리 → 연필 → 새 버전</b>으로 다시 배포합니다.</p><div class="tip-box"><strong><span class="material-icons-outlined">dataset</span> 자료를 정확하게 쓰려면</strong>위키백과는 누구나 고칠 수 있는 백과사전입니다. 카드의 발췌문은 문서의 한 조각이니 <b>원문 보기</b>로 앞뒤를 읽고, 중요한 내용은 교과서나 책으로 한 번 더 확인하게 해 주세요. 같은 낱말의 검색 결과는 30분 동안 보관한 뒤 새로 받습니다. 출처는 한국어 위키백과이며 화면에 출처를 적어야 합니다(CC BY-SA 4.0).</div>        <div class="tip-box">
+          <strong><span class="material-icons-outlined">add_circle</span> 더 해 보기 — 함께 보기와 합치면</strong>
+          실습 2의 의견 보드와 나란히 두면, 학생들이 &lsquo;새롭게 알게 된 것&rsquo;을 보드에 붙여 <b>반 전체의 탐험 지도</b>를 만들 수 있습니다.
+          그때부터는 학생 글이 시트에 저장되므로, 실습 2처럼 글자 수와 보관 규칙을 함께 정하세요. AI에게 <b>&ldquo;읽고 생각하기 아래에 &lsquo;보드에 붙이기&rsquo; 버튼을 더해, 새롭게 알게 된 것을 실습 2 의견 보드처럼 시트에 저장하고 모두의 화면에 보이게 해줘&rdquo;</b>라고 요청해 보세요.
         </div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/3"><span class="material-icons-outlined">arrow_back</span>해결방법</a><a class="btn btn-ink btn-sm nx" href="#/m4"><small>다음</small>실습 4 구글도구 연결<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
@@ -4543,7 +4604,7 @@ if (document.readyState === 'loading') {
           <div class="mini"><div class="combo"><span class="f1">1</span><span class="f4c">4</span></div>
             <h4>독서 기록장 → 독서 포트폴리오</h4><p>읽은 책과 한 줄 감상을 매일 기록하고, 학기말에 학생별 독서 기록을 문서로 묶습니다.</p></div>
           <div class="mini"><div class="combo"><span class="f2">2</span><span class="f3">3</span></div>
-            <h4>세계 친구에게 한마디</h4><p>교류 학교 도시의 날씨와 시각을 보며, 그 도시 친구에게 보내는 한마디를 보드에 붙입니다.</p></div>
+            <h4>궁금증 나눔 보드</h4><p>오늘의 궁금증을 위키백과에서 찾아 읽고, 새롭게 알게 된 것을 보드에 붙여 반 전체의 탐험 지도를 만듭니다.</p></div>
           <div class="mini"><div class="combo"><span class="f1">1</span><span class="f3">3</span></div>
             <h4>날씨와 기분 일기</h4><p>아침마다 기분을 기록하고 그날 날씨를 함께 저장해, 한 달 뒤 &ldquo;비 오는 날 우리 반 기분&rdquo;을 살펴봅니다.</p></div>
           <div class="mini"><div class="combo"><span class="f2">2</span><span class="f1">1</span><span class="f4c">4</span></div>
@@ -4591,7 +4652,7 @@ if (document.readyState === 'loading') {
         <div class="field2 fn-dep" data-fn="share"><label for="b_out"><span class="material-icons-outlined">sync_alt</span>2 · 무엇을 함께 보거나 반응할까요?</label>
           <textarea class="inp" id="b_out" data-keep placeholder="예: 친구들이 그날 읽은 책이 함께 보이고, 읽고 싶은 책에 ♥"></textarea></div>
         <div class="field2 fn-dep" data-fn="api"><label for="b_api"><span class="material-icons-outlined">public</span>3 · 어떤 바깥 데이터를 가져올까요?</label>
-          <textarea class="inp" id="b_api" data-keep placeholder="예: 서울 날씨 (Open-Meteo, 키 필요 없음)"></textarea></div>
+          <textarea class="inp" id="b_api" data-keep placeholder="예: 한국어 위키백과 검색 (키 필요 없음)"></textarea></div>
         <div class="field2 fn-dep" data-fn="gdoc"><label for="b_doc"><span class="material-icons-outlined">description</span>4 · 어떤 결과물로 만들까요?</label>
           <textarea class="inp" id="b_doc" data-keep placeholder="예: 학기말에 필명별 독서 기록을 구글 문서로"></textarea></div>
         <div class="field2"><label><span class="material-icons-outlined">person</span>학생을 어떻게 구분할까요?</label>
@@ -4685,7 +4746,7 @@ fetch 로 바꾸지 말고 google.script.run 을 계속 써주세요.
             <tbody>
               <tr><td><b>[1] 기분 선택지</b></td><td>index.html 의 EMOTIONS 배열을 ○○ / ○○ / ○○ 로 바꿔줘. 아이콘과 파스텔 색도 어울리게 골라줘.</td></tr>
               <tr><td><b>[2] 카드 색</b></td><td>COLORS 에 보라색을 하나 더해줘. Code.gs 의 CARD_COLORS 에도 같은 이름을 더해줘.</td></tr>
-              <tr><td><b>[3] 도시</b></td><td>Code.gs 의 CITIES 에 ○○(나라)의 ○○ 도시를 위도·경도와 함께 더해줘.</td></tr>
+              <tr><td><b>[3] 예시 낱말</b></td><td>index.html 의 EXAMPLES 를 ○○ 단원에 어울리는 낱말 5개로 바꿔줘.</td></tr>
               <tr><td><b>[4] 문집 제목</b></td><td>Code.gs 의 BOOK_TITLE 을 '○○반 한 학기 글 모음'으로 바꿔줘.</td></tr>
               <tr><td><b>색감</b></td><td>index.html :root 의 색 변수만 바꿔서 전체를 초록 계열 파스텔로 바꿔줘.</td></tr>
             </tbody>
@@ -4827,7 +4888,7 @@ function getSummary_(title) {
   if (res.getResponseCode() !== 200) return null;
   var j = JSON.parse(res.getContentText());
   return { title: j.title, text: j.extract, img: j.thumbnail &amp;&amp; j.thumbnail.source };
-}</pre></div></div><p class="kc2-src">ko.wikipedia.org · 무료 · 출처 표기(CC BY-SA)</p>
+}</pre></div></div><p class="kc2-src">ko.wikipedia.org · 무료 · 출처 표기(CC BY-SA) · 실습 3은 검색 API(search/page)를 씁니다</p>
         </details>
       </article>
       <article class="kc2" data-tags="key" id="api-neis">
@@ -5060,7 +5121,7 @@ function callPublicApi_(baseUrl, params) {
             <tbody>
               <tr><td><b>동시에 실행</b></td><td>30개</td><td>한 반이 동시에 눌러도 대부분 괜찮습니다. 자동 갱신 간격을 너무 짧게(1~2초) 하지 마세요.</td></tr>
               <tr><td><b>한 번 실행 시간</b></td><td>6분</td><td>문집처럼 큰 작업도 보통 수십 초 안에 끝납니다.</td></tr>
-              <tr><td><b>외부 요청(UrlFetch)</b></td><td>하루 20,000번</td><td>[3]은 15개 도시를 한 번에 묻고 20분 동안 보관하므로, 20분마다 1번이면 충분합니다.</td></tr>
+              <tr><td><b>외부 요청(UrlFetch)</b></td><td>하루 20,000번</td><td>[3]은 찾기를 누를 때만 묻고 같은 낱말은 30분 동안 보관하므로, 한 반이 하루 종일 써도 수백 번이면 충분합니다.</td></tr>
               <tr><td><b>트리거 실행 시간</b></td><td>하루 90분</td><td>매일 한 번 도는 기록용 트리거는 몇 초면 끝납니다.</td></tr>
             </tbody>
           </table>
@@ -5132,7 +5193,7 @@ function callPublicApi_(baseUrl, params) {
             <tbody>
               <tr><td><b>[1] 기분 체크인</b></td><td>saveCheckin · getRows</td><td>index.html의 <b>EMOTIONS</b> — 기분 선택지·아이콘·색</td></tr>
               <tr><td><b>[2] 의견 보드</b></td><td>addCard · likeCard · getCards</td><td>index.html의 <b>COLORS</b>와 Code.gs의 <b>CARD_COLORS</b> — 카드 색 (둘을 같이)</td></tr>
-              <tr><td><b>[3] 세계 날씨</b></td><td>getWeather · fetchWeather_</td><td>Code.gs의 <b>CITIES</b> — 도시 목록, <b>CACHE_MIN</b> — 보관 시간</td></tr>
+              <tr><td><b>[3] 궁금증 탐험대</b></td><td>searchWikipedia · cleanText_</td><td>index.html의 <b>EXAMPLES</b> — 예시 낱말, Code.gs의 <b>MAX_RESULTS</b> — 카드 수, <b>CACHE_MIN</b> — 보관 시간</td></tr>
               <tr><td><b>[4] 학급문집</b></td><td>saveWriting · getToday · makeAnthology</td><td>Code.gs의 <b>BOOK_TITLE</b> — 문집 제목</td></tr>
             </tbody>
           </table>
@@ -5151,7 +5212,7 @@ function callPublicApi_(baseUrl, params) {
           <table>
             <thead><tr><th style="width:200px">규칙</th><th>실습 코드에서는</th></tr></thead>
             <tbody>
-              <tr><td><b>내부용 함수는 이름 끝에 _</b></td><td>ensureSheet_ · readRows_ · fetchWeather_ 는 화면에서 부를 수 없습니다.</td></tr>
+              <tr><td><b>내부용 함수는 이름 끝에 _</b></td><td>ensureSheet_ · readRows_ · cleanText_ 는 화면에서 부를 수 없습니다.</td></tr>
               <tr><td><b>검사는 주방에서</b></td><td>글자 수·빈칸·색 이름을 Code.gs에서 다시 확인합니다. 화면의 검사는 누구나 건너뛸 수 있습니다.</td></tr>
               <tr><td><b>교사용 기능은 시트 메뉴로</b></td><td>[4] makeAnthology는 첫 줄에서 getUi()를 부릅니다. 웹앱에서 불리면 여기서 멈춥니다.</td></tr>
               <tr><td><b>학생에게 시트를 공유하지 않기</b></td><td>실행 계정이 &lsquo;나&rsquo;라서 공유 없이도 저장됩니다. 시트 링크를 나누는 순간 모든 기록이 보입니다.</td></tr>
@@ -5434,7 +5495,7 @@ function apiKey_() {
       <a href="https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&amp;boardSeq=105007&amp;lev=0&amp;m=020402" target="_blank" rel="noopener">교육부 원문</a> ·
       「2026학년도 학습지원 소프트웨어 교육자료 선정 학교운영위원회 심의 가이드」(교육부, 2026.1.) ·
       에듀집 <a href="https://edzip.kr" target="_blank" rel="noopener">edzip.kr</a> ·
-      날씨 데이터 <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0)<br />
+      실습 3 검색 자료 <a href="https://ko.wikipedia.org/" target="_blank" rel="noopener">한국어 위키백과</a> (CC BY-SA 4.0)<br />
       제도와 지침은 변경될 수 있습니다. 실제 학교 사용 전 최신 교육부·교육청 공문과 학교 담당자의 안내를 확인하세요.
     </p></div>
       </div>
@@ -5449,7 +5510,7 @@ function apiKey_() {
 <div class="cmdk" id="cmdk" hidden>
   <div class="cmdk-bg" data-close></div>
   <div class="cmdk-box" role="dialog" aria-modal="true" aria-label="빠르게 찾기">
-    <div class="cmdk-in"><span class="material-icons-outlined">search</span><input id="cmdkInput" placeholder="무엇을 찾으세요? 예: 배포, LockService, 날씨" autocomplete="off" /><kbd>Esc</kbd></div>
+    <div class="cmdk-in"><span class="material-icons-outlined">search</span><input id="cmdkInput" placeholder="무엇을 찾으세요? 예: 배포, LockService, 위키백과" autocomplete="off" /><kbd>Esc</kbd></div>
     <ul class="cmdk-list" id="cmdkList" role="listbox"></ul>
   </div>
 </div>
@@ -5843,7 +5904,7 @@ document.addEventListener('keydown',e=>{
 /* ══ 용어 풀이 ══ */
 const GLOSS={
   'Apps Script':['구글이 무료로 빌려주는 작은 서버. 시트·문서·메일을 코드로 움직입니다.','#rp-gas'],
-  'API':['다른 기관이 공개해 둔 데이터. 주소로 물어보면 날씨·급식 같은 정보를 돌려줍니다.','#/kit'],
+  'API':['다른 기관이 공개해 둔 데이터. 주소로 물어보면 백과사전·날씨·급식 같은 정보를 돌려줍니다.','#/kit'],
   '웹앱':['Apps Script가 주소(/exec)를 붙여 인터넷에 내놓은 화면. 학생은 이 주소로 들어옵니다.','#ref-0'],
   '배포':['저장한 코드를 학생용 주소로 내놓는 것. 고친 뒤에는 새 버전으로 다시 배포해야 학생 화면이 바뀝니다.','#rp-deploy'],
   '프롬프트':['AI에게 보내는 요청 글. 무엇을, 어떻게, 무엇은 하지 말지 구체적으로 쓸수록 원하는 앱이 나옵니다.',''],
