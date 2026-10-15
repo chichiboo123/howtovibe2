@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="<?= theme ?>">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
+<style>
+:root{
+  --ink:#171C26; --ink-2:#343C4A; --muted:#5E6675; --faint:#6A7180;
+  --paper:#F6F7F9; --surface:#FFFFFF; --sunk:#EFF1F4; --line:#E3E6EB;
+  --blue:#006DD2; --blue-tint:#EAF3FE; --seam:#C8312F; --seam-tint:#FDEDEE;
+  --f1:#C8EDD9; --f1d:#1A6B47; --f2:#BFD9F2; --f2d:#1A5F8A;
+  --r-xl:22px; --r-lg:16px; --r-md:12px;
+}
+[data-theme="dark"]{
+  --ink:#ECEFF4; --ink-2:#C8CEDA; --muted:#A3ACBA; --faint:#8A93A3;
+  --paper:#0D1017; --surface:#151A23; --sunk:#1B212C; --line:#262D3A;
+  --blue:#5AA8F5; --blue-tint:#122437; --seam:#FF6B6F; --seam-tint:#2A1719;
+  --f1:#173A2A; --f1d:#8FDDB4; --f2:#16304A; --f2d:#9CC8EE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.6;color:var(--ink);background:var(--paper);
+  word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;}
+body.embed{background:transparent;}
+/* 연수 사이트가 높이를 맞춰 주면 안쪽 스크롤을 없애 한 페이지처럼 읽히게 합니다 */
+html.fit,html.fit body{overflow:hidden;}
+.material-icons-outlined{font-size:20px;vertical-align:middle;line-height:1;}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 28px;}
+body.embed main{padding:4px 2px 12px;}
+.top{margin-bottom:18px;}
+.top h1{font-size:26px;font-weight:800;letter-spacing:-.03em;}
+.top p{color:var(--muted);margin-top:4px;}
+body.embed .top{display:none;}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:18px;}
+.form label{display:block;font-weight:800;font-size:15px;margin-bottom:8px;}
+textarea{width:100%;min-height:150px;resize:vertical;border:1.5px solid var(--line);border-radius:var(--r-md);background:var(--paper);color:var(--ink);
+  font:inherit;font-size:14.5px;line-height:1.65;padding:12px 14px;}
+textarea:focus,input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 18%,transparent);}
+.preview{margin-top:10px;font-size:14px;color:var(--ink-2);background:var(--sunk);border-radius:var(--r-md);padding:10px 12px;}
+.preview b{color:var(--ink);}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;}
+.row input{height:44px;border:1.5px solid var(--line);border-radius:var(--r-md);background:var(--paper);color:var(--ink);font:inherit;padding:0 12px;width:150px;}
+.count{font-size:13px;color:var(--faint);margin-right:auto;}
+.btn{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 18px;border:none;border-radius:var(--r-md);cursor:pointer;
+  font:inherit;font-weight:800;font-size:15px;background:var(--ink);color:var(--paper);}
+.btn:disabled{opacity:.5;cursor:default;}
+.btn-line{display:inline-flex;align-items:center;gap:5px;height:36px;padding:0 12px;border:none;border-radius:10px;cursor:pointer;
+  font:inherit;font-weight:700;font-size:13.5px;background:var(--surface);color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line);}
+.note{margin-top:10px;font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:flex-start;}
+.note .material-icons-outlined{font-size:17px;color:var(--seam);}
+.msg{margin-top:8px;font-size:14px;font-weight:700;min-height:0;}
+.msg.err{color:var(--seam);} .msg.ok{color:var(--f1d);}
+
+.list-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 12px;}
+.list-h b{font-size:17px;letter-spacing:-.02em;}
+.list-h b span{color:var(--blue);}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));align-items:start;}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;}
+.post-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+.post-h b{min-width:0;font-size:17.5px;font-weight:800;letter-spacing:-.03em;line-height:1.35;overflow-wrap:anywhere;}
+.post-h time{flex-shrink:0;font-size:12.5px;color:var(--faint);}
+.who{align-self:flex-start;font-size:12.5px;font-weight:800;color:var(--ink-2);background:var(--sunk);border-radius:999px;padding:3px 10px;}
+.exp{background:var(--f1);border-radius:var(--r-md);padding:12px 14px;}
+.k{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:2px;}
+.exp .k{color:var(--f1d);}
+.exp p{font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.6;white-space:pre-line;}
+.prob p{font-size:14px;color:var(--ink-2);white-space:pre-line;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tags span{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--blue-tint);color:var(--blue);}
+.tags span.dir{background:var(--f2);color:var(--f2d);}
+details{border-top:1px dashed var(--line);padding-top:8px;}
+summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--muted);list-style:none;}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:'＋ ';}
+details[open] summary::before{content:'－ ';}
+details pre{margin-top:8px;white-space:pre-wrap;font:inherit;font-size:13.5px;line-height:1.7;color:var(--ink-2);background:var(--sunk);border-radius:var(--r-md);padding:10px 12px;}
+.empty,.loading{color:var(--muted);font-size:14.5px;padding:18px 4px;}
+</style>
+</head>
+<body class="<?= embed ? 'embed' : '' ?>">
+<main id="main">
+  <header class="top">
+    <h1>우리의 앱 아이디어</h1>
+    <p>내가 설계한 앱을 공유하고, 다른 선생님의 아이디어를 둘러보세요.</p>
+  </header>
+
+  <section class="card form" aria-labelledby="rawLabel">
+    <label id="rawLabel" for="raw">기획 한 장 요약 붙여넣기</label>
+    <textarea id="raw" maxlength="3000" placeholder="[앱 이름] …&#10;[누가] …&#10;[아쉬운 점] …&#10;[학생 경험] …"></textarea>
+    <p class="preview" id="preview" hidden></p>
+    <div class="row">
+      <span class="count" id="count">0 / 3000</span>
+      <input id="code" type="password" placeholder="게시 코드" autocomplete="off" hidden />
+      <button class="btn" id="send" type="button"><span class="material-icons-outlined">send</span>아이디어 공유하기</button>
+    </div>
+    <p class="note"><span class="material-icons-outlined">privacy_tip</span>실제 학생 이름 등 개인정보는 쓰지 마세요. 올린 글은 모두에게 보입니다.</p>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section aria-labelledby="listTitle">
+    <div class="list-h">
+      <b id="listTitle">공유된 아이디어 <span id="n">0</span></b>
+      <button class="btn-line" id="reload" type="button"><span class="material-icons-outlined">refresh</span>새로고침</button>
+    </div>
+    <p class="loading" id="loading">불러오는 중…</p>
+    <div class="cards" id="cards"></div>
+    <p class="empty" id="empty" hidden>아직 공유된 아이디어가 없습니다. 첫 번째로 나눠 주세요.</p>
+  </section>
+</main>
+
+<script>
+var EMBED = <?!= JSON.stringify(!!embed) ?>;
+var PARENT = <?!= JSON.stringify(parentOrigin || '') ?>;
+var MAX = 3000;
+var $ = function (id) { return document.getElementById(id); };
+var LABELS = { '앱 이름': 'appName', '누가': 'who', '아쉬운 점': 'problem', '학생 경험': 'experience', '기능 블록': 'blocks', '넓어지는 쪽': 'directions' };
+
+/* 서버의 parsePlan_ 과 같은 규칙: 붙여넣는 동안 무엇이 읽혔는지 미리 보여 줍니다 */
+function parsePlan(raw) {
+  var f = {}, key = null;
+  raw.replace(/\r\n?/g, '\n').split('\n').forEach(function (line) {
+    var m = line.match(/^\s*\[([^\]]{1,20})\]\s?(.*)$/);
+    if (m) { key = LABELS[m[1].trim()] || null; if (key) f[key] = m[2].trim(); }
+    else if (key && line.trim()) f[key] += (f[key] ? '\n' : '') + line.trim();
+  });
+  return f;
+}
+
+function el(tag, cls, text) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;   // 글은 언제나 글자로만 넣습니다
+  return e;
+}
+function when(iso) {
+  var d = new Date(iso); if (isNaN(d)) return '';
+  return (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + d.getHours() + ':' + ('0' + d.getMinutes()).slice(-2);
+}
+function split(s, sep) { return String(s || '').split(sep).map(function (x) { return x.trim(); }).filter(Boolean); }
+
+function card(p) {
+  var c = el('article', 'post');
+  var h = el('div', 'post-h'); h.appendChild(el('b', '', p.appName || '이름 없는 앱'));
+  var t = el('time', '', when(p.createdAt)); t.dateTime = p.createdAt; h.appendChild(t); c.appendChild(h);
+  if (p.who) c.appendChild(el('span', 'who', p.who));
+  if (p.experience) { var x = el('div', 'exp'); x.appendChild(el('span', 'k', '학생이 경험할 배움')); x.appendChild(el('p', '', p.experience)); c.appendChild(x); }
+  if (p.problem) { var pr = el('div', 'prob'); pr.appendChild(el('span', 'k', '교실의 문제상황')); pr.appendChild(el('p', '', p.problem)); c.appendChild(pr); }
+  var tags = el('div', 'tags');
+  split(p.blocks, '+').forEach(function (b) { tags.appendChild(el('span', '', b)); });
+  split(p.directions, '·').forEach(function (d) { tags.appendChild(el('span', 'dir', d)); });
+  if (tags.children.length) c.appendChild(tags);
+  var det = el('details'); det.appendChild(el('summary', '', '기획 전체 보기')); det.appendChild(el('pre', '', p.raw)); c.appendChild(det);
+  return c;
+}
+
+var shown = 0;
+function paint(list) {
+  var box = $('cards'); box.textContent = '';
+  list.forEach(function (p) { box.appendChild(card(p)); });
+  shown = list.length; $('n').textContent = shown;
+  $('empty').hidden = shown > 0; $('loading').hidden = true;
+}
+function load() {
+  $('loading').hidden = false; $('loading').textContent = '불러오는 중…';
+  google.script.run
+    .withSuccessHandler(paint)
+    .withFailureHandler(function (e) { $('loading').hidden = false; $('loading').textContent = '목록을 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요. (' + (e && e.message || e) + ')'; })
+    .listPosts();
+}
+
+function say(text, kind) { var m = $('msg'); m.textContent = text; m.className = 'msg' + (kind ? ' ' + kind : ''); }
+function update() {
+  var raw = $('raw').value; $('count').textContent = raw.length + ' / ' + MAX;
+  var f = parsePlan(raw), pv = $('preview');
+  if (!raw.trim()) { pv.hidden = true; return; }
+  pv.hidden = false; pv.textContent = '';
+  if (f.appName) {
+    pv.appendChild(document.createTextNode('읽은 내용: '));
+    pv.appendChild(el('b', '', f.appName));
+    if (f.experience) pv.appendChild(document.createTextNode(' · 학생 경험 ' + f.experience.slice(0, 40) + (f.experience.length > 40 ? '…' : '')));
+  } else {
+    pv.textContent = "'[앱 이름]' 줄이 보이지 않습니다. 2단계의 기획 한 장 요약을 그대로 붙여넣어 주세요.";
+  }
+}
+
+var sending = false;
+function send() {
+  if (sending) return;                      // 두 번 눌러도 한 번만 올라가게
+  var raw = $('raw').value.trim();
+  if (!raw) { say('기획 내용을 붙여넣어 주세요.', 'err'); return; }
+  if (!parsePlan(raw).appName) { say("'[앱 이름]'을 찾지 못했습니다.", 'err'); return; }
+  sending = true; $('send').disabled = true; say('공유하는 중…');
+  google.script.run
+    .withSuccessHandler(function (p) {
+      sending = false; $('send').disabled = false;
+      $('raw').value = ''; update(); say('공유했습니다. 아래 게시판에서 확인해 보세요.', 'ok');
+      $('cards').insertBefore(card(p), $('cards').firstChild);
+      $('n').textContent = ++shown; $('empty').hidden = true;
+    })
+    .withFailureHandler(function (e) { sending = false; $('send').disabled = false; say(e && e.message || '공유하지 못했습니다.', 'err'); })
+    .addPost(raw, $('code').value);
+}
+
+$('raw').addEventListener('input', update);
+$('send').addEventListener('click', send);
+$('reload').addEventListener('click', load);
+google.script.run.withSuccessHandler(function (c) { $('code').hidden = !c.codeRequired; }).getConfig();
+load();
+
+/* ── 연수 사이트에 넣었을 때: 내용 높이를 알려 iframe 높이를 맞춥니다 ──
+   PARENT(연수 사이트 주소)로만 보냅니다. 높이 숫자 말고는 아무것도 보내지 않습니다. */
+if (EMBED && PARENT) {
+  var lastH = 0;
+  var report = function () {
+    var h = Math.ceil($('main').getBoundingClientRect().bottom + 8);
+    if (Math.abs(h - lastH) < 2) return;
+    lastH = h;
+    try { window.top.postMessage({ type: 'vc-board-height', h: h }, PARENT); } catch (e) {}
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(report).observe($('main'));
+  window.addEventListener('load', report);
+  report();
+  window.addEventListener('message', function (e) {
+    if (e.origin === PARENT && e.data && e.data.type === 'vc-board-ack') document.documentElement.classList.add('fit');
+  });
+}
+</script>
+</body>
+</html>
