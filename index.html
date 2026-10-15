@@ -1316,6 +1316,22 @@ html[data-present] .hx-bg{opacity:.6;}
 .as-acc li{position:relative;padding-left:14px;font-size:14px;}
 .as-acc li::before{content:"";position:absolute;left:2px;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--blue);}
 .as-next{margin-top:22px;font-size:15px;font-weight:700;color:var(--ink-2);}
+
+/* ══════ 연속 스크롤 (실습 · 네트워킹) — 모든 단계를 한 문서처럼 이어서 보여 줍니다 ══════ */
+.view[data-flow] .panes{counter-reset:flowstep;}
+.view[data-flow] .pane{display:block;animation:none;counter-increment:flowstep;scroll-margin-top:calc(var(--bar) + 18px);}
+.view[data-flow] .pane + .pane{margin-top:64px;padding-top:44px;border-top:1px solid var(--line);}
+.view[data-flow] .pane-k::before{content:counter(flowstep);display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;
+  background:var(--sk,var(--blue));color:var(--paper);font-size:12px;font-weight:800;}
+.view[data-flow] .pane-nav{margin-top:22px;padding-top:0;border-top:none;}
+.view[data-flow] .pane:not(:last-child) .pane-nav .btn{height:36px;padding:0 13px;font-size:13.5px;border-radius:10px;}
+.view[data-flow] .pane:not(:last-child) .pane-nav .btn-ink{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line);}
+.view[data-flow] .pane:not(:last-child) .pane-nav .btn-ink:hover{box-shadow:inset 0 0 0 1px var(--faint);}
+@media (max-width:1023px){
+  .view[data-flow] .pane{scroll-margin-top:calc(var(--bar) + 80px);}
+  .view[data-flow] .pane + .pane{margin-top:44px;padding-top:30px;}
+  .view[data-flow] .rail-card{padding:6px 8px;}
+}
 </style>
 </head>
 <body>
@@ -1718,7 +1734,7 @@ html[data-present] .hx-bg{opacity:.6;}
     </div>
   </section>
 
-  <section class="view fn1" id="v-m1" data-view="m1" data-steps="5">
+  <section class="view fn1" id="v-m1" data-view="m1" data-steps="5" data-flow>
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1" class="on" aria-current="page"><i>1</i>기록</a><a href="#/m2" data-m="m2"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>감정 체크인</h1><p><span class="vw">점에서 선으로</span>고른 감정이 날짜와 함께 쌓이는 앱</p></div></div>
@@ -2451,7 +2467,7 @@ if (document.readyState === 'loading') {
       </div>
     </div>
   </section>
-  <section class="view fn2" id="v-m2" data-view="m2" data-steps="5">
+  <section class="view fn2" id="v-m2" data-view="m2" data-steps="5" data-flow>
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록</a><a href="#/m2" data-m="m2" class="on" aria-current="page"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>우리반 의견보드</h1><p><span class="vw">거울에서 창으로</span>내 생각과 친구의 생각이 한 화면에서 만나는 앱</p></div></div>
@@ -3130,7 +3146,7 @@ if (document.readyState === 'loading') {
       </div>
     </div>
   </section>
-  <section class="view fn3" id="v-m3" data-view="m3" data-steps="5">
+  <section class="view fn3" id="v-m3" data-view="m3" data-steps="5" data-flow>
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록</a><a href="#/m2" data-m="m2"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3" class="on" aria-current="page"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>오늘의 궁금증 탐험대</h1><p><span class="vw">우물에서 바다로</span>하나의 질문에서 더 넓은 세상으로 가는 앱</p></div></div>
@@ -3709,7 +3725,7 @@ if (document.readyState === 'loading') {
       </div>
     </div>
   </section>
-  <section class="view fn4" id="v-m4" data-view="m4" data-steps="5">
+  <section class="view fn4" id="v-m4" data-view="m4" data-steps="5" data-flow>
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록</a><a href="#/m2" data-m="m2"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4" class="on" aria-current="page"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>티끌모아 학급문집</h1><p><span class="vw">점에서 선으로</span>매일 쓴 글이 쌓여 학급문집이 되는 앱</p></div></div>
@@ -4341,7 +4357,7 @@ if (document.readyState === 'loading') {
     </div>
   </section>
 
-  <section class="view" id="v-net" data-view="net" data-steps="4">
+  <section class="view" id="v-net" data-view="net" data-steps="4" data-flow>
     <div class="wrap stage-v">
       <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">diversity_3</span></span><div><h1>네트워킹</h1><p>나의 앱 아이디어를 설계하고 나눕니다.</p></div></div>
       <div class="stage-grid">
@@ -5315,7 +5331,35 @@ function bindCopy(scope){
 bindCopy();
 
 /* ── 라우터 ── */
-let pendingTarget=null;
+let pendingTarget=null, curView=null;
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const scrollMode=smooth=>smooth&&!reduceMotion.matches?'smooth':'instant';
+/* 연속 스크롤 화면(data-flow): 단계를 바꾸지 않고 그 단계 위치로 스크롤합니다 */
+const isFlow=sec=>!!(sec&&sec.hasAttribute('data-flow'));
+/* 상단 바와, 좁은 화면에서 위에 붙는 단계 띠에 제목이 가리지 않을 만큼 */
+function flowOffset(sec){
+  let off=document.querySelector('.topbar').offsetHeight+18;
+  if(innerWidth<1024){const r=sec&&sec.querySelector('.rail'); if(r) off+=r.offsetHeight+8;}
+  return off;
+}
+function scrollToEl(el,sec,smooth){
+  const y=Math.max(0,el.getBoundingClientRect().top+scrollY-flowOffset(sec));
+  spyHold(y); scrollTo({top:y,behavior:scrollMode(smooth)});
+  /* 글꼴이 늦게 와서 위쪽 높이가 바뀌어도, 사용자가 스크롤하기 전까지는 같은 제목에 맞춰 둡니다 */
+  anchor={el,sec,until:performance.now()+3000};
+}
+let anchor=null;
+function keepAnchor(){
+  if(!anchor) return;
+  if(performance.now()>anchor.until){anchor=null; return;}
+  const d=anchor.el.getBoundingClientRect().top-flowOffset(anchor.sec);
+  if(Math.abs(d)>2&&scrollY+d>=0){const y=scrollY+d; spyHold(y); scrollTo({top:y,behavior:'instant'});}
+}
+if('ResizeObserver' in window) new ResizeObserver(()=>keepAnchor()).observe(document.body);
+document.addEventListener('animationend',e=>{if(e.target.classList&&e.target.classList.contains('view')) keepAnchor();});
+if(document.fonts) document.fonts.ready.then(keepAnchor);
+/* 새로고침 때 브라우저가 옛 위치로 되돌리지 않고, 주소의 단계로 가게 합니다 */
+if('scrollRestoration' in history) history.scrollRestoration='manual';
 function parse(){
   const h=location.hash.replace(/^#\/?/,'');
   let [view,step]=h.split('/'); view=VIEW_ALIAS[view]||view;
@@ -5324,13 +5368,16 @@ function parse(){
 }
 function render(){
   const {view,step}=parse();
+  const same=view===curView; curView=view;
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.dataset.view===view));
   document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('on',a.dataset.nav===view||(a.dataset.nav==='m'&&/^m\d$/.test(view))));
   document.title=(VIEW_TITLE[view]?VIEW_TITLE[view]+' | ':'')+'바이브코딩 : 포스트시즌';
   const sec=$('v-'+view);
-  const total=parseInt(sec.dataset.steps||'0',10);
+  const total=parseInt(sec.dataset.steps||'0',10), flow=isFlow(sec);
+  let k=0;
   if(total){
-    const k=Math.min(Math.max(step||S.last[view]||1,1),total);
+    /* 연속 스크롤 화면은 주소에 단계가 없으면 처음부터 */
+    k=Math.min(Math.max(step||(flow?1:S.last[view])||1,1),total);
     showStep(view,k);
   }
   if(view==='home') paintHome();
@@ -5340,11 +5387,12 @@ function render(){
     if(el){
       if(el.tagName==='DETAILS') el.open=true;
       const host=el.parentElement&&el.parentElement.closest('details'); if(host) host.open=true;
-      setTimeout(()=>{const y=el.getBoundingClientRect().top+scrollY-(innerWidth<1024?150:90);scrollTo({top:y,behavior:'smooth'});},60);
+      setTimeout(()=>scrollToEl(el,sec,true),60);
       return;
     }
   }
-  scrollTo({top:0,behavior:'auto'});
+  if(flow&&k>1){const p=sec.querySelector('.pane[data-step="'+k+'"]'); if(p){scrollToEl(p.querySelector('.pane-h')||p,sec,same); return;}}
+  spyHold(0); scrollTo({top:0,behavior:scrollMode(flow&&same)});
 }
 function showStep(view,k){
   const sec=$('v-'+view);
@@ -5368,10 +5416,36 @@ function showStep(view,k){
 }
 window.addEventListener('hashchange',render);
 
+/* 스크롤 위치로 지금 읽는 단계 찾기 — 단계가 바뀔 때만 표시 · 저장 · 주소(replaceState)를 고칩니다 */
+/* 버튼·주소로 이동하는 동안에는 도착할 때까지 기다립니다. 사용자가 직접 스크롤하면 바로 다시 지켜봅니다 */
+let spyTarget=null, spyUntil=0, spyRaf=0;
+function spyHold(y){spyTarget=Math.min(y,Math.max(0,document.documentElement.scrollHeight-innerHeight)); spyUntil=performance.now()+1500;}
+['wheel','touchstart','keydown','mousedown'].forEach(t=>addEventListener(t,()=>{spyTarget=null; anchor=null;},{passive:true}));
+function spy(){
+  const sec=$('v-'+curView); if(!isFlow(sec)) return;
+  if(parse().view!==curView) return; /* 다른 화면으로 가는 중이면 주소를 건드리지 않습니다 */
+  const panes=[...sec.querySelectorAll('.pane')]; if(!panes.length) return;
+  let k=+panes[0].dataset.step;
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-2) k=+panes[panes.length-1].dataset.step;
+  else{const line=flowOffset(sec)+Math.min(160,innerHeight*.25);
+    panes.forEach(p=>{if(p.getBoundingClientRect().top<=line) k=+p.dataset.step;});}
+  if(k===S.last[curView]&&location.hash==='#/'+curView+'/'+k) return;
+  /* 빠르게 지나친 짧은 단계도 읽은 것으로 표시합니다 */
+  const from=S.last[curView]||1, vis=S.visit[curView]=S.visit[curView]||[];
+  for(let i=Math.min(from,k);i<=Math.max(from,k);i++) if(!vis.includes(i)) vis.push(i);
+  showStep(curView,k);
+  history.replaceState(history.state,'','#/'+curView+'/'+k);
+}
+window.addEventListener('scroll',()=>{
+  if(spyTarget!==null){if(Math.abs(scrollY-spyTarget)<=2||performance.now()>spyUntil) spyTarget=null; return;}
+  if(!spyRaf) spyRaf=requestAnimationFrame(()=>{spyRaf=0; spy();});
+},{passive:true});
+
 /* 레일 버튼 */
 document.querySelectorAll('.view[data-steps]').forEach(sec=>{
   const view=sec.dataset.view;
-  sec.querySelectorAll('.steps button').forEach(b=>b.addEventListener('click',()=>{location.hash='#/'+view+'/'+b.dataset.go;}));
+  sec.querySelectorAll('.steps button').forEach(b=>b.addEventListener('click',()=>{
+    const h='#/'+view+'/'+b.dataset.go; if(location.hash===h) render(); else location.hash=h;}));
 });
 
 /* 키보드 ← → */
@@ -5388,7 +5462,10 @@ document.addEventListener('keydown',e=>{
 /* 본문 안의 #아이디 링크 → 해당 화면 · 단계로 이동 */
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[href^="#"]'); if(!a) return;
-  const href=a.getAttribute('href'); if(href.startsWith('#/')||href==='#') return;
+  const href=a.getAttribute('href');
+  /* 스크롤로 주소가 이미 그 단계라면 hashchange가 없으니 직접 이동합니다 */
+  if(href.startsWith('#/')){if(href===location.hash&&isFlow($('v-'+curView))){e.preventDefault(); render();} return;}
+  if(href==='#') return;
   const id=href.slice(1); const el=$(id); if(!el) return;
   e.preventDefault();
   const sec=el.closest('.view'); const pane=el.closest('.pane');
