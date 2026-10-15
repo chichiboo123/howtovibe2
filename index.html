@@ -1332,6 +1332,24 @@ html[data-present] .hx-bg{opacity:.6;}
   .view[data-flow] .pane + .pane{margin-top:44px;padding-top:30px;}
   .view[data-flow] .rail-card{padding:6px 8px;}
 }
+
+/* ══════ 네트워킹 · 공동 아이디어 게시판 ══════ */
+.share-hint{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:14px;font-weight:700;color:var(--blue);}
+.share-hint .material-icons-outlined{font-size:18px;}
+.share-how{list-style:none;counter-reset:sh;display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:16px;}
+.share-how li{counter-increment:sh;position:relative;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px 0 6px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);font-size:14px;color:var(--ink-2);}
+.share-how li::before{content:counter(sh);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--blue-tint);color:var(--blue);font-size:12px;font-weight:800;}
+.share-how li + li::after{content:'→';position:absolute;left:-17px;color:var(--faint);}
+@media (max-width:560px){.share-how li + li::after{content:none;}}
+.board iframe{display:block;width:100%;height:900px;border:1px solid var(--line);border-radius:var(--r-xl);background:var(--surface);}
+.board iframe.fit{border-color:transparent;background:transparent;}
+.board-off{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:var(--r-xl);border:1.5px dashed var(--line);background:var(--surface);}
+.board-off > .material-icons-outlined{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--sunk);color:var(--muted);flex-shrink:0;}
+.board-off b{display:block;font-size:15.5px;}
+.board-off p{font-size:14px;color:var(--muted);margin-top:2px;}
+.board-foot{margin-top:8px;font-size:13px;color:var(--muted);}
+.board [hidden]{display:none !important;}
 </style>
 </head>
 <body>
@@ -4363,7 +4381,7 @@ if (document.readyState === 'loading') {
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">조합 예시<small>블록 두세 개면 충분</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">나의 앱 아이디어<small>문제에서 프롬프트까지</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">나누기<small>의견보드로 공유</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">만들고 돌아보기<small>실제로 만들 때</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">조합 예시<small>블록 두세 개면 충분</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">나의 앱 아이디어<small>문제에서 프롬프트까지</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">나누기<small>공동 아이디어 게시판</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">만들고 돌아보기<small>실제로 만들 때</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane" data-step="1">
@@ -4451,6 +4469,7 @@ if (document.readyState === 'loading') {
             <button class="btn btn-blue btn-sm" id="b_pdf" type="button"><span class="material-icons-outlined">picture_as_pdf</span>기획서 저장 (PDF)</button></div>
           <div class="substep"><h4><span class="material-icons-outlined">description</span>① 기획 한 장 요약 <span class="dim">— 나눌 때 씁니다</span></h4>
             <div class="code wrap"><button class="copy" data-copy="b_plan"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="b_plan"></pre></div>
+            <p class="share-hint"><span class="material-icons-outlined">arrow_downward</span>복사한 기획을 아래 &lsquo;나누기&rsquo; 단계에서 공유할 수 있습니다.</p>
           </div>
           <div class="substep"><h4><span class="material-icons-outlined">smart_toy</span>② AI에게 붙여넣을 프롬프트 <span class="dim">— 실제로 만들 때 씁니다</span></h4>
             <div class="code wrap"><button class="copy" data-copy="b_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="b_prompt"></pre></div>
@@ -4460,15 +4479,26 @@ if (document.readyState === 'loading') {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/net/1"><span class="material-icons-outlined">arrow_back</span>조합 예시</a><a class="btn btn-ink btn-sm nx" href="#/net/3"><small>다음</small>나누기<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane" data-step="3" id="st-3">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">forum</span>나누기</span><h2>나의 앱 아이디어를 나눕니다</h2></header>
-            
-        <ol class="act">
-          <li>한 사람이 실습 2 <b>우리반 의견보드</b>를 열고 링크를 나눕니다.</li>
-          <li>각자 <b>앱 이름</b>과 <b>학생이 겪을 경험</b>을 카드로 붙입니다.</li>
-          <li>마음에 드는 카드에 ♥, <b>공감순</b>으로 함께 봅니다.</li>
-        </ol>
-        <p class="dim">실습 2에서 만든 앱이 지금 연수의 도구가 됩니다.</p>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/net/2"><span class="material-icons-outlined">arrow_back</span>나의 앱 아이디어</a><a class="btn btn-ink btn-sm nx" href="#/net/4"><small>다음</small>만들고 고치기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">forum</span>나누기</span><h2>우리의 앱 아이디어를 나눕니다</h2>
+              <p>내가 설계한 앱을 공유하고, 다른 선생님의 아이디어에서 새로운 가능성을 발견해 보세요.</p></header>
+            <ol class="share-how">
+              <li>2단계의 <b>기획 한 장 요약</b> 복사</li>
+              <li>아래 입력창에 붙여넣기</li>
+              <li><b>아이디어 공유하기</b></li>
+              <li>서로의 기획 둘러보기</li>
+            </ol>
+            <div class="board" id="board">
+              <div class="board-off" id="boardOff">
+                <span class="material-icons-outlined">link_off</span>
+                <div><b>게시판이 아직 연결되지 않았습니다</b>
+                  <p>진행하는 선생님이 Apps Script 게시판을 배포하고 주소를 연결하면 이곳에 나타납니다. <a class="inl" href="https://github.com/chichiboo123/howtovibe2/tree/main/apps-script/networking-board" target="_blank" rel="noopener">설치 안내</a></p></div>
+              </div>
+              <iframe id="boardFrame" title="우리의 앱 아이디어 공동 게시판" loading="lazy" hidden
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              <p class="board-foot" id="boardFoot" hidden>화면이 잘려 보이면 <a class="inl" id="boardOpen" href="#" target="_blank" rel="noopener">게시판을 새 창에서 열기</a></p>
+            </div>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/net/2"><span class="material-icons-outlined">arrow_back</span>나의 앱 아이디어</a><a class="btn btn-ink btn-sm nx" href="#/net/4"><small>다음</small>만들고 돌아보기<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane" data-step="4" id="st-4">
             <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">home_repair_service</span>만들고 돌아보기</span><h2>한 블록씩 만들고, 다시 교육으로</h2></header>
@@ -5942,6 +5972,32 @@ $('d_print').addEventListener('click',()=>{
   w.document.write('</body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),350);
 });
+
+/* ══ 네트워킹 · 공동 아이디어 게시판 ══
+   게시판은 Apps Script 웹앱(apps-script/networking-board)이고, 여기에는 iframe으로 들어옵니다.
+   배포한 웹앱의 /exec 주소를 아래에 붙여 넣으세요. 비워 두면 '아직 연결되지 않았습니다'가 보입니다. */
+const BOARD_URL='';
+(function(){
+  const fr=$('boardFrame'); if(!fr) return;
+  if(!/^https:\/\/script\.google\.com\/(a\/macros\/[\w.-]+|macros)\/s\/[\w-]+\/exec$/.test(BOARD_URL)) return;
+  const theme=document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light';
+  /* parent: 게시판이 높이를 알려 줄 이 사이트의 주소 (https일 때만) */
+  fr.src=BOARD_URL+'?embed=1&theme='+theme+(location.protocol==='https:'?'&parent='+encodeURIComponent(location.origin):'');
+  fr.hidden=false; $('boardOff').hidden=true; $('boardOpen').href=BOARD_URL; $('boardFoot').hidden=false;
+  /* 게시판이 보낸 높이만큼 iframe을 늘려, 안쪽에 스크롤이 갇히지 않고 한 페이지처럼 읽히게 합니다.
+     구글이 게시판을 보여 주는 주소(*-script.googleusercontent.com)에서, 이 iframe 안에서 온 메시지만 받습니다. */
+  const BANNER=56; /* 구글이 웹앱 위에 붙이는 안내 띠 몫 */
+  window.addEventListener('message',e=>{
+    if(!/^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(e.origin)) return;
+    const d=e.data; if(!d||d.type!=='vc-board-height') return;
+    let w=e.source, mine=false;
+    for(let i=0;i<4&&w;i++){ if(w===fr.contentWindow){mine=true;break;} try{w=w.parent;}catch(_){break;} }
+    if(!mine) return;
+    const h=Math.round(+d.h); if(!(h>=200&&h<=30000)) return;
+    fr.style.height=(h+BANNER)+'px'; fr.classList.add('fit');
+    try{e.source.postMessage({type:'vc-board-ack'},e.origin);}catch(_){}
+  });
+})();
 
 /* ═══ 나의 앱 아이디어 : 입력 기억하기 ═══ */
 S.form=S.form||{};
