@@ -1267,6 +1267,55 @@ html[data-present] .hx-bg{opacity:.6;}
 .dir-t{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink-2);}
 .dir-t .material-icons-outlined{font-size:17px;color:var(--fd);}
 .dir > .material-icons-outlined{position:absolute;top:18px;right:18px;color:var(--faint);}
+
+/* ══════ 기반 — 구글 앱스 스크립트란? ══════ */
+.as-def{padding:24px 24px 18px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--lift);}
+.as-lead{font-size:clamp(21px,2.4vw,27px);font-weight:800;letter-spacing:-.035em;line-height:1.4;color:var(--ink);}
+.as-lead b{color:var(--blue);}
+.as-sub{margin-top:10px;font-size:16px;line-height:1.75;color:var(--ink-2);max-width:42em;}
+.as-more{margin-top:14px;border-top:1px dashed var(--line);padding-top:10px;}
+.as-more summary{list-style:none;display:inline-flex;align-items:center;gap:4px;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;}
+.as-more summary::-webkit-details-marker{display:none;}
+.as-more summary .material-icons-outlined{font-size:17px;transition:transform .2s;}
+.as-more[open] summary .material-icons-outlined{transform:rotate(45deg);}
+.as-more p{margin-top:6px;font-size:14px;color:var(--muted);line-height:1.7;}
+.can4{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));}
+@media (min-width:900px){.can4{grid-template-columns:repeat(4,minmax(0,1fr));}}
+.can{min-width:0;padding:16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:4px;}
+.can > .material-icons-outlined{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--blue-tint);color:var(--blue);font-size:22px;margin-bottom:6px;}
+.can b{font-size:15.5px;letter-spacing:-.02em;}
+.can p{font-size:13.5px;color:var(--muted);line-height:1.55;}
+.as-flow{display:grid;gap:6px;grid-template-columns:minmax(0,1fr);align-items:stretch;}
+@media (min-width:900px){.as-flow{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr) 64px minmax(0,1.15fr);}}
+.af-node{min-width:0;padding:16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:4px;}
+.af-gas{border:1.5px solid var(--blue);background:color-mix(in srgb,var(--blue) 5%,var(--surface));}
+.af-svc{border-style:dashed;}
+.af-ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--sunk);margin-bottom:4px;}
+.af-gas .af-ic{background:var(--blue-tint);color:var(--blue);}
+.af-k{font-size:15px;font-weight:800;letter-spacing:-.02em;}
+.af-k em{font-style:normal;font-size:11.5px;font-weight:800;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:1px 7px;margin-left:4px;vertical-align:1px;}
+.af-node code{font-size:13px;}
+.af-node p{font-size:13.5px;color:var(--muted);line-height:1.55;}
+.af-chips{list-style:none;display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
+.af-chips li{height:26px;display:inline-flex;align-items:center;padding:0 9px;border-radius:999px;background:var(--sunk);font-size:12.5px;font-weight:700;color:var(--ink-2);}
+.af-link{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--blue);padding:2px 0;}
+.af-link small{font-size:11.5px;font-weight:800;color:var(--muted);}
+.af-link .material-icons-outlined{transform:rotate(90deg);font-size:22px;}
+@media (min-width:900px){.af-link{flex-direction:column;gap:2px;}.af-link .material-icons-outlined{transform:none;}}
+.as-terms{display:grid;gap:6px;margin-top:12px;}
+.as-terms > div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:baseline;font-size:14px;}
+.as-terms dt{font-weight:800;color:var(--ink);}
+.as-terms dd{color:var(--muted);line-height:1.6;}
+@media (max-width:560px){.as-terms > div{grid-template-columns:minmax(0,1fr);gap:0;}}
+.as-note{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:14px;color:var(--ink-2);line-height:1.6;}
+.as-note .material-icons-outlined{color:var(--blue);font-size:19px;margin-top:1px;}
+.as-motto{margin-top:14px;text-align:center;font-size:clamp(16px,1.8vw,19px);font-weight:800;letter-spacing:-.03em;color:var(--ink-2);text-wrap:balance;}
+.as-motto em{font-style:normal;color:var(--blue);}
+.as-acc{margin-top:26px;}
+.as-acc ul{list-style:none;display:grid;gap:4px;margin-top:4px;}
+.as-acc li{position:relative;padding-left:14px;font-size:14px;}
+.as-acc li::before{content:"";position:absolute;left:2px;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--blue);}
+.as-next{margin-top:22px;font-size:15px;font-weight:700;color:var(--ink-2);}
 </style>
 </head>
 <body>
@@ -1410,36 +1459,70 @@ html[data-present] .hx-bg{opacity:.6;}
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">Apps Script 기초<small>화면 뒤의 서버</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">편집기 둘러보기<small>일곱 곳만</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">배포하고 나누기<small>학생용 주소 만들기</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">실습 방향 안내<small>네 가지 실습</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">Apps Script 기초<small>무엇을 할 수 있나</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">편집기 둘러보기<small>일곱 곳만</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">배포하고 나누기<small>학생용 주소 만들기</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">실습 방향 안내<small>네 가지 실습</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
 
           <article class="pane" data-step="1">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">dns</span>Apps Script 기초</span><h2>화면 뒤에 서버가 생깁니다</h2>
-              <p>구글 계정만 있으면 무료. 설치 없이 크롬에서 씁니다.</p></header>
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">code</span>Apps Script 기초</span><h2>구글 앱스 스크립트란?</h2></header>
+            <div class="as-def">
+              <p class="as-lead">구글에서 제공하는 <b>프로그램 제작 도구</b>입니다.</p>
+              <p class="as-sub">별도의 서버를 직접 구축하지 않고도 웹앱을 만들고, 구글 서비스나 외부 정보를 연결하며, 반복적인 작업을 자동으로 처리할 수 있습니다.</p>
+              <details class="as-more"><summary><span class="material-icons-outlined">add</span>조금 더 정확히 알아보기</summary>
+                <p>Apps Script는 JavaScript를 사용하며, 작성한 코드는 Google의 서버에서 실행됩니다. <a class="inl" href="https://developers.google.com/apps-script/overview?hl=ko" target="_blank" rel="noopener">Google 공식 설명 보기</a></p></details>
+            </div>
+
+            <h3 class="sub-h"><span class="material-icons-outlined">widgets</span>Apps Script로 할 수 있는 일</h3>
+            <div class="can4">
+              <div class="can"><span class="material-icons-outlined">web</span><b>웹앱 만들기</b><p>인터넷에서 쓰는 나만의 웹앱</p></div>
+              <div class="can"><span class="material-icons-outlined">hub</span><b>구글 서비스 연결하기</b><p>문서 · 드라이브 · 시트 · 캘린더 · 메일</p></div>
+              <div class="can"><span class="material-icons-outlined">travel_explore</span><b>외부 정보 가져오기</b><p>다른 서비스의 API로 정보 불러오기</p></div>
+              <div class="can"><span class="material-icons-outlined">schedule</span><b>작업 자동화하기</b><p>반복 작업을 자동으로, 정해진 시간에</p></div>
+            </div>
+
+            <h3 class="sub-h" id="rp-gas"><span class="material-icons-outlined">account_tree</span>웹앱에서는 어떻게 작동할까?</h3>
+            <figure class="as-flow" aria-label="웹앱 구조: 사용자 화면 index.html이 Google Apps Script의 Code.gs에 요청하고 결과를 받으며, Code.gs는 필요할 때 구글 서비스나 외부 API에 연결합니다.">
+              <div class="af-node">
+                <span class="af-ic"><span class="material-icons-outlined">devices</span></span>
+                <span class="af-k">사용자 화면</span>
+                <code>index.html</code>
+                <p>보고, 누르고, 입력하는 화면</p>
+              </div>
+              <div class="af-link" aria-hidden="true"><small>요청</small><span class="material-icons-outlined">sync_alt</span><small>결과</small></div>
+              <div class="af-node af-gas">
+                <span class="af-ic"><span class="material-icons-outlined">code</span></span>
+                <span class="af-k">Google Apps Script</span>
+                <code>Code.gs</code>
+                <p>화면이 요청한 일을 Google 서버에서 처리</p>
+              </div>
+              <div class="af-link" aria-hidden="true"><small>필요할 때</small><span class="material-icons-outlined">sync_alt</span><small>연결</small></div>
+              <div class="af-node af-svc">
+                <span class="af-ic"><span class="material-icons-outlined">hub</span></span>
+                <span class="af-k">연결할 수 있는 서비스 <em>선택</em></span>
+                <ul class="af-chips"><li>Google Sheets</li><li>Google Docs</li><li>Google Drive</li><li>Gmail · Calendar</li><li>외부 API</li></ul>
+              </div>
+            </figure>
+            <dl class="as-terms">
+              <div><dt><code>index.html</code></dt><dd>사용자가 보는 화면과 화면의 동작</dd></div>
+              <div><dt><code>Code.gs</code></dt><dd>Google 서버에서 실행할 기능을 적는 파일</dd></div>
+              <div><dt>Google Apps Script</dt><dd>이 코드를 작성하고 실행하는 Google의 개발 플랫폼</dd></div>
+            </dl>
+            <p class="as-note"><span class="material-icons-outlined">info</span>Google Sheets는 필수가 아닙니다. 기록을 남길 때 연결합니다. 실습 3 궁금증 탐험대는 시트 없이 위키백과만 연결합니다.</p>
+
+            <h3 class="sub-h"><span class="material-icons-outlined">trending_up</span>지난 시즌과 이번 시즌</h3>
             <div class="vs">
-              <div class="vs-col">
-                <div class="vs-label">지난 시즌 · HTML 파일 하나</div>
-                <p>기록이 <b>내 브라우저</b>에만 남습니다.</p>
-              </div>
-              <div class="vs-col good">
-                <div class="vs-label">이번 시즌 · HTML + Apps Script</div>
-                <p>기록이 <b>구글 시트</b>에 함께 쌓이고, 문서·드라이브와 이어집니다.</p>
-              </div>
+              <div class="vs-col"><div class="vs-label">지난 시즌</div><h4>내 브라우저에서 작동하는 웹앱</h4><p>브라우저에 데이터를 저장하며 나만의 웹앱을 만들었습니다.</p></div>
+              <div class="vs-col"><div class="vs-label">이번 시즌</div><h4>다양한 서비스와 연결되는 웹앱</h4><p>Apps Script를 활용해 기록을 공유하고, 외부 정보를 가져오고, 구글 도구와 연결합니다.</p></div>
             </div>
-            <h3 class="sub-h" id="rp-gas"><span class="material-icons-outlined">restaurant</span>홀과 주방</h3>
-            <div class="flow">
-              <div class="fl-n"><span class="material-icons-outlined">smartphone</span><b>홀 · index.html</b><em>학생이 보는 화면</em></div>
-              <div class="fl-a"><span class="material-icons-outlined">arrow_forward</span><small>부르기</small></div>
-              <div class="fl-n"><span class="material-icons-outlined">soup_kitchen</span><b>주방 · Code.gs</b><em>선생님 권한으로 처리</em></div>
-              <div class="fl-a"><span class="material-icons-outlined">sync_alt</span><small>저장 · 읽기</small></div>
-              <div class="fl-n"><span class="material-icons-outlined">table_chart</span><b>구글 시트</b><em>기록이 쌓이는 곳</em></div>
-            </div>
-            <div class="gt-row"><span class="gt-k">함께 쓸 수 있는 구글 도구</span>
-              <span class="gt-c"><span class="material-icons-outlined">table_chart</span>시트</span><span class="gt-c"><span class="material-icons-outlined">description</span>문서</span><span class="gt-c"><span class="material-icons-outlined">folder</span>드라이브</span><span class="gt-c"><span class="material-icons-outlined">mail</span>메일</span><span class="gt-c"><span class="material-icons-outlined">event</span>캘린더</span><span class="gt-c"><span class="material-icons-outlined">quiz</span>설문지</span><span class="gt-c"><span class="material-icons-outlined">translate</span>번역</span><span class="gt-c"><span class="material-icons-outlined">language</span>바깥 데이터</span>
-              </div>
-            <div class="tip-box" style="margin-top:14px"><strong><span class="material-icons-outlined">person</span>개인 구글 계정 + 가상 데이터로 실습</strong>
-              학교 계정은 배포가 막혀 있을 수 있습니다.</div>
+            <p class="as-motto">웹앱을 만드는 것에서, <em>웹앱이 할 수 있는 일을 넓히는 것으로.</em></p>
+
+            <div class="tip-box as-acc"><strong><span class="material-icons-outlined">verified_user</span>계정과 개인정보</strong>
+              <ul>
+                <li>Google 계정으로 시작합니다. 기본 기능은 무료지만 <a class="inl" href="#ref-q">하루 사용량 제한</a>이 있습니다.</li>
+                <li>학교 Google Workspace 계정은 관리자 정책에 따라 일부 기능이 제한될 수 있습니다.</li>
+                <li>연수에서는 실제 학생 정보 대신 가상 데이터를 씁니다. 학교에서 쓸 때는 개인정보 보호와 접근 권한을 먼저 확인하세요.</li>
+              </ul></div>
+            <p class="as-next">이제 Apps Script에서 실제로 어떤 파일을 만들고 사용하는지 살펴보겠습니다.</p>
             <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/base/2"><small>다음</small>편집기 둘러보기<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
 
@@ -1642,7 +1725,7 @@ html[data-present] .hx-bg{opacity:.6;}
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>서버에서 실행할 기능</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>사용자 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m1-p">
@@ -1686,15 +1769,15 @@ html[data-present] .hx-bg{opacity:.6;}
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m1/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m1-s2">
-            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[1] 감정 체크인</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
-            <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">code</span></span>
+            <span class="cb-nm"><b>Code.gs</b><span>기본으로 있는 파일에 붙여넣기</span></span>
             <button class="copy" type="button" data-copy="m1_gs"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m1_gs">/**
  * [1] 기록 — 우리 반 감정 체크인 : 서버 코드 (Code.gs)
@@ -1815,14 +1898,14 @@ function getRows(arg) {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m1/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="4" id="m1-s3">
-            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>화면 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
               <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
-            <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">devices</span></span>
+            <span class="cb-nm"><b>index.html</b><span>파일 + → HTML → 이름 index</span></span>
             <button class="copy" type="button" data-copy="m1_html"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m1_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
@@ -2375,7 +2458,7 @@ if (document.readyState === 'loading') {
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>서버에서 실행할 기능</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>사용자 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m2-p">
@@ -2422,15 +2505,15 @@ if (document.readyState === 'loading') {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m2/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m2-s2">
-            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[2] 우리반 의견보드</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
-            <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">code</span></span>
+            <span class="cb-nm"><b>Code.gs</b><span>기본으로 있는 파일에 붙여넣기</span></span>
             <button class="copy" type="button" data-copy="m2_gs"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m2_gs">/**
  * [2] 실시간 소통 — 우리반 의견보드 : 서버 코드 (Code.gs)
@@ -2568,14 +2651,14 @@ function getCards(arg) {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m2/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="4" id="m2-s3">
-            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>화면 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
               <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
-            <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">devices</span></span>
+            <span class="cb-nm"><b>index.html</b><span>파일 + → HTML → 이름 index</span></span>
             <button class="copy" type="button" data-copy="m2_html"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m2_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
@@ -3054,7 +3137,7 @@ if (document.readyState === 'loading') {
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>서버에서 실행할 기능</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>사용자 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m3-p">
@@ -3064,7 +3147,7 @@ if (document.readyState === 'loading') {
           </article>
           <article class="pane s-t" data-step="2" id="m3-t">
             <header class="pane-h"><span class="pane-k">핵심기능</span><h2>이 앱에 꼭 필요한 것</h2></header>
-            <div class="techs"><div class="tc"><span class="need">바깥 자료 가져오기</span><span class="why">한국어 위키백과 검색 API (키 없음)</span></div><div class="tc"><span class="need">학생 대신 주방이 묻기</span><span class="why">Code.gs의 UrlFetchApp. 키가 있어도 드러나지 않음</span></div><div class="tc"><span class="need">검색 한 번, 카드 세 장</span><span class="why">제목 · 설명 · 발췌문을 한 번에</span></div><div class="tc"><span class="need">바깥 글은 글자로만</span><span class="why">태그를 지우고 textContent로</span></div><div class="tc"><span class="need">생각은 학생의 것</span><span class="why">학생 답은 저장 안 함, AI 평가 없음</span></div><div class="tc"><span class="need">출처와 원문</span><span class="why">CC BY-SA 출처와 원문 링크</span></div></div>
+            <div class="techs"><div class="tc"><span class="need">바깥 자료 가져오기</span><span class="why">한국어 위키백과 검색 API (키 없음)</span></div><div class="tc"><span class="need">학생 대신 Code.gs가 묻기</span><span class="why">Code.gs의 UrlFetchApp. 키가 있어도 드러나지 않음</span></div><div class="tc"><span class="need">검색 한 번, 카드 세 장</span><span class="why">제목 · 설명 · 발췌문을 한 번에</span></div><div class="tc"><span class="need">바깥 글은 글자로만</span><span class="why">태그를 지우고 textContent로</span></div><div class="tc"><span class="need">생각은 학생의 것</span><span class="why">학생 답은 저장 안 함, AI 평가 없음</span></div><div class="tc"><span class="need">출처와 원문</span><span class="why">CC BY-SA 출처와 원문 링크</span></div></div>
             <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
               <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m3_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_prompt">궁금한 낱말을 한국어 위키백과에서 찾아 읽고, 자기 생각을 정리하는 웹앱을 구글 Apps Script 웹앱으로 만들어줘.
 앱 이름은 '오늘의 궁금증 탐험대'야.
@@ -3110,15 +3193,15 @@ if (document.readyState === 'loading') {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m3/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m3-s2">
-            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[3] 궁금증 탐험대</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
-            <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">code</span></span>
+            <span class="cb-nm"><b>Code.gs</b><span>기본으로 있는 파일에 붙여넣기</span></span>
             <button class="copy" type="button" data-copy="m3_gs"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m3_gs">/**
  * [3] 외부 데이터 연결 — 오늘의 궁금증 탐험대 : 서버 코드 (Code.gs)
@@ -3217,14 +3300,14 @@ function cleanText_(html) {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m3/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="4" id="m3-s3">
-            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>화면 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
               <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
-            <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">devices</span></span>
+            <span class="cb-nm"><b>index.html</b><span>파일 + → HTML → 이름 index</span></span>
             <button class="copy" type="button" data-copy="m3_html"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m3_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
@@ -3633,7 +3716,7 @@ if (document.readyState === 'loading') {
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>서버에서 실행할 기능</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>사용자 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m4-p">
@@ -3676,15 +3759,15 @@ if (document.readyState === 'loading') {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m4/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m4-s2">
-            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[심화] 티끌모아 학급문집</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
-            <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">code</span></span>
+            <span class="cb-nm"><b>Code.gs</b><span>기본으로 있는 파일에 붙여넣기</span></span>
             <button class="copy" type="button" data-copy="m4_gs"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m4_gs">/**
  * [심화] 구글 도구 연결 — 티끌모아 학급문집 : 서버 코드 (Code.gs)
@@ -3896,14 +3979,14 @@ function korDate_(d) {
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m4/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="4" id="m4-s3">
-            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>화면 코드 붙여넣기</h2></header>
             <ol class="act">
               <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
               <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
-          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
-            <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">devices</span></span>
+            <span class="cb-nm"><b>index.html</b><span>파일 + → HTML → 이름 index</span></span>
             <button class="copy" type="button" data-copy="m4_html"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m4_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
@@ -4811,7 +4894,7 @@ function callPublicApi_(baseUrl, params) {
             <tbody>
               <tr><td><b>웹앱</b></td><td>Apps Script가 주소(/exec)를 붙여 인터넷에 내놓은 화면. 학생은 이 주소로 들어옵니다.</td></tr>
               <tr><td><b>배포 · 버전</b></td><td>저장한 코드를 학생용 주소로 내놓는 것. 고친 뒤에는 새 버전으로 다시 배포해야 학생 화면이 바뀝니다.</td></tr>
-              <tr><td><b>실행 계정</b></td><td>주방에서 누구의 이름으로 요리하는가. &lsquo;나&rsquo;로 두면 학생 요청도 선생님 권한으로 시트에 씁니다.</td></tr>
+              <tr><td><b>실행 계정</b></td><td>Code.gs를 누구의 권한으로 실행하는가. &lsquo;나&rsquo;로 두면 학생 요청도 선생님 권한으로 시트에 씁니다.</td></tr>
               <tr><td><b>액세스 권한</b></td><td>누가 이 주소로 들어올 수 있는가. &lsquo;모든 사용자&rsquo;면 로그인 없이 들어옵니다.</td></tr>
               <tr><td><b>google.script.run</b></td><td>화면(index.html)이 Code.gs의 함수를 이름으로 부르는 방법.</td></tr>
               <tr><td><b>트리거</b></td><td>&lsquo;이럴 때 자동으로 실행&rsquo;. 시트를 열 때(onOpen), 매일 아침 8시(시간 트리거) 같은 것.</td></tr>
@@ -4830,7 +4913,7 @@ function callPublicApi_(baseUrl, params) {
           <div class="vs-col good">
             <div class="vs-label">자동 갱신 (폴링) · Apps Script 방식</div>
             <h4>일정 간격으로 다시 물어봅니다</h4>
-            <p>화면이 몇 초마다 주방에 다시 묻습니다. <b>Apps Script</b>는 이 방식만 됩니다. 의견 보드·투표 결과·출석 확인처럼 몇 초 늦어도 괜찮은 활동에 충분합니다.</p>
+            <p>화면이 몇 초마다 Code.gs에 다시 묻습니다. <b>Apps Script</b>는 이 방식만 됩니다. 의견 보드·투표 결과·출석 확인처럼 몇 초 늦어도 괜찮은 활동에 충분합니다.</p>
           </div>
           <div class="vs-col">
             <div class="vs-label">실시간 (Realtime)</div>
@@ -4860,7 +4943,7 @@ function callPublicApi_(baseUrl, params) {
       <div class="step-content">
         <div class="tbl">
           <table>
-            <thead><tr><th style="width:120px">앱</th><th>주방(Code.gs)의 함수</th><th>여기만 바꾸면</th></tr></thead>
+            <thead><tr><th style="width:120px">앱</th><th>Code.gs의 함수</th><th>여기만 바꾸면</th></tr></thead>
             <tbody>
               <tr><td><b>[1] 감정 체크인</b></td><td>saveCheckin · getRows</td><td>index.html의 <b>EMOTIONS</b> — 기분 선택지·아이콘·색</td></tr>
               <tr><td><b>[2] 우리반 의견보드</b></td><td>addCard · likeCard · getCards</td><td>index.html의 <b>COLORS</b>와 Code.gs의 <b>CARD_COLORS</b> — 카드 색 (둘을 같이)</td></tr>
@@ -4869,7 +4952,7 @@ function callPublicApi_(baseUrl, params) {
             </tbody>
           </table>
         </div>
-        <p>네 앱의 index.html은 모두 같은 뼈대입니다. 위쪽 <b>Backend</b> 덩어리만 주방과 이야기하고, 그 아래는 화면 코드입니다.
+        <p>네 앱의 index.html은 모두 같은 뼈대입니다. 위쪽 <b>Backend</b> 덩어리만 Code.gs와 주고받고, 그 아래는 화면 코드입니다.
           저장할 수 있는 글자 수는 <b>Code.gs의 slice(0, 숫자)</b>가 정합니다. 화면의 maxlength만 늘리면 저장할 때 잘립니다.</p>
       </div>
     </details>
@@ -4884,7 +4967,7 @@ function callPublicApi_(baseUrl, params) {
             <thead><tr><th style="width:200px">규칙</th><th>실습 코드에서는</th></tr></thead>
             <tbody>
               <tr><td><b>내부용 함수는 이름 끝에 _</b></td><td>ensureSheet_ · readRows_ · cleanText_ 는 화면에서 부를 수 없습니다.</td></tr>
-              <tr><td><b>검사는 주방에서</b></td><td>글자 수·빈칸·색 이름을 Code.gs에서 다시 확인합니다. 화면의 검사는 누구나 건너뛸 수 있습니다.</td></tr>
+              <tr><td><b>검사는 Code.gs에서</b></td><td>글자 수·빈칸·색 이름을 Code.gs에서 다시 확인합니다. 화면의 검사는 누구나 건너뛸 수 있습니다.</td></tr>
               <tr><td><b>교사용 기능은 시트 메뉴로</b></td><td>[4] makeAnthology는 첫 줄에서 getUi()를 부릅니다. 웹앱에서 불리면 여기서 멈춥니다.</td></tr>
               <tr><td><b>학생에게 시트를 공유하지 않기</b></td><td>실행 계정이 &lsquo;나&rsquo;라서 공유 없이도 저장됩니다. 시트 링크를 나누는 순간 모든 기록이 보입니다.</td></tr>
               <tr><td><b>글은 텍스트로만 화면에</b></td><td>학생 글을 innerHTML이 아닌 textContent로 넣습니다. 글 속에 코드를 적어도 실행되지 않습니다.</td></tr>
@@ -4900,7 +4983,7 @@ function callPublicApi_(baseUrl, params) {
         <p>실습 앱들에 수정·삭제가 없는 이유는 <b>&ldquo;누가 쓴 글인지&rdquo;를 앱이 알아야 하기 때문</b>입니다.
           브라우저가 스스로 만든 번호나 별명은 얼마든지 흉내 낼 수 있어 보호 장치가 되지 못합니다.
           구글 로그인을 강제하면 <b>학생 이메일이 수집</b>되어 개인정보 부담이 오히려 커집니다.</p>
-        <p>대신 <b>주방이 만들어 준 삭제 열쇠</b>를 쓰면 됩니다. 글을 저장할 때 서버가 추측할 수 없는 열쇠를 만들어
+        <p>대신 <b>Code.gs가 만들어 준 삭제 열쇠</b>를 쓰면 됩니다. 글을 저장할 때 서버가 추측할 수 없는 열쇠를 만들어
           시트에 적고, 같은 열쇠를 글쓴이 브라우저에만 돌려줍니다. 삭제할 때 그 열쇠가 맞아야 지웁니다.</p>
         <div class="code wrap">
           <button class="copy" data-copy="deltoken"><span class="material-icons-outlined">content_copy</span>복사</button>
@@ -5560,12 +5643,12 @@ document.addEventListener('keydown',e=>{
 
 /* ══ 용어 풀이 ══ */
 const GLOSS={
-  'Apps Script':['구글이 무료로 빌려주는 작은 서버. 시트·문서·메일을 코드로 움직입니다.','#rp-gas'],
+  'Apps Script':['구글에서 제공하는 프로그램 제작 도구. 작성한 코드는 Google의 서버에서 실행됩니다.','#rp-gas'],
   'API':['다른 기관이 공개해 둔 데이터. 주소로 물어보면 백과사전·날씨·급식 같은 정보를 돌려줍니다.','#/kit'],
   '웹앱':['Apps Script가 주소(/exec)를 붙여 인터넷에 내놓은 화면. 학생은 이 주소로 들어옵니다.','#ref-0'],
   '배포':['저장한 코드를 학생용 주소로 내놓는 것. 고친 뒤에는 새 버전으로 다시 배포해야 학생 화면이 바뀝니다.','#rp-deploy'],
   '프롬프트':['AI에게 보내는 요청 글. 무엇을, 어떻게, 무엇은 하지 말지 구체적으로 쓸수록 원하는 앱이 나옵니다.',''],
-  '서버':['학생 화면 뒤에서 저장하고 계산하는 곳. 이 사이트에서는 Apps Script(Code.gs)가 서버입니다.','#rp-gas'],
+  '서버':['요청을 받아 처리하는 컴퓨터. Apps Script로 작성한 Code.gs는 직접 만든 서버가 아니라 Google의 서버에서 실행됩니다.','#rp-gas'],
   'localStorage':['브라우저 안의 작은 보관함. 그 기기에서만 보이므로 반 전체 기록에는 맞지 않습니다.',''],
   'LockService':['여러 명이 동시에 저장할 때 한 명씩 차례로 처리하게 하는 잠금 장치.',''],
   'CacheService':['받아 온 결과를 몇 분 동안 보관해 같은 요청을 줄이는 임시 보관함.',''],
@@ -5584,7 +5667,7 @@ const GLOSS={
     const used=new Set();
     const walker=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT,{acceptNode(n){
       const p=n.parentElement;
-      if(!p||p.closest('pre,code,button,a,summary,label,textarea,input,.term,h2,h3,h4,.rt-h,.kc-t,.kc-mid,.pane-k,.steps,.tc,.keys .q,.gx-win,.tm b,.fl-n b,.dp b,.gt,.fnb')) return NodeFilter.FILTER_REJECT;
+      if(!p||p.closest('pre,code,button,a,summary,label,textarea,input,.term,h2,h3,h4,.rt-h,.kc-t,.kc-mid,.pane-k,.steps,.tc,.keys .q,.gx-win,.tm b,.fl-n b,.dp b,.gt,.fnb,.as-flow,.as-terms dt,.can b,.vs-col h4')) return NodeFilter.FILTER_REJECT;
       return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP;
     }});
     const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
