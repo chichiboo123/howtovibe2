@@ -1236,47 +1236,19 @@ html[data-present] .hx-bg{opacity:.6;}
 .blockrow .fnb{min-width:0;}
 
 /* ══════ 인트로 ══════ */
-.big3{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);}
-@media (min-width:720px){.big3{grid-template-columns:repeat(3,minmax(0,1fr));}}
-.big3 > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:24px 16px;text-align:center;display:flex;flex-direction:column;gap:6px;}
-.big3 b{font-size:clamp(24px,2.6vw,30px);font-weight:800;letter-spacing:-.04em;color:var(--blue);}
-.big3 span{font-size:14.5px;color:var(--muted);}
 .vibe4{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));}
 @media (min-width:720px){.vibe4{grid-template-columns:repeat(4,minmax(0,1fr));}}
 .vibe4 > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 10px;text-align:center;}
 .vibe4 i{display:block;font-style:normal;font-size:38px;font-weight:800;line-height:1.1;color:var(--blue);}
 .vibe4 span{display:block;margin-top:6px;font-size:14.5px;font-weight:800;}
-.motto{margin-top:22px;text-align:center;font-size:clamp(17px,2vw,21px);font-weight:800;letter-spacing:-.03em;color:var(--f1d);text-wrap:balance;}
-.motto em{font-style:normal;color:var(--s-i);}
-.talk{display:grid;gap:10px;}
-.talk > div{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.7fr);gap:10px;}
-.talk b{display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;font-size:17px;letter-spacing:-.02em;}
-.talk span{display:flex;align-items:center;gap:10px;background:var(--f1);border-radius:var(--r-lg);padding:16px 18px;font-size:15.5px;color:var(--ink);}
-.talk span::before{content:"→";font-weight:800;color:var(--f1d);}
-@media (max-width:560px){.talk > div{grid-template-columns:minmax(0,1fr);gap:4px;}}
-.ed-grid{display:grid;gap:14px;}
-@media (min-width:860px){.ed-grid{grid-template-columns:1fr 1fr;}}
-.ed{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--lift);}
-.ed-h{display:flex;align-items:center;gap:12px;}
-.ed-ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--sunk);flex-shrink:0;}
+.ed-grid{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));}
+@media (min-width:860px){.ed-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
+.ed{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:10px;}
+.ed-ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--sunk);}
 .ed-ic .material-icons-outlined{font-size:24px;}
-.ed-h small{display:block;font-size:12.5px;font-weight:800;color:var(--blue);}
-.ed-h b{display:block;font-size:17px;letter-spacing:-.025em;}
-.ed-t{font-size:18px;font-weight:800;letter-spacing:-.03em;}
-.ed-eye{background:var(--f1);border-radius:var(--r-md);padding:12px 14px;font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.6;}
-.ed-eye small{display:block;font-size:12px;font-weight:800;color:var(--f1d);margin-bottom:2px;}
-.ed-flow{list-style:none;display:flex;flex-wrap:wrap;gap:6px 20px;}
-.ed-flow li{position:relative;height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:999px;background:var(--sunk);font-size:13.5px;font-weight:800;color:var(--blue);}
-.ed-flow li + li::before{content:"▸";position:absolute;left:-15px;color:var(--faint);}
-.ed-q{margin-top:auto;display:flex;gap:8px;align-items:flex-start;font-size:14px;font-weight:700;color:var(--ink-2);border-top:1px dashed var(--line);padding-top:10px;}
-.ed-q .material-icons-outlined{color:var(--s-i);font-size:19px;}
-.ed-src{font-size:12px;color:var(--faint);}
-.ed-src a{color:var(--muted);}
-.tvc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:26px 20px;text-align:center;font-size:clamp(19px,2.3vw,25px);font-weight:800;letter-spacing:-.035em;line-height:1.6;text-wrap:balance;}
-.tvc small{display:block;font-size:13px;font-weight:800;letter-spacing:0;color:var(--faint);margin-bottom:8px;}
-.tvc em{font-style:normal;}
-.tvc .k1{color:var(--blue);} .tvc .k2{color:var(--grass);} .tvc .k3{color:var(--seam);}
-.way3{display:grid;gap:12px;margin-top:14px;grid-template-columns:minmax(0,1fr);}
+.ed small{display:block;font-size:12.5px;font-weight:800;color:var(--blue);}
+.ed b{display:block;font-size:16px;letter-spacing:-.025em;}
+.way3{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);}
 @media (min-width:720px){.way3{grid-template-columns:repeat(3,minmax(0,1fr));}}
 .way3 a{display:block;background:var(--fc);border-radius:var(--r-xl);padding:22px 16px;text-align:center;text-decoration:none;transition:transform .2s;}
 .way3 a:hover{transform:translateY(-2px);}
@@ -1389,95 +1361,43 @@ html[data-present] .hx-bg{opacity:.6;}
     </div></div>
   </section>
 
-  <section class="view" id="v-intro" data-view="intro" data-steps="4">
+  <section class="view" id="v-intro" data-view="intro" data-steps="3">
     <div class="wrap stage-v">
-      <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">waving_hand</span></span><div><h1>인트로</h1><p>바이브코딩 포스트시즌에 오신 것을 환영합니다.</p></div></div>
+      <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">waving_hand</span></span><div><h1>인트로</h1><p>혼자 쓰는 앱에서, 함께 쓰는 앱으로</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
-        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">리플레이<small>상반기 돌아보기</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">나의 앱 소개<small>근황톡</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">에듀테크 깊이 보기<small>바이브코딩의 시선</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">오늘 우리는<small>점·선, 거울·창, 우물·바다</small></span></button></li></ol>
+        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 3 단계</div><div class="prog-bar"><i></i></div></div>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">리플레이<small>V.I.B.E</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">에듀테크 다시 보기<small>네 가지 도구</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">오늘 우리는<small>세 가지 방향</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
-
           <article class="pane" data-step="1">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">replay</span>리플레이</span><h2>상반기 돌아보기</h2></header>
-            <div class="concept"><span class="material-icons-outlined">sports_baseball</span>
-              <div><b>포스트시즌</b> 지난 시즌에 나만의 웹앱을 만들었다면, 이번 시즌에는 Apps Script로 <b>기록하고, 공유하고, 연결합니다.</b></div></div>
-            <div class="big3" style="margin-top:14px">
-              <div><b>원셰프</b><span>왜, 지금 바이브코딩?</span></div>
-              <div><b>밀키트</b><span>상상을 도와주는 카드</span></div>
-              <div><b>파인다이닝</b><span>나만의 웹앱 만들기</span></div>
-            </div>
-            <h3 class="sub-h"><span class="material-icons-outlined">category</span>V.I.B.E 프레임워크</h3>
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">replay</span>리플레이</span><h2>V.I.B.E 프레임워크</h2></header>
             <div class="vibe4">
               <div><i>V</i><span>상상하기</span></div>
               <div><i>I</i><span>AI 소통하기</span></div>
               <div><i>B</i><span>만들기</span></div>
               <div><i>E</i><span>써보면서 고치기</span></div>
             </div>
-            <p class="motto">도구에 맞는 수업 준비에서, <em>수업에 맞는 도구 개발로</em></p>
-            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/intro/2"><small>다음</small>나의 앱 소개<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/intro/2"><small>다음</small>에듀테크 다시 보기<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-
           <article class="pane" data-step="2">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">record_voice_over</span>근황톡</span><h2>나의 앱을 소개합니다</h2>
-              <p>어떤 도구를 만들어 사용했나요?</p></header>
-            <div class="talk">
-              <div><b>앱 이름</b><span>한 줄로 소개하기</span></div>
-              <div><b>필요성</b><span>풀고 싶었던 교실 문제</span></div>
-              <div><b>후기</b><span>사용해보니 어떤 효과가 있었나요?</span></div>
-            </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/intro/1"><span class="material-icons-outlined">arrow_back</span>리플레이</a><a class="btn btn-ink btn-sm nx" href="#/intro/3"><small>다음</small>에듀테크 깊이 보기<span class="material-icons-outlined">arrow_forward</span></a></nav>
-          </article>
-
-          <article class="pane" data-step="3">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">biotech</span>에듀테크 깊이 보기</span><h2>익숙한 도구, 바이브코딩의 시선에서 보다</h2></header>
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">biotech</span>에듀테크 다시 보기</span><h2>익숙한 도구, 바이브코딩의 시선으로</h2></header>
             <div class="ed-grid">
-              <article class="ed">
-                <div class="ed-h"><span class="ed-ic"><span class="material-icons-outlined">dashboard</span></span><div><small>01 · 공유</small><b>패들렛</b></div></div>
-                <p class="ed-t">생각을 모아, 함께 나누다</p>
-                <p class="ed-eye"><small>바이브코딩의 시선</small>각자 입력한 내용을 공통 저장소에 기록하고, 여러 사용자가 함께 확인하는 웹앱</p>
-                <ol class="ed-flow"><li>입력</li><li>저장</li><li>공유</li></ol>
-                <p class="ed-q"><span class="material-icons-outlined">help_outline</span>우리 교실에서 함께 기록하고 공유하면 좋을 것은?</p>
-              </article>
-              <article class="ed">
-                <div class="ed-h"><span class="ed-ic"><span class="material-icons-outlined">cloud</span></span><div><small>02 · 시각화</small><b>워드클라우드</b></div></div>
-                <p class="ed-t">모인 생각을, 한눈에 보여주다</p>
-                <p class="ed-eye"><small>바이브코딩의 시선</small>여러 사람의 응답을 수집하고, 분석해 시각적인 결과로 표현하는 웹앱</p>
-                <ol class="ed-flow"><li>수집</li><li>분석</li><li>시각화</li></ol>
-                <p class="ed-q"><span class="material-icons-outlined">help_outline</span>학생들의 응답을 어떤 형태로 보여주면 배움에 도움이 될까?</p>
-              </article>
-              <article class="ed">
-                <div class="ed-h"><span class="ed-ic"><span class="material-icons-outlined">casino</span></span><div><small>03 · 데이터 재사용</small><b>아이스크림 툴킷</b></div></div>
-                <p class="ed-t">한 번 등록, 필요할 때마다 활용</p>
-                <p class="ed-eye"><small>바이브코딩의 시선</small>하나의 데이터 저장소를 여러 기능이 공유하고, 필요할 때마다 불러와 활용하는 웹앱</p>
-                <ol class="ed-flow"><li>정보 등록</li><li>저장</li><li>도구별 활용</li></ol>
-                <p class="ed-q"><span class="material-icons-outlined">help_outline</span>한 번 입력해 여러 활동에 쓰면 좋을 우리 반 데이터는?</p>
-              </article>
-              <article class="ed">
-                <div class="ed-h"><span class="ed-ic"><span class="material-icons-outlined">set_meal</span></span><div><small>04 · 함께 업데이트</small><b>부캉이 지금 있나</b></div></div>
-                <p class="ed-t">한 사람이 바꾸면, 모두가 확인하다</p>
-                <p class="ed-eye"><small>바이브코딩의 시선</small>여러 사용자가 하나의 데이터를 함께 수정하고, 바뀐 내용을 서로 확인하는 협업형 웹앱</p>
-                <ol class="ed-flow"><li>상태 변경</li><li>공동 저장</li><li>최신 정보 확인</li></ol>
-                <p class="ed-q"><span class="material-icons-outlined">help_outline</span>우리 반에서 함께 업데이트하면 좋은 정보는?</p>
-                <p class="ed-src">출처: <a href="https://bukangi.com/" target="_blank" rel="noopener">bukangi.com</a> · <a href="https://view.asiae.co.kr/article/2026100611140912213" target="_blank" rel="noopener">아시아경제</a> (2026년 10월)</p>
-              </article>
+              <div class="ed"><span class="ed-ic"><span class="material-icons-outlined">dashboard</span></span><div><small>공유</small><b>패들렛</b></div></div>
+              <div class="ed"><span class="ed-ic"><span class="material-icons-outlined">cloud</span></span><div><small>시각화</small><b>워드클라우드</b></div></div>
+              <div class="ed"><span class="ed-ic"><span class="material-icons-outlined">casino</span></span><div><small>데이터 재사용</small><b>아이스크림 툴킷</b></div></div>
+              <div class="ed"><span class="ed-ic"><span class="material-icons-outlined">set_meal</span></span><div><small>함께 업데이트</small><b>부캉이 지금 있나</b></div></div>
             </div>
-            <div class="note" style="margin-top:18px"><div class="note-h"><span class="material-icons-outlined">eco</span>내 교실 씨앗<span class="opt">선택</span></div><p>우리 교실에서 해 보고 싶은 활동, 한 줄.</p>
-              <textarea id="note-seed" data-note="seed" placeholder="예: 아침 독서 기록을 반 전체가 함께 보고 싶다"></textarea>
-              <small>&lsquo;나의 앱 아이디어&rsquo;에서 다시 씁니다.</small></div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/intro/2"><span class="material-icons-outlined">arrow_back</span>나의 앱 소개</a><a class="btn btn-ink btn-sm nx" href="#/intro/4"><small>다음</small>오늘 우리는<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/intro/1"><span class="material-icons-outlined">arrow_back</span>리플레이</a><a class="btn btn-ink btn-sm nx" href="#/intro/3"><small>다음</small>오늘 우리는<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-
-          <article class="pane" data-step="4">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">flag</span>오늘 우리는</span><h2>점과 선, 거울과 창, 우물과 바다</h2></header>
-            <p class="tvc"><small>교사의 바이브코딩</small>교실에서의 <em class="k1">필요</em>를 바탕으로,<br />AI와의 <em class="k2">상호작용</em>을 통해<br />배움의 <em class="k3">경험</em>을 설계하는 방식</p>
+          <article class="pane" data-step="3">
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">flag</span>오늘 우리는</span><h2>기록하고, 소통하고, 연결합니다</h2></header>
             <div class="way3">
               <a class="fn1" href="#/m1"><b>점에서 선으로</b><span>기록이 쌓여 이어지다</span></a>
               <a class="fn2" href="#/m2"><b>거울에서 창으로</b><span>친구의 생각과 만나다</span></a>
               <a class="fn3" href="#/m3"><b>우물에서 바다로</b><span>바깥 세상과 이어지다</span></a>
             </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/intro/3"><span class="material-icons-outlined">arrow_back</span>에듀테크 깊이 보기</a><a class="btn btn-ink btn-sm nx" href="#/base"><small>다음</small>기반 · Apps Script 기초<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/intro/2"><span class="material-icons-outlined">arrow_back</span>에듀테크 다시 보기</a><a class="btn btn-ink btn-sm nx" href="#/base"><small>다음</small>기반<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
       </div>
@@ -1701,7 +1621,7 @@ html[data-present] .hx-bg{opacity:.6;}
 
           <article class="pane" data-step="4" id="base-dir">
             <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">signpost</span>실습 방향 안내</span><h2>네 가지 실습, 같은 순서로</h2>
-              <p>문제상황 → 아이디어 → 해결방법 → 만들기</p></header>
+              <p>문제상황 → 핵심기능 → Code.gs → index.html → 배포</p></header>
             <div class="dir4">
               <a class="dir fn1" href="#/m1"><span class="dir-k">실습 1 · 기록</span><b>감정 체크인</b><p>고른 감정이 날짜와 함께 쌓입니다.</p><span class="dir-t"><span class="material-icons-outlined">timeline</span>점에서 선으로</span><span class="material-icons-outlined">arrow_forward</span></a>
               <a class="dir fn2" href="#/m2"><span class="dir-k">실습 2 · 실시간 소통</span><b>우리반 의견보드</b><p>붙인 의견이 모두의 화면에 나타납니다.</p><span class="dir-t"><span class="material-icons-outlined">window</span>거울에서 창으로</span><span class="material-icons-outlined">arrow_forward</span></a>
@@ -1715,42 +1635,26 @@ html[data-present] .hx-bg{opacity:.6;}
     </div>
   </section>
 
-  <section class="view fn1" id="v-m1" data-view="m1" data-steps="4">
+  <section class="view fn1" id="v-m1" data-view="m1" data-steps="5">
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1" class="on" aria-current="page"><i>1</i>기록</a><a href="#/m2" data-m="m2"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>감정 체크인</h1><p><span class="vw">점에서 선으로</span>고른 감정이 날짜와 함께 쌓이는 앱</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
-        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">아이디어<small>어떻게 되면 좋을까</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">해결방법<small>기술과 프롬프트</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">만들기<small>만들고 확인하기</small></span></button></li></ol>
+        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m1-p">
             <header class="pane-h"><span class="pane-k">문제상황</span><h2>매일 하는데, 아무것도 남지 않는다</h2></header>
             <ul class="pains"><li>감정 출석부는 다음 날이면 <b>사라집니다.</b></li><li>지난주 우리 반 분위기를 <b>돌아볼 자료가 없습니다.</b></li><li>HTML 앱 하나로는 기록이 <b>그 기기에만</b> 남습니다.</li></ul>
-            <div class="note"><div class="note-h"><span class="material-icons-outlined">edit_note</span>우리 교실이라면?<span class="opt">선택</span></div><p>한 번으로 끝나 아쉬웠던 활동은? (아침 인사, 독서 기록…)</p>
-              <textarea id="note-m1" data-note="m1" placeholder="떠오르는 장면을 한 줄로 적어 두세요"></textarea>
-              <small>&lsquo;나의 앱 아이디어&rsquo;에서 다시 씁니다.</small></div>
-            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m1/2"><small>다음</small>아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m1/2"><small>다음</small>핵심기능<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-i" data-step="2" id="m1-i">
-            <header class="pane-h"><span class="pane-k">아이디어</span><h2>날짜와 함께 쌓이는 마음 일기장</h2></header>
-            <div class="idea"><q>&ldquo;고르는 순간 날짜와 함께 어딘가에 쌓이고, 언제든 그날로 돌아가 볼 수 있다면?&rdquo;</q><p>학생은 감정 하나만 고릅니다. 달라지는 점은 기록이 <b>시트</b>에 쌓인다는 것.</p></div>
-            <p class="think"><span class="material-icons-outlined">psychology</span><span>기록이 <b>쌓이는 것</b>과 배움이 <b>이어지는 것</b>은 어떻게 다를까요?</span></p>
-            <div class="ext"><span class="ext-k">이렇게도 넓힐 수 있어요</span><span>질문의 변화</span><span>글쓰기 성장</span><span>독서 생각의 변화</span><span>목표 돌아보기</span></div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m1/3"><small>다음</small>해결방법<span class="material-icons-outlined">arrow_forward</span></a></nav>
-          </article>
-          <article class="pane s-t" data-step="3" id="m1-t">
-            <header class="pane-h"><span class="pane-k">해결방법</span><h2>필요한 기술을 찾고, 프롬프트로 옮기기</h2>
-              </header>
-            <ol class="path4"><li>원하는 경험</li><li>필요한 기능</li><li>AI에게 줄 조건</li></ol>
-            
+          <article class="pane s-t" data-step="2" id="m1-t">
+            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>이 앱에 꼭 필요한 것</h2></header>
             <div class="techs"><div class="tc"><span class="need">기록이 남을 곳</span><span class="why">브라우저 말고 시트에 저장</span></div><div class="tc"><span class="need">한 줄씩 쌓기</span><span class="why">[시각, 수업 코드, 기분, 메모]를 맨 아래에</span></div><div class="tc"><span class="need">그날 것만 꺼내기</span><span class="why">고른 날짜의 줄만 돌려주기</span></div><div class="tc"><span class="need">동시에 눌러도 안전</span><span class="why">LockService로 한 명씩 차례로</span></div><div class="tc"><span class="need">우리 반만 묶기</span><span class="why">같은 수업 코드끼리. 링크 ?room=</span></div></div>
-            
-            
-            <h3 class="sub-h"><span class="material-icons-outlined">smart_toy</span>이 앱을 AI에게 요청한다면</h3>
-            <div class="prompt-wrap">
-              <div class="code wrap"><button class="copy" data-copy="m1_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m1_prompt">초등학교 5학년 우리 반이 아침마다 쓰는 '감정 체크인' 웹앱을
+            <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
+              <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m1_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m1_prompt">초등학교 5학년 우리 반이 아침마다 쓰는 '감정 체크인' 웹앱을
 구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
 
 [문제상황]
@@ -1778,45 +1682,16 @@ html[data-present] .hx-bg{opacity:.6;}
 - 시트와 머리글은 setup 함수가 자동으로 만들게 해줘. 시간대는 Asia/Seoul.
 
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 구글 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div>
-              <div class="keys"><div class="keys-h"><span class="material-icons-outlined">key</span>이 문장이 빠지면 다른 앱이 나옵니다</div><ol><li><span class="q">&ldquo;스프레드시트에 한 줄씩 저장해줘. 브라우저에 저장하지 마&rdquo;</span><span class="w">없으면 AI는 흔히 localStorage에 저장 → 내 기기에서만 보입니다.</span></li><li><span class="q">&ldquo;고른 날짜의 기록만 다시 볼 수 있게&rdquo;</span><span class="w">쌓기만 하고 꺼내 볼 수 없으면 반쪽입니다.</span></li><li><span class="q">&ldquo;LockService 로 잠가줘&rdquo;</span><span class="w">한 반이 동시에 누르는 상황을 AI는 모릅니다.</span></li></ol></div>
-            </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/2"><span class="material-icons-outlined">arrow_back</span>아이디어</a><a class="btn btn-ink btn-sm nx" href="#/m1/4"><small>다음</small>만들기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 구글 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m1/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-x" data-step="4" id="m1-x">
-            <header class="pane-h"><span class="pane-k">만들기</span><h2>감정 체크인 만들기</h2></header>
-            <div class="appline"><span class="ic"><span class="material-icons-outlined">favorite</span></span><p>수업 코드로 들어와 감정을 고르고 메모를 남깁니다. 날짜를 바꾸면 지난 기록.</p></div>
-            <div class="paths" role="group" aria-label="만드는 방법 고르기" data-mod="m1">
-              <button type="button" class="pth on" data-path="a"><span class="material-icons-outlined">content_paste</span><b>따라 만들기 <i class="pth-tag">기본</i></b><span>완성 코드로 먼저 성공해 보기</span></button>
-              <button type="button" class="pth" data-path="b"><span class="material-icons-outlined">smart_toy</span><b>AI와 처음부터 <i class="pth-tag">선택</i></b><span>먼저 끝냈다면 프롬프트로 직접 만들기</span></button>
-            </div>
-            <div class="path-b">
-              <ul class="pb-list">
-                <li>프롬프트 복사 → 평소 쓰는 AI에 붙여넣기 <button class="copy" data-copy="m1_prompt"><span class="material-icons-outlined">content_copy</span>프롬프트 복사</button></li>
-                <li>아래 네 단계 그대로, 2단계만 <b>AI가 준 코드</b>로</li>
-                <li>이상한 점은 그대로 AI에게: &ldquo;저장은 되는데 목록이 안 보여&rdquo;</li>
-                <li>고친 뒤 <b>배포 관리 → 새 버전</b></li>
-              </ul>
-              <p class="dim">막히면 완성 코드와 비교. 화면 요소 이름은 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
-            </div>
-            
-      <details class="step" id="m1-s1">
-        <summary><span class="step-num">1</span>
-          <span class="step-tw"><h3>새 시트 만들기</h3><p>sheets.new → Apps Script</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></p>
-          <div class="namebox"><span class="material-icons-outlined">edit</span>시트와 프로젝트 이름 <b>[1] 감정 체크인</b></div>
-        <p class="dim">시트와 머리글은 코드가 만듭니다.</p>
-          <label class="donechk"><input type="checkbox" data-mod="m1" data-step="1">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m1-s2">
-        <summary><span class="step-num">2</span>
-          <span class="step-tw"><h3>코드 두 개 붙여넣기</h3><p>Code.gs와 index.html</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act">두 파일 모두 <b>전부 지우고</b> 붙여넣기 → 저장</p>
-
+          <article class="pane s-x" data-step="3" id="m1-s2">
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <ol class="act">
+              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li>프로젝트 이름 <b>[1] 감정 체크인</b></li>
+              <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
             <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
@@ -1937,7 +1812,14 @@ function getRows(arg) {
 // 없는 기능은 뚫릴 수도 없습니다.
 // 잘못 올라온 글은 교사가 시트에서 그 행을 지우면 됩니다.</pre></div>
         </details>
-
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m1/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="4" id="m1-s3">
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <ol class="act">
+              <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
+              <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
             <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
@@ -2469,102 +2351,43 @@ if (document.readyState === 'loading') {
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
         </details>
-
-          <label class="donechk"><input type="checkbox" data-mod="m1" data-step="2">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m1-s3">
-        <summary><span class="step-num">3</span>
-          <span class="step-tw"><h3>setup 실행하고 승인하기</h3><p>▷ 실행 → 권한 허용</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>setup</b> → <b>▷ 실행</b> → <b>권한 검토 → 내 계정</b>. 로그에 &lsquo;준비 완료&rsquo;면 성공</p>
-          <p class="dim">&lsquo;확인하지 않은 앱&rsquo; → 왼쪽 아래 <b>고급 → (프로젝트 이름)(으)로 이동</b> → 허용 (연수 코드일 때만)</p>
-          <div class="namebox"><span class="material-icons-outlined">verified_user</span>이번에 묻는 권한 <b>스프레드시트</b></div>
-
-          <label class="donechk"><input type="checkbox" data-mod="m1" data-step="3">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m1-s4">
-        <summary><span class="step-num">4</span>
-          <span class="step-tw"><h3>배포하고 열기</h3><p>웹 앱 · 모든 사용자</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b> → /exec 주소 열기</p>
-        <div class="warn-box">
-          <strong>학생 화면에 로그인 창이 뜬다면</strong>
-          액세스가 &lsquo;모든 사용자&rsquo;가 아닙니다. 이 항목이 없다면 학교 계정 → 개인 계정으로.
-        </div>
-          <label class="donechk"><input type="checkbox" data-mod="m1" data-step="4">여기까지 했습니다</label>
-        </div>
-      </details>
-            <div class="check" id="m1-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>문제가 풀렸나?</span>
-              <h3>정말 남아 있을까?</h3>
-              <p class="ck-k">앱이 잘 되나요?</p><ul class="cchk" data-mod="m1"><li><input type="checkbox" id="m1-cx1" data-mod="m1"><label for="m1-cx1">다른 기기에서 내 링크로 기분을 골랐다</label></li><li><input type="checkbox" id="m1-cx2" data-mod="m1"><label for="m1-cx2">시트 <b>checkins</b>에 쌓이고, <b>날짜</b>를 바꾸면 지난 기록이 나온다</label></li></ul><p class="ck-k">수업으로 이어 보기 <small>연수 중에 정할 것</small></p><ul class="cchk" data-mod="m1"><li><input type="checkbox" id="m1-cx3" data-mod="m1"><label for="m1-cx3">학생이 지난 기록을 다시 볼 수업 장면을 하나 정했다</label></li><li><input type="checkbox" id="m1-cx4" data-mod="m1"><label for="m1-cx4">감정 기록을 <b>누구에게, 어디까지</b> 보여 줄지 정했다</label></li></ul>
-              <div class="refl"><label for="note-m1r"><span class="material-icons-outlined">edit_note</span>이 앱을 우리 반에 가져간다면, 무엇을 바꾸고 싶나요?<span class="opt">선택</span></label>
-                <textarea id="note-m1r" data-note="m1r" placeholder="한 줄이면 됩니다."></textarea></div></div>
-            <details class="more" id="m1-learn"><summary>더 해 보기 — 내 교실 버전으로<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="more-body"><p>기분 대신 &lsquo;오늘의 목표 달성도&rsquo;처럼, <b>우리 교실 활동</b>으로 바꿔 봅니다.</p>
-              <div class="code wrap"><button class="copy" data-copy="m1_twist"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m1_twist">지금 Apps Script 감정 체크인 앱은 정상 작동하고 있어. (Code.gs 와 index.html 을 붙여넣을게)
-
-구조는 그대로 두고, 기록하는 내용만 바꿔줘.
-- 기분 5가지 대신 '오늘의 목표 달성도'를 기록하게 바꿔줘.
-  선택지: 아직(1) · 조금(2) · 절반(3) · 거의(4) · 완료(5)
-- 아이콘과 파스텔 색도 어울리게 골라줘.
-- 한 줄 메모 칸의 안내 문구를 '오늘 내 목표는?'으로 바꿔줘.
-
-저장 · 날짜별 보기 · LockService · google.script.run 부분은 건드리지 마.
-바뀐 파일만 전체로 주고, 무엇을 바꿨는지 세 줄로 알려줘.</pre></div>
-              <p class="dim">지금의 Code.gs·index.html과 함께 AI에게 보내고, 받은 코드를 붙인 뒤 <b>새 버전</b>으로 배포</p><div class="tip-box"><strong><span class="material-icons-outlined">privacy_tip</span> 익명 집계와 개인 기록은 다릅니다</strong>학생별 변화를 보려면 공개 범위와 보관 기간부터 정합니다.</div>        <div class="tip-box">
-          <strong><span class="material-icons-outlined">meeting_room</span> 수업 코드는 방 이름입니다</strong>
-          <b>비밀번호가 아닙니다.</b> 이름·학번·이메일은 받지 않습니다.
-        </div></div></details>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/3"><span class="material-icons-outlined">arrow_back</span>해결방법</a><a class="btn btn-ink btn-sm nx" href="#/m2"><small>다음</small>실습 2 실시간 소통<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/3"><span class="material-icons-outlined">arrow_back</span>Code.gs</a><a class="btn btn-ink btn-sm nx" href="#/m1/5"><small>다음</small>배포<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="5" id="m1-x">
+            <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
+            <ol class="act">
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트)</span></li>
+              <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
+              <li><b>/exec</b> 주소를 열어 확인</li>
+            </ol>
+            <p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
+            <div class="check" id="m1-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>확인</span><ul class="cchk" data-mod="m1"><li><input type="checkbox" id="m1-cx1" data-mod="m1"><label for="m1-cx1">다른 기기에서 내 링크로 기분을 골랐다</label></li><li><input type="checkbox" id="m1-cx2" data-mod="m1"><label for="m1-cx2">시트 <b>checkins</b>에 쌓이고, <b>날짜</b>를 바꾸면 지난 기록이 나온다</label></li></ul></div>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/4"><span class="material-icons-outlined">arrow_back</span>index.html</a><a class="btn btn-ink btn-sm nx" href="#/m2"><small>다음</small>실습 2 실시간 소통<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
       </div>
     </div>
   </section>
-  <section class="view fn2" id="v-m2" data-view="m2" data-steps="4">
+  <section class="view fn2" id="v-m2" data-view="m2" data-steps="5">
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록</a><a href="#/m2" data-m="m2" class="on" aria-current="page"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>우리반 의견보드</h1><p><span class="vw">거울에서 창으로</span>내 생각과 친구의 생각이 한 화면에서 만나는 앱</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
-        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">아이디어<small>어떻게 되면 좋을까</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">해결방법<small>기술과 프롬프트</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">만들기<small>만들고 확인하기</small></span></button></li></ol>
+        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m2-p">
             <header class="pane-h"><span class="pane-k">문제상황</span><h2>말하는 학생만 말하고, 보이는 의견만 보인다</h2></header>
             <ul class="pains"><li>손 드는 <b>몇 명만</b> 말합니다.</li><li>칠판 포스트잇은 <b>앞자리에서만</b> 보이고 곧 떼어집니다.</li><li>외부 보드는 무료 한도가 있고, 글이 <b>어디에 남는지</b> 신경 쓰입니다.</li></ul>
-            <div class="note"><div class="note-h"><span class="material-icons-outlined">edit_note</span>우리 교실이라면?<span class="opt">선택</span></div><p>모두의 생각을 함께 보고 싶었던 순간은? (학급회의, 마무리 질문…)</p>
-              <textarea id="note-m2" data-note="m2" placeholder="떠오르는 장면을 한 줄로 적어 두세요"></textarea>
-              <small>&lsquo;나의 앱 아이디어&rsquo;에서 다시 씁니다.</small></div>
-            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m2/2"><small>다음</small>아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m2/2"><small>다음</small>핵심기능<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-i" data-step="2" id="m2-i">
-            <header class="pane-h"><span class="pane-k">아이디어</span><h2>모두의 화면에 함께 붙는 의견 보드</h2></header>
-            <div class="idea"><q>&ldquo;내가 붙인 의견이 친구 화면에도 나타나고, 친구는 공감으로 반응할 수 있다면?&rdquo;</q><p>손을 들지 않아도 생각을 붙이고, <b>공감 숫자</b>로 마음이 모이는 곳이 보입니다.</p></div>
-            <p class="think"><span class="material-icons-outlined">psychology</span><span>생각이 <b>보이는 것</b>과 서로 <b>영향을 주고받는 것</b>은 어떻게 다를까요?</span></p>
-            <div class="ext"><span class="ext-k">이렇게도 넓힐 수 있어요</span><span>친구 생각에 질문 남기기</span><span>읽고 내 생각 다시 쓰기</span><span>다른 관점 비교하기</span><span>함께 아이디어 만들기</span></div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m2/3"><small>다음</small>해결방법<span class="material-icons-outlined">arrow_forward</span></a></nav>
-          </article>
-          <article class="pane s-t" data-step="3" id="m2-t">
-            <header class="pane-h"><span class="pane-k">해결방법</span><h2>필요한 기술을 찾고, 프롬프트로 옮기기</h2>
-              </header>
-            <ol class="path4"><li>원하는 경험</li><li>필요한 기능</li><li>AI에게 줄 조건</li></ol>
-            
+          <article class="pane s-t" data-step="2" id="m2-t">
+            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>이 앱에 꼭 필요한 것</h2></header>
             <div class="techs"><div class="tc"><span class="need">모두가 보는 하나의 저장소</span><span class="why">모든 카드를 시트 한 장에</span></div><div class="tc"><span class="need">남의 카드가 내 화면에</span><span class="why">5초마다 다시 불러오기</span></div><div class="tc"><span class="need">공감 숫자를 정확하게</span><span class="why">그 줄의 숫자만 +1, LockService로 잠금</span></div><div class="tc"><span class="need">질문도 함께 전하기</span><span class="why">링크에 수업 코드와 질문을 담기</span></div><div class="tc"><span class="need">안 볼 때는 쉬기</span><span class="why">탭이 가려지면 불러오기 멈춤</span></div></div>
-                    <div class="concept">
-          <span class="material-icons-outlined">sync</span>
-          <div><b>실시간 소통은 5초마다 다시 묻는 방식입니다.</b>
-            교실 활동엔 충분합니다. 0.1초를 다투는 퀴즈라면 <a href="#ref-9" class="inl">다른 플랫폼</a>.</div>
-        </div>
-            
-            <h3 class="sub-h"><span class="material-icons-outlined">smart_toy</span>이 앱을 AI에게 요청한다면</h3>
-            <div class="prompt-wrap">
-              <div class="code wrap"><button class="copy" data-copy="m2_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m2_prompt">우리 반이 함께 쓰는 '우리반 의견보드' 웹앱을 구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
+            <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
+              <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m2_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m2_prompt">우리 반이 함께 쓰는 '우리반 의견보드' 웹앱을 구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
 
 [문제상황]
 토론 때 손 드는 학생만 말하고, 칠판 포스트잇은 앞자리에서만 보여.
@@ -2595,45 +2418,16 @@ if (document.readyState === 'loading') {
 - 카드 글은 textContent 로 화면에 넣어줘.
 
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 포스트잇 카드, 넓은 화면에서는 여러 줄로.</pre></div>
-              <div class="keys"><div class="keys-h"><span class="material-icons-outlined">key</span>이 문장이 빠지면 다른 앱이 나옵니다</div><ol><li><span class="q">&ldquo;5초마다 다시 불러와서, 새로고침하지 않아도&rdquo;</span><span class="w">없으면 새로고침해야만 남의 카드가 보입니다.</span></li><li><span class="q">&ldquo;그 카드의 줄을 찾아 숫자만 1 올려줘 · LockService&rdquo;</span><span class="w">둘이 동시에 누르면 공감 하나가 사라질 수 있습니다.</span></li><li><span class="q">&ldquo;textContent 로 화면에 넣어줘&rdquo;</span><span class="w">학생 글이 코드로 실행되지 않게 막습니다.</span></li></ol></div>
-            </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/2"><span class="material-icons-outlined">arrow_back</span>아이디어</a><a class="btn btn-ink btn-sm nx" href="#/m2/4"><small>다음</small>만들기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 포스트잇 카드, 넓은 화면에서는 여러 줄로.</pre></div></div></details>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m2/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-x" data-step="4" id="m2-x">
-            <header class="pane-h"><span class="pane-k">만들기</span><h2>우리반 의견보드 만들기</h2></header>
-            <div class="appline"><span class="ic"><span class="material-icons-outlined">forum</span></span><p>의견 카드를 붙이고 ♥ 공감. 질문을 적으면 공유 링크에 함께 담깁니다.</p></div>
-            <div class="paths" role="group" aria-label="만드는 방법 고르기" data-mod="m2">
-              <button type="button" class="pth on" data-path="a"><span class="material-icons-outlined">content_paste</span><b>따라 만들기 <i class="pth-tag">기본</i></b><span>완성 코드로 먼저 성공해 보기</span></button>
-              <button type="button" class="pth" data-path="b"><span class="material-icons-outlined">smart_toy</span><b>AI와 처음부터 <i class="pth-tag">선택</i></b><span>먼저 끝냈다면 프롬프트로 직접 만들기</span></button>
-            </div>
-            <div class="path-b">
-              <ul class="pb-list">
-                <li>프롬프트 복사 → 평소 쓰는 AI에 붙여넣기 <button class="copy" data-copy="m2_prompt"><span class="material-icons-outlined">content_copy</span>프롬프트 복사</button></li>
-                <li>아래 네 단계 그대로, 2단계만 <b>AI가 준 코드</b>로</li>
-                <li>이상한 점은 그대로 AI에게: &ldquo;저장은 되는데 목록이 안 보여&rdquo;</li>
-                <li>고친 뒤 <b>배포 관리 → 새 버전</b></li>
-              </ul>
-              <p class="dim">막히면 완성 코드와 비교. 화면 요소 이름은 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
-            </div>
-            
-      <details class="step" id="m2-s1">
-        <summary><span class="step-num">1</span>
-          <span class="step-tw"><h3>새 시트 만들기</h3><p>sheets.new → Apps Script</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></p>
-          <div class="namebox"><span class="material-icons-outlined">edit</span>시트와 프로젝트 이름 <b>[2] 우리반 의견보드</b></div>
-
-          <label class="donechk"><input type="checkbox" data-mod="m2" data-step="1">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m2-s2">
-        <summary><span class="step-num">2</span>
-          <span class="step-tw"><h3>코드 두 개 붙여넣기</h3><p>Code.gs와 index.html</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act">두 파일 모두 <b>전부 지우고</b> 붙여넣기 → 저장</p>
-
+          <article class="pane s-x" data-step="3" id="m2-s2">
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <ol class="act">
+              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li>프로젝트 이름 <b>[2] 우리반 의견보드</b></li>
+              <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
             <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
@@ -2771,7 +2565,14 @@ function getCards(arg) {
 // 수정·삭제 기능은 일부러 만들지 않았습니다.
 // 잘못 올라온 카드는 교사가 시트에서 그 행을 지우면 됩니다.</pre></div>
         </details>
-
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m2/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="4" id="m2-s3">
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <ol class="act">
+              <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
+              <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
             <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
@@ -3229,103 +3030,43 @@ if (document.readyState === 'loading') {
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
         </details>
-
-          <label class="donechk"><input type="checkbox" data-mod="m2" data-step="2">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m2-s3">
-        <summary><span class="step-num">3</span>
-          <span class="step-tw"><h3>setup 실행하고 승인하기</h3><p>▷ 실행 → 권한 허용</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>setup</b> → <b>▷ 실행</b> → <b>권한 검토 → 내 계정</b>. 로그에 &lsquo;준비 완료&rsquo;면 성공</p>
-          <p class="dim">&lsquo;확인하지 않은 앱&rsquo; → 왼쪽 아래 <b>고급 → (프로젝트 이름)(으)로 이동</b> → 허용 (연수 코드일 때만)</p>
-          <div class="namebox"><span class="material-icons-outlined">verified_user</span>이번에 묻는 권한 <b>스프레드시트 <span class="dim">(새 프로젝트라 다시 묻습니다)</span></b></div>
-
-          <label class="donechk"><input type="checkbox" data-mod="m2" data-step="3">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m2-s4">
-        <summary><span class="step-num">4</span>
-          <span class="step-tw"><h3>배포하고 열기</h3><p>웹 앱 · 모든 사용자</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b> → /exec 주소 열기</p>
-        <div class="tip-box">
-          <strong><span class="material-icons-outlined">help</span> 질문 띄우기</strong>
-          수업 코드와 <b>오늘의 질문</b>을 적고 들어가 <b>[이 보드 링크 복사하기]</b>.
-        </div>
-          <label class="donechk"><input type="checkbox" data-mod="m2" data-step="4">여기까지 했습니다</label>
-        </div>
-      </details>
-            <div class="check" id="m2-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>문제가 풀렸나?</span>
-              <h3>같이 써보기</h3>
-              <p class="ck-k">앱이 잘 되나요?</p><ul class="cchk" data-mod="m2"><li><input type="checkbox" id="m2-cx1" data-mod="m2"><label for="m2-cx1">두 기기가 <b>같은 링크</b>로 들어와 카드를 붙였다</label></li><li><input type="checkbox" id="m2-cx2" data-mod="m2"><label for="m2-cx2">다른 기기의 카드와 ♥가 <b>몇 초 안에</b> 내 화면에 나타났다</label></li></ul><p class="ck-k">수업으로 이어 보기 <small>연수 중에 정할 것</small></p><ul class="cchk" data-mod="m2"><li><input type="checkbox" id="m2-cx3" data-mod="m2"><label for="m2-cx3">♥ 말고 서로의 생각을 이어 줄 방법을 하나 떠올렸다</label></li><li><input type="checkbox" id="m2-cx4" data-mod="m2"><label for="m2-cx4">모두의 의견이 존중되도록 지킬 약속을 하나 정했다</label></li></ul>
-              <div class="refl"><label for="note-m2r"><span class="material-icons-outlined">edit_note</span>우리 반 토의에 쓴다면, 어떤 상호작용을 더하고 싶나요?<span class="opt">선택</span></label>
-                <textarea id="note-m2r" data-note="m2r" placeholder="한 줄이면 됩니다."></textarea></div></div>
-            <details class="more" id="m2-learn"><summary>더 해 보기 — 내 교실 버전으로<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="more-body"><p>찬반 토론이라면 카드를 <b>찬성 · 반대 두 칸</b>으로 나눠 봅니다.</p>
-              <div class="code wrap"><button class="copy" data-copy="m2_twist"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m2_twist">지금 Apps Script 의견 보드 앱은 정상 작동하고 있어. (Code.gs 와 index.html 을 붙여넣을게)
-
-찬반 토론에 쓸 수 있게 바꿔줘.
-- 카드를 붙일 때 '찬성 / 반대' 중 하나를 고르게 해줘. (카드 색 대신)
-- 보드를 왼쪽 찬성, 오른쪽 반대 두 칸으로 나눠 보여주고,
-  각 칸 위에 카드 수와 공감 합계를 표시해줘.
-- 시트에는 맨 오른쪽 열에 side(pro/con)를 더해 저장해줘. 기존 열 순서는 바꾸지 마.
-
-자동 갱신 · LockService · google.script.run 부분은 건드리지 마.
-바뀐 파일만 전체로 주고, 무엇을 바꿨는지 세 줄로 알려줘.</pre></div>
-              <p class="dim">지금의 Code.gs·index.html과 함께 AI에게 보내고, 받은 코드를 붙인 뒤 <b>새 버전</b>으로 배포</p>        <div class="warn-box">
-          <strong>♥ 한 번만 누르기는 &lsquo;약속&rsquo;이지 &lsquo;보안&rsquo;이 아닙니다</strong>
-          시크릿 창에서는 또 누를 수 있습니다. 투표처럼 정확해야 하는 일엔 쓰지 않습니다. <a href="#ref-2" class="inl">이유 보기</a>
-        </div></div></details>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/3"><span class="material-icons-outlined">arrow_back</span>해결방법</a><a class="btn btn-ink btn-sm nx" href="#/m3"><small>다음</small>실습 3 외부 데이터 연결<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/3"><span class="material-icons-outlined">arrow_back</span>Code.gs</a><a class="btn btn-ink btn-sm nx" href="#/m2/5"><small>다음</small>배포<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="5" id="m2-x">
+            <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
+            <ol class="act">
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트)</span></li>
+              <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
+              <li><b>/exec</b> 주소를 열어 확인</li>
+            </ol>
+            <p class="dim">질문을 띄우려면: 수업 코드와 <b>오늘의 질문</b>을 적고 들어가 <b>[이 보드 링크 복사하기]</b></p><p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
+            <div class="check" id="m2-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>확인</span><ul class="cchk" data-mod="m2"><li><input type="checkbox" id="m2-cx1" data-mod="m2"><label for="m2-cx1">두 기기가 <b>같은 링크</b>로 들어와 카드를 붙였다</label></li><li><input type="checkbox" id="m2-cx2" data-mod="m2"><label for="m2-cx2">다른 기기의 카드와 ♥가 <b>몇 초 안에</b> 내 화면에 나타났다</label></li></ul></div>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/4"><span class="material-icons-outlined">arrow_back</span>index.html</a><a class="btn btn-ink btn-sm nx" href="#/m3"><small>다음</small>실습 3 외부 데이터 연결<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
       </div>
     </div>
   </section>
-  <section class="view fn3" id="v-m3" data-view="m3" data-steps="4">
+  <section class="view fn3" id="v-m3" data-view="m3" data-steps="5">
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록</a><a href="#/m2" data-m="m2"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3" class="on" aria-current="page"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>오늘의 궁금증 탐험대</h1><p><span class="vw">우물에서 바다로</span>하나의 질문에서 더 넓은 세상으로 가는 앱</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
-        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">아이디어<small>어떻게 되면 좋을까</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">해결방법<small>기술과 프롬프트</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">만들기<small>만들고 확인하기</small></span></button></li></ol>
+        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m3-p">
             <header class="pane-h"><span class="pane-k">문제상황</span><h2>궁금증은 쏟아지는데, 탐구로 이어지기 어렵다</h2></header>
             <ul class="pains"><li>질문은 쏟아지는데 <b>자료를 다 준비</b>할 수는 없습니다.</li><li>검색창은 광고·영상에 묻혀 <b>궁금증이 길을 잃습니다.</b></li><li>답을 바로 주는 도구는 <b>읽고 생각하는 과정</b>을 건너뜁니다.</li></ul>
-            <div class="note"><div class="note-h"><span class="material-icons-outlined">edit_note</span>우리 교실이라면?<span class="opt">선택</span></div><p>자주 나오는 질문, 더 넓혀 보고 싶은 주제는? (과학 현상, 역사 인물…)</p>
-              <textarea id="note-m3" data-note="m3" placeholder="떠오르는 장면을 한 줄로 적어 두세요"></textarea>
-              <small>&lsquo;나의 앱 아이디어&rsquo;에서 다시 씁니다.</small></div>
-            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m3/2"><small>다음</small>아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m3/2"><small>다음</small>핵심기능<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-i" data-step="2" id="m3-i">
-            <header class="pane-h"><span class="pane-k">아이디어</span><h2>자료는 API가 찾고, 생각은 학생이 하는 앱</h2></header>
-            <div class="idea"><q>&ldquo;궁금한 낱말을 넣으면 백과사전 자료가 찾아오고, 학생은 그것을 읽고 자기 말로 정리한다면?&rdquo;</q><p>위키백과는 검색 결과를 <b>API</b>로 공개합니다. 자료는 API가, 생각은 학생이.</p></div>
-            <ol class="path4" style="margin-top:16px"><li>궁금한 주제 검색하기</li><li>위키백과 자료 만나기</li><li>읽고 생각하기</li></ol>
-            <p class="think"><span class="material-icons-outlined">psychology</span><span>앱이 답을 대신 써 주지 않는다면, 학생은 자료를 읽고 <b>어떤 새 질문</b>을 하게 될까요?</span></p>
-            <div class="ext"><span class="ext-k">이렇게도 넓힐 수 있어요</span><span>단원 마무리 탐구 질문</span><span>책 속 낯선 낱말 찾기</span><span>인물 · 장소 조사</span><span>꼬리에 꼬리를 무는 질문 지도</span></div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m3/3"><small>다음</small>해결방법<span class="material-icons-outlined">arrow_forward</span></a></nav>
-          </article>
-          <article class="pane s-t" data-step="3" id="m3-t">
-            <header class="pane-h"><span class="pane-k">해결방법</span><h2>필요한 기술을 찾고, 프롬프트로 옮기기</h2>
-              </header>
-            <ol class="path4"><li>원하는 경험</li><li>필요한 기능</li><li>AI에게 줄 조건</li></ol>
-            
+          <article class="pane s-t" data-step="2" id="m3-t">
+            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>이 앱에 꼭 필요한 것</h2></header>
             <div class="techs"><div class="tc"><span class="need">바깥 자료 가져오기</span><span class="why">한국어 위키백과 검색 API (키 없음)</span></div><div class="tc"><span class="need">학생 대신 주방이 묻기</span><span class="why">Code.gs의 UrlFetchApp. 키가 있어도 드러나지 않음</span></div><div class="tc"><span class="need">검색 한 번, 카드 세 장</span><span class="why">제목 · 설명 · 발췌문을 한 번에</span></div><div class="tc"><span class="need">바깥 글은 글자로만</span><span class="why">태그를 지우고 textContent로</span></div><div class="tc"><span class="need">생각은 학생의 것</span><span class="why">학생 답은 저장 안 함, AI 평가 없음</span></div><div class="tc"><span class="need">출처와 원문</span><span class="why">CC BY-SA 출처와 원문 링크</span></div></div>
-                    <div class="concept">
-          <span class="material-icons-outlined">swap_calls</span>
-          <div><b>흐름</b> 학생 화면 → Code.gs → UrlFetchApp → 위키백과 → 카드 3장. 같은 낱말은 30분 보관.
-            키가 필요한 API는 <a href="#ref-3" class="inl">스크립트 속성</a>에.</div>
-        </div>
-            <a class="kitlink" href="#/kit"><span class="material-icons-outlined">widgets</span><span><b>다른 데이터도 가져오고 싶다면</b>교육용 추천 API 9가지와 연동 코드</span><span class="material-icons-outlined">arrow_forward</span></a>
-            <h3 class="sub-h"><span class="material-icons-outlined">smart_toy</span>이 앱을 AI에게 요청한다면</h3>
-            <div class="prompt-wrap">
-              <div class="code wrap"><button class="copy" data-copy="m3_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_prompt">궁금한 낱말을 한국어 위키백과에서 찾아 읽고, 자기 생각을 정리하는 웹앱을 구글 Apps Script 웹앱으로 만들어줘.
+            <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
+              <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m3_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_prompt">궁금한 낱말을 한국어 위키백과에서 찾아 읽고, 자기 생각을 정리하는 웹앱을 구글 Apps Script 웹앱으로 만들어줘.
 앱 이름은 '오늘의 궁금증 탐험대'야.
 
 [문제상황]
@@ -3365,45 +3106,16 @@ if (document.readyState === 'loading') {
 - 처음 한 번 실행해서 권한을 승인할 setup 함수를 만들어줘.
 
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div>
-              <div class="keys"><div class="keys-h"><span class="material-icons-outlined">key</span>이 문장이 빠지면 다른 앱이 나옵니다</div><ol><li><span class="q">&ldquo;API 는 화면에서 부르지 말고 Code.gs 에서 UrlFetchApp 으로&rdquo;</span><span class="w">화면에서 부르면 키가 드러나고, 막히는 API도 있습니다.</span></li><li><span class="q">&ldquo;excerpt 에 든 HTML 태그는 지우고 글자로만&rdquo;</span><span class="w">빠지면 태그가 그대로 보이거나 코드처럼 실행될 수 있습니다.</span></li><li><span class="q">&ldquo;학생이 쓴 생각은 저장하지 마 · AI 가 답을 만들지 마&rdquo;</span><span class="w">빠지면 AI가 &lsquo;요약·정답&rsquo; 기능을 더합니다.</span></li></ol></div>
-            </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/2"><span class="material-icons-outlined">arrow_back</span>아이디어</a><a class="btn btn-ink btn-sm nx" href="#/m3/4"><small>다음</small>만들기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m3/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-x" data-step="4" id="m3-x">
-            <header class="pane-h"><span class="pane-k">만들기</span><h2>오늘의 궁금증 탐험대 만들기</h2></header>
-            <div class="appline"><span class="ic"><span class="material-icons-outlined">travel_explore</span></span><p>낱말을 넣으면 위키백과 자료 카드 3장. 학생은 읽고 자기 말로 정리합니다.</p></div>
-            <div class="paths" role="group" aria-label="만드는 방법 고르기" data-mod="m3">
-              <button type="button" class="pth on" data-path="a"><span class="material-icons-outlined">content_paste</span><b>따라 만들기 <i class="pth-tag">기본</i></b><span>완성 코드로 먼저 성공해 보기</span></button>
-              <button type="button" class="pth" data-path="b"><span class="material-icons-outlined">smart_toy</span><b>AI와 처음부터 <i class="pth-tag">선택</i></b><span>먼저 끝냈다면 프롬프트로 직접 만들기</span></button>
-            </div>
-            <div class="path-b">
-              <ul class="pb-list">
-                <li>프롬프트 복사 → 평소 쓰는 AI에 붙여넣기 <button class="copy" data-copy="m3_prompt"><span class="material-icons-outlined">content_copy</span>프롬프트 복사</button></li>
-                <li>아래 네 단계 그대로, 2단계만 <b>AI가 준 코드</b>로</li>
-                <li>이상한 점은 그대로 AI에게: &ldquo;저장은 되는데 목록이 안 보여&rdquo;</li>
-                <li>고친 뒤 <b>배포 관리 → 새 버전</b></li>
-              </ul>
-              <p class="dim">막히면 완성 코드와 비교. 화면 요소 이름은 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
-            </div>
-            
-      <details class="step" id="m3-s1">
-        <summary><span class="step-num">1</span>
-          <span class="step-tw"><h3>새 시트 만들기</h3><p>sheets.new → Apps Script</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></p>
-          <div class="namebox"><span class="material-icons-outlined">edit</span>시트와 프로젝트 이름 <b>[3] 궁금증 탐험대</b></div>
-        <p class="dim">시트에 저장하진 않지만 같은 순서로 엽니다.</p>
-          <label class="donechk"><input type="checkbox" data-mod="m3" data-step="1">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m3-s2">
-        <summary><span class="step-num">2</span>
-          <span class="step-tw"><h3>코드 두 개 붙여넣기</h3><p>Code.gs와 index.html</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act">두 파일 모두 <b>전부 지우고</b> 붙여넣기 → 저장</p>
-
+          <article class="pane s-x" data-step="3" id="m3-s2">
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <ol class="act">
+              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li>프로젝트 이름 <b>[3] 궁금증 탐험대</b></li>
+              <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
             <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
@@ -3502,7 +3214,14 @@ function cleanText_(html) {
 // API 키가 필요한 서비스를 쓸 때는 키를 이 파일에 적지 말고
 // [프로젝트 설정 → 스크립트 속성]에 넣고 PropertiesService 로 읽으세요. (연수 사이트 '자주 찾는 질문' 참고)</pre></div>
         </details>
-
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m3/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="4" id="m3-s3">
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <ol class="act">
+              <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
+              <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
             <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
@@ -3890,96 +3609,43 @@ if (document.readyState === 'loading') {
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
         </details>
-
-          <label class="donechk"><input type="checkbox" data-mod="m3" data-step="2">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m3-s3">
-        <summary><span class="step-num">3</span>
-          <span class="step-tw"><h3>setup 실행하고 승인하기</h3><p>▷ 실행 → 권한 허용</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>setup</b> → <b>▷ 실행</b> → <b>권한 검토 → 내 계정</b>. 로그에 &lsquo;준비 완료&rsquo;면 성공</p>
-          <p class="dim">&lsquo;확인하지 않은 앱&rsquo; → 왼쪽 아래 <b>고급 → (프로젝트 이름)(으)로 이동</b> → 허용 (연수 코드일 때만)</p>
-          <div class="namebox"><span class="material-icons-outlined">verified_user</span>이번에 묻는 권한 <b><b>외부 서비스에 연결</b></b></div>
-        <p class="dim">setup이 &lsquo;무지개&rsquo;를 한 번 찾아 봅니다. 로그에 문서 제목이 찍히면 성공.</p>
-          <label class="donechk"><input type="checkbox" data-mod="m3" data-step="3">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m3-s4">
-        <summary><span class="step-num">4</span>
-          <span class="step-tw"><h3>배포하고 열기</h3><p>웹 앱 · 모든 사용자</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b> → /exec 주소 열기</p>
-
-          <label class="donechk"><input type="checkbox" data-mod="m3" data-step="4">여기까지 했습니다</label>
-        </div>
-      </details>
-            <div class="check" id="m3-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>문제가 풀렸나?</span>
-              <h3>하나의 질문에서, 더 넓은 세상으로</h3>
-              <p class="ck-k">앱이 잘 되나요?</p><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx1" data-mod="m3"><label for="m3-cx1">낱말을 찾으면 <b>자료 카드</b>가 보이고, <b>원문 보기</b>가 새 탭으로 열린다</label></li><li><input type="checkbox" id="m3-cx2" data-mod="m3"><label for="m3-cx2"><b>결과가 없는 낱말</b>을 넣어 다시 찾아보라는 안내를 확인했다</label></li></ul><p class="ck-k">수업으로 이어 보기 <small>연수 중에 정할 것</small></p><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx3" data-mod="m3"><label for="m3-cx3"><b>새롭게 궁금해진 것</b>으로 한 번 더 찾아, 질문이 넓어지는 흐름을 경험했다</label></li><li><input type="checkbox" id="m3-cx4" data-mod="m3"><label for="m3-cx4">위키백과 내용을 <b>원문과 다른 자료로 확인</b>하도록 안내할 방법을 정했다</label></li></ul>
-              <div class="refl"><label for="note-m3r"><span class="material-icons-outlined">edit_note</span>우리 수업의 어떤 질문을 바깥 자료와 이어 볼 수 있을까요?<span class="opt">선택</span></label>
-                <textarea id="note-m3r" data-note="m3r" placeholder="한 줄이면 됩니다."></textarea></div></div>
-            <details class="more" id="m3-learn"><summary>더 해 보기 — 내 교실 버전으로<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="more-body"><p>예시 낱말을 우리 단원에 맞게 바꿔 봅니다. (화산 · 마그마 · 지진…)</p>
-              <div class="code wrap"><button class="copy" data-copy="m3_twist"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m3_twist">지금 Apps Script 궁금증 탐험대 앱은 정상 작동하고 있어. (Code.gs 와 index.html 을 붙여넣을게)
-
-index.html 의 EXAMPLES(예시 낱말) 목록만 바꿔줘.
-- [여기에 단원을 적으세요. 예: 4학년 과학 &#39;화산과 지진&#39;] 에 어울리는 낱말 5개로 바꿔줘.
-- 초등학생이 한국어 위키백과에서 찾았을 때 자료가 잘 나오는 낱말로 골라줘.
-
-Code.gs · 검색 · 카드 · 생각 쓰기 코드는 건드리지 마.
-EXAMPLES 부분만 붙여넣을 수 있게 줘.</pre></div>
-              <p class="dim">지금의 Code.gs·index.html과 함께 AI에게 보내고, 받은 코드를 붙인 뒤 <b>새 버전</b>으로 배포</p><div class="tip-box"><strong><span class="material-icons-outlined">dataset</span> 자료를 정확하게 쓰려면</strong>발췌문은 한 조각입니다. <b>원문 보기</b>로 앞뒤를 읽고, 중요한 내용은 책으로 한 번 더. 출처 표기(CC BY-SA 4.0) 필수.</div>        <div class="tip-box">
-          <strong><span class="material-icons-outlined">add_circle</span> 더 해 보기 — 의견보드와 합치면</strong>
-          &lsquo;새롭게 알게 된 것&rsquo;을 보드에 붙여 <b>반 전체의 탐험 지도</b>로. 학생 글이 저장되니 보관 규칙도 함께 정합니다.
-        </div></div></details>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/3"><span class="material-icons-outlined">arrow_back</span>해결방법</a><a class="btn btn-ink btn-sm nx" href="#/m4"><small>다음</small>심화 구글 도구 연결<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/3"><span class="material-icons-outlined">arrow_back</span>Code.gs</a><a class="btn btn-ink btn-sm nx" href="#/m3/5"><small>다음</small>배포<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="5" id="m3-x">
+            <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
+            <ol class="act">
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(외부 서비스에 연결)</span></li>
+              <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
+              <li><b>/exec</b> 주소를 열어 확인</li>
+            </ol>
+            <p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
+            <div class="check" id="m3-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>확인</span><ul class="cchk" data-mod="m3"><li><input type="checkbox" id="m3-cx1" data-mod="m3"><label for="m3-cx1">낱말을 찾으면 <b>자료 카드</b>가 보이고, <b>원문 보기</b>가 새 탭으로 열린다</label></li><li><input type="checkbox" id="m3-cx2" data-mod="m3"><label for="m3-cx2"><b>결과가 없는 낱말</b>을 넣어 다시 찾아보라는 안내를 확인했다</label></li></ul></div>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/4"><span class="material-icons-outlined">arrow_back</span>index.html</a><a class="btn btn-ink btn-sm nx" href="#/m4"><small>다음</small>심화 구글 도구 연결<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
       </div>
     </div>
   </section>
-  <section class="view fn4" id="v-m4" data-view="m4" data-steps="4">
+  <section class="view fn4" id="v-m4" data-view="m4" data-steps="5">
     <div class="wrap stage-v">
       <nav class="mswitch" aria-label="실습 고르기"><a href="#/m1" data-m="m1"><i>1</i>기록</a><a href="#/m2" data-m="m2"><i>2</i>실시간 소통</a><a href="#/m3" data-m="m3"><i>3</i>외부 데이터 연결</a><a href="#/m4" data-m="m4" class="on" aria-current="page"><i class="adv">심화</i>구글 도구 연결</a></nav>
       <div class="vhead"><div><h1>티끌모아 학급문집</h1><p><span class="vw">점에서 선으로</span>매일 쓴 글이 쌓여 학급문집이 되는 앱</p></div></div>
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
-        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 4 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">아이디어<small>어떻게 되면 좋을까</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">해결방법<small>기술과 프롬프트</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">만들기<small>만들고 확인하기</small></span></button></li></ol>
+        <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 5 단계</div><div class="prog-bar"><i></i></div></div>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">문제상황<small>무엇이 불편한가</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">핵심기능<small>꼭 필요한 기능</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">Code.gs<small>주방 코드</small></span></button></li><li><button type="button" data-go="4"><span class="k">4</span><span class="t">index.html<small>홀 화면</small></span></button></li><li><button type="button" data-go="5"><span class="k">5</span><span class="t">배포<small>학생용 주소</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane s-p" data-step="1" id="m4-p">
             <header class="pane-h"><span class="pane-k">문제상황</span><h2>기록은 쌓였는데, 결과물로 만드는 데 며칠이 걸린다</h2></header>
             <ul class="pains"><li>매일 글쓰기를 해도 문집 정리에 <b>며칠</b> 걸립니다.</li><li>모으고, 제목 달고, 쪽 나누고, PDF로. <b>모두 손으로</b> 합니다.</li><li>문집 버튼이 학생 화면에 있으면 <b>학생도 누를 수 있습니다.</b></li></ul>
-            <div class="note"><div class="note-h"><span class="material-icons-outlined">edit_note</span>우리 교실이라면?<span class="opt">선택</span></div><p>쌓인 기록으로 만들고 싶은 결과물은? (문집, 독서 포트폴리오, 회의록…)</p>
-              <textarea id="note-m4" data-note="m4" placeholder="떠오르는 장면을 한 줄로 적어 두세요"></textarea>
-              <small>&lsquo;나의 앱 아이디어&rsquo;에서 다시 씁니다.</small></div>
-            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m4/2"><small>다음</small>아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m4/2"><small>다음</small>핵심기능<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-i" data-step="2" id="m4-i">
-            <header class="pane-h"><span class="pane-k">아이디어</span><h2>쓰는 순간 모이고, 버튼 하나로 묶이는 문집</h2></header>
-            <div class="idea"><q>&ldquo;학생이 쓰는 순간 이미 디지털로 모이고, 선생님은 버튼 하나로 문서와 PDF를 받는다면?&rdquo;</q><p>Apps Script는 구글 문서·드라이브를 <b>직접 움직입니다.</b> 학생은 웹앱으로 쓰고, 교사는 시트 메뉴로 묶습니다.</p></div>
-            <p class="think"><span class="material-icons-outlined">psychology</span><span><b>자동으로 할 일</b>과 <b>학생이 직접 할 일</b>은 무엇일까요?</span></p>
-            <div class="ext"><span class="ext-k">이렇게도 넓힐 수 있어요</span><span>학급 시집</span><span>독서 포트폴리오</span><span>학생별 성장 기록</span><span>학생이 고른 작품 문집</span></div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m4/3"><small>다음</small>해결방법<span class="material-icons-outlined">arrow_forward</span></a></nav>
-          </article>
-          <article class="pane s-t" data-step="3" id="m4-t">
-            <header class="pane-h"><span class="pane-k">해결방법</span><h2>필요한 기술을 찾고, 프롬프트로 옮기기</h2>
-              </header>
-            <ol class="path4"><li>원하는 경험</li><li>필요한 기능</li><li>AI에게 줄 조건</li></ol>
-            
+          <article class="pane s-t" data-step="2" id="m4-t">
+            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>이 앱에 꼭 필요한 것</h2></header>
             <div class="techs"><div class="tc"><span class="need">글 모으기</span><span class="why">실습 1처럼 한 줄씩 쌓기</span></div><div class="tc"><span class="need">문서 만들기</span><span class="why">표지 · 날짜 · 글을 차례로</span></div><div class="tc"><span class="need">PDF로 한 부 더</span><span class="why">드라이브에 PDF 저장</span></div><div class="tc"><span class="need">교사만 누르는 버튼</span><span class="why">시트의 &lsquo;📚 학급문집&rsquo; 메뉴. 학생 화면엔 없음</span></div><div class="tc"><span class="need">몰래 부르지 못하게</span><span class="why">시트 메뉴가 아니면 멈춤</span></div></div>
-                    <div class="concept">
-          <span class="material-icons-outlined">admin_panel_settings</span>
-          <div><b>학생은 웹앱, 교사는 시트 메뉴.</b> 버튼만 숨기면 부족한 이유는 <a href="#ref-sec" class="inl">자주 찾는 질문</a>에.</div>
-        </div>
-            <a class="kitlink" href="#gt-sheet"><span class="material-icons-outlined">apps</span><span><b>다른 구글 도구도 연결하고 싶다면</b>슬라이드, 설문지, 캘린더 등 12가지</span><span class="material-icons-outlined">arrow_forward</span></a>
-            <h3 class="sub-h"><span class="material-icons-outlined">smart_toy</span>이 앱을 AI에게 요청한다면</h3>
-            <div class="prompt-wrap">
-              <div class="code wrap"><button class="copy" data-copy="m4_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m4_prompt">매일 글쓰기를 모아 학급문집으로 만드는 앱을 구글 스프레드시트 + Apps Script 로 만들어줘.
+            <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
+              <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m4_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m4_prompt">매일 글쓰기를 모아 학급문집으로 만드는 앱을 구글 스프레드시트 + Apps Script 로 만들어줘.
 
 [문제상황]
 학기말 문집을 만들려면 쌓인 글을 모아 정리하고 편집하느라 며칠이 걸려.
@@ -4006,45 +3672,16 @@ EXAMPLES 부분만 붙여넣을 수 있게 줘.</pre></div>
 - 화면에서 부를 필요 없는 함수는 이름 끝에 _ 를 붙여줘.
 
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 글쓰기에 집중되는 차분한 카드 화면.</pre></div>
-              <div class="keys"><div class="keys-h"><span class="material-icons-outlined">key</span>이 문장이 빠지면 다른 앱이 나옵니다</div><ol><li><span class="q">&ldquo;학생 화면에 넣지 말고 … 메뉴(onOpen)로&rdquo;</span><span class="w">없으면 학생 화면에 &lsquo;문집 만들기&rsquo; 버튼이 붙습니다.</span></li><li><span class="q">&ldquo;첫 줄에서 SpreadsheetApp.getUi() 를 불러&rdquo;</span><span class="w">버튼을 숨겨도 함수 이름으로 부를 수 있습니다.</span></li><li><span class="q">&ldquo;표지 → 쪽 나눔 → 날짜별 …&rdquo;</span><span class="w">모양을 구체적으로 말할수록 손볼 일이 줄어듭니다.</span></li></ol></div>
-            </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/2"><span class="material-icons-outlined">arrow_back</span>아이디어</a><a class="btn btn-ink btn-sm nx" href="#/m4/4"><small>다음</small>만들기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 글쓰기에 집중되는 차분한 카드 화면.</pre></div></div></details>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m4/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
-          <article class="pane s-x" data-step="4" id="m4-x">
-            <header class="pane-h"><span class="pane-k">만들기</span><h2>티끌모아 학급문집 만들기</h2></header>
-            <div class="appline"><span class="ic"><span class="material-icons-outlined">menu_book</span></span><p>학생은 필명으로 글을 쓰고, 교사는 <b>📚 학급문집 → 문집 만들기</b>로 문서와 PDF를 받습니다.</p></div>
-            <div class="paths" role="group" aria-label="만드는 방법 고르기" data-mod="m4">
-              <button type="button" class="pth on" data-path="a"><span class="material-icons-outlined">content_paste</span><b>따라 만들기 <i class="pth-tag">기본</i></b><span>완성 코드로 먼저 성공해 보기</span></button>
-              <button type="button" class="pth" data-path="b"><span class="material-icons-outlined">smart_toy</span><b>AI와 처음부터 <i class="pth-tag">선택</i></b><span>먼저 끝냈다면 프롬프트로 직접 만들기</span></button>
-            </div>
-            <div class="path-b">
-              <ul class="pb-list">
-                <li>프롬프트 복사 → 평소 쓰는 AI에 붙여넣기 <button class="copy" data-copy="m4_prompt"><span class="material-icons-outlined">content_copy</span>프롬프트 복사</button></li>
-                <li>아래 네 단계 그대로, 2단계만 <b>AI가 준 코드</b>로</li>
-                <li>이상한 점은 그대로 AI에게: &ldquo;저장은 되는데 목록이 안 보여&rdquo;</li>
-                <li>고친 뒤 <b>배포 관리 → 새 버전</b></li>
-              </ul>
-              <p class="dim">막히면 완성 코드와 비교. 화면 요소 이름은 <a class="dic-link" href="https://vibedic.chichiboo.link/" target="_blank" rel="noopener">UI·UX 사전<span class="material-icons-outlined">open_in_new</span></a></p>
-            </div>
-            
-      <details class="step" id="m4-s1">
-        <summary><span class="step-num">1</span>
-          <span class="step-tw"><h3>새 시트 만들기</h3><p>sheets.new → Apps Script</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></p>
-          <div class="namebox"><span class="material-icons-outlined">edit</span>시트와 프로젝트 이름 <b>[심화] 티끌모아 학급문집</b></div>
-
-          <label class="donechk"><input type="checkbox" data-mod="m4" data-step="1">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m4-s2">
-        <summary><span class="step-num">2</span>
-          <span class="step-tw"><h3>코드 두 개 붙여넣기</h3><p>Code.gs와 index.html</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act">두 파일 모두 <b>전부 지우고</b> 붙여넣기 → 저장</p>
-
+          <article class="pane s-x" data-step="3" id="m4-s2">
+            <header class="pane-h"><span class="pane-k">Code.gs</span><h2>주방 코드 붙여넣기</h2></header>
+            <ol class="act">
+              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li>프로젝트 이름 <b>[심화] 티끌모아 학급문집</b></li>
+              <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">soup_kitchen</span></span>
             <span class="cb-nm"><b>Code.gs</b><span>주방 · 기본으로 있는 파일에 붙여넣기</span></span>
@@ -4256,7 +3893,14 @@ function korDate_(d) {
 // 수정·삭제 기능은 일부러 만들지 않았습니다.
 // 문집에서 빼야 할 글은 교사가 시트에서 그 행을 지운 뒤 다시 만들면 됩니다.</pre></div>
         </details>
-
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m4/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="4" id="m4-s3">
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>홀 화면 붙여넣기</h2></header>
+            <ol class="act">
+              <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
+              <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
+            </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">storefront</span></span>
             <span class="cb-nm"><b>index.html</b><span>홀 · 파일 + → HTML → 이름 index</span></span>
@@ -4596,57 +4240,18 @@ if (document.readyState === 'loading') {
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
         </details>
-
-          <label class="donechk"><input type="checkbox" data-mod="m4" data-step="2">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m4-s3">
-        <summary><span class="step-num">3</span>
-          <span class="step-tw"><h3>setup 실행하고 승인하기</h3><p>▷ 실행 → 권한 허용</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>setup</b> → <b>▷ 실행</b> → <b>권한 검토 → 내 계정</b>. 로그에 &lsquo;준비 완료&rsquo;면 성공</p>
-          <p class="dim">&lsquo;확인하지 않은 앱&rsquo; → 왼쪽 아래 <b>고급 → (프로젝트 이름)(으)로 이동</b> → 허용 (연수 코드일 때만)</p>
-          <div class="namebox"><span class="material-icons-outlined">verified_user</span>이번에 묻는 권한 <b>스프레드시트 · <b>문서 · 드라이브</b> · 메뉴 표시</b></div>
-        <p class="act" style="margin-top:10px"><b>시트 탭 새로고침</b> → <b>📚 학급문집</b> 메뉴가 생깁니다.</p>
-          <label class="donechk"><input type="checkbox" data-mod="m4" data-step="3">여기까지 했습니다</label>
-        </div>
-      </details>
-            
-      <details class="step" id="m4-s4">
-        <summary><span class="step-num">4</span>
-          <span class="step-tw"><h3>배포하고 열기</h3><p>웹 앱 · 모든 사용자</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span></summary>
-        <div class="step-content">
-          <p class="act"><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b> → /exec 주소 열기</p>
-        <div class="tip-box">
-          <strong><span class="material-icons-outlined">lightbulb</span> 글감 띄우기</strong>
-          수업 코드와 <b>오늘의 글감</b>을 적고 <b>[이 수업 링크 복사하기]</b>. 글감은 문집에도 실립니다.
-        </div>
-          <label class="donechk"><input type="checkbox" data-mod="m4" data-step="4">여기까지 했습니다</label>
-        </div>
-      </details>
-            <div class="check" id="m4-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>문제가 풀렸나?</span>
-              <h3>글이 책이 되는 순간</h3>
-              <p class="ck-k">앱이 잘 되나요?</p><ul class="cchk" data-mod="m4"><li><input type="checkbox" id="m4-cx1" data-mod="m4"><label for="m4-cx1">필명으로 쓴 글이 <b>오늘 우리 반 글</b>에 보인다</label></li><li><input type="checkbox" id="m4-cx2" data-mod="m4"><label for="m4-cx2"><b>📚 메뉴</b>로 문서와 PDF 문집을 만들었다</label></li></ul><p class="ck-k">수업으로 이어 보기 <small>연수 중에 정할 것</small></p><ul class="cchk" data-mod="m4"><li><input type="checkbox" id="m4-cx3" data-mod="m4"><label for="m4-cx3">학생이 작품을 <b>고르거나 고칠</b> 단계를 하나 정했다</label></li><li><input type="checkbox" id="m4-cx4" data-mod="m4"><label for="m4-cx4">편집은 앱에, 창작은 학생에게 맡기는 선을 그었다</label></li></ul>
-              <div class="refl"><label for="note-m4r"><span class="material-icons-outlined">edit_note</span>우리 반 결과물이라면, 학생에게 어떤 선택권을 줄까요?<span class="opt">선택</span></label>
-                <textarea id="note-m4r" data-note="m4r" placeholder="한 줄이면 됩니다."></textarea></div></div>
-            <details class="more" id="m4-learn"><summary>더 해 보기 — 내 교실 버전으로<span class="material-icons-outlined">expand_more</span></summary>
-          <div class="more-body"><p>날짜별 문집 대신 <b>필명별 포트폴리오</b>로 묶어 봅니다.</p>
-              <div class="code wrap"><button class="copy" data-copy="m4_twist"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m4_twist">지금 Apps Script 학급문집 앱은 정상 작동하고 있어. (Code.gs 와 index.html 을 붙여넣을게)
-
-'📚 학급문집' 메뉴에 항목을 하나 더해줘.
-- '필명별 포트폴리오 만들기' : 필명마다 구글 문서를 하나씩 만들고,
-  그 학생의 글을 날짜 순서로 모아줘. 표지에는 필명과 기간, 글 수를 넣어줘.
-- 만든 문서들은 드라이브에 '포트폴리오_날짜' 폴더를 만들어 그 안에 모아줘.
-- 기존 makeAnthology 와 같은 방식으로 첫 줄에서 getUi() 를 확인해줘.
-
-학생용 웹앱(index.html)과 저장 부분은 건드리지 마.
-바뀐 Code.gs 전체를 주고, 무엇을 바꿨는지 세 줄로 알려줘.</pre></div>
-              <p class="dim">지금의 Code.gs·index.html과 함께 AI에게 보내고, 받은 코드를 붙인 뒤 <b>새 버전</b>으로 배포</p><div class="tip-box"><strong><span class="material-icons-outlined">draw</span> 편집은 앱이, 창작은 학생이</strong>묶는 일은 자동으로, 고르고 고쳐 쓰는 일은 학생에게.</div>        <div class="tip-box">
-          <strong><span class="material-icons-outlined">add_circle</span> 더 해 보기 — 문집을 더 예쁘게</strong>
-          만든 문서는 그냥 구글 문서라 손으로 꾸며도 됩니다. <b>템플릿 문서</b>를 채우게 바꾸거나, 슬라이드·메일로도 만들 수 있습니다.
-        </div></div></details>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/3"><span class="material-icons-outlined">arrow_back</span>해결방법</a><a class="btn btn-ink btn-sm nx" href="#/net"><small>다음</small>네트워킹<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/3"><span class="material-icons-outlined">arrow_back</span>Code.gs</a><a class="btn btn-ink btn-sm nx" href="#/m4/5"><small>다음</small>배포<span class="material-icons-outlined">arrow_forward</span></a></nav>
+          </article>
+          <article class="pane s-x" data-step="5" id="m4-x">
+            <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
+            <ol class="act">
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 문서 · 드라이브)</span></li>
+              <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
+              <li><b>/exec</b> 주소를 열어 확인</li>
+            </ol>
+            <p class="dim">시트 탭을 <b>새로고침</b>하면 <b>📚 학급문집</b> 메뉴가 생깁니다. 문집은 이 메뉴로 만듭니다.</p><p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
+            <div class="check" id="m4-go"><span class="check-k"><span class="material-icons-outlined">fact_check</span>확인</span><ul class="cchk" data-mod="m4"><li><input type="checkbox" id="m4-cx1" data-mod="m4"><label for="m4-cx1">필명으로 쓴 글이 <b>오늘 우리 반 글</b>에 보인다</label></li><li><input type="checkbox" id="m4-cx2" data-mod="m4"><label for="m4-cx2"><b>📚 메뉴</b>로 문서와 PDF 문집을 만들었다</label></li></ul></div>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/4"><span class="material-icons-outlined">arrow_back</span>index.html</a><a class="btn btn-ink btn-sm nx" href="#/net"><small>다음</small>네트워킹<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
       </div>
@@ -5713,7 +5318,7 @@ document.addEventListener('click',e=>{
 function modProgress(m){
   const vis=S.visit[m]||[]; return {bases:[1,2,3].filter(n=>vis.includes(n)), started:vis.length>0, score:!!S.score[m], last:S.last[m]||1};
 }
-const STEP_NAME=['','문제상황','아이디어','해결방법','실습'];
+const STEP_NAME=['','문제상황','핵심기능','Code.gs','index.html','배포'];
 function paintHome(){
   MODS.forEach(m=>{
     const p=modProgress(m); const vis=S.visit[m]||[];
@@ -5753,7 +5358,7 @@ MODS.forEach(m=>{
     const all=boxes.every(b=>b.checked);
     if(score) score.classList.toggle('on',all);
     const was=!!S.score[m]; S.score[m]=all?1:0;
-    const vis=S.visit[m]=S.visit[m]||[]; if(all&&!vis.includes(4)) vis.push(4);
+    const vis=S.visit[m]=S.visit[m]||[]; if(all&&!vis.includes(5)) vis.push(5);
     persist(); paintTopNav();
     if(all&&!was&&announce) toast(MOD_NAME[m]+' 완료','task_alt');
   };
