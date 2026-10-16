@@ -1,0 +1,7 @@
+{
+  "name": "howtovibe2-practice-tests",
+  "private": true,
+  "description": "실습 1~4 예제 코드 모의 검증 (사이트 index.html 에서 꺼낸 코드 대상)",
+  "scripts": { "test": "node run.cjs" },
+  "dependencies": { "linkedom": "0.18.13" }
+}

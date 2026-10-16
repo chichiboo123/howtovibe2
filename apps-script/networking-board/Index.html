@@ -96,7 +96,7 @@ details pre{margin-top:8px;white-space:pre-wrap;font:inherit;font-size:13.5px;li
   </header>
 
   <section class="card form" aria-labelledby="rawLabel">
-    <label id="rawLabel" for="raw">기획 한 장 요약 붙여넣기</label>
+    <label id="rawLabel" for="raw">기획서 붙여넣기</label>
     <textarea id="raw" maxlength="3000" placeholder="[앱 이름] …&#10;[누가] …&#10;[아쉬운 점] …&#10;[학생 경험] …"></textarea>
     <p class="preview" id="preview" hidden></p>
     <div class="row">
@@ -276,7 +276,7 @@ function update() {
     pv.appendChild(el('b', '', f.appName));
     if (f.experience) pv.appendChild(document.createTextNode(' · 학생 경험 ' + f.experience.slice(0, 40) + (f.experience.length > 40 ? '…' : '')));
   } else {
-    pv.textContent = "'[앱 이름]' 줄이 보이지 않습니다. 2단계의 기획 한 장 요약을 그대로 붙여넣어 주세요.";
+    pv.textContent = "'[앱 이름]' 줄이 보이지 않습니다. 2단계의 기획서를 그대로 붙여넣어 주세요.";
   }
 }
 

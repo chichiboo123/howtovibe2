@@ -2,7 +2,7 @@
  * 바이브코딩 : 포스트시즌 — 네트워킹 공동 아이디어 게시판 (Code.gs)
  *
  * 연수 사이트(GitHub Pages)의 '네트워킹 → 나누기' 단계에 iframe으로 들어가는 게시판입니다.
- * 참가자는 '기획 한 장 요약'을 붙여넣어 공유하고, 모두의 기획을 카드로 봅니다.
+ * 참가자는 '기획서'를 붙여넣어 공유하고, 모두의 기획을 카드로 봅니다.
  *
  * 처음 한 번: 함수 목록에서 setup → ▷ 실행 → 권한 허용
  * 설정(선택): 프로젝트 설정 → 스크립트 속성
@@ -24,7 +24,7 @@ var MAX_RAW = 3000;      // 붙여넣는 기획 원문 최대 글자 수
 var MAX_POSTS = 300;     // 게시판에 보여 줄 최대 글 수 (최신순)
 var LIMIT = { appName: 60, who: 60, problem: 500, experience: 500, blocks: 160, directions: 160 };
 
-/* 기획 한 장 요약(b_plan)의 항목 이름 → 저장할 칸 */
+/* 기획서(b_plan)의 항목 이름 → 저장할 칸 */
 var LABELS = {
   '앱 이름': 'appName',
   '누가': 'who',
@@ -61,9 +61,7 @@ function template_() {
 /* ───────── 처음 한 번 실행 ───────── */
 function setup() {
   var sh = getSheet_();
-  var st = sh.getRange(2, 10, Math.max(sh.getMaxRows() - 1, 1), 1);
-  st.setDataValidation(SpreadsheetApp.newDataValidation()
-    .requireValueInList([STATUS_OPEN, STATUS_HIDDEN, STATUS_DELETED], true).setAllowInvalid(false).build());
+  setStatusRule_(sh);
   Logger.log('준비 완료 — 시트: ' + sh.getParent().getName() + ' / ' + SHEET_NAME +
     (getPostCode_() ? ' · 게시 코드 사용 중' : ' · 게시 코드 없음(누구나 게시)'));
 }
@@ -142,6 +140,8 @@ function deletePost(id, key) {
   try {
     var sh = getSheet_();
     var r = findOwnRow_(sh, id, key);
+    // 예전 setup이 만든 '공개, 숨김'만 허용하는 규칙이면 '삭제'를 쓸 수 없으니 먼저 고칩니다
+    if (!ruleAllowsDelete_(sh, r)) setStatusRule_(sh);
     sh.getRange(r, COL.status).setValue(safeCell_(STATUS_DELETED));
     sh.getRange(r, COL.updatedAt).setValue(safeCell_(new Date().toISOString()));
     return true;
@@ -150,7 +150,7 @@ function deletePost(id, key) {
   }
 }
 
-/* ───────── 기획 한 장 요약 읽기 ───────── */
+/* ───────── 기획서 읽기 ───────── */
 
 /**
  * '[항목] 내용' 줄을 기준으로 나눕니다. 항목 없이 이어지는 줄은 앞 항목에 붙입니다.
@@ -174,13 +174,27 @@ function parsePlan_(raw) {
 
 /* ───────── 도우미 ───────── */
 
+/** status 열(J)의 드롭다운: 공개 / 숨김 / 삭제 */
+function setStatusRule_(sh) {
+  sh.getRange(2, COL.status, Math.max(sh.getMaxRows() - 1, 1), 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireValueInList([STATUS_OPEN, STATUS_HIDDEN, STATUS_DELETED], true).setAllowInvalid(false).build());
+}
+
+/** 이 줄의 status 칸 규칙이 '삭제'를 받아 주는지 (규칙이 없으면 받아 줌) */
+function ruleAllowsDelete_(sh, r) {
+  var rule = sh.getRange(r, COL.status).getDataValidation();
+  if (!rule) return true;
+  if (rule.getCriteriaType() !== SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST) return false;
+  return (rule.getCriteriaValues()[0] || []).indexOf(STATUS_DELETED) !== -1;
+}
+
 /** 붙여넣은 기획 검사: 길이, [앱 이름] 여부. 중복 확인용 해시도 만듭니다 */
 function checkPlan_(raw) {
   raw = clean_(raw, MAX_RAW + 1);
   if (!raw) throw new Error('기획 내용을 붙여넣어 주세요.');
   if (raw.length > MAX_RAW) throw new Error('기획이 너무 깁니다. ' + MAX_RAW + '자 이하로 줄여 주세요.');
   var f = parsePlan_(raw);
-  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획 한 장 요약'을 그대로 붙여넣어 주세요.");
+  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획서'를 그대로 붙여넣어 주세요.");
   return { raw: raw, f: f, hash: hash_(raw.replace(/\s+/g, ' ').trim()) };
 }
 
