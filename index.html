@@ -1370,12 +1370,7 @@ html[data-present] .hx-bg{opacity:.6;}
 /* ══════ 네트워킹 · 공동 아이디어 게시판 ══════ */
 .share-hint{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:14px;font-weight:700;color:var(--blue);}
 .share-hint .material-icons-outlined{font-size:18px;}
-.share-how{list-style:none;counter-reset:sh;display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:16px;}
-.share-how li{counter-increment:sh;position:relative;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px 0 6px;border-radius:999px;
-  background:var(--surface);border:1px solid var(--line);font-size:14px;color:var(--ink-2);}
-.share-how li::before{content:counter(sh);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--blue-tint);color:var(--blue);font-size:12px;font-weight:800;}
-.share-how li + li::after{content:'→';position:absolute;left:-17px;color:var(--faint);}
-@media (max-width:560px){.share-how li + li::after{content:none;}}
+.share-how{margin-bottom:16px;font-size:clamp(12px,1.2vw,14px);line-height:1.8;color:var(--ink-2);white-space:nowrap;overflow-x:auto;}
 .board iframe{display:block;width:100%;height:900px;border:1px solid var(--line);border-radius:var(--r-xl);background:var(--surface);}
 .board iframe.fit{border-color:transparent;background:transparent;}
 .board-off{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:var(--r-xl);border:1.5px dashed var(--line);background:var(--surface);}
@@ -6706,12 +6701,7 @@ if (document.readyState === 'loading') {
           <article class="pane" data-step="3" id="st-3">
             <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">forum</span>나누기</span><h2>우리의 앱 아이디어를 나눕니다</h2>
               <p>기획서, 자유로운 이야기, 완성한 앱을 함께 나눠 보세요.</p></header>
-            <ol class="share-how">
-              <li>기획서 붙여넣기 또는 <b>자유롭게 글쓰기</b></li>
-              <li>완성한 앱은 <b>링크도 함께</b> 넣기 <span class="dim">(선택)</span></li>
-              <li><b>아이디어 공유하기</b></li>
-              <li>서로의 기획 둘러보기</li>
-            </ol>
+            <p class="share-how">글 작성 → 앱 링크 추가(선택) → 공유 → 둘러보기</p>
             <div class="board" id="board">
               <div class="board-off" id="boardOff">
                 <span class="material-icons-outlined">link_off</span>
