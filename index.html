@@ -1345,7 +1345,7 @@ html[data-present] .hx-bg{opacity:.6;}
 }
 
 /* 아이디어 작성: 실습의 다섯 단계(문제상황 → 핵심기능 → 앱이 할 일 → 보여 줄 화면 → 배포) 순서로 계획합니다. */
-.idea-examples{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr));}
+.idea-examples{display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr));}
 .idea-examples h3{font-size:18px;line-height:1.5;margin-bottom:6px;}
 .idea-start{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px 18px;border-radius:var(--r-lg);background:var(--blue-tint);font-size:14.5px;color:var(--ink-2);}
 .idea-help{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:12px;}
@@ -1364,17 +1364,13 @@ html[data-present] .hx-bg{opacity:.6;}
 .idea-out h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:8px;}
 .idea-out header p{font-size:14.5px;line-height:1.7;color:var(--ink-2);margin-top:4px;}
 .idea-out .btn-row{margin-top:12px;}
+@media(min-width:720px) and (max-width:1099px){.idea-examples{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:719px){.idea-examples{grid-template-columns:1fr;}.idea-examples br{display:none;}.idea-examples .mini{padding:16px;}.idea-stage,.idea-out{padding:18px 16px;}}
 
 /* ══════ 네트워킹 · 공동 아이디어 게시판 ══════ */
 .share-hint{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:14px;font-weight:700;color:var(--blue);}
 .share-hint .material-icons-outlined{font-size:18px;}
-.share-how{list-style:none;counter-reset:sh;display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:16px;}
-.share-how li{counter-increment:sh;position:relative;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px 0 6px;border-radius:999px;
-  background:var(--surface);border:1px solid var(--line);font-size:14px;color:var(--ink-2);}
-.share-how li::before{content:counter(sh);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--blue-tint);color:var(--blue);font-size:12px;font-weight:800;}
-.share-how li + li::after{content:'→';position:absolute;left:-17px;color:var(--faint);}
-@media (max-width:560px){.share-how li + li::after{content:none;}}
+.share-how{margin-bottom:16px;font-size:clamp(12px,1.2vw,14px);line-height:1.8;color:var(--ink-2);white-space:nowrap;overflow-x:auto;}
 .board iframe{display:block;width:100%;height:900px;border:1px solid var(--line);border-radius:var(--r-xl);background:var(--surface);}
 .board iframe.fit{border-color:transparent;background:transparent;}
 .board-off{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:var(--r-xl);border:1.5px dashed var(--line);background:var(--surface);}
@@ -6630,17 +6626,18 @@ if (document.readyState === 'loading') {
       <div class="stage-grid">
         <aside class="rail"><div class="rail-card">
         <div class="prog"><div class="prog-t"><b class="prog-n">1</b> / 3 단계</div><div class="prog-bar"><i></i></div></div>
-        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">조합 예시<small>하나만 골라 시작</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">나의 앱 아이디어<small>기획서와 프롬프트</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">나누기<small>공동 아이디어 게시판</small></span></button></li></ol>
+        <ol class="steps"><li><button type="button" data-go="1"><span class="k">1</span><span class="t">방향 설정<small>연수의 네 가지 줄기</small></span></button></li><li><button type="button" data-go="2"><span class="k">2</span><span class="t">나의 앱 아이디어<small>기획서와 프롬프트</small></span></button></li><li><button type="button" data-go="3"><span class="k">3</span><span class="t">나누기<small>공동 아이디어 게시판</small></span></button></li></ol>
         <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> 이동</span><span><kbd>Ctrl</kbd><kbd>K</kbd> 찾기</span></div></div></aside>
         <div class="panes">
           <article class="pane" data-step="1">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">extension</span>조합 예시</span><h2>교실에서 해 보고 싶은 일 하나만 골라요</h2><p>처음부터 여러 기능을 넣지 않아도 괜찮아요. 아래처럼 작게 시작해 보세요.</p></header>
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">extension</span>방향 설정</span><h2>방향을 설정해보세요</h2></header>
             <div class="idea-examples">
-              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">menu_book</span><h3>독서 기록 모으기</h3><p>읽은 책과 한 줄 감상을 남기고,<br />지난 기록을 다시 봐요.</p></div>
-              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">forum</span><h3>우리 반 의견 나누기</h3><p>질문 하나에 의견을 적고,<br />친구의 생각을 함께 읽어요.</p></div>
-              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">search</span><h3>궁금한 낱말 찾아보기</h3><p>궁금한 낱말을 입력하고,<br />위키백과 자료를 읽어요.</p></div>
+              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">history</span><h3>기록</h3><p>기록을 쌓고,<br />지난 내용을 다시 돌아봐요.</p></div>
+              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">forum</span><h3>소통</h3><p>생각을 나누고,<br />서로의 의견을 함께 봐요.</p></div>
+              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">travel_explore</span><h3>외부데이터</h3><p>바깥의 자료를 가져와,<br />새로운 정보와 연결해요.</p></div>
+              <div class="mini"><span class="ic material-icons-outlined" aria-hidden="true">description</span><h3>구글도구</h3><p>구글 도구를 연결해,<br />문서 같은 결과물을 만들어요.</p></div>
             </div>
-            <p class="as-note"><span class="material-icons-outlined" aria-hidden="true">lightbulb</span>내 교실에 맞게 하나를 바꿔도 좋아요. 문서 만들기 같은 기능은 첫 버전을 써 본 뒤 더해 보세요.</p>
+            <p class="as-note"><span class="material-icons-outlined" aria-hidden="true">lightbulb</span>꼭 위의 기능이 아니더라도 좋습니다. 자유롭게 상상해보세요.</p>
             <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/net/2"><small>다음</small>나의 앱 아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane" data-step="2" id="st-2">
@@ -6699,17 +6696,12 @@ if (document.readyState === 'loading') {
               </section>
               <p class="share-hint"><span class="material-icons-outlined" aria-hidden="true">arrow_downward</span>기획서를 복사해 아래 ‘나누기’ 게시판에 붙여넣어 보세요.</p>
             </div>
-            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/net/1"><span class="material-icons-outlined">arrow_back</span>조합 예시</a><a class="btn btn-ink btn-sm nx" href="#/net/3"><small>다음</small>나누기<span class="material-icons-outlined">arrow_forward</span></a></nav>
+            <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/net/1"><span class="material-icons-outlined">arrow_back</span>방향 설정</a><a class="btn btn-ink btn-sm nx" href="#/net/3"><small>다음</small>나누기<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane" data-step="3" id="st-3">
             <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">forum</span>나누기</span><h2>우리의 앱 아이디어를 나눕니다</h2>
               <p>기획서, 자유로운 이야기, 완성한 앱을 함께 나눠 보세요.</p></header>
-            <ol class="share-how">
-              <li>기획서 붙여넣기 또는 <b>자유롭게 글쓰기</b></li>
-              <li>완성한 앱은 <b>링크도 함께</b> 넣기 <span class="dim">(선택)</span></li>
-              <li><b>아이디어 공유하기</b></li>
-              <li>서로의 기획 둘러보기</li>
-            </ol>
+            <p class="share-how">글 작성 → 앱 링크 추가(선택) → 공유 → 둘러보기</p>
             <div class="board" id="board">
               <div class="board-off" id="boardOff">
                 <span class="material-icons-outlined">link_off</span>

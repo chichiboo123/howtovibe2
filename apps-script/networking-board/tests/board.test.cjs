@@ -72,3 +72,29 @@ test('manually inserted unsafe sheet links never reach clients as clickable link
   const {api, rows} = createRuntime(); api.addPost(PLAN, ''); rows[1][13] = 'javascript:alert(1)';
   assert.equal(api.listPosts()[0].appUrl, '');
 });
+test('optional author names round-trip and can be edited or cleared', () => {
+  const {api} = createRuntime();
+  const anonymous = api.addPost('이름 없이 나눕니다.', ''); assert.equal(anonymous.post.author, '');
+  const {post, key} = api.addPost(PLAN, '', '', '  책친구  '); assert.equal(post.author, '책친구');
+  assert.equal(api.listPosts().find(p => p.id === post.id).author, '책친구');
+  assert.equal(api.updatePost(post.id, key, PLAN + '\n[입력] 책 제목').author, '책친구');
+  assert.equal(api.updatePost(post.id, key, PLAN, '', '구름').author, '구름');
+  assert.equal(api.updatePost(post.id, key, PLAN, '', '').author, '');
+});
+test('existing 14-column rows gain an empty author without losing links or ownership', () => {
+  const initial = createRuntime(); const {post, key} = initial.api.addPost(PLAN, '', 'https://example.com');
+  const {api, rows} = createRuntime({rows: initial.rows.map(row => row.slice(0, 14))}); api.setup();
+  assert.equal(rows[0][14], 'author'); assert.equal(api.listPosts()[0].author, '');
+  const edited = api.updatePost(post.id, key, PLAN, undefined, '별명');
+  assert.equal(edited.author, '별명'); assert.equal(edited.appUrl, 'https://example.com');
+});
+test('author limits, safe text storage, duplicate detection and edit keys apply', () => {
+  const {api, rows} = createRuntime();
+  assert.throws(() => api.addPost('글', '', '', '가'.repeat(41)), /작성자|40/);
+  const {post, key} = api.addPost('글', '', '', '=별명'); assert.equal(post.author, '=별명');
+  assert(rows[1][14].startsWith("'="));
+  assert.throws(() => api.addPost('글', '', '', '다른 이름'), /이미/);
+  assert.throws(() => api.updatePost(post.id, 'wrong-key', '글', '', '위조'), /권한/);
+  assert.throws(() => api.updatePost(post.id, key, '글', '', '가'.repeat(41)), /작성자|40/);
+  assert.equal(api.listPosts()[0].author, '=별명');
+});
