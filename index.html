@@ -2661,66 +2661,89 @@ if (document.readyState === 'loading') {
             <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m2/2"><small>다음</small>핵심기능<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-t" data-step="2" id="m2-t">
-            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>의견을 붙이고, 친구 생각에 공감해요</h2><p>같은 링크로 들어온 친구들과 하나의 보드를 사용해요.</p></header>
+            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>의견을 붙이고, 친구 생각에 공감해요</h2><p>교사가 방을 열고, 같은 수업 코드로 들어온 친구들과 하나의 보드를 써요.</p></header>
             <ol class="lesson-flow" aria-label="앱 사용 흐름">
-              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">note_add</span><h3>내 의견을 카드로 붙이기</h3><p>카드 색을 고르고 의견을 적어 보내요. 150자 안에서 짧게 써요.</p><div class="lesson-example"><small>예를 들면</small>오늘의 질문: 쉬는 시간에 무엇을 할까? → “보드게임”</div></li>
-              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">dashboard</span><h3>친구의 카드 함께 보기</h3><p>친구가 올린 의견도 내 화면에 나타나요. 약 5초마다 새 카드를 불러와요.</p><div class="lesson-example"><small>예를 들면</small>내 카드 “보드게임” + 친구 카드 “산책”</div></li>
-              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">favorite_border</span><h3>공감하고 모아 보기</h3><p>마음에 드는 카드의 ♥를 눌러요. 공감순으로 바꾸면 공감을 많이 받은 의견부터 보여요.</p><div class="lesson-example"><small>예를 들면</small>“보드게임” ♥ 2 → 공감 누르기 → ♥ 3</div></li>
+              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">qr_code_2</span><h3>교사 · 방 만들고 초대하기</h3><p>교사 PIN으로 수업 코드와 오늘의 질문을 정하면, QR과 링크가 나와요. 전자칠판에 띄워 학생을 초대해요.</p><div class="lesson-example"><small>예를 들면</small>5-1 · “쉬는 시간에 무엇을 할까?” → QR 띄우기</div></li>
+              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">note_add</span><h3>학생 · 포스트잇 붙이고 공감하기</h3><p>+ 글쓰기로 색·제목·내용(200자)을 적어 붙여요. 5초마다 친구 카드가 나타나고, ♥로 공감해요. 내 글은 고치거나 지울 수 있어요.</p><div class="lesson-example"><small>예를 들면</small>“보드게임” 붙이기 → 친구 카드 ♥</div></li>
+              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">dashboard</span><h3>교사 · 정리하고 한눈에 보기</h3><p>교사 모드에서 카드 순서를 끌어 바꾸고, 질문을 바꿔요. 통합 대시보드로 모든 반의 카드 수와 공감을 봐요.</p><div class="lesson-example"><small>예를 들면</small>카드 끌어 놓기 → 학생 화면도 같은 순서</div></li>
             </ol>
-            <p class="as-note"><span class="material-icons-outlined" aria-hidden="true">lightbulb</span>교사가 수업 코드와 질문을 담은 링크를 나눠 주면, 모두 같은 질문에서 시작해요.</p>
+            <p class="as-note"><span class="material-icons-outlined" aria-hidden="true">lightbulb</span>교사 PIN은 Code.gs에만 있고 서버에서 확인해요. 붙여넣기 전에 <b>TEACHER_PIN</b>의 1234를 꼭 바꾸세요.</p>
             <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
-              <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m2_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m2_prompt">우리 반이 함께 쓰는 '우리반 의견보드' 웹앱을 구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
+              <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m2_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m2_prompt">패들렛처럼 의견 카드를 붙이고 실시간으로 함께 보는 '우리 반 의견보드' 웹앱을
+구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
 
 [문제상황]
-토론 때 손 드는 학생만 말하고, 칠판 포스트잇은 앞자리에서만 보여. 시중의 보드는 무료 계정에 생성 한도가 있어.
+손 드는 몇 명만 말하고, 칠판 포스트잇은 앞자리에서만 보이고 곧 떼어져.
+시중의 보드는 무료 계정에서 생성 한도가 있어. 우리 반 모두의 생각이 한 화면에서 만나게 하고 싶어.
 
-[학생이 하는 일]
-- 수업 코드로 들어와 의견을 카드로 붙인다. (150자 이내, 카드 색 4가지 중 선택)
-- 다른 사람이 붙인 카드도 모두 보이고, 카드마다 ♥ 공감을 누를 수 있다.
-- 최신순 / 공감순으로 정렬할 수 있다.
+[첫 화면 — 입장]
+- [학생 입장] / [교사 방 만들기] 두 탭.
+- 학생: 수업 코드(예: 5-1)를 입력하고 [보드 입장하기].
+- 교사: 수업 코드 + 교사 비밀번호(PIN) + 오늘의 질문(선택)을 입력하고 [교사 권한으로 방 개설하기].
+  PIN 이 맞으면 질문을 저장하고 보드로 들어가 '학생 초대' 창을 바로 열어줘.
+- 마지막으로 들어간 수업 코드는 localStorage 에 기억하고, 주소의 ?room= 으로 들어오면 그 방으로 바로 들어가게 해줘
+  (google.script.url.getLocation 으로 읽기, 들어간 뒤 google.script.history.replace 로 주소에 room 남기기).
+- 서버 연결 상태(정상 / 시트 연결 실패 / 시간 초과)를 보여주는 칸과 [연결 상태 다시 확인] 버튼.
+- [통합 교사 대시보드 열기] 버튼: PIN 확인 후, 모든 수업 코드의 질문 · 카드 수 · 총 공감 · 최근 활동 시각을 표로 보여주고
+  방마다 [바로가기] · [초기화](모든 카드 삭제, 확인 후) 버튼.
 
-[실시간 소통 — 이 앱의 핵심]
-- 카드는 스프레드시트 한 장에 모두 저장하고, 모두가 같은 보드를 보게 해줘.
-- 화면은 5초마다 다시 불러와서, 새로고침하지 않아도 다른 사람의 카드가 나타나게 해줘.
-  새로 붙은 카드는 잠깐 눈에 띄게. 탭이 안 보일 때는 불러오기를 멈춰줘.
-- 공감은 시트에서 그 카드의 줄을 찾아 숫자만 1 올려줘.
-  동시에 눌러도 숫자가 사라지지 않게 LockService 로 잠그고,
-  쓰기를 마치면 SpreadsheetApp.flush() 뒤에 잠금을 풀어줘. 오류가 나도 잠금은 반드시 풀어줘.
-- 공감은 서버 저장이 확인된 뒤에만 '공감함'으로 표시해줘. 실패하면 임시로 올린 숫자를 되돌리고
-  서버에서 다시 불러와서, 다시 누를 수 있게 해줘.
-- 공감마다 요청 번호를 붙이고, 같은 번호가 다시 오면(응답만 끊긴 경우) 한 번만 세게 해줘.
+[보드 화면]
+- 위쪽 고정 바: 보드 이름 · 수업 코드 · 카드 수 · '5초 자동 동기화' 표시,
+  [학생 초대(QR·링크)] [교사 모드] [질문 변경(교사 모드에서만)] [방 바꾸기] 버튼.
+- 오늘의 질문이 있으면 진한 배너로 크게 보여줘.
+- 정렬: 기본(교사가 정한 배치순) · 최신순 · 공감순.
+- 카드는 격자로: 위쪽 색 띠, 시각, '내 글' 표시, 제목(선택), 내용, ♥ 공감 버튼과 숫자.
+- 오른쪽 아래 둥근 [+ 글쓰기] 버튼 → 작성 창: 카드 색 5가지(흰색·노랑·파랑·분홍·초록), 제목(40자), 내용(필수, 200자, 글자 수 표시), [포스트잇 붙이기].
+- 내가 쓴 카드에만 [수정] [삭제](한 번 더 눌러 확인) 버튼.
+  브라우저마다 무작위 작성자 토큰을 만들어 localStorage 에 두고 카드와 함께 저장해.
+  서버는 목록을 돌려줄 때 토큰은 보내지 말고 isMine(내 글인지) 만 알려줘.
+- 공감은 카드마다 한 번만(공감한 카드 id 를 localStorage 에 기억). 저장에 실패하면 표시를 되돌려 다시 누를 수 있게.
+- 5초마다 보드를 다시 불러오고, 탭이 안 보이면 멈췄다가 돌아오면 바로 불러와. 새로 들어온 카드는 잠깐 강조해줘.
+- 방을 바꾸면 이전 방의 늦은 응답은 화면에 반영하지 마.
+- 학생 초대 창: 큰 수업 코드, QR 코드 그림(https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;data=주소), 링크와 [링크 복사].
+  링크는 ScriptApp.getService().getUrl() + '?room=수업코드'.
 
-[질문 띄우기]
-- 처음 화면에서 '오늘의 질문'을 선택으로 적을 수 있게 하고,
-  공유 링크에 ?room= 과 ?q= 로 함께 담아줘.
+[교사 모드]
+- [교사 모드]를 누르면 PIN 입력 창(비밀번호 칸). 맞으면 모든 카드 수정·삭제, 질문 변경이 가능하고 안내 띠를 보여줘.
+- 기본 정렬에서 카드를 끌어 놓거나 [맨 앞으로] [앞으로 한 칸] [뒤로 한 칸] 버튼으로 순서를 바꾸면 학생 화면에도 반영.
+- PIN 은 Code.gs 의 TEACHER_PIN 상수에만 두고 HTML 에는 절대 넣지 마. 확인은 언제나 서버에서.
+  교사 기능(대시보드 · 초기화 · 질문 저장 · 순서 저장 · 남의 카드 수정·삭제)은 서버 함수마다 PIN 을 다시 검사해줘.
+  PIN 은 localStorage 에 저장하지 마.
 
-[학생 구분]
-- 완전 익명. 이름 · 로그인 없음. 수정 · 삭제 버튼도 만들지 마.
-- 한 브라우저에서 같은 카드에 공감은 한 번만 누르게 해줘.
-  (브라우저 기록 기준이라 다른 기기·시크릿 창까지 막지는 못해. 그렇게 설명해줘.)
+[시트 — 이 앱의 기록]
+- '의견보드_기록' 시트: [ID, 등록시각, 수업코드, 제목, 내용, 색상, 공감수, 작성자토큰, 정렬순서]
+- '의견보드_질문설정' 시트: [수업코드, 오늘의질문, 수정시각] (수업 코드마다 한 줄)
+- 수업 코드 열은 텍스트 서식(@)으로, 5-1 이 날짜로 바뀌지 않게. 이미 날짜로 바뀐 값도 '월-일'로 되돌려 읽어줘.
+- 제목·내용은 앞에 ' 를 붙여 글자 그대로 저장해줘 (= 로 시작해도 수식이 되지 않게).
+- 등록시각은 Date 로 저장하고, 화면에는 Asia/Seoul 기준 HH:mm 으로.
+- 쓰기·수정·삭제·공감·순서 저장·초기화는 LockService 로 잠그고, 끝나면 SpreadsheetApp.flush() 뒤 잠금을 풀어줘(오류가 나도 반드시).
+- 색상은 서버에서도 5가지 중 하나인지 검사, 제목 40자 · 내용 200자도 서버에서 다시 검사.
 
 [시트 연결 — 배포 후에도 같은 시트에]
 - 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야.
-- setup 은 편집기에서 실행하고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘.
-  다시 실행해도 기존 카드는 지우지 마.
-- 웹앱의 저장·조회 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
-- 학생 입력은 수식이 되거나 수업 코드가 날짜·숫자로 바뀌지 않게 글자(텍스트)로 저장해줘.
+- setup 을 편집기에서 실행하면 시트를 만들고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘.
+  (따로 만든 프로젝트라면 새 스프레드시트를 만들어 그 ID를 저장) 다시 실행해도 기록은 지우지 마.
+- 웹앱 함수는 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
 
 [기술 조건]
-- Code.gs 와 index.html 두 파일, doGet 으로 서비스, google.script.run 사용.
-- 서버는 Date 대신 문자열로 돌려주고, 글자 수 검사는 서버에서도 해줘.
-- 카드 글은 textContent 로 화면에 넣어줘.
-- 수업 코드를 바꾸면 이전 반의 늦은 응답은 화면에 반영하지 마.
+- Code.gs 와 index.html 두 파일. doGet 은 createHtmlOutputFromFile('index') 로 서비스.
+- 서버 함수: setup, doGet, getAppStatus, verifyTeacherPin, getAllRoomsDashboard, clearRoomCards, saveRoomQuestion,
+  submitOpinion, updateOpinion, deleteOpinion, updateCardOrder, getBoardData, incrementLike.
+- 화면에서 서버는 google.script.run 으로 부르고, 서버는 Date 대신 글자로 돌려줘.
+- 학생 글은 textContent 로 화면에 넣어줘. innerHTML 로 표를 만들 때는 모든 값을 escape.
+- 화면 스크립트가 멈추면 빨간 안내 상자로 원인을 보여줘.
 
 [아이콘 — 그대로 지켜줘]
-- 아이콘은 Material Symbols Outlined 하나만 써. &lt;head&gt;에 이 줄을 그대로 넣어줘.
-  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
+- 아이콘은 Material Symbols Outlined 하나만 써. 공감 하트를 채우기 위해 FILL 축이 있는 이 줄을 &lt;head&gt;에 그대로 넣어줘.
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /&gt;
 - 아이콘은 &lt;span class="material-symbols-outlined"&gt;아이콘이름&lt;/span&gt; 으로만 쓰고, 다른 아이콘 class 와 섞지 마.
-- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body, button, input, textarea 에만 지정해줘.
+  채운 아이콘은 font-variation-settings 의 'FILL' 1 로.
+- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body 에만 지정해줘.
 - 아이콘 이름은 fonts.google.com/icons 에 있는 것만 써줘.
 
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 파스텔 포스트잇 카드, 넓은 화면에서는 여러 줄로.</pre></div></div></details>
+- 제목 폰트 Black Han Sans, 본문 Pretendard GOV. 점무늬 캔버스 배경, 둥근 카드, 남색·분홍 그라디언트 포인트.
+- 넓은 화면에서는 여러 줄 격자, 휴대폰에서는 한 줄. 전자칠판에 띄워도 잘 보이게.</pre></div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m2/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m2-s2">
@@ -2728,163 +2751,537 @@ if (document.readyState === 'loading') {
             <ol class="act">
               <li><b>이 실습 전용</b> 새 시트(<a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a>) → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[2] 우리반 의견보드</b></li>
-              <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
+              <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → 맨 위 <b>TEACHER_PIN</b>의 <code>1234</code>를 나만 아는 번호로 → <b>저장</b></li>
             </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">code</span></span>
             <span class="cb-nm"><b>Code.gs</b><span>기본으로 있는 파일에 붙여넣기</span></span>
             <button class="copy" type="button" data-copy="m2_gs"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m2_gs">/**
- * [2] 실시간 소통 — 우리반 의견보드 : 서버 코드 (Code.gs)
+ * [2] 실시간 소통 — 우리 반 의견보드 : 서버 코드 (Code.gs)
  * 바이브코딩 : 포스트시즌
  *
  * 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 연 프로젝트에 붙여넣으세요.
- *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
- *  2) 위쪽 함수 목록에서 setup 을 골라 [실행] (권한 승인 창이 뜨면 허용)
+ *  1) 아래 TEACHER_PIN 의 1234 를 나만 아는 번호로 바꾸기
+ *  2) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
+ *  3) 위쪽 함수 목록에서 setup 을 골라 [실행] (권한 승인 창이 뜨면 허용)
  *     → 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장합니다.
- *  3) [배포] → 새 배포 → 유형: 웹 앱
- *        실행 계정   : 나
- *        액세스 권한 : 모든 사용자
- *  4) 나오는 주소(/exec 로 끝나는 주소)가 곧 앱 주소입니다.
+ *  4) [배포] → 새 배포 → 유형: 웹 앱 / 실행 계정: 나 / 액세스 권한: 모든 사용자
+ *  5) 나오는 주소(/exec)를 열어 [교사 방 만들기]로 수업 코드와 질문을 정하고, QR·링크로 학생을 초대합니다.
  *
  * 코드를 고친 뒤에는 [배포] → 배포 관리 → 수정 → 버전: 새 버전 → 배포
  */
 
-var SHEET_NAME = 'cards';
-var HEADERS = ['id', 'created_at', 'room_code', 'text', 'color', 'likes'];
-var CARD_COLORS = ['yellow', 'green', 'pink', 'blue'];   // 화면의 COLORS 이름과 같아야 합니다
-var MAX_CARDS = 300;                                 // 한 수업 코드에서 돌려줄 최대 카드 수
+const SHEET_NAME = '의견보드_기록';
+const META_SHEET_NAME = '의견보드_질문설정';
+const TIMEZONE = 'Asia/Seoul';
+
+// 교사 전용 마스터 비밀번호: 외부 공개 전에 반드시 1234를 다른 비밀번호로 변경하세요.
+const TEACHER_PIN = '1234';
+
+const ALLOWED_COLORS = ['white', 'yellow', 'blue', 'pink', 'green'];
 
 /**
- * 학생 입력을 언제나 '글자 그대로' 저장합니다.
- * 앞에 ' 를 붙이지 않으면 시트가 5-3 은 날짜로, 0503 은 숫자 503 으로 바꾸고
- * = 로 시작하는 글은 수식으로 실행합니다. ' 는 칸에 보이지 않고, 읽을 때도 빠집니다.
+ * 학생 글을 '글자 그대로' 저장합니다.
+ * 앞에 ' 를 붙이지 않으면 = 로 시작하는 글은 수식으로 실행되고, 0503 은 숫자 503 으로 바뀝니다.
+ * ' 는 칸에 보이지 않고, 읽을 때도 빠집니다.
  */
-function sheetText_(value) {
-  var text = String(value == null ? '' : value);
+function asText_(value) {
+  const text = String(value == null ? '' : value);
   return text ? "'" + text : '';
 }
 
-/**
- * 카드를 저장할 시트를 엽니다.
- * 웹앱으로 열리면 '지금 열린 스프레드시트'가 없으므로, setup 이 저장해 둔 ID 로 엽니다.
- * 시트가 없으면 만들고 머리글을 넣습니다. 이미 있는 카드는 건드리지 않습니다.
- */
-function ensureSheet_() {
-  var id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
-  if (!id) throw new Error('먼저 이 실습의 스프레드시트에서 setup 을 실행해 주세요.');
-  var ss = SpreadsheetApp.openById(id);
-  var sh = ss.getSheetByName(SHEET_NAME);
-  if (!sh) sh = ss.insertSheet(SHEET_NAME);
-  if (sh.getLastRow() === 0) {
-    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
-    sh.setFrozenRows(1);
-    sh.setColumnWidth(4, 320);
+function normalizeRoomCode(val) {
+  if (val instanceof Date) {
+    return (val.getMonth() + 1) + '-' + val.getDate();
   }
-  return sh;
+  return String(val || '').replace(/^["']+|["']+$/g, '').trim();
 }
 
-/** 처음 한 번, 이 스프레드시트의 편집기에서 실행하세요. 다시 실행해도 카드는 지워지지 않습니다. */
+/**
+ * 스프레드시트 연결: 시트에 연결된 프로젝트와 독립형 프로젝트를 모두 지원합니다.
+ * 독립형 프로젝트에서는 먼저 편집기에서 setup()을 1회 실행하세요.
+ */
+function getDataSpreadsheet_() {
+  const id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (id) {
+    try {
+      return SpreadsheetApp.openById(id);
+    } catch (err) {
+      throw new Error('연결된 스프레드시트를 열 수 없습니다. SPREADSHEET_ID 또는 파일 접근 권한을 확인해주세요. ' + err.message);
+    }
+  }
+  const active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
+  throw new Error('데이터 시트가 연결되지 않았습니다. Apps Script 편집기에서 setup()을 한 번 실행한 뒤 웹앱을 새로고침하세요.');
+}
+
+function ensureSheet() {
+  const ss = getDataSpreadsheet_();
+
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+  }
+  
+  const headers = ['ID', '등록시각', '수업코드', '제목', '내용', '색상', '공감수', '작성자토큰', '정렬순서'];
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#E2E8F0');
+    sheet.setFrozenRows(1);
+    sheet.getRange('C:C').setNumberFormat('@');
+  }
+
+  let metaSheet = ss.getSheetByName(META_SHEET_NAME);
+  if (!metaSheet) {
+    metaSheet = ss.insertSheet(META_SHEET_NAME);
+  }
+  if (metaSheet.getLastRow() === 0) {
+    metaSheet.getRange(1, 1, 1, 3).setValues([['수업코드', '오늘의질문', '수정시각']]);
+    metaSheet.getRange(1, 1, 1, 3).setFontWeight('bold').setBackground('#E2E8F0');
+    metaSheet.setFrozenRows(1);
+    metaSheet.getRange('A:A').setNumberFormat('@');
+  }
+  
+  return { sheet, metaSheet };
+}
+
+/**
+ * 처음 설치할 때 1회 실행합니다.
+ * - 구글 시트에 연결된 프로젝트: 연결된 시트를 사용
+ * - 독립형 프로젝트: Drive에 데이터 스프레드시트를 새로 만들고 ID를 저장
+ * 실행 로그에서 '데이터 시트 주소'를 확인할 수 있습니다.
+ */
 function setup() {
-  var ss = SpreadsheetApp.getActive();
-  if (!ss) throw new Error('이 실습의 스프레드시트에서 [확장 프로그램 → Apps Script]로 연 뒤 setup 을 실행해 주세요.');
-  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', ss.getId());
-  ensureSheet_();
-  Logger.log('준비 완료 — 이 스프레드시트의 ' + SHEET_NAME + ' 시트에 카드를 저장합니다.');
-  return 'ok';
-}
-
-/** 앱 화면을 서비스합니다 */
-function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('우리 반 의견 보드')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
-}
-
-/** 화면이 '링크 복사'에 쓸 앱 주소 */
-function getAppUrl() {
-  return ScriptApp.getService().getUrl();
-}
-
-/** 의견 카드 한 장을 붙이고, 새 목록을 돌려줍니다 */
-function addCard(payload) {
-  var room = String((payload &amp;&amp; payload.room) || '').trim().slice(0, 40);
-  var text = String((payload &amp;&amp; payload.text) || '').trim().slice(0, 150);
-  var color = String((payload &amp;&amp; payload.color) || '');
-  if (!room) throw new Error('수업 코드가 없습니다.');
-  if (!text) throw new Error('의견을 적어주세요.');
-  if (CARD_COLORS.indexOf(color) &lt; 0) color = CARD_COLORS[0];
-
-  var lock = LockService.getScriptLock();
-  lock.waitLock(20000);            // 여러 명이 동시에 눌러도 줄이 겹치지 않게
-  try {
-    ensureSheet_().appendRow([Utilities.getUuid(), new Date(), sheetText_(room), sheetText_(text), color, 0]);
-  } finally {
-    // 시트에 다 쓴 뒤 잠금을 풉니다. 오류가 나도 잠금은 반드시 풉니다.
-    try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
+  const props = PropertiesService.getScriptProperties();
+  let ss;
+  const savedId = props.getProperty('SPREADSHEET_ID');
+  if (savedId) {
+    ss = SpreadsheetApp.openById(savedId);
+  } else {
+    ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) ss = SpreadsheetApp.create('우리 반 의견보드 데이터');
+    // 시트에 연결된 프로젝트도 ID를 저장합니다. 웹앱에서는 '지금 열린 시트'를 믿을 수 없기 때문입니다.
+    props.setProperty('SPREADSHEET_ID', ss.getId());
   }
-  return getCards({ room: room });
+  ensureSheet();
+  const url = ss.getUrl();
+  Logger.log('설정 완료. 데이터 시트 주소: ' + url);
+  return { success: true, spreadsheetUrl: url };
 }
 
 /**
- * 공감(♥) 하나를 더합니다.
- * '읽고 → 1 더하고 → 다시 쓰기' 라서, 두 명이 동시에 누르면 하나가 사라질 수 있습니다.
- * 그래서 잠금(LockService)을 걸고 한 명씩 차례로 처리합니다.
- *
- * reqId: 화면이 공감마다 붙이는 요청 번호입니다. 저장은 됐는데 응답만 끊겨
- * 화면이 같은 공감을 다시 보내면, 같은 번호는 한 번만 셉니다. (번호는 6시간 기억)
+ * HTML을 원본 그대로 서비스합니다.
+ * 이 방식은 HTML 안의 &lt;?!= ... ?&gt; 미치환으로 버튼 전체가 멈추던 문제를 예방합니다.
  */
-function likeCard(payload) {
-  var id = String((payload &amp;&amp; payload.id) || '').trim();
-  var room = String((payload &amp;&amp; payload.room) || '').trim().slice(0, 40);
-  var reqId = String((payload &amp;&amp; payload.reqId) || '').replace(/[^\w-]/g, '').slice(0, 64);
-  if (!id) throw new Error('카드를 찾지 못했습니다.');
+function doGet(e) {
+  return HtmlService.createHtmlOutputFromFile('index')
+    .setTitle('우리 반 의견보드')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1.0');
+}
 
-  var cache = CacheService.getScriptCache();
-  var lock = LockService.getScriptLock();
-  lock.waitLock(20000);
+/**
+ * 브라우저와 데이터 시트의 연결 점검용 API.
+ * 초기화가 안 되었거나 배포 권한이 틀리면 실패 사유를 사용자에게 보여줍니다.
+ */
+function getAppStatus() {
+  let serviceUrl = '';
+  try { serviceUrl = ScriptApp.getService().getUrl() || ''; } catch (err) {}
   try {
-    if (!(reqId &amp;&amp; cache.get('like:' + reqId))) {
-      var sh = ensureSheet_();
-      var cell = sh.getRange('A:A').createTextFinder(id).matchEntireCell(true).findNext();
-      // 같은 수업 코드의 카드일 때만 공감을 더합니다
-      if (cell &amp;&amp; String(sh.getRange(cell.getRow(), 3).getValue()).trim() === room) {
-        var likeCell = sh.getRange(cell.getRow(), 6);
-        likeCell.setValue((Number(likeCell.getValue()) || 0) + 1);
-        if (reqId) { try { cache.put('like:' + reqId, '1', 21600); } catch (e) {} }
+    const { sheet, metaSheet } = ensureSheet();
+    return {
+      ok: true,
+      message: '구글 시트 연결 정상',
+      serviceUrl: serviceUrl,
+      version: 'v4.0'
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      message: err &amp;&amp; err.message ? err.message : String(err),
+      serviceUrl: serviceUrl,
+      version: 'v4.0'
+    };
+  }
+}
+
+function verifyTeacherPin(pin) {
+  const isValid = String(pin || '').trim() === TEACHER_PIN;
+  return { valid: isValid };
+}
+
+/**
+ * [교사 대시보드] 스프레드시트에 기록된 모든 방(수업코드) 목록과 통계 요약 조회
+ */
+function getAllRoomsDashboard(teacherPin) {
+  if (String(teacherPin || '').trim() !== TEACHER_PIN) {
+    throw new Error('교사 권한이 필요합니다.');
+  }
+
+  const { sheet, metaSheet } = ensureSheet();
+  const roomMap = {};
+
+  // 1. 질문 설정 시트에서 방별 질문 수집
+  const metaLastRow = metaSheet.getLastRow();
+  if (metaLastRow &gt; 1) {
+    const metaRows = metaSheet.getRange(2, 1, metaLastRow - 1, 2).getValues();
+    for (let i = 0; i &lt; metaRows.length; i++) {
+      const r = normalizeRoomCode(metaRows[i][0]);
+      if (r) {
+        roomMap[r] = {
+          room: r,
+          question: String(metaRows[i][1] || '').replace(/^["']+|["']+$/g, '').trim(),
+          cardCount: 0,
+          totalLikes: 0,
+          lastActive: '-'
+        };
       }
     }
+  }
+
+  // 2. 의견 기록 시트에서 카드 통계 수집
+  const lastRow = sheet.getLastRow();
+  if (lastRow &gt; 1) {
+    const rows = sheet.getRange(2, 1, lastRow - 1, 9).getValues();
+    for (let i = 0; i &lt; rows.length; i++) {
+      const rId = String(rows[i][0] || '').trim();
+      const rawTime = rows[i][1];
+      const rRoom = normalizeRoomCode(rows[i][2]);
+      const rLikes = Number(rows[i][6]) || 0;
+
+      if (rRoom &amp;&amp; rId) {
+        if (!roomMap[rRoom]) {
+          roomMap[rRoom] = {
+            room: rRoom,
+            question: '(등록된 질문 없음)',
+            cardCount: 0,
+            totalLikes: 0,
+            lastActive: '-'
+          };
+        }
+        roomMap[rRoom].cardCount++;
+        roomMap[rRoom].totalLikes += rLikes;
+
+        let timeStr = '';
+        if (rawTime instanceof Date) {
+          timeStr = Utilities.formatDate(rawTime, TIMEZONE, 'yyyy-MM-dd HH:mm');
+        } else if (typeof rawTime === 'string') {
+          timeStr = rawTime;
+        }
+        if (timeStr &amp;&amp; (roomMap[rRoom].lastActive === '-' || timeStr &gt; roomMap[rRoom].lastActive)) {
+          roomMap[rRoom].lastActive = timeStr;
+        }
+      }
+    }
+  }
+
+  return Object.values(roomMap).sort((a, b) =&gt; b.lastActive.localeCompare(a.lastActive));
+}
+
+/**
+ * 교사 권한으로 특정 방의 모든 카드 일괄 삭제 (방 초기화)
+ */
+function clearRoomCards(roomCode, teacherPin) {
+  if (String(teacherPin || '').trim() !== TEACHER_PIN) {
+    throw new Error('교사 권한이 필요합니다.');
+  }
+  const targetRoom = normalizeRoomCode(roomCode);
+  const lock = LockService.getScriptLock();   // 지우는 동안 새 글이 들어와 줄 번호가 밀리지 않게
+  lock.waitLock(30000);
+  try {
+    const { sheet } = ensureSheet();
+    const lastRow = sheet.getLastRow();
+    if (lastRow &lt;= 1) return { success: true };
+
+    const rows = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+    // 아래에서부터 삭제해야 행 번호가 밀리지 않음
+    for (let i = rows.length - 1; i &gt;= 0; i--) {
+      if (normalizeRoomCode(rows[i][2]) === targetRoom) {
+        sheet.deleteRow(i + 2);
+      }
+    }
+    SpreadsheetApp.flush();
+    return { success: true };
   } finally {
-    try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
+    lock.releaseLock();
   }
-  return getCards({ room: room });
 }
 
-/** 같은 수업 코드의 카드를 최신순으로 돌려줍니다 */
-function getCards(arg) {
-  var room = String((arg &amp;&amp; arg.room) || '').trim().slice(0, 40);
-  var sh = ensureSheet_();
-  var out = [];
-  if (!room || sh.getLastRow() &lt; 2) return out;
-
-  var values = sh.getRange(2, 1, sh.getLastRow() - 1, HEADERS.length).getValues();
-  for (var i = values.length - 1; i &gt;= 0; i--) {       // 최신 줄부터 봅니다
-    var r = values[i];
-    if (!r[0] || String(r[2]).trim() !== room) continue;
-    out.push({
-      id: String(r[0]),
-      at: new Date(r[1]).toISOString(),
-      text: String(r[3]),
-      color: String(r[4]),
-      likes: Number(r[5]) || 0
-    });
-    if (out.length &gt;= MAX_CARDS) break;
+function saveRoomQuestion(roomCode, question, teacherPin) {
+  if (String(teacherPin || '').trim() !== TEACHER_PIN) {
+    throw new Error('교사 비밀번호(PIN)가 올바르지 않습니다.');
   }
-  return out;
+  const rCode = normalizeRoomCode(roomCode);
+  const qText = String(question || '').replace(/^["']+|["']+$/g, '').trim();
+  if (!rCode) throw new Error('수업 코드가 없습니다.');
+
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(15000);
+    const { metaSheet } = ensureSheet();
+    const lastRow = metaSheet.getLastRow();
+    const nowStr = Utilities.formatDate(new Date(), TIMEZONE, 'yyyy-MM-dd HH:mm:ss');
+
+    if (lastRow &gt; 1) {
+      const data = metaSheet.getRange(2, 1, lastRow - 1, 2).getValues();
+      for (let i = 0; i &lt; data.length; i++) {
+        if (normalizeRoomCode(data[i][0]) === rCode) {
+          const range = metaSheet.getRange(i + 2, 1, 1, 3);
+          range.setNumberFormat('@');
+          range.setValues([[rCode, qText, nowStr]]);
+          SpreadsheetApp.flush();
+          return { success: true, room: rCode, question: qText };
+        }
+      }
+    }
+    const newRow = lastRow + 1;
+    const newRange = metaSheet.getRange(newRow, 1, 1, 3);
+    newRange.setNumberFormat('@');
+    newRange.setValues([[rCode, qText, nowStr]]);
+    SpreadsheetApp.flush();
+    return { success: true, room: rCode, question: qText };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
-// 수정·삭제 기능은 일부러 만들지 않았습니다.
-// 잘못 올라온 카드는 교사가 시트에서 그 행을 지우면 됩니다.</pre></div>
+function submitOpinion(data) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+    const { sheet } = ensureSheet();
+    
+    const title = String(data.title || '').trim();
+    const content = String(data.content || '').trim();
+    if (!content) throw new Error('내용을 입력해주세요.');
+    if (title.length &gt; 40) throw new Error('제목은 40자 이내로 작성해주세요.');
+    if (content.length &gt; 200) throw new Error('내용은 200자 이내로 작성해주세요.');
+    
+    const room = normalizeRoomCode(data.room);
+    if (!room) throw new Error('수업 코드가 없습니다.');
+
+    const color = ALLOWED_COLORS.indexOf(data.color) !== -1 ? data.color : 'yellow';
+    const authorToken = String(data.authorToken || '').trim();
+    
+    const id = 'card_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    const now = new Date();   // 시각은 글자가 아니라 날짜로 저장해, 시트의 시간대와 관계없이 서울 시각으로 보여 줍니다
+    
+    const nextRow = sheet.getLastRow() + 1;
+    const sortOrder = Date.now();
+    
+    sheet.getRange(nextRow, 3).setNumberFormat('@');
+    sheet.getRange(nextRow, 1, 1, 9).setValues([[
+      id, now, room, asText_(title), asText_(content), color, 0, authorToken, sortOrder
+    ]]);
+    SpreadsheetApp.flush();
+    
+    return {
+      success: true,
+      card: {
+        id: id,
+        time: Utilities.formatDate(now, TIMEZONE, 'HH:mm'),
+        title: title,
+        content: content,
+        color: color,
+        likes: 0,
+        isMine: true,
+        sortOrder: sortOrder
+      }
+    };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function updateOpinion(data) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+    const { sheet } = ensureSheet();
+    const lastRow = sheet.getLastRow();
+    if (lastRow &lt;= 1) throw new Error('데이터가 없습니다.');
+
+    const cardId = String(data.id || '').trim();
+    const title = String(data.title || '').trim();
+    const content = String(data.content || '').trim();
+    const color = ALLOWED_COLORS.indexOf(String(data.color || '').trim()) !== -1 ? String(data.color).trim() : 'yellow';
+    const clientToken = String(data.authorToken || '').trim();
+    const isTeacher = String(data.teacherPin || '').trim() === TEACHER_PIN;
+
+    if (!content) throw new Error('내용을 입력해주세요.');
+    if (title.length &gt; 40) throw new Error('제목은 40자 이내여야 합니다.');
+    if (content.length &gt; 200) throw new Error('내용은 200자 이내여야 합니다.');
+
+    const rows = sheet.getRange(2, 1, lastRow - 1, 9).getValues();
+    for (let i = 0; i &lt; rows.length; i++) {
+      if (String(rows[i][0]).trim() === cardId) {
+        const savedToken = String(rows[i][7] || '').trim();
+        if (!isTeacher &amp;&amp; (!clientToken || savedToken !== clientToken)) {
+          throw new Error('본인이 작성한 글만 수정할 수 있습니다.');
+        }
+        const rowNum = i + 2;
+        sheet.getRange(rowNum, 4, 1, 3).setValues([[asText_(title), asText_(content), color]]);
+        SpreadsheetApp.flush();
+        return { success: true };
+      }
+    }
+    throw new Error('해당 카드를 찾을 수 없습니다.');
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function deleteOpinion(cardId, clientToken, teacherPin) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+    const { sheet } = ensureSheet();
+    const lastRow = sheet.getLastRow();
+    if (lastRow &lt;= 1) throw new Error('데이터가 없습니다.');
+
+    const targetId = String(cardId || '').trim();
+    const isTeacher = String(teacherPin || '').trim() === TEACHER_PIN;
+    const rows = sheet.getRange(2, 1, lastRow - 1, 9).getValues();
+
+    for (let i = 0; i &lt; rows.length; i++) {
+      if (String(rows[i][0]).trim() === targetId) {
+        const savedToken = String(rows[i][7] || '').trim();
+        if (!isTeacher &amp;&amp; (!clientToken || savedToken !== String(clientToken).trim())) {
+          throw new Error('본인이 작성한 글만 삭제할 수 있습니다.');
+        }
+        sheet.deleteRow(i + 2);
+        SpreadsheetApp.flush();
+        return { success: true, deletedId: targetId };
+      }
+    }
+    throw new Error('이미 삭제되었거나 존재하지 않는 카드입니다.');
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function updateCardOrder(roomCode, orderedIds, teacherPin) {
+  if (String(teacherPin || '').trim() !== TEACHER_PIN) {
+    throw new Error('교사 권한이 필요합니다.');
+  }
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+    const { sheet } = ensureSheet();
+    const lastRow = sheet.getLastRow();
+    if (lastRow &lt;= 1) return { success: true };
+
+    const targetRoom = normalizeRoomCode(roomCode);
+    const rows = sheet.getRange(2, 1, lastRow - 1, 9).getValues();
+    const baseScore = 9000000000000;
+    const orderMap = {};
+    for (let idx = 0; idx &lt; orderedIds.length; idx++) {
+      orderMap[orderedIds[idx]] = baseScore - (idx * 1000);
+    }
+
+    for (let i = 0; i &lt; rows.length; i++) {
+      const rId = String(rows[i][0]).trim();
+      const rRoom = normalizeRoomCode(rows[i][2]);
+      if (rRoom === targetRoom &amp;&amp; orderMap[rId] !== undefined) {
+        sheet.getRange(i + 2, 9).setValue(orderMap[rId]);
+      }
+    }
+    SpreadsheetApp.flush();
+    return { success: true };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getBoardData(roomCode, clientToken) {
+  const targetRoom = normalizeRoomCode(roomCode);
+  const myToken = String(clientToken || '').trim();
+  const { sheet, metaSheet } = ensureSheet();
+  
+  let activeQuestion = '';
+  const metaLastRow = metaSheet.getLastRow();
+  if (metaLastRow &gt; 1) {
+    const metaRows = metaSheet.getRange(2, 1, metaLastRow - 1, 2).getValues();
+    for (let i = 0; i &lt; metaRows.length; i++) {
+      if (normalizeRoomCode(metaRows[i][0]) === targetRoom) {
+        activeQuestion = String(metaRows[i][1] || '').replace(/^["']+|["']+$/g, '').trim();
+        break;
+      }
+    }
+  }
+
+  const lastRow = sheet.getLastRow();
+  const cards = [];
+  
+  if (lastRow &gt; 1) {
+    const rows = sheet.getRange(2, 1, lastRow - 1, 9).getValues();
+    for (let i = 0; i &lt; rows.length; i++) {
+      const rId = String(rows[i][0] || '').trim();
+      const rawTime = rows[i][1];
+      const rRoom = normalizeRoomCode(rows[i][2]);
+      const rTitle = String(rows[i][3] || '');
+      const rContent = String(rows[i][4] || '');
+      const rColor = String(rows[i][5] || 'yellow').trim();
+      const rLikes = Number(rows[i][6]) || 0;
+      const rToken = String(rows[i][7] || '').trim();
+      const rSortOrder = Number(rows[i][8]) || (i + 1);
+      
+      if (rRoom === targetRoom &amp;&amp; rId) {
+        let timeStr = '';
+        if (rawTime instanceof Date) {
+          timeStr = Utilities.formatDate(rawTime, TIMEZONE, 'HH:mm');
+        } else if (typeof rawTime === 'string') {
+          timeStr = rawTime.length &gt;= 16 ? rawTime.substring(11, 16) : rawTime;
+        }
+        
+        cards.push({
+          id: rId,
+          time: timeStr,
+          title: rTitle,
+          content: rContent,
+          color: rColor,
+          likes: rLikes,
+          isMine: Boolean(myToken &amp;&amp; rToken &amp;&amp; myToken === rToken),
+          sortOrder: rSortOrder,
+          rowOrder: i + 2
+        });
+      }
+    }
+  }
+  
+  return {
+    room: targetRoom,
+    question: activeQuestion,
+    cards: cards,
+    serverTime: Utilities.formatDate(new Date(), TIMEZONE, 'HH:mm:ss')
+  };
+}
+
+function incrementLike(cardId) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+    const { sheet } = ensureSheet();
+    const lastRow = sheet.getLastRow();
+    if (lastRow &lt;= 1) throw new Error('데이터가 없습니다.');
+    
+    const ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    const cleanTargetId = String(cardId || '').trim();
+    
+    for (let i = 0; i &lt; ids.length; i++) {
+      if (String(ids[i][0]).trim() === cleanTargetId) {
+        const likeCell = sheet.getRange(i + 2, 7);
+        const nextLikes = (Number(likeCell.getValue()) || 0) + 1;
+        likeCell.setValue(nextLikes);
+        SpreadsheetApp.flush();
+        return { success: true, cardId: cleanTargetId, likes: nextLikes };
+      }
+    }
+    throw new Error('카드를 찾을 수 없습니다.');
+  } finally {
+    lock.releaseLock();
+  }
+}</pre></div>
         </details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m2/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
@@ -2901,486 +3298,1388 @@ function getCards(arg) {
           <div class="code"><pre id="m2_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
-&lt;meta charset="UTF-8" /&gt;
-&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
-&lt;title&gt;우리 반 의견 보드&lt;/title&gt;
-&lt;!-- 아이콘: 이 링크와 class="material-symbols-outlined" 가 짝입니다. 둘 중 하나라도 다르면 아이콘 이름이 글자로 보입니다 --&gt;
-&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
-&lt;style&gt;
-:root{
-  --color-primary:#006DD2; --color-primary-dark:#0056A8; --color-primary-light:#E8F3FF;
-  --color-error:#D32F2F; --color-success:#388E3C;
-  --gray-900:#1A1A1A; --gray-700:#404040; --gray-500:#767676; --gray-300:#B2B2B2;
-  --gray-100:#F5F5F5; --white:#FFFFFF;
-  --r-sm:4px; --r-md:8px; --r-lg:16px;
-  --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px; --s-xl:40px;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body,button,input,textarea{
-  font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
-body{font-size:16px;line-height:1.6;color:var(--gray-900);background:var(--gray-100);
-  min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
-main{flex:1;width:100%;max-width:880px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
-:focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;border-radius:var(--r-sm);}
-.material-symbols-outlined{vertical-align:middle;}
-.hide{display:none !important;}
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;우리 반 의견보드&lt;/title&gt;
+  
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap" rel="stylesheet"&gt;
+  &lt;link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-gov.min.css" /&gt;
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /&gt;
 
-.app-head{text-align:center;margin-bottom:var(--s-lg);}
-.app-head h1{font-size:1.75rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;
-  display:inline-flex;align-items:center;gap:var(--s-sm);}
-.app-head h1 .material-symbols-outlined{font-size:26px;color:var(--color-primary);}
-.app-head .sub{font-size:.875rem;color:var(--gray-500);margin-top:var(--s-xs);}
+  &lt;style&gt;
+    :root {
+      --bg-canvas: #EEF2F6;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --brand: #4F46E5;
+      --brand-hover: #4338CA;
+      --accent-pink: #EC4899;
 
-.card{background:var(--white);border:1px solid var(--gray-300);border-radius:var(--r-lg);
-  padding:var(--s-lg);box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:var(--s-md);}
-.narrow{max-width:560px;margin-left:auto;margin-right:auto;}
-.lb{display:block;font-size:.875rem;font-weight:700;color:var(--gray-700);
-  margin:var(--s-md) 0 var(--s-sm);}
-.lb:first-child{margin-top:0;}
-.lb .opt{font-weight:500;color:var(--gray-500);}
-.input{width:100%;padding:12px var(--s-md);border:1px solid var(--gray-300);border-radius:var(--r-md);
-  font-size:16px;color:var(--gray-900);outline:none;background:var(--white);transition:border-color .2s;}
-.input:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(0,109,210,.15);}
-textarea.input{resize:vertical;line-height:1.6;}
-.hint{font-size:.75rem;color:var(--gray-500);margin-top:var(--s-sm);}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s-xs);
-  padding:13px var(--s-md);border-radius:var(--r-md);font-size:15px;font-weight:700;
-  cursor:pointer;border:none;transition:background .2s,color .2s;}
-.btn-primary{background:var(--color-primary);color:#fff;}
-.btn-primary:hover:not(:disabled){background:var(--color-primary-dark);}
-.btn-primary:disabled{background:var(--gray-300);cursor:not-allowed;}
-.btn-secondary{background:var(--white);color:var(--gray-700);border:1px solid var(--gray-300);}
-.btn-secondary:hover{background:#EBEBEB;}
-.btn .material-symbols-outlined{font-size:18px;}
-.w100{width:100%;margin-top:var(--s-md);}
-.linkbtn{background:none;border:none;color:var(--color-primary);font-size:.8125rem;
-  font-weight:700;cursor:pointer;text-decoration:underline;padding:2px 4px;}
+      --card-white:  #FFFFFF; --border-white:  #CBD5E1; --strip-white:  #64748B;
+      --card-yellow: #FEFCE8; --border-yellow: #FDE047; --strip-yellow: #EAB308;
+      --card-blue:   #F0F9FF; --border-blue:   #7DD3FC; --strip-blue:   #0EA5E9;
+      --card-pink:   #FDF2F8; --border-pink:   #F9A8D4; --strip-pink:   #EC4899;
+      --card-green:  #F0FDF4; --border-green:  #86EFAC; --strip-green:  #22C55E;
+    }
 
-.roombar{display:flex;align-items:center;gap:var(--s-sm);font-size:.8125rem;color:var(--gray-500);
-  padding-bottom:var(--s-md);margin-bottom:var(--s-md);border-bottom:1px solid var(--gray-100);}
-.roombar b{color:var(--gray-900);font-size:.9375rem;}
-.roombar .linkbtn{margin-left:auto;}
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-.question{background:var(--color-primary-light);color:#00427F;border-radius:var(--r-lg);
-  padding:var(--s-md) var(--s-lg);margin-bottom:var(--s-md);font-size:1.125rem;font-weight:800;
-  line-height:1.5;display:flex;gap:var(--s-sm);align-items:flex-start;word-break:break-word;}
-.question .material-symbols-outlined{color:var(--color-primary);margin-top:2px;}
+    body {
+      font-family: "Pretendard GOV", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background-color: var(--bg-canvas);
+      background-image: radial-gradient(#CBD5E1 1.3px, transparent 1.3px);
+      background-size: 22px 22px;
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
 
-.swatches{display:flex;gap:var(--s-sm);margin-top:var(--s-sm);}
-.sw{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
-.sw[aria-pressed="true"]{border-color:var(--gray-900);box-shadow:0 0 0 2px var(--white) inset;}
-.count{font-size:.75rem;color:var(--gray-500);text-align:right;margin-top:var(--s-xs);}
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+      user-select: none;
+    }
+    .icon-filled {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
 
-.bhead{display:flex;align-items:center;flex-wrap:wrap;gap:var(--s-sm);margin:var(--s-lg) 0 var(--s-md);}
-.bhead h2{font-size:1.375rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;}
-.bhead h2 b{color:var(--color-primary);}
-.live{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;
-  color:var(--gray-500);background:var(--white);border:1px solid var(--gray-300);
-  padding:4px 10px;border-radius:999px;white-space:nowrap;}
-.live i{width:7px;height:7px;border-radius:50%;background:var(--gray-300);display:block;flex-shrink:0;}
-.live.on i{background:var(--color-success);}
-.live.off i{background:var(--color-error);}
-.seg{margin-left:auto;display:inline-flex;background:var(--white);border:1px solid var(--gray-300);
-  border-radius:999px;padding:3px;}
-.seg button{border:none;background:none;padding:6px 12px;border-radius:999px;font-size:.8125rem;
-  font-weight:700;color:var(--gray-500);cursor:pointer;}
-.seg button[aria-pressed="true"]{background:var(--gray-900);color:#fff;}
+    /* 상단 고정 바 */
+    .padlet-topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #E2E8F0; padding: 12px 20px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+    .topbar-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .brand-area { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, #4F46E5, #EC4899); color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+    .board-title {
+      font-family: 'Black Han Sans', sans-serif; font-size: 22px; color: #0F172A;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .room-pill {
+      font-family: "Pretendard GOV", sans-serif; background: #EEF2FF; color: var(--brand);
+      font-size: 13px; font-weight: 800; padding: 4px 11px; border-radius: 999px; border: 1px solid #C7D2FE;
+    }
+    .board-subtitle { font-size: 12.5px; color: var(--text-secondary); font-weight: 600; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #10B981; display: inline-block; }
 
-.board{columns:1;column-gap:var(--s-md);}
-@media(min-width:560px){.board{columns:2;}}
-@media(min-width:820px){.board{columns:3;}}
-.note{break-inside:avoid;border-radius:var(--r-lg);padding:var(--s-md);margin-bottom:var(--s-md);
-  box-shadow:0 2px 8px rgba(0,0,0,.06);word-break:break-word;}
-.note p{font-size:1rem;line-height:1.6;white-space:pre-wrap;}
-.note .foot{display:flex;align-items:center;justify-content:space-between;margin-top:var(--s-sm);
-  font-size:.75rem;opacity:.8;}
-.like{display:inline-flex;align-items:center;gap:4px;border:none;background:rgba(255,255,255,.65);
-  color:inherit;border-radius:999px;padding:4px 10px;font-size:.875rem;font-weight:800;cursor:pointer;}
-.like .material-symbols-outlined{font-size:17px;}
-.like[aria-pressed="true"]{background:rgba(255,255,255,.95);}
-.like[aria-pressed="true"] .material-symbols-outlined{color:#D6336C;}   /* 공감한 카드는 하트를 빨갛게 */
-.like:disabled{cursor:default;}
-.c-yellow{background:#FFF3B0;color:#7A6000;}
-.c-green{background:#C8EDD9;color:#1A6B47;}
-.c-pink{background:#FFD6E0;color:#8A2840;}
-.c-blue{background:#BFD9F2;color:#1A5F8A;}
-.fresh{animation:pop .7s ease;}
-@keyframes pop{0%{transform:scale(.92);opacity:.3}60%{transform:scale(1.03)}100%{transform:none;opacity:1}}
-.empty{font-size:.9375rem;color:var(--gray-500);text-align:center;padding:var(--s-xl) 0;}
+    .topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .btn-top {
+      background: #FFFFFF; border: 1.5px solid #CBD5E1; color: var(--text-primary);
+      padding: 8px 13px; border-radius: 10px; font-size: 13px; font-weight: 700;
+      font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-top:hover { border-color: var(--brand); color: var(--brand); background: #F8FAFC; }
+    .btn-top.teacher-active { background: #FEF3C7; border-color: #F59E0B; color: #B45309; }
+    .btn-top.invite-btn { background: #10B981; border-color: #10B981; color: #FFFFFF; }
+    .btn-top.invite-btn:hover { background: #059669; color: #FFFFFF; }
 
-.err{margin-top:var(--s-md);background:#FDECEC;color:var(--color-error);
-  border-radius:var(--r-md);padding:11px var(--s-md);font-size:.875rem;font-weight:600;line-height:1.5;}
-.privacy{display:flex;align-items:flex-start;gap:6px;font-size:.75rem;line-height:1.5;
-  color:var(--gray-500);padding:var(--s-md) var(--s-sm) 0;}
-.privacy .material-symbols-outlined{font-size:15px;flex-shrink:0;}
+    /* 질문 히어로 배너 */
+    .canvas-container { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .question-hero {
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%); color: #FFFFFF;
+      border-radius: 20px; padding: 20px 24px; margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      box-shadow: 0 10px 25px -5px rgba(30, 27, 75, 0.22);
+    }
+    .q-badge {
+      display: inline-flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.15);
+      padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #A5B4FC; margin-bottom: 6px;
+    }
+    .q-title { font-size: clamp(17px, 2.5vw, 22px); font-weight: 800; line-height: 1.4; word-break: keep-all; }
 
-&lt;/style&gt;
+    /* 정렬 및 교사 안내 서브 바 */
+    .sub-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .sort-pills { display: inline-flex; background: #FFFFFF; padding: 4px; border-radius: 12px; border: 1px solid #CBD5E1; }
+    .sort-pill {
+      border: none; background: transparent; padding: 7px 14px; border-radius: 8px;
+      font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text-secondary);
+      cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .sort-pill.active { background: var(--brand); color: #FFFFFF; }
+    .teacher-guide-banner {
+      background: #FEF3C7; border: 1.5px solid #F59E0B; color: #92400E;
+      padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 700;
+      display: none; align-items: center; gap: 6px;
+    }
+    .teacher-guide-banner.show { display: inline-flex; }
+
+    /* 카드 그리드 */
+    .padlet-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; align-items: start; }
+    .padlet-card {
+      background: var(--card-white); border: 1.5px solid var(--border-white); border-top: 6px solid var(--strip-white);
+      border-radius: 16px; padding: 16px 18px 14px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+      display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.18s, box-shadow 0.18s; position: relative;
+    }
+    .padlet-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1); }
+    .padlet-card.dragging { opacity: 0.4; border: 2px dashed var(--brand); }
+
+    .padlet-card.white  { background: var(--card-white);  border-color: var(--border-white);  border-top-color: var(--strip-white); }
+    .padlet-card.yellow { background: var(--card-yellow); border-color: var(--border-yellow); border-top-color: var(--strip-yellow); }
+    .padlet-card.blue   { background: var(--card-blue);   border-color: var(--border-blue);   border-top-color: var(--strip-blue); }
+    .padlet-card.pink   { background: var(--card-pink);   border-color: var(--border-pink);   border-top-color: var(--strip-pink); }
+    .padlet-card.green  { background: var(--card-green);  border-color: var(--border-green);  border-top-color: var(--strip-green); }
+
+    @keyframes highlightNew {
+      0%   { transform: scale(0.94); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.6); }
+      50%  { transform: scale(1.02); box-shadow: 0 0 0 8px rgba(236, 72, 153, 0.18); }
+      100% { transform: scale(1); }
+    }
+    .padlet-card.is-new { animation: highlightNew 1.4s ease-out; }
+
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 6px; }
+    .card-meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); font-weight: 600; }
+    .mine-badge { background: #E0E7FF; color: var(--brand); font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 6px; }
+    .card-tools { display: flex; align-items: center; gap: 4px; }
+    .tool-icon-btn {
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(15,23,42,0.12); width: 28px; height: 28px;
+      border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary);
+    }
+    .tool-icon-btn:hover { background: #FFFFFF; color: #0F172A; border-color: #64748B; }
+    .tool-icon-btn.delete:hover { background: #FEE2E2; color: #DC2626; border-color: #FCA5A5; }
+    .tool-icon-btn .material-symbols-outlined { font-size: 16px; }
+
+    .card-title { font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 6px; line-height: 1.35; word-break: break-word; }
+    .card-body { font-size: 14.5px; font-weight: 500; color: #1E293B; line-height: 1.55; white-space: pre-wrap; word-break: break-word; margin-bottom: 14px; }
+
+    .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px dashed rgba(15, 23, 42, 0.1); }
+    .like-btn {
+      background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 999px; padding: 4px 12px;
+      font-family: inherit; font-size: 13px; font-weight: 700; color: #475569; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .like-btn:hover:not(:disabled) { border-color: #FB7185; color: #E11D48; background: #FFF1F2; }
+    .like-btn.liked { background: #FFE4E6; border-color: #FDA4AF; color: #E11D48; cursor: default; }
+    .like-btn .material-symbols-outlined { font-size: 16px; color: #E11D48; }
+
+    /* 플로팅 작성 버튼 */
+    .padlet-fab {
+      position: fixed; right: 28px; bottom: 28px; z-index: 200; height: 58px; padding: 0 22px;
+      border-radius: 999px; border: none; background: linear-gradient(135deg, #EC4899 0%, #4F46E5 100%);
+      color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.38); display: inline-flex; align-items: center; gap: 6px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .padlet-fab:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 30px rgba(79, 70, 229, 0.5); }
+    .padlet-fab .material-symbols-outlined { font-size: 26px; }
+
+    /* 첫 입장 패널 */
+    .setup-wrap { max-width: 480px; margin: 48px auto; padding: 0 16px; }
+    .panel {
+      background: #FFFFFF; border-radius: 22px; padding: 28px 24px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); border: 1px solid #E2E8F0;
+    }
+    .role-tabs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+      background: #F1F5F9; padding: 5px; border-radius: 12px; margin-bottom: 18px;
+    }
+    .role-tab {
+      border: none; background: transparent; padding: 10px; border-radius: 9px;
+      font-family: inherit; font-size: 14px; font-weight: 700; color: var(--text-secondary);
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .role-tab.active { background: #FFFFFF; color: var(--brand); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+
+    .form-group { margin-bottom: 15px; }
+    .form-label { display: block; font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px; }
+    .form-input, .form-textarea {
+      width: 100%; padding: 12px 14px; font-size: 15px; font-family: inherit;
+      border: 2px solid #E2E8F0; border-radius: 12px; outline: none; background: #F8FAFC;
+    }
+    .form-input:focus, .form-textarea:focus { background: #FFFFFF; border-color: var(--brand); }
+    .form-textarea { height: 115px; resize: none; line-height: 1.5; }
+
+    .btn-primary {
+      width: 100%; background: var(--brand); color: #FFFFFF; border: none;
+      padding: 13px 18px; border-radius: 12px; font-size: 15px; font-weight: 700;
+      font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--brand-hover); }
+    .btn-primary:disabled { background: #94A3B8; cursor: not-allowed; }
+
+    .btn-secondary-action {
+      background: #F1F5F9; color: var(--text-primary); border: 1.5px solid #CBD5E1;
+      padding: 11px 16px; border-radius: 12px; font-size: 14px; font-weight: 700;
+      font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; margin-top: 10px; transition: all 0.15s;
+    }
+    .btn-secondary-action:hover { background: #E2E8F0; border-color: #94A3B8; }
+
+    /* 대시보드 테이블 모달 스타일 */
+    .dashboard-table {
+      width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px;
+    }
+    .dashboard-table th, .dashboard-table td {
+      padding: 10px 12px; border-bottom: 1px solid #E2E8F0; text-align: left;
+    }
+    .dashboard-table th { background: #F8FAFC; font-weight: 700; color: #334155; }
+    .dashboard-table tr:hover { background: #F8FAFC; }
+
+    /* 공통 모달 */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; padding: 16px; z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: #FFFFFF; border-radius: 22px; max-width: 480px; width: 100%;
+      padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px; background: #F1F5F9; border: none;
+      width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; color: #475569;
+    }
+
+    .color-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .color-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #CBD5E1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .color-dot.white  { background: #FFFFFF; }
+    .color-dot.yellow { background: #FEF08A; border-color: #FACC15; }
+    .color-dot.blue   { background: #BAE6FD; border-color: #38BDF8; }
+    .color-dot.pink   { background: #FBCFE8; border-color: #F472B6; }
+    .color-dot.green  { background: #BBF7D0; border-color: #4ADE80; }
+    .color-dot.selected { border: 2.5px solid #0F172A; transform: scale(1.15); }
+
+    .empty-wall {
+      grid-column: 1 / -1; background: rgba(255, 255, 255, 0.88); border: 2px dashed #CBD5E1;
+      border-radius: 20px; padding: 56px 20px; text-align: center; color: var(--text-secondary);
+    }
+
+    .toast {
+      position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #0F172A; color: #FFFFFF; padding: 11px 20px; border-radius: 999px;
+      font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;
+      opacity: 0; pointer-events: none; transition: all 0.25s; z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-&lt;main&gt;
-  &lt;header class="app-head"&gt;
-    &lt;h1&gt;&lt;span class="material-symbols-outlined"&gt;forum&lt;/span&gt;우리 반 의견 보드&lt;/h1&gt;
-    &lt;p class="sub"&gt;내 생각을 붙이면, 모두의 화면에 함께 나타납니다&lt;/p&gt;
-  &lt;/header&gt;
 
-  &lt;!-- ① 수업 코드 입력 --&gt;
-  &lt;section class="card narrow" id="gate"&gt;
-    &lt;label class="lb" for="room"&gt;수업 코드&lt;/label&gt;
-    &lt;input class="input" id="room" placeholder="예: 5-3" autocomplete="off" maxlength="40" /&gt;
-    &lt;label class="lb" for="q"&gt;오늘의 질문 &lt;span class="opt"&gt;— 선택, 교사가 처음 한 번만 적습니다&lt;/span&gt;&lt;/label&gt;
-    &lt;input class="input" id="q" placeholder="예: 우리 반 체육대회 이름을 지어볼까요?" maxlength="80" /&gt;
-    &lt;p class="hint"&gt;질문을 적고 들어가면 [링크 복사하기]로 만든 링크에 질문이 함께 담깁니다.
-      수업 코드는 같은 활동을 묶어주는 방 이름이지 비밀번호가 아닙니다.&lt;/p&gt;
-    &lt;button class="btn btn-primary w100" id="enter" type="button"&gt;들어가기&lt;/button&gt;
-    &lt;p class="err hide" id="gateErr"&gt;&lt;/p&gt;
-  &lt;/section&gt;
+  &lt;!-- ================= [화면 1] 수업 입장 및 교사 메뉴 ================= --&gt;
+  &lt;div id="view-setup" class="setup-wrap"&gt;
+    &lt;div class="panel"&gt;
+      &lt;div style="text-align: center; margin-bottom: 18px;"&gt;
+        &lt;div style="display: inline-flex; padding: 10px; border-radius: 16px; background: #EEF2FF; color: var(--brand); margin-bottom: 8px;"&gt;
+          &lt;span class="material-symbols-outlined icon-filled" style="font-size: 32px;"&gt;dashboard_customize&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;h1 style="font-family: 'Black Han Sans', sans-serif; font-size: 28px; font-weight: 400;"&gt;우리 반 의견보드&lt;/h1&gt;
+        &lt;p style="font-size: 13px; color: var(--text-secondary);"&gt;패들렛처럼 생각을 붙이고 실시간으로 소통해요&lt;/p&gt;
+        &lt;p style="font-size:11px; color:#64748B; margin-top:5px;"&gt;연결 오류 진단 기능 포함 · v4.0&lt;/p&gt;
+        &lt;noscript&gt;&lt;p style="color:#B91C1C; margin-top:12px;"&gt;이 앱을 사용하려면 브라우저 JavaScript를 활성화해주세요.&lt;/p&gt;&lt;/noscript&gt;
+      &lt;/div&gt;
 
-  &lt;!-- ② 의견 보드 --&gt;
-  &lt;section class="hide" id="boardWrap"&gt;
-    &lt;div class="card narrow"&gt;
-      &lt;div class="roombar"&gt;수업 코드 &lt;b id="roomLabel"&gt;&lt;/b&gt;
-        &lt;button class="linkbtn" id="changeRoom" type="button"&gt;바꾸기&lt;/button&gt;&lt;/div&gt;
-      &lt;div class="question hide" id="qBox"&gt;&lt;span class="material-symbols-outlined"&gt;help_outline&lt;/span&gt;&lt;span id="qText"&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;label class="lb" for="text"&gt;내 의견&lt;/label&gt;
-      &lt;textarea class="input" id="text" rows="3" maxlength="150" placeholder="한두 문장으로 적어보세요"&gt;&lt;/textarea&gt;
-      &lt;p class="count"&gt;&lt;span id="len"&gt;0&lt;/span&gt; / 150&lt;/p&gt;
-      &lt;label class="lb"&gt;카드 색&lt;/label&gt;
-      &lt;div class="swatches" id="swatches"&gt;&lt;/div&gt;
-      &lt;p class="hint"&gt;이름처럼 개인을 알아볼 수 있는 내용은 적지 않아요.&lt;/p&gt;
-      &lt;button class="btn btn-primary w100" id="post" type="button" disabled&gt;
-        &lt;span class="material-symbols-outlined"&gt;push_pin&lt;/span&gt;보드에 붙이기&lt;/button&gt;
-      &lt;p class="err hide" id="postErr"&gt;&lt;/p&gt;
+      &lt;div class="role-tabs"&gt;
+        &lt;button type="button" id="tab-student" class="role-tab active" onclick="switchSetupTab('student')"&gt;
+          &lt;span class="material-symbols-outlined"&gt;face&lt;/span&gt; 학생 입장
+        &lt;/button&gt;
+        &lt;button type="button" id="tab-teacher" class="role-tab" onclick="switchSetupTab('teacher')"&gt;
+          &lt;span class="material-symbols-outlined"&gt;admin_panel_settings&lt;/span&gt; 교사 방 만들기
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div class="form-group"&gt;
+        &lt;label class="form-label" for="setup-room"&gt;수업 코드 (예: 5-1)&lt;/label&gt;
+        &lt;input type="text" id="setup-room" class="form-input" placeholder="수업 코드를 입력하세요" onkeydown="if(event.key==='Enter') handleEnterBoard()"&gt;
+      &lt;/div&gt;
+
+      &lt;div id="teacher-setup-fields" style="display: none;"&gt;
+        &lt;div class="form-group"&gt;
+          &lt;label class="form-label" for="setup-pin"&gt;교사 비밀번호 (PIN)&lt;/label&gt;
+          &lt;input type="password" id="setup-pin" class="form-input" placeholder="교사 PIN 번호 입력" onkeydown="if(event.key==='Enter') handleEnterBoard()"&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+          &lt;label class="form-label" for="setup-question"&gt;오늘의 질문 (선택)&lt;/label&gt;
+          &lt;input type="text" id="setup-question" class="form-input" placeholder="예: 우리 반에서 꼭 지키고 싶은 약속은?" onkeydown="if(event.key==='Enter') handleEnterBoard()"&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button type="button" id="btn-setup-enter" class="btn-primary" onclick="handleEnterBoard()"&gt;
+        &lt;span class="material-symbols-outlined"&gt;login&lt;/span&gt;
+        &lt;span id="setup-btn-label"&gt;보드 입장하기&lt;/span&gt;
+      &lt;/button&gt;
+
+      &lt;div id="setup-connection-status" role="status" aria-live="polite"
+           style="margin-top:14px; padding:10px 12px; border-radius:10px; background:#F1F5F9; color:#475569; line-height:1.5; font-size:12px;"&gt;
+        연결 상태를 확인하는 중입니다.
+      &lt;/div&gt;
+      &lt;button type="button" class="btn-secondary-action" onclick="runConnectionCheck()" style="margin-top:8px;"&gt;
+        &lt;span class="material-symbols-outlined" style="color:var(--brand);"&gt;troubleshoot&lt;/span&gt;
+        연결 상태 다시 확인
+      &lt;/button&gt;
+
+      &lt;button type="button" class="btn-secondary-action" onclick="openDashboardModal()"&gt;
+        &lt;span class="material-symbols-outlined" style="color: var(--brand);"&gt;analytics&lt;/span&gt;
+        📊 통합 교사 대시보드 열기 (모든 반 한눈에 보기)
+      &lt;/button&gt;
     &lt;/div&gt;
+  &lt;/div&gt;
 
-    &lt;div class="bhead"&gt;
-      &lt;h2&gt;모두의 의견 &lt;b id="total"&gt;0&lt;/b&gt;장&lt;/h2&gt;
-      &lt;span class="live" id="live"&gt;&lt;i&gt;&lt;/i&gt;&lt;span id="liveTxt"&gt;연결 중&lt;/span&gt;&lt;/span&gt;
-      &lt;div class="seg" role="group" aria-label="정렬"&gt;
-        &lt;button type="button" data-sort="new" aria-pressed="true"&gt;최신순&lt;/button&gt;
-        &lt;button type="button" data-sort="like" aria-pressed="false"&gt;공감순&lt;/button&gt;
+  &lt;!-- ================= [화면 2] 패들렛 메인 보드 ================= --&gt;
+  &lt;div id="view-board" style="display: none;"&gt;
+    &lt;header class="padlet-topbar"&gt;
+      &lt;div class="topbar-inner"&gt;
+        &lt;div class="brand-area"&gt;
+          &lt;div class="brand-icon"&gt;
+            &lt;span class="material-symbols-outlined icon-filled"&gt;sticky_note_2&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class="board-title"&gt;
+              우리 반 의견보드
+              &lt;span id="header-room-pill" class="room-pill"&gt;5-1&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class="board-subtitle"&gt;
+              &lt;span class="live-dot" id="live-dot"&gt;&lt;/span&gt;
+              &lt;span id="header-card-count"&gt;0개의 카드&lt;/span&gt; · &lt;span id="sync-status-text"&gt;5초 자동 동기화&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class="topbar-actions"&gt;
+          &lt;button type="button" class="btn-top invite-btn" onclick="openInviteModal()"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 18px;"&gt;qr_code_2&lt;/span&gt;
+            학생 초대 (QR·링크)
+          &lt;/button&gt;
+          &lt;button type="button" id="btn-teacher-mode" class="btn-top" onclick="openTeacherPinModal()"&gt;
+            &lt;span class="material-symbols-outlined" id="teacher-lock-icon" style="font-size: 18px;"&gt;lock&lt;/span&gt;
+            &lt;span id="teacher-mode-label"&gt;교사 모드&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;button type="button" id="btn-edit-question" class="btn-top" style="display: none;" onclick="openQuestionModal()"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 18px;"&gt;campaign&lt;/span&gt;
+            질문 변경
+          &lt;/button&gt;
+          &lt;button type="button" class="btn-top" onclick="leaveRoom()"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 18px;"&gt;logout&lt;/span&gt;
+            방 바꾸기
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;main class="canvas-container"&gt;
+      &lt;section id="question-hero" class="question-hero" style="display: none;"&gt;
+        &lt;div&gt;
+          &lt;div class="q-badge"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 15px;"&gt;help&lt;/span&gt;
+            오늘의 질문
+          &lt;/div&gt;
+          &lt;div id="question-hero-text" class="q-title"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;div id="board-error" role="alert" style="display:none; background:#FEF2F2; border:1.5px solid #FCA5A5; color:#991B1B; padding:14px 16px; border-radius:12px; margin-bottom:18px; white-space:pre-wrap; line-height:1.55; font-size:13px;"&gt;&lt;/div&gt;
+      &lt;div class="sub-toolbar"&gt;
+        &lt;div class="sort-pills"&gt;
+          &lt;button type="button" id="sort-custom" class="sort-pill active" onclick="setSort('custom')"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 16px;"&gt;grid_view&lt;/span&gt; 기본(배치순)
+          &lt;/button&gt;
+          &lt;button type="button" id="sort-recent" class="sort-pill" onclick="setSort('recent')"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 16px;"&gt;schedule&lt;/span&gt; 최신순
+          &lt;/button&gt;
+          &lt;button type="button" id="sort-likes" class="sort-pill" onclick="setSort('likes')"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 16px;"&gt;favorite&lt;/span&gt; 공감순
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div id="teacher-banner" class="teacher-guide-banner"&gt;
+          &lt;span class="material-symbols-outlined" style="font-size: 18px;"&gt;drag_indicator&lt;/span&gt;
+          교사 모드 ON: 모든 카드 수정·삭제 가능 / 카드를 드래그하거나 위치 이동 버튼으로 순서를 바꾸면 학생 화면에도 반영됩니다.
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div id="padlet-wall" class="padlet-wall"&gt;&lt;/div&gt;
+    &lt;/main&gt;
+
+    &lt;button type="button" class="padlet-fab" onclick="openComposerModal()"&gt;
+      &lt;span class="material-symbols-outlined"&gt;add&lt;/span&gt;
+      &lt;span&gt;글쓰기&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ================= [모달 1] 카드 작성 / 수정 ================= --&gt;
+  &lt;div id="composer-modal" class="modal-backdrop" onclick="if(event.target===this) closeComposerModal()"&gt;
+    &lt;div class="modal-box"&gt;
+      &lt;button type="button" class="modal-close" onclick="closeComposerModal()"&gt;&lt;span class="material-symbols-outlined"&gt;close&lt;/span&gt;&lt;/button&gt;
+      &lt;h2 id="composer-modal-title" style="font-size: 20px; font-weight: 800; margin-bottom: 16px;"&gt;새 의견 카드 작성&lt;/h2&gt;
+
+      &lt;div class="color-row"&gt;
+        &lt;span style="font-size: 13px; font-weight: 700; color: var(--text-secondary);"&gt;카드 색상&lt;/span&gt;
+        &lt;button type="button" class="color-dot yellow selected" onclick="selectCardColor('yellow')"&gt;&lt;/button&gt;
+        &lt;button type="button" class="color-dot white" onclick="selectCardColor('white')"&gt;&lt;/button&gt;
+        &lt;button type="button" class="color-dot blue" onclick="selectCardColor('blue')"&gt;&lt;/button&gt;
+        &lt;button type="button" class="color-dot pink" onclick="selectCardColor('pink')"&gt;&lt;/button&gt;
+        &lt;button type="button" class="color-dot green" onclick="selectCardColor('green')"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div class="form-group"&gt;
+        &lt;label class="form-label" for="card-title-input"&gt;제목 (선택 · 40자 이내)&lt;/label&gt;
+        &lt;input type="text" id="card-title-input" class="form-input" maxlength="40" placeholder="제목을 입력해 핵심을 강조해보세요"&gt;
+      &lt;/div&gt;
+
+      &lt;div class="form-group"&gt;
+        &lt;label class="form-label" for="card-content-input"&gt;내용 (필수 · 200자 이내)&lt;/label&gt;
+        &lt;textarea id="card-content-input" class="form-textarea" maxlength="200" placeholder="여기에 내 생각을 자세히 적어보세요" oninput="updateComposerCount()"&gt;&lt;/textarea&gt;
+        &lt;div id="composer-count" style="text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 4px;"&gt;0 / 200자&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button type="button" id="btn-save-card" class="btn-primary" onclick="saveCard()"&gt;
+        &lt;span class="material-symbols-outlined"&gt;check&lt;/span&gt;
+        &lt;span id="btn-save-card-label"&gt;포스트잇 붙이기&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ================= [모달 2] 교사 인증 PIN 모달 ================= --&gt;
+  &lt;div id="pin-modal" class="modal-backdrop" onclick="if(event.target===this) closePinModal()"&gt;
+    &lt;div class="modal-box" style="max-width: 380px;"&gt;
+      &lt;button type="button" class="modal-close" onclick="closePinModal()"&gt;&lt;span class="material-symbols-outlined"&gt;close&lt;/span&gt;&lt;/button&gt;
+      &lt;h2 style="font-size: 19px; font-weight: 800; margin-bottom: 6px;"&gt;교사 모드 인증&lt;/h2&gt;
+      &lt;p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;"&gt;비밀번호(PIN)를 입력하면 대시보드 열기, 질문 변경, 모든 카드 관리가 가능합니다.&lt;/p&gt;
+      &lt;div class="form-group"&gt;
+        &lt;input type="password" id="modal-pin-input" class="form-input" placeholder="PIN 번호 입력" onkeydown="if(event.key==='Enter') confirmTeacherPin()"&gt;
+      &lt;/div&gt;
+      &lt;button type="button" id="btn-pin-confirm" class="btn-primary" onclick="confirmTeacherPin()"&gt;
+        &lt;span class="material-symbols-outlined"&gt;verified_user&lt;/span&gt;
+        교사 모드 켜기
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ================= [모달 3] 통합 교사 대시보드 모달 ================= --&gt;
+  &lt;div id="dashboard-modal" class="modal-backdrop" onclick="if(event.target===this) closeDashboardModal()"&gt;
+    &lt;div class="modal-box" style="max-width: 720px;"&gt;
+      &lt;button type="button" class="modal-close" onclick="closeDashboardModal()"&gt;&lt;span class="material-symbols-outlined"&gt;close&lt;/span&gt;&lt;/button&gt;
+      &lt;div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;"&gt;
+        &lt;span class="material-symbols-outlined" style="color: var(--brand);"&gt;analytics&lt;/span&gt;
+        &lt;h2 style="font-size: 20px; font-weight: 800;"&gt;통합 교사 대시보드&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;"&gt;지금까지 개설된 모든 수업 코드(방)의 현황을 모니터링하고 관리할 수 있습니다.&lt;/p&gt;
+      
+      &lt;div id="dashboard-content" style="overflow-x: auto; min-height: 160px; max-height: 420px; overflow-y: auto;"&gt;
+        &lt;div style="text-align: center; padding: 30px; color: var(--text-muted);"&gt;목록을 불러오는 중...&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class="board" id="board"&gt;&lt;/div&gt;
-    &lt;p class="err hide" id="boardErr"&gt;&lt;/p&gt;
+  &lt;/div&gt;
 
-    &lt;div class="narrow"&gt;
-      &lt;button class="btn btn-secondary w100" id="share" type="button"&gt;
-        &lt;span class="material-symbols-outlined"&gt;link&lt;/span&gt;이 보드 링크 복사하기&lt;/button&gt;
+  &lt;!-- ================= [모달 4] 질문 변경 모달 ================= --&gt;
+  &lt;div id="question-modal" class="modal-backdrop" onclick="if(event.target===this) closeQuestionModal()"&gt;
+    &lt;div class="modal-box"&gt;
+      &lt;button type="button" class="modal-close" onclick="closeQuestionModal()"&gt;&lt;span class="material-symbols-outlined"&gt;close&lt;/span&gt;&lt;/button&gt;
+      &lt;h2 style="font-size: 19px; font-weight: 800; margin-bottom: 6px;"&gt;오늘의 질문 설정&lt;/h2&gt;
+      &lt;p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;"&gt;접속한 모든 학생 화면 상단에 실시간으로 표시됩니다.&lt;/p&gt;
+      &lt;div class="form-group"&gt;
+        &lt;input type="text" id="modal-question-input" class="form-input" placeholder="예: 우리 반에서 꼭 지키고 싶은 약속은?" onkeydown="if(event.key==='Enter') saveQuestionFromModal()"&gt;
+      &lt;/div&gt;
+      &lt;button type="button" id="btn-question-save" class="btn-primary" onclick="saveQuestionFromModal()"&gt;
+        &lt;span class="material-symbols-outlined"&gt;save&lt;/span&gt; 질문 저장하기
+      &lt;/button&gt;
     &lt;/div&gt;
-  &lt;/section&gt;
+  &lt;/div&gt;
 
-  &lt;p class="privacy narrow"&gt;&lt;span class="material-symbols-outlined"&gt;lock&lt;/span&gt;
-    이 앱은 이름·학번·출석번호·이메일을 저장하지 않습니다. 누가 어떤 카드를 붙였는지는 기록되지 않습니다.&lt;/p&gt;
-&lt;/main&gt;
+  &lt;!-- ================= [모달 5] 학생 초대 QR 모달 ================= --&gt;
+  &lt;div id="invite-modal" class="modal-backdrop" onclick="if(event.target===this) closeInviteModal()"&gt;
+    &lt;div class="modal-box" style="text-align: center;"&gt;
+      &lt;button type="button" class="modal-close" onclick="closeInviteModal()"&gt;&lt;span class="material-symbols-outlined"&gt;close&lt;/span&gt;&lt;/button&gt;
+      &lt;div style="font-size: 12px; font-weight: 800; color: var(--brand);"&gt;교실 전자칠판에 띄워주세요&lt;/div&gt;
+      &lt;h2 style="font-size: 22px; font-weight: 800; margin-top: 4px;"&gt;학생 초대 및 배포&lt;/h2&gt;
+      &lt;div style="margin: 14px 0;"&gt;
+        &lt;img id="qr-img" src="" alt="QR" style="width: 180px; height: 180px; border: 2px solid #E2E8F0; border-radius: 16px; padding: 10px;"&gt;
+      &lt;/div&gt;
+      &lt;div style="font-size: 13px; color: var(--text-secondary);"&gt;수업 코드&lt;/div&gt;
+      &lt;div id="invite-room-code" style="font-family: 'Black Han Sans', sans-serif; font-size: 34px; color: var(--brand); margin: 4px 0 14px;"&gt;5-1&lt;/div&gt;
+      &lt;div style="display: flex; gap: 8px;"&gt;
+        &lt;input type="text" id="invite-url-input" class="form-input" style="font-size: 12px; padding: 10px;" readonly&gt;
+        &lt;button type="button" class="btn-primary" style="width: auto; white-space: nowrap;" onclick="copyShareUrl()"&gt;링크 복사&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 
+  &lt;div id="toast" class="toast"&gt;
+    &lt;span class="material-symbols-outlined" style="font-size: 18px; color: #38BDF8;"&gt;info&lt;/span&gt;
+    &lt;span id="toast-text"&gt;알림&lt;/span&gt;
+  &lt;/div&gt;
 
-&lt;script&gt;
-/* ── 서버 부르기 ─────────────────────────────────────
-   서버(Code.gs)의 함수는 google.script.run 으로 바로 부릅니다.
-   ───────────────────────────────────────────────── */
-function callServer(name, arg) {
-  return new Promise(function (resolve, reject) {
-    if (!(window.google &amp;&amp; google.script &amp;&amp; google.script.run)) {
-      reject(new Error('Apps Script 웹앱 주소(/exec)에서 열어주세요.'));
-      return;
-    }
-    var runner = google.script.run
-      .withSuccessHandler(resolve)
-      .withFailureHandler(function (e) {
-        reject(new Error(serverError(e &amp;&amp; e.message ? e.message : '서버 오류')));
+  &lt;div id="app-runtime-error" role="alert" style="display:none; position:fixed; z-index:11000; left:12px; right:12px; top:12px; border:2px solid #EF4444; border-radius:12px; padding:15px; background:#FFF1F2; color:#991B1B; font:14px/1.5 system-ui,sans-serif; box-shadow:0 10px 30px rgba(0,0,0,.14); white-space:pre-wrap;"&gt;&lt;/div&gt;
+  &lt;script&gt;
+    (function () {
+      function displayError(message) {
+        const el = document.getElementById('app-runtime-error');
+        if (!el) return;
+        el.style.display = 'block';
+        el.textContent = '화면 실행 오류가 감지되었습니다. (' + message + ')\n설치 담당자는 Apps Script에서 Code.gs와 index.html을 모두 v4.0으로 교체하고 새 버전 배포를 확인해주세요.';
+      }
+      window.addEventListener('error', function (event) {
+        if (event &amp;&amp; event.message) displayError(String(event.message) + (event.lineno ? ' (line ' + event.lineno + ')' : ''));
       });
-    if (arg === undefined) runner[name]();
-    else runner[name](arg);
-  });
-}
-
-/* '스크립트 함수(…)를 찾을 수 없습니다' 는 이 화면과 Code.gs 가 서로 다른 코드일 때 나는 오류입니다.
-   (Code.gs 를 바꾸지 않았거나, 저장·새 버전 배포를 하지 않았을 때) */
-function serverError(msg) {
-  if (/스크립트 함수|Script function not found/i.test(msg)) {
-    return 'Code.gs 가 이 화면과 맞지 않습니다. 사이트의 Code.gs 전체로 바꿔 붙여넣고 저장한 뒤, ' +
-      '[배포 → 배포 관리 → 수정 → 버전: 새 버전 → 배포] 하고 다시 열어 주세요.';
-  }
-  return msg;
-}
-
-var Backend = {
-  pollMs: 5000,          /* 5초마다 다시 물어보는 '자동 갱신' 방식입니다 */
-
-  add: function (rec) { return callServer('addCard', rec); },
-  like: function (id, reqId) { return callServer('likeCard', { id: id, room: room, reqId: reqId }); },
-  load: function () { return callServer('getCards', { room: room }); },
-  baseUrl: function () { return callServer('getAppUrl'); },
-
-  params: function () {
-    return new Promise(function (resolve) {
-      /* Apps Script 화면은 액자(iframe) 안에서 열려서 주소의 ?room= 값을 이렇게 받아옵니다 */
-      if (!(window.google &amp;&amp; google.script &amp;&amp; google.script.url)) { resolve({}); return; }
-      google.script.url.getLocation(function (loc) { resolve((loc &amp;&amp; loc.parameter) || {}); });
-    });
-  }
-};
-
-/* ══════════════════════════════════════════════════════
-   여기서부터는 화면 코드입니다.
-   ══════════════════════════════════════════════════════ */
-
-/* 카드 색 — 이름은 Code.gs 의 CARD_COLORS 와 같아야 저장됩니다 */
-var COLORS = [
-  { name: 'yellow', label: '노랑', bg: '#FFF3B0' },
-  { name: 'green',  label: '초록', bg: '#C8EDD9' },
-  { name: 'pink',   label: '분홍', bg: '#FFD6E0' },
-  { name: 'blue',   label: '파랑', bg: '#BFD9F2' }
-];
-
-var room = '', question = '', color = COLORS[0].name, sortBy = 'new';
-var cards = [], seen = {}, firstLoad = true, timer = null, shareBase = '', busy = false;
-
-function $(id) { return document.getElementById(id); }
-function show(id, on) { $(id).classList.toggle('hide', !on); }
-function pad(n) { return (n &lt; 10 ? '0' : '') + n; }
-function hhmm(v) { var d = new Date(v); return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
-function nowText() { var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
-function memGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-function memSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-function memDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
-function fail(id, msg) { $(id).textContent = msg; show(id, true); }
-
-function setLive(state, text) {
-  var el = $('live');
-  el.classList.remove('on', 'off');
-  if (state === 'ok') el.classList.add('on');
-  if (state === 'bad') el.classList.add('off');
-  $('liveTxt').textContent = text;
-}
-
-function renderSwatches() {
-  var box = $('swatches');
-  box.innerHTML = '';
-  COLORS.forEach(function (c) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'sw';
-    b.style.background = c.bg;
-    b.title = c.label;
-    b.setAttribute('aria-label', c.label);
-    b.setAttribute('aria-pressed', c.name === color ? 'true' : 'false');
-    b.addEventListener('click', function () {
-      color = c.name;
-      renderSwatches();
-    });
-    box.appendChild(b);
-  });
-}
-
-/* 공감은 '이 브라우저에서 한 번'만 누를 수 있게 기억해 둡니다.
-   브라우저 기억일 뿐, 막는 장치는 아닙니다. (연수 사이트 ‘자주 찾는 질문’ 참고) */
-/* 공감 한 번 제한은 이 브라우저의 기록(localStorage)으로만 합니다.
-   다른 기기·시크릿 창·저장소 삭제까지 막지는 못하므로 투표처럼 정확해야 하는 일에는 쓰지 않습니다. */
-function likedKey(id) { return 'liked:' + id; }
-function reqKey(id) { return 'likeReq:' + id; }      /* 보내는 중인 공감의 요청 번호 */
-var pendingLike = {};                                /* 응답을 기다리는 카드 */
-
-function renderBoard() {
-  var list = cards.slice();
-  if (sortBy === 'like') list.sort(function (a, b) { return b.likes - a.likes || new Date(b.at) - new Date(a.at); });
-  $('total').textContent = list.length;
-  var box = $('board');
-  box.innerHTML = '';
-  if (!list.length) {
-    var p = document.createElement('p');
-    p.className = 'empty';
-    p.textContent = '아직 붙은 카드가 없습니다. 첫 번째 의견을 붙여보세요!';
-    box.appendChild(p);
-    return;
-  }
-  list.forEach(function (c) {
-    var el = document.createElement('article');
-    el.className = 'note c-' + (COLORS.some(function (x) { return x.name === c.color; }) ? c.color : 'yellow');
-    if (!firstLoad &amp;&amp; !seen[c.id]) el.classList.add('fresh');   /* 새로 붙은 카드만 톡 튀어나옵니다 */
-    var t = document.createElement('p');
-    t.textContent = c.text;                  /* 글은 반드시 텍스트로만 넣습니다 */
-    var foot = document.createElement('div');
-    foot.className = 'foot';
-    var at = document.createElement('span');
-    at.textContent = hhmm(c.at);
-    var like = document.createElement('button');
-    like.type = 'button';
-    like.className = 'like';
-    var mine = !!memGet(likedKey(c.id)) || !!pendingLike[c.id];
-    like.setAttribute('aria-pressed', mine ? 'true' : 'false');
-    like.disabled = mine;
-    like.innerHTML = '&lt;span class="material-symbols-outlined"&gt;' + (mine ? 'favorite' : 'favorite_border') + '&lt;/span&gt;';
-    like.appendChild(document.createTextNode(String(c.likes)));
-    like.addEventListener('click', function () { sendLike(c, like); });
-    foot.appendChild(at);
-    foot.appendChild(like);
-    el.appendChild(t);
-    el.appendChild(foot);
-    box.appendChild(el);
-  });
-  cards.forEach(function (c) { seen[c.id] = 1; });
-  firstLoad = false;
-}
-
-function apply(list) {
-  cards = list || [];
-  renderBoard();
-  setLive('ok', nowText() + ' 기준');
-  show('boardErr', false);
-}
-
-var loading = false;
-function refresh() {
-  if (busy || loading) return Promise.resolve();   /* 저장 중이거나 이미 불러오는 중이면 겹쳐 부르지 않습니다 */
-  loading = true;
-  var askedRoom = room;                            /* 응답이 오기 전에 수업 코드를 바꾸면 그 응답은 버립니다 */
-  return Backend.load().then(function (list) {
-    if (room === askedRoom &amp;&amp; !busy) apply(list);
-  })['catch'](function (err) {
-    if (room !== askedRoom) return;
-    setLive('bad', '연결 확인 필요');
-    fail('boardErr', '카드를 불러오지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') + ' 잠시 뒤 다시 시도합니다.');
-  }).then(function () { loading = false; });
-}
-
-function startUpdates() {
-  if (timer) clearInterval(timer);
-  refresh();
-  timer = setInterval(function () {
-    if (document.hidden) return;             /* 탭이 안 보일 때는 쉬어갑니다 */
-    refresh();
-  }, Backend.pollMs);
-}
-
-document.addEventListener('visibilitychange', function () {
-  if (!document.hidden &amp;&amp; room) refresh();
-});
-
-function sendLike(c, btn) {
-  if (memGet(likedKey(c.id)) || pendingLike[c.id]) return;
-  /* 같은 공감을 다시 보낼 때는 같은 요청 번호를 써서 서버가 한 번만 세게 합니다 */
-  var reqId = memGet(reqKey(c.id)) || (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
-  memSet(reqKey(c.id), reqId);
-  pendingLike[c.id] = true;
-  btn.disabled = true;
-  c.likes += 1;                               /* 먼저 화면에 반영하고 */
-  renderBoard();
-  busy = true;
-  var r = room;
-  Backend.like(c.id, reqId).then(function (list) {   /* 서버의 진짜 숫자로 맞춥니다 */
-    busy = false;
-    delete pendingLike[c.id];
-    memSet(likedKey(c.id), '1');              /* 저장이 확인된 뒤에만 '공감함'으로 남깁니다 */
-    memDel(reqKey(c.id));
-    if (r === room) apply(list);
-  })['catch'](function (err) {
-    busy = false;
-    delete pendingLike[c.id];                 /* 실패하면 임시 표시를 되돌리고 서버 숫자를 다시 읽습니다 */
-    c.likes = Math.max(0, c.likes - 1);
-    if (r !== room) return;
-    renderBoard();
-    fail('boardErr', '공감을 저장하지 못했습니다. 다시 눌러 보세요. ' + (err &amp;&amp; err.message ? err.message : ''));
-    refresh();
-  });
-}
-
-function post() {
-  var text = $('text').value.trim();
-  if (!text) return;
-  var btn = $('post');
-  btn.disabled = true;
-  show('postErr', false);
-  busy = true;
-  var r = room;
-  Backend.add({ room: r, text: text, color: color }).then(function (list) {
-    busy = false;
-    if (r !== room) { btn.disabled = !$('text').value.trim(); return; }   /* 그사이 수업 코드를 바꿨으면 이전 반 목록은 버립니다 */
-    $('text').value = '';
-    $('len').textContent = '0';
-    apply(list);
-  })['catch'](function (err) {
-    busy = false;
-    btn.disabled = false;
-    if (r !== room) return;
-    fail('postErr', '붙이지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') + ' 다시 눌러보세요.');
-  });
-}
-
-function enter(code, q) {
-  var v = String(code || '').trim();
-  if (!v) { fail('gateErr', '수업 코드를 입력해주세요.'); return; }
-  room = v;
-  question = String(q || '').trim().slice(0, 80);
-  $('roomLabel').textContent = room;
-  $('qText').textContent = question;
-  show('qBox', !!question);
-  show('gateErr', false);
-  show('gate', false);
-  show('boardWrap', true);
-  cards = []; seen = {}; firstLoad = true;
-  startUpdates();
-}
-
-function bind() {
-  $('enter').addEventListener('click', function () { enter($('room').value, $('q').value); });
-  $('room').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') enter($('room').value, $('q').value);
-  });
-  $('changeRoom').addEventListener('click', function () {
-    if (timer) { clearInterval(timer); timer = null; }
-    room = '';
-    $('board').innerHTML = '';
-    show('boardWrap', false);
-    show('gate', true);
-  });
-  $('text').addEventListener('input', function () {
-    $('len').textContent = $('text').value.length;
-    $('post').disabled = !$('text').value.trim();
-  });
-  $('post').addEventListener('click', post);
-  document.querySelectorAll('.seg button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      sortBy = b.dataset.sort;
-      document.querySelectorAll('.seg button').forEach(function (x) {
-        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      window.addEventListener('unhandledrejection', function (event) {
+        displayError('비동기 요청 실패: ' + String(event.reason &amp;&amp; event.reason.message || event.reason));
       });
-      renderBoard();
-    });
-  });
-  $('share').addEventListener('click', function () {
-    var url = shareBase + '?room=' + encodeURIComponent(room) +
-      (question ? '&amp;q=' + encodeURIComponent(question) : '');
-    var btn = $('share');
-    function done(ok) {
-      btn.textContent = ok ? '링크를 복사했습니다!' : url;
-      setTimeout(function () {
-        btn.innerHTML = '&lt;span class="material-symbols-outlined"&gt;link&lt;/span&gt;이 보드 링크 복사하기';
-      }, 2500);
+      window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+          if (!window.__BOARD_BOOTED__) displayError('초기 JavaScript 실행 실패');
+        }, 1200);
+      });
+    })();
+  &lt;/script&gt;
+
+  &lt;script&gt;
+    function cleanStr(val) {
+      if (val === null || val === undefined) return '';
+      return String(val).replace(/^["']+|["']+$/g, '').trim();
     }
-    if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
-    } else { done(false); }
-  });
-}
 
-function init() {
-  renderSwatches();
-  bind();
-  Backend.baseUrl().then(function (u) { shareBase = u; })['catch'](function () {});
-  Backend.params().then(function (p) {
-    if (p.q) $('q').value = p.q;
-    if (p.room) { $('room').value = p.room; enter(p.room, p.q); }
-  });
-}
+    let SERVICE_URL = '';
+    let currentRoom = '';
+    let currentQuestion = '';
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
-&lt;/script&gt;
+    const STORAGE_ROOM_KEY  = 'padlet_last_room_v2';
+    const STORAGE_TOKEN_KEY = 'padlet_author_token_v2';
+    const STORAGE_LIKED_KEY = 'padlet_liked_ids_v2';
+    const STORAGE_PIN_KEY   = 'padlet_teacher_pin_v2';
+
+    let authorToken = '';
+    try {
+      authorToken = localStorage.getItem(STORAGE_TOKEN_KEY) || '';
+      if (!authorToken) {
+        authorToken = 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem(STORAGE_TOKEN_KEY, authorToken);
+      }
+    } catch (e) {
+      authorToken = 'usr_session_' + Math.floor(Math.random() * 1000000);
+    }
+
+    let likedSet = new Set();
+    try {
+      const savedLikes = localStorage.getItem(STORAGE_LIKED_KEY);
+      if (savedLikes) likedSet = new Set(JSON.parse(savedLikes));
+    } catch (e) {}
+
+    let teacherPin = '';
+    let isTeacherMode = false;
+    try { localStorage.removeItem(STORAGE_PIN_KEY); } catch (e) {}
+
+    let setupRole = 'student';
+    let sortMode = 'custom';
+    let cardsCache = [];
+    let knownIds = new Set();
+    let isFirstLoad = true;
+    let pollTimer = null;
+    let isFetching = false;
+
+    let editingCardId = null;
+    let selectedColor = 'yellow';
+    let draggedCardId = null;
+
+    window.addEventListener('DOMContentLoaded', () =&gt; {
+      if (!currentRoom) {
+        try {
+          const savedRoom = cleanStr(localStorage.getItem(STORAGE_ROOM_KEY));
+          if (savedRoom) currentRoom = savedRoom;
+        } catch (e) {}
+      }
+
+      if (currentRoom) {
+        enterRoomSession();
+      } else {
+        document.getElementById('view-setup').style.display = 'block';
+      }
+
+      runConnectionCheck();
+      if (window.google &amp;&amp; google.script &amp;&amp; google.script.url &amp;&amp; google.script.url.getLocation) {
+        try {
+          google.script.url.getLocation(function (location) {
+            const linkedRoom = cleanStr(location &amp;&amp; location.parameter &amp;&amp; location.parameter.room);
+            if (linkedRoom &amp;&amp; linkedRoom !== currentRoom) {
+              stopPolling();
+              isFetching = false;
+              currentRoom = linkedRoom;
+              currentQuestion = '';
+              enterRoomSession();
+            }
+          });
+        } catch (err) { console.warn('링크 파라미터를 읽지 못했습니다:', err); }
+      } else {
+        const linkedRoom = new URLSearchParams(window.location.search).get('room');
+        if (linkedRoom &amp;&amp; cleanStr(linkedRoom) !== currentRoom) {
+          stopPolling();
+          isFetching = false;
+          currentRoom = cleanStr(linkedRoom);
+          enterRoomSession();
+        }
+      }
+
+      document.addEventListener('visibilitychange', () =&gt; {
+        const dot = document.getElementById('live-dot');
+        const txt = document.getElementById('sync-status-text');
+        if (document.hidden) {
+          stopPolling();
+          if (dot) dot.style.background = '#F59E0B';
+          if (txt) txt.textContent = '일시중지됨';
+        } else if (currentRoom) {
+          if (dot) dot.style.background = '#10B981';
+          if (txt) txt.textContent = '5초 자동 동기화';
+          fetchBoard();
+          startPolling();
+        }
+      });
+    });
+
+    function runConnectionCheck() {
+      const el = document.getElementById('setup-connection-status');
+      if (el) {
+        el.textContent = 'Google Apps Script 및 데이터 시트 연결을 확인하는 중...';
+        el.style.background = '#F1F5F9';
+        el.style.color = '#475569';
+      }
+      if (!(window.google &amp;&amp; google.script &amp;&amp; google.script.run)) {
+        if (el) {
+          el.style.background = '#FEF2F2';
+          el.style.color = '#991B1B';
+          el.textContent = '연결 오류: Google Apps Script 웹앱 실행 환경이 아닙니다. 배포 URL(/exec)로 접속해주세요. HTML 파일 자체나 일반 웹호스팅에서는 시트 기능을 사용할 수 없습니다.';
+        }
+        return;
+      }
+      const checkTimeout = setTimeout(function () {
+        if (!el) return;
+        if (el.textContent.includes('확인하는 중')) {
+          el.style.background = '#FEF2F2';
+          el.style.color = '#991B1B';
+          el.textContent = '연결 시간 초과(15초). 배포 주소 및 구글 계정 접근 권한을 확인하고 다시 시도해주세요.';
+        }
+      }, 15000);
+      google.script.run
+        .withSuccessHandler(function (status) {
+          clearTimeout(checkTimeout);
+          if (status &amp;&amp; status.serviceUrl) SERVICE_URL = status.serviceUrl;
+          if (!el) return;
+          if (status &amp;&amp; status.ok) {
+            el.textContent = '연결 정상: Apps Script · Google Sheets (' + (status.version || 'v4.0') + ')';
+            el.style.background = '#ECFDF5';
+            el.style.color = '#065F46';
+          } else {
+            el.textContent = '데이터 시트 연결 실패: ' + (status &amp;&amp; status.message || '응답 없음') + ' / 설치 담당자는 setup()을 실행해주세요.';
+            el.style.background = '#FEF2F2';
+            el.style.color = '#991B1B';
+          }
+        })
+        .withFailureHandler(function (error) {
+          clearTimeout(checkTimeout);
+          if (!el) return;
+          el.style.background = '#FEF2F2';
+          el.style.color = '#991B1B';
+          el.textContent = '서버 연결 실패: ' + (error &amp;&amp; error.message || String(error)) + ' / 배포 권한 및 새 버전을 확인해주세요.';
+        })
+        .getAppStatus();
+    }
+
+    function serverRunner() {
+      if (window.google &amp;&amp; google.script &amp;&amp; google.script.run) return google.script.run;
+      const error = new Error('Google Apps Script 연결이 없습니다. /exec 배포 주소를 확인해주세요.');
+      let onFailure = function (err) { showToast(err.message); showBoardError(err); };
+      const fallback = new Proxy({}, {
+        get(_target, key) {
+          if (key === 'withSuccessHandler') return function () { return fallback; };
+          if (key === 'withFailureHandler') return function (fn) { onFailure = fn; return fallback; };
+          return function () { onFailure(error); };
+        }
+      });
+      return fallback;
+    }
+
+    function switchSetupTab(role) {
+      setupRole = role;
+      document.getElementById('tab-student').classList.toggle('active', role === 'student');
+      document.getElementById('tab-teacher').classList.toggle('active', role === 'teacher');
+      document.getElementById('teacher-setup-fields').style.display = role === 'teacher' ? 'block' : 'none';
+      document.getElementById('setup-btn-label').textContent = role === 'teacher' ? '교사 권한으로 방 개설하기' : '보드 입장하기';
+    }
+
+    function handleEnterBoard() {
+      const r = cleanStr(document.getElementById('setup-room').value);
+      if (!r) {
+        showToast('수업 코드를 입력해주세요!');
+        document.getElementById('setup-room').focus();
+        return;
+      }
+
+      if (setupRole === 'teacher') {
+        const pin = cleanStr(document.getElementById('setup-pin').value);
+        const q = cleanStr(document.getElementById('setup-question').value);
+        if (!pin) {
+          showToast('교사 PIN 번호를 입력해주세요! ');
+          document.getElementById('setup-pin').focus();
+          return;
+        }
+        const btn = document.getElementById('btn-setup-enter');
+        btn.disabled = true;
+
+        serverRunner()
+          .withSuccessHandler(res =&gt; {
+            btn.disabled = false;
+            if (!res || !res.valid) {
+              showToast('교사 PIN 번호가 일치하지 않습니다.');
+              return;
+            }
+            teacherPin = pin;
+            isTeacherMode = true;
+            currentRoom = r;
+            if (q) {
+              currentQuestion = q;
+              serverRunner()
+                .withFailureHandler(err =&gt; showToast('질문을 저장하지 못했어요. ' + (err &amp;&amp; err.message ? err.message : '')))
+                .saveRoomQuestion(currentRoom, currentQuestion, teacherPin);
+            }
+            enterRoomSession();
+            setTimeout(() =&gt; openInviteModal(), 350);
+          })
+          .withFailureHandler(err =&gt; {
+            btn.disabled = false;
+            showToast(err.message || '인증 오류가 발생했습니다.');
+          })
+          .verifyTeacherPin(pin);
+      } else {
+        currentRoom = r;
+        enterRoomSession();
+      }
+    }
+
+    function enterRoomSession() {
+      try { localStorage.setItem(STORAGE_ROOM_KEY, currentRoom); } catch (e) {}
+      try {
+        if (window.google &amp;&amp; google.script &amp;&amp; google.script.history) {
+          google.script.history.replace(null, { room: currentRoom }, '');
+        }
+      } catch (e) {}
+
+      document.getElementById('view-setup').style.display = 'none';
+      document.getElementById('view-board').style.display = 'block';
+      document.getElementById('header-room-pill').textContent = currentRoom + ' 교실';
+
+      updateTeacherUI();
+      renderQuestionHero(currentQuestion);
+
+      isFirstLoad = true;
+      knownIds.clear();
+      fetchBoard();
+      startPolling();
+    }
+
+    function leaveRoom() {
+      stopPolling();
+      currentRoom = '';
+      try { localStorage.removeItem(STORAGE_ROOM_KEY); } catch (e) {}
+      document.getElementById('view-board').style.display = 'none';
+      document.getElementById('view-setup').style.display = 'block';
+    }
+
+    
+    function openDashboardModal() {
+      if (!isTeacherMode) {
+        openPinModalForDashboard();
+        return;
+      }
+      loadDashboardData();
+      document.getElementById('dashboard-modal').classList.add('open');
+    }
+
+    function closeDashboardModal() {
+      document.getElementById('dashboard-modal').classList.remove('open');
+    }
+
+    // 대시보드도 같은 PIN 창을 씁니다 (prompt 창은 PIN이 그대로 보여서 쓰지 않습니다)
+    let openDashboardAfterPin = false;
+    function openPinModalForDashboard() {
+      openDashboardAfterPin = true;
+      document.getElementById('modal-pin-input').value = '';
+      document.getElementById('pin-modal').classList.add('open');
+      setTimeout(() =&gt; document.getElementById('modal-pin-input').focus(), 100);
+    }
+
+    function loadDashboardData() {
+      const container = document.getElementById('dashboard-content');
+      container.innerHTML = '&lt;div style="text-align: center; padding: 30px; color: var(--text-muted);"&gt;모든 반 데이터를 불러오는 중...&lt;/div&gt;';
+
+      serverRunner()
+        .withSuccessHandler(rooms =&gt; {
+          if (!rooms || rooms.length === 0) {
+            container.innerHTML = '&lt;div style="text-align: center; padding: 40px; color: var(--text-muted);"&gt;생성된 수업 코드가 없습니다.&lt;/div&gt;';
+            return;
+          }
+
+          let html = `
+            &lt;table class="dashboard-table"&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th&gt;수업 코드&lt;/th&gt;
+                  &lt;th&gt;오늘의 질문&lt;/th&gt;
+                  &lt;th style="text-align:center;"&gt;카드 수&lt;/th&gt;
+                  &lt;th style="text-align:center;"&gt;총 공감&lt;/th&gt;
+                  &lt;th&gt;최근 활동 시각&lt;/th&gt;
+                  &lt;th style="text-align:center;"&gt;관리&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+          `;
+
+          rooms.forEach(item =&gt; {
+            html += `
+              &lt;tr&gt;
+                &lt;td&gt;&lt;strong&gt;${escapeHtml(item.room)}&lt;/strong&gt;&lt;/td&gt;
+                &lt;td&gt;${escapeHtml(item.question)}&lt;/td&gt;
+                &lt;td style="text-align:center; font-weight:700; color:var(--brand);"&gt;${Number(item.cardCount) || 0}개&lt;/td&gt;
+                &lt;td style="text-align:center; color:#E11D48; font-weight:700;"&gt;♥ ${Number(item.totalLikes) || 0}&lt;/td&gt;
+                &lt;td style="font-size:12px; color:var(--text-muted);"&gt;${escapeHtml(item.lastActive)}&lt;/td&gt;
+                &lt;td style="text-align:center; white-space:nowrap;"&gt;
+                  &lt;button type="button" class="btn-top room-go" style="padding: 4px 8px; font-size:11px;" data-room="${escapeHtml(item.room)}"&gt;바로가기&lt;/button&gt;
+                  &lt;button type="button" class="btn-top room-clear" style="padding: 4px 8px; font-size:11px; color:#DC2626; border-color:#FCA5A5;" data-room="${escapeHtml(item.room)}"&gt;초기화&lt;/button&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            `;
+          });
+
+          html += `&lt;/tbody&gt;&lt;/table&gt;`;
+          container.innerHTML = html;
+          container.querySelectorAll('.room-go').forEach(btn =&gt; btn.addEventListener('click', () =&gt; {
+            const room = rooms.find(r =&gt; r.room === btn.dataset.room);
+            if (room) joinRoomFromDashboard(room.room, room.question);
+          }));
+          container.querySelectorAll('.room-clear').forEach(btn =&gt; btn.addEventListener('click', () =&gt; clearRoomData(btn.dataset.room)));
+        })
+        .withFailureHandler(err =&gt; {
+          container.innerHTML = `&lt;div style="text-align: center; padding: 30px; color: #DC2626;"&gt;데이터 로드 실패: ${escapeHtml(err &amp;&amp; err.message ? err.message : '알 수 없는 오류')}&lt;/div&gt;`;
+        })
+        .getAllRoomsDashboard(teacherPin);
+    }
+
+    function joinRoomFromDashboard(roomCode, qText) {
+      closeDashboardModal();
+      currentRoom = roomCode;
+      currentQuestion = qText;
+      enterRoomSession();
+    }
+
+    function clearRoomData(roomCode) {
+      if (!confirm(`[${roomCode}] 방의 모든 카드를 정말 삭제하시겠습니까?\n(이 작업은 되돌릴 수 없습니다)`)) return;
+      serverRunner()
+        .withSuccessHandler(() =&gt; {
+          showToast(`[${roomCode}] 방이 초기화되었습니다.`);
+          loadDashboardData();
+        })
+        .withFailureHandler(err =&gt; showToast(err.message || '초기화 실패'))
+        .clearRoomCards(roomCode, teacherPin);
+    }
+
+    
+    function openTeacherPinModal() {
+      if (isTeacherMode) {
+        isTeacherMode = false;
+        teacherPin = '';
+        try { localStorage.removeItem(STORAGE_PIN_KEY); } catch (e) {}
+        updateTeacherUI();
+        renderWall();
+        showToast('교사 모드가 해제되었습니다.');
+        return;
+      }
+      document.getElementById('modal-pin-input').value = '';
+      document.getElementById('pin-modal').classList.add('open');
+      setTimeout(() =&gt; document.getElementById('modal-pin-input').focus(), 100);
+    }
+
+    function closePinModal() {
+      document.getElementById('pin-modal').classList.remove('open');
+      openDashboardAfterPin = false;
+    }
+
+    function confirmTeacherPin() {
+      const pin = cleanStr(document.getElementById('modal-pin-input').value);
+      if (!pin) { showToast('PIN 번호를 입력해주세요.'); return; }
+      const btn = document.getElementById('btn-pin-confirm');
+      btn.disabled = true;
+
+      serverRunner()
+        .withSuccessHandler(res =&gt; {
+          btn.disabled = false;
+          if (res &amp;&amp; res.valid) {
+            teacherPin = pin;
+            isTeacherMode = true;
+            const goDashboard = openDashboardAfterPin;
+            closePinModal();
+            updateTeacherUI();
+            renderWall();
+            showToast('교사 모드가 켜졌습니다!');
+            if (goDashboard) openDashboardModal();
+          } else {
+            showToast('비밀번호가 일치하지 않습니다.');
+          }
+        })
+        .withFailureHandler(err =&gt; {
+          btn.disabled = false;
+          showToast(err.message || '오류가 발생했습니다.');
+        })
+        .verifyTeacherPin(pin);
+    }
+
+    function updateTeacherUI() {
+      const btn = document.getElementById('btn-teacher-mode');
+      const icon = document.getElementById('teacher-lock-icon');
+      const label = document.getElementById('teacher-mode-label');
+      const qBtn = document.getElementById('btn-edit-question');
+      const banner = document.getElementById('teacher-banner');
+
+      if (isTeacherMode) {
+        btn.classList.add('teacher-active');
+        icon.textContent = 'lock_open';
+        label.textContent = '교사 모드 ON';
+        qBtn.style.display = 'inline-flex';
+        banner.classList.add('show');
+      } else {
+        btn.classList.remove('teacher-active');
+        icon.textContent = 'lock';
+        label.textContent = '교사 모드';
+        qBtn.style.display = 'none';
+        banner.classList.remove('show');
+      }
+    }
+
+    function openQuestionModal() {
+      if (!isTeacherMode) return;
+      document.getElementById('modal-question-input').value = currentQuestion || '';
+      document.getElementById('question-modal').classList.add('open');
+      setTimeout(() =&gt; document.getElementById('modal-question-input').focus(), 100);
+    }
+
+    function closeQuestionModal() {
+      document.getElementById('question-modal').classList.remove('open');
+    }
+
+    function saveQuestionFromModal() {
+      const nextQ = cleanStr(document.getElementById('modal-question-input').value);
+      const btn = document.getElementById('btn-question-save');
+      btn.disabled = true;
+
+      serverRunner()
+        .withSuccessHandler(res =&gt; {
+          btn.disabled = false;
+          currentQuestion = (res &amp;&amp; res.question) ? res.question : '';
+          renderQuestionHero(currentQuestion);
+          closeQuestionModal();
+          showToast('오늘의 질문이 반영되었습니다!');
+        })
+        .withFailureHandler(err =&gt; {
+          btn.disabled = false;
+          showToast(err.message || '질문 변경 실패');
+        })
+        .saveRoomQuestion(currentRoom, nextQ, teacherPin);
+    }
+
+    function renderQuestionHero(qText) {
+      const hero = document.getElementById('question-hero');
+      const txt = document.getElementById('question-hero-text');
+      const cleaned = cleanStr(qText);
+      if (cleaned) {
+        currentQuestion = cleaned;
+        txt.textContent = currentQuestion;
+        hero.style.display = 'flex';
+      } else {
+        currentQuestion = '';
+        hero.style.display = 'none';
+      }
+    }
+
+    function openComposerModal(cardToEdit) {
+      const modal = document.getElementById('composer-modal');
+      const modalTitle = document.getElementById('composer-modal-title');
+      const titleInput = document.getElementById('card-title-input');
+      const contentInput = document.getElementById('card-content-input');
+      const saveLabel = document.getElementById('btn-save-card-label');
+
+      if (cardToEdit) {
+        editingCardId = cardToEdit.id;
+        modalTitle.textContent = '의견 카드 수정하기';
+        titleInput.value = cardToEdit.title || '';
+        contentInput.value = cardToEdit.content || '';
+        selectCardColor(cardToEdit.color || 'yellow');
+        saveLabel.textContent = '수정 내용 저장';
+      } else {
+        editingCardId = null;
+        modalTitle.textContent = '새 의견 카드 작성';
+        titleInput.value = '';
+        contentInput.value = '';
+        selectCardColor('yellow');
+        saveLabel.textContent = '포스트잇 붙이기';
+      }
+      updateComposerCount();
+      modal.classList.add('open');
+      setTimeout(() =&gt; contentInput.focus(), 100);
+    }
+
+    function closeComposerModal() {
+      document.getElementById('composer-modal').classList.remove('open');
+      editingCardId = null;
+    }
+
+    function selectCardColor(color) {
+      selectedColor = color;
+      document.querySelectorAll('.color-dot').forEach(el =&gt; {
+        el.classList.toggle('selected', el.classList.contains(color));
+      });
+    }
+
+    function updateComposerCount() {
+      const len = document.getElementById('card-content-input').value.length;
+      document.getElementById('composer-count').textContent = len + ' / 200자';
+    }
+
+    function saveCard() {
+      const title = document.getElementById('card-title-input').value.trim();
+      const content = document.getElementById('card-content-input').value.trim();
+      if (!content) { showToast('내용을 입력해주세요!'); return; }
+
+      const btn = document.getElementById('btn-save-card');
+      btn.disabled = true;
+
+      if (editingCardId) {
+        const targetId = editingCardId;
+        serverRunner()
+          .withSuccessHandler(() =&gt; {
+            btn.disabled = false;
+            const localCard = cardsCache.find(c =&gt; c.id === targetId);
+            if (localCard) { localCard.title = title; localCard.content = content; localCard.color = selectedColor; }
+            closeComposerModal();
+            renderWall();
+            showToast('카드가 수정되었습니다!');
+            fetchBoard();
+          })
+          .withFailureHandler(err =&gt; { btn.disabled = false; showToast(err.message); })
+          .updateOpinion({ id: targetId, title, content, color: selectedColor, authorToken, teacherPin: isTeacherMode ? teacherPin : '' });
+      } else {
+        serverRunner()
+          .withSuccessHandler(res =&gt; {
+            btn.disabled = false;
+            closeComposerModal();
+            showToast('포스트잇이 붙었습니다!');
+            if (res &amp;&amp; res.card) {
+              const exists = cardsCache.some(c =&gt; c.id === res.card.id);
+              if (!exists) { cardsCache.push(res.card); document.getElementById('header-card-count').textContent = `${cardsCache.length}개의 카드`; renderWall(); }
+            }
+            fetchBoard();
+          })
+          .withFailureHandler(err =&gt; { btn.disabled = false; showToast(err.message); })
+          .submitOpinion({ room: currentRoom, title, content, color: selectedColor, authorToken });
+      }
+    }
+
+    function handleDeleteCard(cardId, delBtnEl) {
+      if (delBtnEl &amp;&amp; delBtnEl.dataset.confirming !== 'true') {
+        delBtnEl.dataset.confirming = 'true';
+        delBtnEl.style.background = '#DC2626'; delBtnEl.style.color = '#FFFFFF';
+        showToast('한 번 더 삭제 버튼을 누르면 삭제됩니다.');
+        setTimeout(() =&gt; { if(delBtnEl) { delBtnEl.dataset.confirming='false'; delBtnEl.style.background=''; delBtnEl.style.color=''; } }, 3000);
+        return;
+      }
+      cardsCache = cardsCache.filter(c =&gt; c.id !== cardId);
+      document.getElementById('header-card-count').textContent = `${cardsCache.length}개의 카드`;
+      renderWall();
+
+      serverRunner()
+        .withSuccessHandler(() =&gt; { showToast('카드가 삭제되었습니다.'); fetchBoard(); })
+        .withFailureHandler(err =&gt; { showToast(err.message); fetchBoard(); })
+        .deleteOpinion(cardId, authorToken, isTeacherMode ? teacherPin : '');
+    }
+
+    function startPolling() {
+      stopPolling();
+      pollTimer = setInterval(() =&gt; {
+        if (!document.hidden &amp;&amp; currentRoom &amp;&amp; !draggedCardId) fetchBoard();
+      }, 5000);
+    }
+    function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+
+    function showBoardError(err) {
+      const msg = err &amp;&amp; err.message ? err.message : String(err || '알 수 없는 오류');
+      const errorBox = document.getElementById('board-error');
+      errorBox.textContent = '데이터를 불러올 수 없습니다.\n' + msg +
+        '\n\n설치한 선생님은 Apps Script 편집기에서 setup()을 1회 실행하고, [배포 관리]에서 새 버전으로 업데이트했는지 확인해주세요.';
+      errorBox.style.display = 'block';
+      document.getElementById('live-dot').style.background = '#EF4444';
+      document.getElementById('sync-status-text').textContent = '연결 오류';
+      const wall = document.getElementById('padlet-wall');
+      if (!cardsCache.length) wall.innerHTML = '';
+    }
+
+    function fetchBoard() {
+      if (isFetching || !currentRoom || draggedCardId) return;
+      if (!window.google || !google.script || !google.script.run) {
+        showBoardError(new Error('이 화면은 Google Apps Script 웹앱 배포 URL(/exec 또는 /dev)에서 실행해야 합니다.'));
+        return;
+      }
+      isFetching = true;
+      const requestRoom = currentRoom;
+      const fetchTimeout = setTimeout(() =&gt; {
+        if (isFetching &amp;&amp; requestRoom === currentRoom) {
+          isFetching = false;
+          showBoardError(new Error('서버 응답이 20초 이상 지연됩니다. 연결 상태와 배포 권한을 확인해주세요.'));
+        }
+      }, 20000);
+      serverRunner()
+        .withSuccessHandler(data =&gt; {
+          clearTimeout(fetchTimeout);
+          isFetching = false;
+          if (requestRoom !== currentRoom) return;
+          if (!data) { showBoardError(new Error('서버에서 데이터가 반환되지 않았습니다.')); return; }
+          document.getElementById('board-error').style.display = 'none';
+          document.getElementById('live-dot').style.background = '#10B981';
+          document.getElementById('sync-status-text').textContent = '5초 자동 동기화';
+          renderQuestionHero(data.question);
+          cardsCache = data.cards || [];
+          document.getElementById('header-card-count').textContent = `${cardsCache.length}개의 카드`;
+          renderWall();
+        })
+        .withFailureHandler(err =&gt; {
+          clearTimeout(fetchTimeout);
+          isFetching = false;
+          if (requestRoom === currentRoom) showBoardError(err);
+        })
+        .getBoardData(requestRoom, authorToken);
+    }
+
+    function setSort(mode) {
+      sortMode = mode;
+      document.getElementById('sort-custom').classList.toggle('active', mode === 'custom');
+      document.getElementById('sort-recent').classList.toggle('active', mode === 'recent');
+      document.getElementById('sort-likes').classList.toggle('active', mode === 'likes');
+      renderWall();
+    }
+
+    function getSortedCards() {
+      const list = [...cardsCache];
+      if (sortMode === 'likes') { list.sort((a, b) =&gt; (b.likes - a.likes) || (b.rowOrder - a.rowOrder)); }
+      else if (sortMode === 'recent') { list.sort((a, b) =&gt; b.rowOrder - a.rowOrder); }
+      else { list.sort((a, b) =&gt; (b.sortOrder - a.sortOrder) || (b.rowOrder - a.rowOrder)); }
+      return list;
+    }
+
+    function renderWall() {
+      const wall = document.getElementById('padlet-wall');
+      if (!cardsCache || cardsCache.length === 0) {
+        wall.innerHTML = `
+          &lt;div class="empty-wall"&gt;
+            &lt;span class="material-symbols-outlined" style="font-size: 48px; color: #94A3B8; margin-bottom: 8px;"&gt;post_add&lt;/span&gt;
+            &lt;p style="font-weight: 800; font-size: 16px;"&gt;아직 등록된 카드가 없어요&lt;/p&gt;
+            &lt;p style="font-size: 13px; margin-top: 4px;"&gt;오른쪽 아래 &lt;strong&gt;(+ 글쓰기) 버튼&lt;/strong&gt;을 눌러 첫 번째 포스트잇을 붙여보세요!&lt;/p&gt;
+          &lt;/div&gt;
+        `;
+        isFirstLoad = false;
+        return;
+      }
+
+      const sorted = getSortedCards();
+      wall.innerHTML = '';
+
+      sorted.forEach((card, idx) =&gt; {
+        const isNew = !isFirstLoad &amp;&amp; !knownIds.has(card.id);
+        knownIds.add(card.id);
+        const canControl = Boolean(card.isMine || isTeacherMode);
+        const hasLiked = likedSet.has(card.id);
+
+        const el = document.createElement('article');
+        el.className = `padlet-card ${card.color || 'yellow'} ${isNew ? 'is-new' : ''}`;
+        el.dataset.id = card.id;
+
+        if (isTeacherMode &amp;&amp; sortMode === 'custom') {
+          el.draggable = true; el.style.cursor = 'grab';
+          el.addEventListener('dragstart', onDragStart);
+          el.addEventListener('dragover', onDragOver);
+          el.addEventListener('drop', onDropCard);
+          el.addEventListener('dragend', onDragEnd);
+        }
+
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        const meta = document.createElement('div');
+        meta.className = 'card-meta';
+        const timeSpan = document.createElement('span');
+        timeSpan.textContent = card.time || '';
+        meta.appendChild(timeSpan);
+
+        if (card.isMine) {
+          const mineTag = document.createElement('span');
+          mineTag.className = 'mine-badge'; mineTag.textContent = '내 글';
+          meta.appendChild(mineTag);
+        }
+
+        const tools = document.createElement('div');
+        tools.className = 'card-tools';
+
+        if (isTeacherMode &amp;&amp; sortMode === 'custom') {
+          const pinBtn = createToolBtn('keep', '맨 앞으로 고정', () =&gt; moveCardPosition(idx, 0));
+          const leftBtn = createToolBtn('chevron_left', '앞으로 한 칸', () =&gt; moveCardPosition(idx, Math.max(0, idx - 1)));
+          const rightBtn = createToolBtn('chevron_right', '뒤로 한 칸', () =&gt; moveCardPosition(idx, Math.min(sorted.length - 1, idx + 1)));
+          tools.appendChild(pinBtn); tools.appendChild(leftBtn); tools.appendChild(rightBtn);
+        }
+
+        if (canControl) {
+          const editBtn = createToolBtn('edit', '수정', () =&gt; openComposerModal(card));
+          const delBtn = createToolBtn('delete', '삭제', (btnEl) =&gt; handleDeleteCard(card.id, btnEl), true);
+          tools.appendChild(editBtn); tools.appendChild(delBtn);
+        }
+
+        header.appendChild(meta); header.appendChild(tools); el.appendChild(header);
+
+        if (card.title) {
+          const titleEl = document.createElement('h3');
+          titleEl.className = 'card-title'; titleEl.textContent = card.title;
+          el.appendChild(titleEl);
+        }
+
+        const bodyEl = document.createElement('div');
+        bodyEl.className = 'card-body'; bodyEl.textContent = card.content;
+        el.appendChild(bodyEl);
+
+        const footer = document.createElement('div');
+        footer.className = 'card-footer';
+        const likeBtn = document.createElement('button');
+        likeBtn.type = 'button'; likeBtn.className = 'like-btn' + (hasLiked ? ' liked' : '');
+        likeBtn.disabled = hasLiked;
+        const heartIcon = document.createElement('span');
+        heartIcon.className = 'material-symbols-outlined' + (hasLiked ? ' icon-filled' : '');
+        heartIcon.textContent = 'favorite';
+        const countSpan = document.createElement('span'); countSpan.textContent = card.likes;
+        likeBtn.appendChild(heartIcon); likeBtn.appendChild(countSpan);
+        likeBtn.addEventListener('click', () =&gt; handleLike(card.id, likeBtn, heartIcon, countSpan));
+        footer.appendChild(likeBtn); el.appendChild(footer);
+
+        wall.appendChild(el);
+      });
+      isFirstLoad = false;
+    }
+
+    function createToolBtn(iconName, title, onClick, isDanger) {
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'tool-icon-btn' + (isDanger ? ' delete' : ''); btn.title = title;
+      const icon = document.createElement('span'); icon.className = 'material-symbols-outlined'; icon.textContent = iconName;
+      btn.appendChild(icon);
+      btn.addEventListener('click', e =&gt; { e.stopPropagation(); onClick(btn); });
+      return btn;
+    }
+
+    function moveCardPosition(fromIndex, toIndex) {
+      if (fromIndex === toIndex) return;
+      const sorted = getSortedCards();
+      const [moved] = sorted.splice(fromIndex, 1);
+      sorted.splice(toIndex, 0, moved);
+      applyNewCardOrder(sorted.map(c =&gt; c.id));
+    }
+
+    function onDragStart(e) { draggedCardId = e.currentTarget.dataset.id; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+    function onDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
+    function onDropCard(e) {
+      e.preventDefault();
+      const targetId = e.currentTarget.dataset.id;
+      if (!draggedCardId || draggedCardId === targetId) return;
+      const sorted = getSortedCards();
+      const fromIdx = sorted.findIndex(c =&gt; c.id === draggedCardId);
+      const toIdx = sorted.findIndex(c =&gt; c.id === targetId);
+      if (fromIdx === -1 || toIdx === -1) return;
+      const [moved] = sorted.splice(fromIdx, 1);
+      sorted.splice(toIdx, 0, moved);
+      applyNewCardOrder(sorted.map(c =&gt; c.id));
+    }
+    function onDragEnd(e) { e.currentTarget.classList.remove('dragging'); draggedCardId = null; }
+
+    function applyNewCardOrder(orderedIds) {
+      const base = 9000000000000;
+      orderedIds.forEach((id, idx) =&gt; {
+        const card = cardsCache.find(c =&gt; c.id === id);
+        if (card) card.sortOrder = base - (idx * 1000);
+      });
+      renderWall();
+      serverRunner()
+        .withSuccessHandler(() =&gt; showToast('카드 위치가 저장되었습니다.'))
+        .withFailureHandler(err =&gt; { showToast('위치를 저장하지 못했어요. ' + (err &amp;&amp; err.message ? err.message : '')); fetchBoard(); })
+        .updateCardOrder(currentRoom, orderedIds, teacherPin);
+    }
+
+    function handleLike(cardId, btnEl, iconEl, countEl) {
+      if (likedSet.has(cardId)) return;
+      likedSet.add(cardId);
+      try { localStorage.setItem(STORAGE_LIKED_KEY, JSON.stringify(Array.from(likedSet))); } catch (e) {}
+      btnEl.classList.add('liked'); btnEl.disabled = true; iconEl.classList.add('icon-filled');
+      const next = (Number(countEl.textContent) || 0) + 1; countEl.textContent = next;
+      const target = cardsCache.find(c =&gt; c.id === cardId); if (target) target.likes = next;
+      serverRunner()
+        .withSuccessHandler(res =&gt; { if (res &amp;&amp; typeof res.likes === 'number') { countEl.textContent = res.likes; if (target) target.likes = res.likes; } })
+        .withFailureHandler(err =&gt; {
+          // 저장하지 못했으면 공감 표시를 되돌려 다시 누를 수 있게 합니다
+          likedSet.delete(cardId);
+          try { localStorage.setItem(STORAGE_LIKED_KEY, JSON.stringify(Array.from(likedSet))); } catch (e) {}
+          showToast('공감을 저장하지 못했어요. 다시 눌러 주세요. ' + (err &amp;&amp; err.message ? err.message : ''));
+          fetchBoard();
+        })
+        .incrementLike(cardId);
+    }
+
+    function getShareUrl() {
+      if (!SERVICE_URL) return '';
+      return `${SERVICE_URL}?room=${encodeURIComponent(currentRoom)}`;
+    }
+    function openInviteModal() {
+      const url = getShareUrl();
+      document.getElementById('invite-room-code').textContent = currentRoom;
+      document.getElementById('invite-url-input').value = url;
+      document.getElementById('qr-img').src = url ? ('https:' + '/' + '/api.qrserver.com/v1/create-qr-code/?size=200x200&amp;data=') + encodeURIComponent(url) : '';
+      if (!url) {
+        showToast('초대 링크를 가져오는 중입니다. 연결 점검 후 다시 열어주세요.');
+        runConnectionCheck();
+      }
+      document.getElementById('invite-modal').classList.add('open');
+    }
+    function closeInviteModal() { document.getElementById('invite-modal').classList.remove('open'); }
+    function copyShareUrl() {
+      const input = document.getElementById('invite-url-input');
+      const url = input.value;
+      if (!url) { showToast('아직 공유 주소를 불러오지 못했습니다.'); return; }
+      const fallback = () =&gt; {
+        input.focus(); input.select();
+        try {
+          if (document.execCommand('copy')) showToast('링크가 복사되었습니다!');
+          else showToast('링크를 선택했어요. Ctrl+C로 복사해주세요.');
+        } catch (_) { showToast('링크를 선택했어요. Ctrl+C로 복사해주세요.'); }
+      };
+      if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url)
+          .then(() =&gt; showToast('링크가 복사되었습니다!'))
+          .catch(fallback);
+      } else fallback();
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/&amp;/g, '&amp;amp;').replace(/&lt;/g, '&amp;lt;').replace(/&gt;/g, '&amp;gt;').replace(/"/g, '&amp;quot;').replace(/'/g, '&amp;#39;');
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-text').textContent = msg;
+      t.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() =&gt; t.classList.remove('show'), 2500);
+    }
+    window.__BOARD_BOOTED__ = true;
+    window.__BOARD_VERSION__ = 'v4.0';
+  &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
         </details>
@@ -3391,9 +4690,9 @@ if (document.readyState === 'loading') {
             <ol class="act">
               <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 이 시트를 앱과 연결)</span></li>
               <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
-              <li><b>/exec</b> 주소를 열어 확인</li>
+              <li><b>/exec</b> 주소에서 <b>교사 방 만들기</b> → 수업 코드 · PIN · 오늘의 질문 → <b>학생 초대(QR·링크)</b></li>
             </ol>
-            <p class="dim">질문을 띄우려면: 수업 코드와 <b>오늘의 질문</b>을 적고 들어가 <b>[이 보드 링크 복사하기]</b></p><p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
+            <p class="dim">첫 화면의 연결 상태가 &lsquo;연결 정상&rsquo;인지 확인하세요. 실패라고 나오면 setup을 다시 실행하고 새 버전으로 배포합니다.</p><p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/4"><span class="material-icons-outlined">arrow_back</span>index.html</a><a class="btn btn-ink btn-sm nx" href="#/m3"><small>다음</small>실습 3 외부 데이터 연결<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
         </div>
@@ -5860,7 +7159,7 @@ function callPublicApi_(baseUrl, params) {
             <thead><tr><th style="width:120px">앱</th><th>Code.gs의 함수</th><th>여기만 바꾸면</th></tr></thead>
             <tbody>
               <tr><td><b>[1] 감정 체크인</b></td><td>saveCheckin · getDashboard</td><td>Code.gs·index.html의 <b>EMOTIONS</b>와 dashboard.html의 <b>LOOK</b> — 여섯 기분 선택지·아이콘·색 (셋을 같이)</td></tr>
-              <tr><td><b>[2] 우리반 의견보드</b></td><td>addCard · likeCard · getCards</td><td>index.html의 <b>COLORS</b>와 Code.gs의 <b>CARD_COLORS</b> — 카드 색 (둘을 같이)</td></tr>
+              <tr><td><b>[2] 우리반 의견보드</b></td><td>submitOpinion · getBoardData · incrementLike</td><td>Code.gs의 <b>TEACHER_PIN</b> — 교사 비밀번호, <b>ALLOWED_COLORS</b>와 index.html의 색 버튼 — 카드 색 (둘을 같이)</td></tr>
               <tr><td><b>[3] 궁금증 탐험대</b></td><td>searchWikipedia · getClassMap</td><td>index.html의 <b>EXAMPLES</b> — 예시 낱말, Code.gs의 <b>MAX_RESULTS</b> — 카드 수, <b>SUMMARY_SENTENCES</b> — 요약 문장 수, <b>CACHE_MIN</b> — 보관 시간</td></tr>
               <tr><td><b>[심화] 학급문집</b></td><td>saveWriting · getShelf · makeAnthology</td><td>Code.gs의 <b>BOOK_TITLE</b> — 문집 제목 기본값 (작업실에서도 바꿀 수 있어요)</td></tr>
             </tbody>
@@ -5894,7 +7193,7 @@ function callPublicApi_(baseUrl, params) {
       <summary><span class="step-num"><span class="material-icons-outlined">badge</span></span><span class="step-tw"><h3>학생이 자기 글만 지우게 할 수 있나요?</h3><p>로그인 없이 쓴 사람을 알아보는 방법</p></span><span class="step-toggle"><span class="material-icons-outlined">expand_more</span></span>
       </summary>
       <div class="step-content">
-        <p>실습 앱들에 수정·삭제가 없는 이유는 <b>&ldquo;누가 쓴 글인지&rdquo;를 앱이 알아야 하기 때문</b>입니다.
+        <p>실습 2 의견보드는 브라우저마다 만든 작성자 토큰을 시트에만 적고, 목록에는 &lsquo;내 글인지&rsquo;만 돌려주는 방식으로 자기 글 수정·삭제를 합니다. 다른 실습 앱들에 수정·삭제가 없는 이유는 <b>&ldquo;누가 쓴 글인지&rdquo;를 앱이 알아야 하기 때문</b>입니다.
           브라우저가 스스로 만든 번호나 별명은 얼마든지 흉내 낼 수 있어 보호 장치가 되지 못합니다.
           구글 로그인을 강제하면 <b>학생 이메일이 수집</b>되어 개인정보 부담이 오히려 커집니다.</p>
         <p>대신 <b>Code.gs가 만들어 준 삭제 열쇠</b>를 쓰면 됩니다. 글을 저장할 때 서버가 추측할 수 없는 열쇠를 만들어

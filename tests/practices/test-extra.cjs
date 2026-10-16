@@ -15,10 +15,10 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
 (async () => {
   // ── 공통: 실습 1·2·4 시트 연결 ──
   // 실습 1은 한 학급용(수업 코드 없음)이고, 기록은 교사 대시보드(getDashboard)로만 읽습니다
-  const count = (i, c, read) => i === 1 ? c[read]({}).rows.length : i === 4 ? c[read]().length : c[read]({ room: '5-1' }).length;
+  const count = (i, c, read) => i === 1 ? c[read]({}).rows.length : i === 4 ? c[read]().length : c[read]('5-1', '').cards.length;
   for (const [i, save, arg, read] of [
     [1, 'saveCheckin', { emotion: '기쁨', note: 'x' }, 'getDashboard'],
-    [2, 'addCard', { room: '5-1', text: '의견', color: 'blue' }, 'getCards'],
+    [2, 'submitOpinion', { room: '5-1', content: '의견', color: 'blue', authorToken: 't1' }, 'getBoardData'],
     [4, 'saveWriting', { pen: '별', body: '글' }, 'getShelf']]) {
     await test(`m${i}: setup saves own spreadsheet ID in SPREADSHEET_ID`, () => {
       const { context: c, state } = environment(i);
@@ -32,11 +32,13 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       assert.ok(state.opens >= 2);
     });
     await test(`m${i}: without setup, a clear 'run setup' error`, () => {
-      const { context: c } = environment(i);
+      const { context: c, state } = environment(i);
+      if (i === 2) state.active = false;      // 실습 2는 시트에 연결된 프로젝트면 그 시트를 바로 쓰므로, 시트가 없는 웹앱 문맥을 흉내 냅니다
       assert.throws(() => count(i, c, read), /setup/);
     });
     await test(`m${i}: setup outside the spreadsheet editor fails with guidance`, () => {
-      const { context: c } = environment(i, { active: false });
+      const { context: c, state } = environment(i, { active: false });
+      if (i === 2) { c.setup(); assert.equal(state.created, 1); assert.equal(state.props.SPREADSHEET_ID, 'test-sheet-id'); return; }  // 실습 2는 새 시트를 만들어 연결
       assert.throws(() => c.setup(), /확장 프로그램/);
     });
     await test(`m${i}: re-running setup keeps existing rows`, () => {
@@ -48,7 +50,8 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       const { context: c, state } = environment(i);
       c.setup(); state.log = []; c[save](arg);
       const L = state.log;
-      assert.ok(L.indexOf('flush') > L.indexOf('append') && L.indexOf('release') > L.indexOf('flush'), L.join(','));
+      const w = i === 2 ? L.lastIndexOf('setValues') : L.indexOf('append');
+      assert.ok(w >= 0 && L.indexOf('flush') > w && L.indexOf('release') > L.indexOf('flush'), L.join(','));
     });
     await test(`m${i}: lock is released even when the write fails`, () => {
       const { context: c, state } = environment(i);
@@ -60,7 +63,7 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       const { context: c, state } = environment(i);
       c.setup();
       const sheet = Object.values(state.sheets)[0];
-      const a = i === 1 ? { ...arg, note: '0503 =1+1' } : i === 4 ? { ...arg, pen: '0503', body: '=1+1' } : { ...arg, room: '0503', text: '=1+1' };
+      const a = i === 1 ? { ...arg, note: '0503 =1+1' } : i === 4 ? { ...arg, pen: '0503', body: '=1+1' } : { ...arg, room: '0503', content: '=1+1' };
       c[save](a);
       const row = sheet.rows[sheet.rows.length - 1];
       assert.ok(i === 1 ? row.includes('0503 =1+1') : row.includes('0503') && row.includes('=1+1'), JSON.stringify(row));
@@ -167,40 +170,62 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
   });
 
   // ── 실습 2 ──
-  await test('m2: like saved but response lost → retry counts once (same request ID)', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    u.el('text').value = '의견'; u.ctx.post(); await flush();
-    const card = u.ctx.cards[0];
-    u.lose(); u.ctx.sendLike(card, u.el('board').querySelector('.like')); await flush(); await flush();
-    assert.equal(u.storage.get('liked:' + card.id), undefined);
-    u.ctx.sendLike(u.ctx.cards[0], u.el('board').querySelector('.like')); await flush(); await flush();
-    assert.equal(u.ctx.cards[0].likes, 1);
-    assert.equal(u.storage.get('liked:' + card.id), '1');
+  await test('m2: title/content written with a leading apostrophe; time stored as a Date', () => {
+    const { context: c, state } = environment(2); c.setup();
+    c.submitOpinion({ room: '5-1', title: '=SUM(A1)', content: '0503', authorToken: 't' });
+    const row = state.sheets['의견보드_기록'].rows[1];
+    assert.equal(row[3], '=SUM(A1)'); assert.equal(row[4], '0503'); assert.ok(row[1] instanceof Date);
+    const sh = state.sheets['의견보드_기록'], seen = []; const orig = sh.getRange;
+    sh.getRange = (...a) => { const r = orig(...a); const sv = r.setValues; r.setValues = v => { seen.push(v); return sv(v); }; return r; };
+    c.submitOpinion({ room: '5-1', title: '=1', content: '=2', authorToken: 't' });
+    assert.equal(seen.pop()[0][3], "'=1");
   });
-  await test('m2: different like requests still count separately (two browsers)', () => {
+  await test('m2: tokens are never sent to other clients; isMine only for the author', () => {
     const { context: c } = environment(2); c.setup();
-    const id = c.addCard({ room: '5-1', text: '의견' })[0].id;
-    c.likeCard({ room: '5-1', id, reqId: 'a1' }); c.likeCard({ room: '5-1', id, reqId: 'b2' });
-    assert.equal(c.getCards({ room: '5-1' })[0].likes, 2);
+    c.submitOpinion({ room: '5-1', content: 'a', authorToken: 'secret-token-1' });
+    const other = c.getBoardData('5-1', 'someone-else');
+    assert.ok(!JSON.stringify(other).includes('secret-token-1'));
+    assert.equal(other.cards[0].isMine, false); assert.equal(c.getBoardData('5-1', 'secret-token-1').cards[0].isMine, true);
   });
-  await test('m2: failed like restores count and reloads the board', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    u.el('text').value = '의견'; u.ctx.post(); await flush();
-    let loads = 0; const orig = u.ctx.Backend.load; u.ctx.Backend.load = () => { loads++; return orig(); };
-    u.fail(); u.ctx.sendLike(u.ctx.cards[0], u.el('board').querySelector('.like')); await flush(); await flush();
-    assert.equal(u.ctx.cards[0].likes, 0); assert.ok(loads >= 1);
-    assert.equal(u.el('board').querySelector('.like').disabled, false);
+  await test('m2: only the author (or teacher PIN) can edit or delete', () => {
+    const { context: c } = environment(2); c.setup();
+    const id = c.submitOpinion({ room: '5-1', content: 'a', authorToken: 'me' }).card.id;
+    assert.throws(() => c.updateOpinion({ id, content: 'x', authorToken: 'you' }), /본인/);
+    assert.throws(() => c.deleteOpinion(id, 'you', ''), /본인/);
+    c.updateOpinion({ id, content: '고침', color: 'evil-class', authorToken: 'me' });
+    assert.equal(c.getBoardData('5-1', '').cards[0].content, '고침'); assert.equal(c.getBoardData('5-1', '').cards[0].color, 'yellow');
+    c.deleteOpinion(id, 'you', '1234'); assert.equal(c.getBoardData('5-1', '').cards.length, 0);
   });
-  await test('m2: post response after changing the room is ignored', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    let resolve; u.ctx.Backend.add = () => new Promise(r => resolve = r);
-    u.el('text').value = '이전 반 글'; u.ctx.post(); u.el('changeRoom').click(); u.ctx.enter('5-2', ''); await flush();
-    resolve([{ id: 'x', at: new Date().toISOString(), text: 'OLD ROOM CARD', color: 'yellow', likes: 0 }]); await flush(); await flush();
-    assert.ok(!u.el('board').textContent.includes('OLD ROOM CARD'));
+  await test('m2: room reset deletes only that room, under the lock', () => {
+    const { context: c, state } = environment(2); c.setup();
+    c.submitOpinion({ room: '5-1', content: 'a' }); c.submitOpinion({ room: '5-2', content: 'b' }); c.submitOpinion({ room: '5-1', content: 'c' });
+    state.log = []; c.clearRoomCards('5-1', '1234');
+    assert.equal(c.getBoardData('5-1', '').cards.length, 0); assert.equal(c.getBoardData('5-2', '').cards.length, 1);
+    assert.ok(state.log.indexOf('lock') < state.log.indexOf('deleteRow') && state.log.lastIndexOf('release') > state.log.lastIndexOf('deleteRow'), state.log.join(','));
   });
-  await test('m2: 5-second polling and hidden-tab pause kept', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    assert.equal(u.timers[0].ms, 5000);
+  await test('m2: teacher card order is saved and shown to students', () => {
+    const { context: c } = environment(2); c.setup();
+    const a = c.submitOpinion({ room: '5-1', content: 'A' }).card.id, b = c.submitOpinion({ room: '5-1', content: 'B' }).card.id;
+    c.updateCardOrder('5-1', [a, b], '1234');
+    const cards = c.getBoardData('5-1', '').cards.sort((x, y) => y.sortOrder - x.sortOrder);
+    assert.equal(cards[0].id, a);
+  });
+  await test('m2: room question saved per room (teacher only) and returned with the board', () => {
+    const { context: c } = environment(2); c.setup();
+    c.saveRoomQuestion('5-1', '쉬는 시간에 무엇을 할까?', '1234'); c.saveRoomQuestion('5-1', '바뀐 질문', '1234');
+    assert.equal(c.getBoardData('5-1', '').question, '바뀐 질문'); assert.equal(c.getBoardData('5-2', '').question, '');
+  });
+  await test('m2: dashboard PIN uses the PIN window, not prompt()', async () => {
+    const u = ui(2); u.ctx.window.dispatchEvent(new u.ctx.window.Event('DOMContentLoaded')); await flush();
+    assert.ok(!/\bprompt\(/.test(html(2)));
+    u.ctx.openDashboardModal();
+    assert.ok(u.el('pin-modal').classList.contains('open'));
+    u.el('modal-pin-input').value = '1234'; u.ctx.confirmTeacherPin(); await flush(); await flush(); await flush();
+    assert.ok(u.el('dashboard-modal').classList.contains('open'));
+  });
+  await test('m2: connection check shows OK through getAppStatus', async () => {
+    const u = ui(2); u.ctx.window.dispatchEvent(new u.ctx.window.Event('DOMContentLoaded')); await flush(); await flush();
+    assert.ok(u.el('setup-connection-status').textContent.includes('연결 정상'));
   });
 
   // ── 실습 3 ──
