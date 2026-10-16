@@ -2,7 +2,7 @@
  * 바이브코딩 : 포스트시즌 — 네트워킹 공동 아이디어 게시판 (Code.gs)
  *
  * 연수 사이트(GitHub Pages)의 '네트워킹 → 나누기' 단계에 iframe으로 들어가는 게시판입니다.
- * 참가자는 '기획 한 장 요약'을 붙여넣어 공유하고, 모두의 기획을 카드로 봅니다.
+ * 참가자는 '기획서'를 붙여넣어 공유하고, 모두의 기획을 카드로 봅니다.
  *
  * 처음 한 번: 함수 목록에서 setup → ▷ 실행 → 권한 허용
  * 설정(선택): 프로젝트 설정 → 스크립트 속성
@@ -24,7 +24,7 @@ var MAX_RAW = 3000;      // 붙여넣는 기획 원문 최대 글자 수
 var MAX_POSTS = 300;     // 게시판에 보여 줄 최대 글 수 (최신순)
 var LIMIT = { appName: 60, who: 60, problem: 500, experience: 500, blocks: 160, directions: 160 };
 
-/* 기획 한 장 요약(b_plan)의 항목 이름 → 저장할 칸 */
+/* 기획서(b_plan)의 항목 이름 → 저장할 칸 */
 var LABELS = {
   '앱 이름': 'appName',
   '누가': 'who',
@@ -150,7 +150,7 @@ function deletePost(id, key) {
   }
 }
 
-/* ───────── 기획 한 장 요약 읽기 ───────── */
+/* ───────── 기획서 읽기 ───────── */
 
 /**
  * '[항목] 내용' 줄을 기준으로 나눕니다. 항목 없이 이어지는 줄은 앞 항목에 붙입니다.
@@ -194,7 +194,7 @@ function checkPlan_(raw) {
   if (!raw) throw new Error('기획 내용을 붙여넣어 주세요.');
   if (raw.length > MAX_RAW) throw new Error('기획이 너무 깁니다. ' + MAX_RAW + '자 이하로 줄여 주세요.');
   var f = parsePlan_(raw);
-  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획 한 장 요약'을 그대로 붙여넣어 주세요.");
+  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획서'를 그대로 붙여넣어 주세요.");
   return { raw: raw, f: f, hash: hash_(raw.replace(/\s+/g, ' ').trim()) };
 }
 
