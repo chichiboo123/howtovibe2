@@ -10,12 +10,15 @@
  *   POST_CODE  게시 코드. 정해 두면 이 코드를 아는 사람만 글을 올릴 수 있습니다.
  *
  * 교사는 스프레드시트 'posts' 시트의 status 칸을 '숨김'으로 바꿔 글을 내릴 수 있습니다.
+ * 올린 사람은 같은 브라우저에서 자기 글을 수정·삭제할 수 있습니다. (글을 올릴 때 받은 '수정 열쇠'로 확인)
  */
 
 var SHEET_NAME = 'posts';
-var HEADERS = ['id', 'createdAt', 'appName', 'who', 'problem', 'experience', 'blocks', 'directions', 'raw', 'status', 'hash'];
+var HEADERS = ['id', 'createdAt', 'appName', 'who', 'problem', 'experience', 'blocks', 'directions', 'raw', 'status', 'hash', 'keyHash', 'updatedAt'];
+var COL = { status: 10, hash: 11, keyHash: 12, updatedAt: 13 };   // 시트의 열 번호 (A=1)
 var STATUS_OPEN = '공개';
 var STATUS_HIDDEN = '숨김';
+var STATUS_DELETED = '삭제';   // 올린 사람이 지운 글. 줄은 남겨 두고 게시판에서만 뺍니다
 
 var MAX_RAW = 3000;      // 붙여넣는 기획 원문 최대 글자 수
 var MAX_POSTS = 300;     // 게시판에 보여 줄 최대 글 수 (최신순)
@@ -34,7 +37,7 @@ var LABELS = {
 /* ───────── 화면 ───────── */
 function doGet(e) {
   var p = (e && e.parameter) || {};
-  var t = HtmlService.createTemplateFromFile('Index');
+  var t = template_();
   t.embed = p.embed === '1';
   t.theme = p.theme === 'dark' ? 'dark' : 'light';
   // 높이를 알려 줄 연수 사이트 주소. https://주소 모양일 때만 받습니다.
@@ -46,12 +49,21 @@ function doGet(e) {
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
+/** 화면 파일은 'Index'로 만들라고 안내하지만, 실습처럼 소문자 'index'로 만들어도 찾습니다 */
+function template_() {
+  try { return HtmlService.createTemplateFromFile('Index'); }
+  catch (err) {
+    try { return HtmlService.createTemplateFromFile('index'); }
+    catch (err2) { throw new Error("화면 파일을 찾지 못했습니다. 편집기에서 HTML 파일 이름이 'Index'인지 확인하고, 배포 관리 → 새 버전으로 다시 배포해 주세요."); }
+  }
+}
+
 /* ───────── 처음 한 번 실행 ───────── */
 function setup() {
   var sh = getSheet_();
   var st = sh.getRange(2, 10, Math.max(sh.getMaxRows() - 1, 1), 1);
   st.setDataValidation(SpreadsheetApp.newDataValidation()
-    .requireValueInList([STATUS_OPEN, STATUS_HIDDEN], true).setAllowInvalid(false).build());
+    .requireValueInList([STATUS_OPEN, STATUS_HIDDEN, STATUS_DELETED], true).setAllowInvalid(false).build());
   Logger.log('준비 완료 — 시트: ' + sh.getParent().getName() + ' / ' + SHEET_NAME +
     (getPostCode_() ? ' · 게시 코드 사용 중' : ' · 게시 코드 없음(누구나 게시)'));
 }
@@ -72,43 +84,67 @@ function listPosts() {
   var out = [];
   for (var i = rows.length - 1; i >= 0 && out.length < MAX_POSTS; i--) {
     var r = rows[i];
-    if (txt_(r[9]).trim() === STATUS_HIDDEN || !r[0]) continue;
+    if (!r[0] || !isOpen_(r)) continue;
     out.push(toPost_(r));
   }
   return out;
 }
 
-/** 새 글 저장 */
+/**
+ * 새 글 저장. 글과 함께 '수정 열쇠'를 돌려줍니다.
+ * 열쇠는 올린 사람의 브라우저에만 남고, 시트에는 열쇠의 해시만 저장합니다.
+ */
 function addPost(raw, code) {
-  raw = clean_(raw, MAX_RAW + 1);
-  if (!raw) throw new Error('기획 내용을 붙여넣어 주세요.');
-  if (raw.length > MAX_RAW) throw new Error('기획이 너무 깁니다. ' + MAX_RAW + '자 이하로 줄여 주세요.');
-
   var need = getPostCode_();
   if (need && String(code || '').trim() !== need) throw new Error('게시 코드가 맞지 않습니다. 진행하는 선생님께 확인해 주세요.');
-
-  var f = parsePlan_(raw);
-  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획 한 장 요약'을 그대로 붙여넣어 주세요.");
-
-  var hash = hash_(raw.replace(/\s+/g, ' ').trim());
+  var v = checkPlan_(raw);
+  var key = Utilities.getUuid() + Utilities.getUuid();
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     var sh = getSheet_();
-    var n = sh.getLastRow() - 1;
-    if (n > 0) {
-      var hashes = sh.getRange(2, 11, n, 1).getValues();
-      for (var i = 0; i < hashes.length; i++) {
-        if (hashes[i][0] === hash) throw new Error('이미 공유된 기획입니다.');
-      }
-    }
+    if (findDuplicate_(sh, v.hash, '')) throw new Error('이미 공유된 기획입니다.');
+    var now = new Date().toISOString();
     var row = [
-      Utilities.getUuid(), new Date().toISOString(),
-      f.appName, f.who, f.problem, f.experience, f.blocks, f.directions,
-      raw, STATUS_OPEN, hash
+      Utilities.getUuid(), now,
+      v.f.appName, v.f.who, v.f.problem, v.f.experience, v.f.blocks, v.f.directions,
+      v.raw, STATUS_OPEN, v.hash, hash_(key), ''
     ];
     sh.appendRow(row.map(safeCell_));
-    return toPost_(row);   // 저장 전 값 그대로 (txt_ 가 ' 없는 글자로 돌려줍니다)
+    return { post: toPost_(row), key: key };   // 저장 전 값 그대로 (txt_ 가 ' 없는 글자로 돌려줍니다)
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/** 올린 사람의 글 수정: 같은 규칙으로 다시 읽어 저장합니다 */
+function updatePost(id, key, raw) {
+  var v = checkPlan_(raw);
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var sh = getSheet_();
+    var r = findOwnRow_(sh, id, key);
+    if (findDuplicate_(sh, v.hash, String(id))) throw new Error('같은 기획이 이미 게시판에 있습니다.');
+    sh.getRange(r, 3, 1, 7).setValues([[v.f.appName, v.f.who, v.f.problem, v.f.experience, v.f.blocks, v.f.directions, v.raw].map(safeCell_)]);
+    sh.getRange(r, COL.hash).setValue(safeCell_(v.hash));
+    sh.getRange(r, COL.updatedAt).setValue(safeCell_(new Date().toISOString()));
+    return toPost_(sh.getRange(r, 1, 1, HEADERS.length).getValues()[0]);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/** 올린 사람의 글 삭제: status를 '삭제'로 바꿔 게시판에서 뺍니다 (교사는 시트에서 볼 수 있음) */
+function deletePost(id, key) {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var sh = getSheet_();
+    var r = findOwnRow_(sh, id, key);
+    sh.getRange(r, COL.status).setValue(safeCell_(STATUS_DELETED));
+    sh.getRange(r, COL.updatedAt).setValue(safeCell_(new Date().toISOString()));
+    return true;
   } finally {
     lock.releaseLock();
   }
@@ -137,6 +173,49 @@ function parsePlan_(raw) {
 }
 
 /* ───────── 도우미 ───────── */
+
+/** 붙여넣은 기획 검사: 길이, [앱 이름] 여부. 중복 확인용 해시도 만듭니다 */
+function checkPlan_(raw) {
+  raw = clean_(raw, MAX_RAW + 1);
+  if (!raw) throw new Error('기획 내용을 붙여넣어 주세요.');
+  if (raw.length > MAX_RAW) throw new Error('기획이 너무 깁니다. ' + MAX_RAW + '자 이하로 줄여 주세요.');
+  var f = parsePlan_(raw);
+  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획 한 장 요약'을 그대로 붙여넣어 주세요.");
+  return { raw: raw, f: f, hash: hash_(raw.replace(/\s+/g, ' ').trim()) };
+}
+
+/** 게시판에 보이는 글인지 ('숨김'·'삭제'가 아니면 보입니다) */
+function isOpen_(r) {
+  var st = txt_(r[COL.status - 1]).trim();
+  return st !== STATUS_HIDDEN && st !== STATUS_DELETED;
+}
+
+/** 지우지 않은 글 가운데 같은 기획이 있는지 (exceptId: 수정 중인 자기 글은 빼고) */
+function findDuplicate_(sh, hash, exceptId) {
+  var n = sh.getLastRow() - 1;
+  if (n < 1) return false;
+  var rows = sh.getRange(2, 1, n, COL.hash).getValues();
+  for (var i = 0; i < rows.length; i++) {
+    if (txt_(rows[i][COL.hash - 1]) === hash && txt_(rows[i][COL.status - 1]).trim() !== STATUS_DELETED && txt_(rows[i][0]) !== exceptId) return true;
+  }
+  return false;
+}
+
+/** id의 줄을 찾고, 수정 열쇠가 맞는지 확인해 줄 번호를 돌려줍니다 */
+function findOwnRow_(sh, id, key) {
+  id = String(id || ''); key = String(key || '');
+  var n = sh.getLastRow() - 1;
+  if (!id || !key || n < 1) throw new Error('이 글을 찾지 못했습니다.');
+  var rows = sh.getRange(2, 1, n, HEADERS.length).getValues();
+  for (var i = 0; i < rows.length; i++) {
+    if (txt_(rows[i][0]) !== id) continue;
+    if (!isOpen_(rows[i])) throw new Error('이미 내려간 글입니다.');
+    var kh = txt_(rows[i][COL.keyHash - 1]);
+    if (!kh || kh !== hash_(key)) throw new Error('이 글을 고칠 권한이 없습니다. 글을 올린 브라우저에서만 수정·삭제할 수 있습니다.');
+    return i + 2;
+  }
+  throw new Error('이 글을 찾지 못했습니다.');
+}
 function getSheet_() {
   var id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
   var ss = id ? SpreadsheetApp.openById(id.trim()) : SpreadsheetApp.getActiveSpreadsheet();
@@ -146,6 +225,9 @@ function getSheet_() {
     sh = ss.insertSheet(SHEET_NAME);
     sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
     sh.setFrozenRows(1);
+  } else if (sh.getRange(1, 1, 1, HEADERS.length).getValues()[0].join('|') !== HEADERS.join('|')) {
+    // 먼저 만든 시트에는 keyHash·updatedAt 머리글이 없으니 채워 둡니다 (기존 열은 그대로)
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
   }
   return sh;
 }
@@ -158,7 +240,8 @@ function toPost_(r) {
   return {
     id: txt_(r[0]), createdAt: txt_(r[1]),
     appName: txt_(r[2]), who: txt_(r[3]), problem: txt_(r[4]),
-    experience: txt_(r[5]), blocks: txt_(r[6]), directions: txt_(r[7]), raw: txt_(r[8])
+    experience: txt_(r[5]), blocks: txt_(r[6]), directions: txt_(r[7]), raw: txt_(r[8]),
+    updatedAt: txt_(r[COL.updatedAt - 1])   // 수정 열쇠의 해시(keyHash)와 중복 확인 값은 보내지 않습니다
   };
 }
 

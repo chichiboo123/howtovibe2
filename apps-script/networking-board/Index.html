@@ -76,6 +76,16 @@ summary::before{content:'＋ ';}
 details[open] summary::before{content:'－ ';}
 details pre{margin-top:8px;white-space:pre-wrap;font:inherit;font-size:13.5px;line-height:1.7;color:var(--ink-2);background:var(--sunk);border-radius:var(--r-md);padding:10px 12px;}
 .empty,.loading{color:var(--muted);font-size:14.5px;padding:18px 4px;}
+/* 내 글: 수정 · 삭제 */
+.post.mine{border-color:color-mix(in srgb,var(--blue) 45%,var(--line));}
+.mine-tag{font-size:12px;font-weight:800;color:var(--blue);margin-right:auto;}
+.own{display:flex;flex-wrap:wrap;align-items:center;gap:6px;}
+.own .btn-line{height:32px;font-size:13px;}
+.own .danger{color:var(--seam);}
+.own .ask{font-size:13px;font-weight:700;color:var(--seam);margin-right:2px;}
+.edit textarea{min-height:200px;font-size:14px;}
+.edit .msg{margin-top:6px;}
+.edited{font-size:12px;color:var(--faint);}
 </style>
 </head>
 <body class="<?= embed ? 'embed' : '' ?>">
@@ -94,7 +104,7 @@ details pre{margin-top:8px;white-space:pre-wrap;font:inherit;font-size:13.5px;li
       <input id="code" type="password" placeholder="게시 코드" autocomplete="off" hidden />
       <button class="btn" id="send" type="button"><span class="material-icons-outlined">send</span>아이디어 공유하기</button>
     </div>
-    <p class="note"><span class="material-icons-outlined">privacy_tip</span>실제 학생 이름 등 개인정보는 쓰지 마세요. 올린 글은 모두에게 보입니다.</p>
+    <p class="note"><span class="material-icons-outlined">privacy_tip</span>실제 학생 이름 등 개인정보는 쓰지 마세요. 올린 글은 모두에게 보이며, 글을 올린 브라우저에서만 수정·삭제할 수 있습니다.</p>
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
   </section>
 
@@ -139,8 +149,19 @@ function when(iso) {
 }
 function split(s, sep) { return String(s || '').split(sep).map(function (x) { return x.trim(); }).filter(Boolean); }
 
+/* ── 내 글 알아보기: 글을 올릴 때 받은 '수정 열쇠'를 이 브라우저에만 보관합니다 ── */
+var KEYS_ID = 'vc-board-keys';
+function keys() { try { return JSON.parse(localStorage.getItem(KEYS_ID) || '{}') || {}; } catch (e) { return {}; } }
+function setKey(id, k) {
+  var all = keys(); if (k) all[id] = k; else delete all[id];
+  try { localStorage.setItem(KEYS_ID, JSON.stringify(all)); } catch (e) {}
+}
+function btn(text, cls) { var b = el('button', 'btn-line' + (cls ? ' ' + cls : ''), text); b.type = 'button'; return b; }
+
 function card(p) {
-  var c = el('article', 'post');
+  var key = keys()[p.id];
+  var c = el('article', 'post' + (key ? ' mine' : ''));
+  c.dataset.id = p.id;
   var h = el('div', 'post-h'); h.appendChild(el('b', '', p.appName || '이름 없는 앱'));
   var t = el('time', '', when(p.createdAt)); t.dateTime = p.createdAt; h.appendChild(t); c.appendChild(h);
   if (p.who) c.appendChild(el('span', 'who', p.who));
@@ -151,7 +172,58 @@ function card(p) {
   split(p.directions, '·').forEach(function (d) { tags.appendChild(el('span', 'dir', d)); });
   if (tags.children.length) c.appendChild(tags);
   var det = el('details'); det.appendChild(el('summary', '', '기획 전체 보기')); det.appendChild(el('pre', '', p.raw)); c.appendChild(det);
+  if (p.updatedAt) c.appendChild(el('span', 'edited', '수정됨 ' + when(p.updatedAt)));
+  if (key) c.appendChild(ownBar(p, c, key));
   return c;
+}
+
+/* 내가 올린 글에만 보이는 수정 · 삭제 */
+function ownBar(p, c, key) {
+  var bar = el('div', 'own');
+  bar.appendChild(el('span', 'mine-tag', '내가 올린 글'));
+  var ed = btn('수정'), del = btn('삭제', 'danger');
+  bar.appendChild(ed); bar.appendChild(del);
+  ed.addEventListener('click', function () { editCard(p, c, key); });
+  del.addEventListener('click', function () {
+    /* iframe 안에서는 확인 창(confirm)이 막힐 수 있어, 카드 안에서 한 번 더 묻습니다 */
+    bar.textContent = '';
+    bar.appendChild(el('span', 'ask', '이 글을 삭제할까요?'));
+    var yes = btn('삭제', 'danger'), no = btn('취소');
+    bar.appendChild(yes); bar.appendChild(no);
+    no.addEventListener('click', function () { c.replaceWith(card(p)); });
+    yes.addEventListener('click', function () {
+      yes.disabled = no.disabled = true; yes.textContent = '삭제하는 중…';
+      google.script.run
+        .withSuccessHandler(function () {
+          setKey(p.id, null); c.remove(); $('n').textContent = --shown; $('empty').hidden = shown > 0;
+          say('글을 삭제했습니다.', 'ok');
+        })
+        .withFailureHandler(function (e) { c.replaceWith(card(p)); say(e && e.message || '삭제하지 못했습니다.', 'err'); })
+        .deletePost(p.id, key);
+    });
+  });
+  return bar;
+}
+
+/* 카드 자리에서 기획 원문을 고쳐 다시 저장합니다 */
+function editCard(p, c, key) {
+  var box = el('article', 'post mine edit');
+  box.appendChild(el('b', '', '기획 수정'));
+  var ta = el('textarea'); ta.value = p.raw; ta.maxLength = MAX; box.appendChild(ta);
+  var m = el('p', 'msg'); box.appendChild(m);
+  var bar = el('div', 'own'), save = btn('저장'), cancel = btn('취소');
+  bar.appendChild(save); bar.appendChild(cancel); box.appendChild(bar);
+  c.replaceWith(box); ta.focus();
+  cancel.addEventListener('click', function () { box.replaceWith(card(p)); });
+  save.addEventListener('click', function () {
+    var raw = ta.value.trim();
+    if (!parsePlan(raw).appName) { m.textContent = "'[앱 이름]' 줄이 있어야 합니다."; m.className = 'msg err'; return; }
+    save.disabled = cancel.disabled = true; m.textContent = '저장하는 중…'; m.className = 'msg';
+    google.script.run
+      .withSuccessHandler(function (np) { box.replaceWith(card(np)); say('수정했습니다.', 'ok'); })
+      .withFailureHandler(function (e) { save.disabled = cancel.disabled = false; m.textContent = e && e.message || '저장하지 못했습니다.'; m.className = 'msg err'; })
+      .updatePost(p.id, key, raw);
+  });
 }
 
 var shown = 0;
@@ -192,10 +264,11 @@ function send() {
   if (!parsePlan(raw).appName) { say("'[앱 이름]'을 찾지 못했습니다.", 'err'); return; }
   sending = true; $('send').disabled = true; say('공유하는 중…');
   google.script.run
-    .withSuccessHandler(function (p) {
+    .withSuccessHandler(function (res) {
       sending = false; $('send').disabled = false;
-      $('raw').value = ''; update(); say('공유했습니다. 아래 게시판에서 확인해 보세요.', 'ok');
-      $('cards').insertBefore(card(p), $('cards').firstChild);
+      setKey(res.post.id, res.key);           // 이 브라우저에서 내 글을 수정·삭제할 수 있게
+      $('raw').value = ''; update(); say('공유했습니다. 이 브라우저에서는 내 글을 수정·삭제할 수 있어요.', 'ok');
+      $('cards').insertBefore(card(res.post), $('cards').firstChild);
       $('n').textContent = ++shown; $('empty').hidden = true;
     })
     .withFailureHandler(function (e) { sending = false; $('send').disabled = false; say(e && e.message || '공유하지 못했습니다.', 'err'); })
