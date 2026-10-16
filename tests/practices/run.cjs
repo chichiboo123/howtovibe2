@@ -5,7 +5,7 @@ const { parseHTML } = require('linkedom');
 const page = process.argv[2] || path.join(__dirname, '..', '..', 'index.html');
 const { document } = parseHTML(fs.readFileSync(page, 'utf8'));
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'practices-'));
-for (let i = 1; i <= 4; i++) for (const k of ['gs', 'html', 'prompt', ...(i === 1 ? ['dash'] : [])]) {
+for (let i = 1; i <= 4; i++) for (const k of ['gs', 'html', 'prompt', ...(i === 1 ? ['dash'] : []), ...(i === 4 ? ['studio'] : [])]) {
   const el = document.getElementById(`m${i}_${k}`);
   if (!el) throw Error(`#m${i}_${k} 코드 블록이 없습니다`);
   fs.writeFileSync(path.join(dir, `m${i}_${k}.txt`), el.textContent);

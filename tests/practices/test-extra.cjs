@@ -15,11 +15,11 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
 (async () => {
   // ── 공통: 실습 1·2·4 시트 연결 ──
   // 실습 1은 한 학급용(수업 코드 없음)이고, 기록은 교사 대시보드(getDashboard)로만 읽습니다
-  const count = (i, c, read) => i === 1 ? c[read]({}).rows.length : c[read]({ room: '5-1' }).length;
+  const count = (i, c, read) => i === 1 ? c[read]({}).rows.length : i === 4 ? c[read]().length : c[read]('5-1', '').cards.length;
   for (const [i, save, arg, read] of [
     [1, 'saveCheckin', { emotion: '기쁨', note: 'x' }, 'getDashboard'],
-    [2, 'addCard', { room: '5-1', text: '의견', color: 'blue' }, 'getCards'],
-    [4, 'saveWriting', { room: '5-1', pen: '별', body: '글' }, 'getToday']]) {
+    [2, 'submitOpinion', { room: '5-1', content: '의견', color: 'blue', authorToken: 't1' }, 'getBoardData'],
+    [4, 'saveWriting', { pen: '별', body: '글' }, 'getShelf']]) {
     await test(`m${i}: setup saves own spreadsheet ID in SPREADSHEET_ID`, () => {
       const { context: c, state } = environment(i);
       c.setup();
@@ -32,11 +32,13 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       assert.ok(state.opens >= 2);
     });
     await test(`m${i}: without setup, a clear 'run setup' error`, () => {
-      const { context: c } = environment(i);
+      const { context: c, state } = environment(i);
+      if (i === 2) state.active = false;      // 실습 2는 시트에 연결된 프로젝트면 그 시트를 바로 쓰므로, 시트가 없는 웹앱 문맥을 흉내 냅니다
       assert.throws(() => count(i, c, read), /setup/);
     });
     await test(`m${i}: setup outside the spreadsheet editor fails with guidance`, () => {
-      const { context: c } = environment(i, { active: false });
+      const { context: c, state } = environment(i, { active: false });
+      if (i === 2) { c.setup(); assert.equal(state.created, 1); assert.equal(state.props.SPREADSHEET_ID, 'test-sheet-id'); return; }  // 실습 2는 새 시트를 만들어 연결
       assert.throws(() => c.setup(), /확장 프로그램/);
     });
     await test(`m${i}: re-running setup keeps existing rows`, () => {
@@ -48,7 +50,8 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       const { context: c, state } = environment(i);
       c.setup(); state.log = []; c[save](arg);
       const L = state.log;
-      assert.ok(L.indexOf('flush') > L.indexOf('append') && L.indexOf('release') > L.indexOf('flush'), L.join(','));
+      const w = i === 2 ? L.lastIndexOf('setValues') : L.indexOf('append');
+      assert.ok(w >= 0 && L.indexOf('flush') > w && L.indexOf('release') > L.indexOf('flush'), L.join(','));
     });
     await test(`m${i}: lock is released even when the write fails`, () => {
       const { context: c, state } = environment(i);
@@ -60,7 +63,7 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       const { context: c, state } = environment(i);
       c.setup();
       const sheet = Object.values(state.sheets)[0];
-      const a = i === 1 ? { ...arg, note: '0503 =1+1' } : { ...arg, room: '0503' }; if (i === 2) a.text = '=1+1'; if (i === 4) a.body = '=1+1';
+      const a = i === 1 ? { ...arg, note: '0503 =1+1' } : i === 4 ? { ...arg, pen: '0503', body: '=1+1' } : { ...arg, room: '0503', content: '=1+1' };
       c[save](a);
       const row = sheet.rows[sheet.rows.length - 1];
       assert.ok(i === 1 ? row.includes('0503 =1+1') : row.includes('0503') && row.includes('=1+1'), JSON.stringify(row));
@@ -118,6 +121,18 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
     u.ctx.submit(); await flush(); await flush();
     assert.equal(u.state.sheets['감정기록'].rows.length, 2);
   });
+  await test('m1: six emotions including 화남, same list on server, student page and dashboard', () => {
+    const { context: c } = environment(1); c.setup();
+    c.saveCheckin({ emotion: '화남', note: '' });
+    assert.equal(c.getDashboard({}).summary.counts['화남'], 1);
+    assert.ok(/name: '화남', icon: 'sentiment_extremely_dissatisfied'/.test(html(1)));
+    assert.ok(/'화남': \{ icon: 'sentiment_extremely_dissatisfied'/.test(fs.readFileSync(source(1, 'dash'), 'utf8')));
+  });
+  await test('m1: "script function not found" is turned into setup guidance', async () => {
+    const u = ui(1); await flush();
+    assert.ok(/Code\.gs 가 이 화면과 맞지 않습니다/.test(u.ctx.serverError('다음 스크립트 함수(saveCheckin)를 찾을 수 없습니다.')));
+    assert.equal(u.ctx.serverError('목록에 있는 감정을 골라 주세요.'), '목록에 있는 감정을 골라 주세요.');
+  });
   await test('m1: invalid emotion from a crafted request is rejected', () => {
     const { context: c } = environment(1); c.setup();
     assert.throws(() => c.saveCheckin({ emotion: '<script>' }), /감정/);
@@ -155,45 +170,112 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
   });
 
   // ── 실습 2 ──
-  await test('m2: like saved but response lost → retry counts once (same request ID)', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    u.el('text').value = '의견'; u.ctx.post(); await flush();
-    const card = u.ctx.cards[0];
-    u.lose(); u.ctx.sendLike(card, u.el('board').querySelector('.like')); await flush(); await flush();
-    assert.equal(u.storage.get('liked:' + card.id), undefined);
-    u.ctx.sendLike(u.ctx.cards[0], u.el('board').querySelector('.like')); await flush(); await flush();
-    assert.equal(u.ctx.cards[0].likes, 1);
-    assert.equal(u.storage.get('liked:' + card.id), '1');
+  await test('m2: title/content written with a leading apostrophe; time stored as a Date', () => {
+    const { context: c, state } = environment(2); c.setup();
+    c.submitOpinion({ room: '5-1', title: '=SUM(A1)', content: '0503', authorToken: 't' });
+    const row = state.sheets['의견보드_기록'].rows[1];
+    assert.equal(row[3], '=SUM(A1)'); assert.equal(row[4], '0503'); assert.ok(row[1] instanceof Date);
+    const sh = state.sheets['의견보드_기록'], seen = []; const orig = sh.getRange;
+    sh.getRange = (...a) => { const r = orig(...a); const sv = r.setValues; r.setValues = v => { seen.push(v); return sv(v); }; return r; };
+    c.submitOpinion({ room: '5-1', title: '=1', content: '=2', authorToken: 't' });
+    assert.equal(seen.pop()[0][3], "'=1");
   });
-  await test('m2: different like requests still count separately (two browsers)', () => {
+  await test('m2: tokens are never sent to other clients; isMine only for the author', () => {
     const { context: c } = environment(2); c.setup();
-    const id = c.addCard({ room: '5-1', text: '의견' })[0].id;
-    c.likeCard({ room: '5-1', id, reqId: 'a1' }); c.likeCard({ room: '5-1', id, reqId: 'b2' });
-    assert.equal(c.getCards({ room: '5-1' })[0].likes, 2);
+    c.submitOpinion({ room: '5-1', content: 'a', authorToken: 'secret-token-1' });
+    const other = c.getBoardData('5-1', 'someone-else');
+    assert.ok(!JSON.stringify(other).includes('secret-token-1'));
+    assert.equal(other.cards[0].isMine, false); assert.equal(c.getBoardData('5-1', 'secret-token-1').cards[0].isMine, true);
   });
-  await test('m2: failed like restores count and reloads the board', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    u.el('text').value = '의견'; u.ctx.post(); await flush();
-    let loads = 0; const orig = u.ctx.Backend.load; u.ctx.Backend.load = () => { loads++; return orig(); };
-    u.fail(); u.ctx.sendLike(u.ctx.cards[0], u.el('board').querySelector('.like')); await flush(); await flush();
-    assert.equal(u.ctx.cards[0].likes, 0); assert.ok(loads >= 1);
-    assert.equal(u.el('board').querySelector('.like').disabled, false);
+  await test('m2: only the author (or teacher PIN) can edit or delete', () => {
+    const { context: c } = environment(2); c.setup();
+    const id = c.submitOpinion({ room: '5-1', content: 'a', authorToken: 'me' }).card.id;
+    assert.throws(() => c.updateOpinion({ id, content: 'x', authorToken: 'you' }), /본인/);
+    assert.throws(() => c.deleteOpinion(id, 'you', ''), /본인/);
+    c.updateOpinion({ id, content: '고침', color: 'evil-class', authorToken: 'me' });
+    assert.equal(c.getBoardData('5-1', '').cards[0].content, '고침'); assert.equal(c.getBoardData('5-1', '').cards[0].color, 'yellow');
+    c.deleteOpinion(id, 'you', '1234'); assert.equal(c.getBoardData('5-1', '').cards.length, 0);
   });
-  await test('m2: post response after changing the room is ignored', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    let resolve; u.ctx.Backend.add = () => new Promise(r => resolve = r);
-    u.el('text').value = '이전 반 글'; u.ctx.post(); u.el('changeRoom').click(); u.ctx.enter('5-2', ''); await flush();
-    resolve([{ id: 'x', at: new Date().toISOString(), text: 'OLD ROOM CARD', color: 'yellow', likes: 0 }]); await flush(); await flush();
-    assert.ok(!u.el('board').textContent.includes('OLD ROOM CARD'));
+  await test('m2: room reset deletes only that room, under the lock', () => {
+    const { context: c, state } = environment(2); c.setup();
+    c.submitOpinion({ room: '5-1', content: 'a' }); c.submitOpinion({ room: '5-2', content: 'b' }); c.submitOpinion({ room: '5-1', content: 'c' });
+    state.log = []; c.clearRoomCards('5-1', '1234');
+    assert.equal(c.getBoardData('5-1', '').cards.length, 0); assert.equal(c.getBoardData('5-2', '').cards.length, 1);
+    assert.ok(state.log.indexOf('lock') < state.log.indexOf('deleteRow') && state.log.lastIndexOf('release') > state.log.lastIndexOf('deleteRow'), state.log.join(','));
   });
-  await test('m2: 5-second polling and hidden-tab pause kept', async () => {
-    const u = ui(2); await flush(); u.ctx.enter('5-1', ''); await flush();
-    assert.equal(u.timers[0].ms, 5000);
+  await test('m2: teacher card order is saved and shown to students', () => {
+    const { context: c } = environment(2); c.setup();
+    const a = c.submitOpinion({ room: '5-1', content: 'A' }).card.id, b = c.submitOpinion({ room: '5-1', content: 'B' }).card.id;
+    c.updateCardOrder('5-1', [a, b], '1234');
+    const cards = c.getBoardData('5-1', '').cards.sort((x, y) => y.sortOrder - x.sortOrder);
+    assert.equal(cards[0].id, a);
+  });
+  await test('m2: room question saved per room (teacher only) and returned with the board', () => {
+    const { context: c } = environment(2); c.setup();
+    c.saveRoomQuestion('5-1', '쉬는 시간에 무엇을 할까?', '1234'); c.saveRoomQuestion('5-1', '바뀐 질문', '1234');
+    assert.equal(c.getBoardData('5-1', '').question, '바뀐 질문'); assert.equal(c.getBoardData('5-2', '').question, '');
+  });
+  await test('m2: dashboard PIN uses the PIN window, not prompt()', async () => {
+    const u = ui(2); u.ctx.window.dispatchEvent(new u.ctx.window.Event('DOMContentLoaded')); await flush();
+    assert.ok(!/\bprompt\(/.test(html(2)));
+    u.ctx.openDashboardModal();
+    assert.ok(u.el('pin-modal').classList.contains('open'));
+    u.el('modal-pin-input').value = '1234'; u.ctx.confirmTeacherPin(); await flush(); await flush(); await flush();
+    assert.ok(u.el('dashboard-modal').classList.contains('open'));
+  });
+  await test('m2: connection check shows OK through getAppStatus', async () => {
+    const u = ui(2); u.ctx.window.dispatchEvent(new u.ctx.window.Event('DOMContentLoaded')); await flush(); await flush();
+    assert.ok(u.el('setup-connection-status').textContent.includes('연결 정상'));
   });
 
   // ── 실습 3 ──
+  const page = (o) => Object.assign({ pageid: 1, index: 1, title: '무지개', description: '', extract: '무지개는 빛의 띠이다.' }, o);
   await test('m3: no spreadsheet in practice 3 code', () => {
     assert.ok(!/SpreadsheetApp|PropertiesService\.getScriptProperties\(\)\.setProperty/.test(gs(3)));
+  });
+  await test('m3: one Action API call with intro extracts (no cut-off search excerpt)', () => {
+    const { context: c, state } = environment(3); c.searchWikipedia('무지개');
+    const u = new URL(state.lastUrl);
+    assert.equal(u.searchParams.get('generator'), 'search'); assert.equal(u.searchParams.get('exintro'), '1');
+    assert.equal(u.searchParams.get('explaintext'), '1'); assert.ok(u.searchParams.get('prop').includes('extracts'));
+    assert.equal(state.fetches, 1);
+  });
+  await test('m3: summary stops at a sentence end, never mid-sentence', () => {
+    const { context: c, state } = environment(3);
+    const long = '블랙홀은 중력이 매우 강한 천체이다. ' + '빛조차 빠져나올 수 없는 영역을 사건의 지평선이라고 한다. '.repeat(10);
+    state.pages = [page({ title: '블랙홀', extract: long })];
+    const t = c.searchWikipedia('블랙홀').pages[0].summary;
+    assert.ok(t.length <= 320 && /다\.$/.test(t), t);
+  });
+  await test('m3: disambiguation pages removed and search order kept', () => {
+    const { context: c, state } = environment(3);
+    state.pages = [page({ pageid: 3, index: 3, title: '셋째', extract: '셋째 문서이다.' }), page({ pageid: 1, index: 1, title: '첫째', extract: '첫째 문서이다.' }),
+      page({ pageid: 2, index: 2, title: '동음', extract: '동음은 다음을 가리킨다.', pageprops: { disambiguation: '' } })];
+    assert.deepEqual(c.searchWikipedia('순서').pages.map(p => p.title).join(','), '첫째,셋째');
+  });
+  await test('m3: translation failure does not break the search', () => {
+    const { context: c, state } = environment(3); state.translateThrows = true;
+    const r = c.searchWikipedia('무지개'); assert.equal(r.pages.length, 1); assert.equal(r.english, '');
+  });
+  await test('m3: class map counts found keywords only, most first, 6-hour cache', () => {
+    const { context: c, state } = environment(3);
+    c.searchWikipedia('사막'); c.searchWikipedia('무지개'); const r = c.searchWikipedia('무지개');
+    state.pages = []; c.searchWikipedia('없는낱말');
+    const map = c.getClassMap();
+    assert.equal(JSON.stringify(map), JSON.stringify([{ word: '무지개', count: 2 }, { word: '사막', count: 1 }]));
+    assert.equal(r.map[0].word, '무지개');
+    const k = [...state.cache.keys()].find(k => k.startsWith('map_')); assert.equal(state.ttls[k], 21600);
+    assert.equal(state.locks, state.releases);
+  });
+  await test('m3: class map keeps at most 40 words', () => {
+    const { context: c } = environment(3);
+    for (let i = 0; i < 45; i++) c.searchWikipedia('낱말' + i);
+    assert.equal(c.getClassMap().length, 40);
+  });
+  await test('m3: only the teacher (editor run) can clear the class map', () => {
+    const { context: c, state } = environment(3); c.searchWikipedia('무지개');
+    state.activeEmail = ''; assert.throws(() => c.clearClassMap(), /선생님만/); assert.equal(c.getClassMap().length, 1);
+    state.activeEmail = 'teacher@test'; c.clearClassMap(); assert.equal(c.getClassMap().length, 0);
   });
   await test('m3: cache re-checked after the lock (another request filled it)', () => {
     const { context: c, state } = environment(3);
@@ -226,48 +308,94 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
     const u = ui(3); await flush(); u.state.status = 503; u.ctx.search('오류'); await flush(); await flush();
     assert.equal(u.el('go').disabled, false); assert.ok(u.el('err').textContent.includes('다시'));
   });
+  await test('m3: summary card, English bridge and class map on screen', async () => {
+    const u = ui(3); await flush(); await flush();
+    assert.ok(u.el('cloud').textContent.includes('첫 탐험가'));
+    u.ctx.search('무지개'); await flush(); await flush();
+    assert.ok(u.el('cards').querySelector('.summary').textContent.includes('햇빛이 물방울에서 굴절되어 생긴다.'));
+    assert.ok(!u.el('cards').textContent.includes('…'));
+    assert.ok(u.el('bridge').textContent.includes('rainbow'));
+    assert.ok(u.el('bridge').querySelector('a').href.includes('en.wikipedia.org'));
+    const chip = u.el('cloud').querySelector('.chip'); assert.equal(chip.textContent, '무지개'); assert.ok(chip.classList.contains('mine'));
+    assert.ok(u.timers.some(t => t.ms === 30000));
+  });
 
   // ── 실습 4 ──
-  await test('m4: several topics on the same day all appear in the anthology', () => {
-    const { context: d, state } = environment(4); d.setup();
-    d.saveWriting({ room: '5-1', pen: '별', body: '가', topic: '가을' });
-    d.saveWriting({ room: '5-1', pen: '달', body: '나', topic: '친구' });
-    d.saveWriting({ room: '5-1', pen: '숲', body: '다', topic: '가을' });
-    d.makeAnthology();
-    const texts = state.docs[0].events.filter(e => e[0] === 'paragraph').map(e => e[1]);
-    assert.equal(texts.filter(t => t === '글감 : 가을').length, 1);
-    assert.equal(texts.filter(t => t === '글감 : 친구').length, 1);
-    assert.equal(state.docs[0].events.filter(e => e[0] === 'rule').length, 3);
+  const studioEnv = () => { const e = environment(4); e.context.setup(); return e; };
+  await test('m4: topic comes from the teacher (server), not from the student request', () => {
+    const { context: d, state } = studioEnv();
+    d.setTopic('  가을  하늘 '); d.saveWriting({ pen: '별', body: '글', topic: '해킹 글감' });
+    assert.equal(d.getDesk().topic, '가을 하늘'); assert.equal(d.getShelf()[0].topic, '가을 하늘');
+    assert.equal(state.props.TOPIC, '가을 하늘');
   });
-  await test('m4: PDF failure still shows the document link', () => {
-    const { context: d, state } = environment(4); d.setup();
-    d.saveWriting({ room: '5-1', pen: '별', body: '가' }); state.failPdf = true;
-    d.makeAnthology();
+  await test('m4: id is stored as text (a hex id like 1e234567 must not become a number)', () => {
+    const { context: d, state } = studioEnv();
+    const sh = state.sheets['원고'], raw = []; const orig = sh.appendRow; sh.appendRow = r => { raw.push(r); orig(r); };
+    d.saveWriting({ pen: '별', body: '글' }); assert.ok(/^'[0-9a-f-]{8}$/.test(raw[0][0]), raw[0][0]);
+  });
+  await test('m4: anthology grouped by topic with a table of contents', () => {
+    const { context: d, state } = studioEnv();
+    d.setTopic('가을'); d.saveWriting({ pen: '별', body: '가' }); d.setTopic('친구'); d.saveWriting({ pen: '달', body: '나' });
+    d.setTopic('가을'); d.saveWriting({ pen: '숲', body: '다' });
+    const r = d.makeAnthology({ ids: d.getStudio().writings.map(w => w.id), order: 'topic' });
+    const texts = state.docs[0].events.filter(e => e[0] === 'paragraph').map(e => e[1]);
+    assert.equal(texts.filter(t => t === '가을').length, 1); assert.equal(texts.filter(t => t === '친구').length, 1);
+    assert.ok(texts.includes('1. 가을 — 2편') && texts.includes('2. 친구 — 1편'), texts.join('|'));
+    assert.equal(state.docs[0].events.filter(e => e[0] === 'rule').length, 3); assert.equal(r.chapters, 2);
+  });
+  await test('m4: only chosen writings go into the book; date order works', () => {
+    const { context: d, state } = studioEnv();
+    d.saveWriting({ pen: '별', body: '실을 글' }); d.saveWriting({ pen: '달', body: '뺄 글' });
+    const keep = d.getStudio().writings.find(w => w.body === '실을 글').id;
+    const r = d.makeAnthology({ ids: [keep], order: 'date', pdf: false });
+    const texts = state.docs[0].events.filter(e => e[0] === 'paragraph').map(e => e[1]);
+    assert.equal(r.count, 1); assert.ok(texts.includes('실을 글') && !texts.includes('뺄 글'));
+    assert.equal(state.pdfs.length, 0); assert.equal(r.pdfUrl, '');
+  });
+  await test('m4: empty selection gives a clear error, no document', () => {
+    const { context: d, state } = studioEnv(); d.saveWriting({ pen: '별', body: '글' });
+    assert.throws(() => d.makeAnthology({ ids: [] }), /골라/); assert.equal(state.docs.length, 0);
+  });
+  await test('m4: PDF failure still returns the document link', () => {
+    const { context: d, state } = studioEnv();
+    d.saveWriting({ pen: '별', body: '가' }); state.failPdf = true;
+    const r = d.makeAnthology({ ids: d.getStudio().writings.map(w => w.id) });
     assert.equal(state.docs.length, 1); assert.equal(state.pdfs.length, 0);
-    assert.ok(/docs\.google\.com/.test(state.dialog.content) && /PDF 는 만들지 못했습니다/.test(state.dialog.content), state.dialog.content);
+    assert.ok(/docs\.google\.com/.test(r.docUrl) && r.pdfFailed);
   });
   await test('m4: student context stops at getUi before reading the sheet or creating a doc', () => {
-    const { context: d, state } = environment(4); d.setup();
+    const { context: d, state } = studioEnv();
     state.ui = false; state.opens = 0;
-    assert.throws(() => d.makeAnthology(), /메뉴/);
+    assert.throws(() => d.makeAnthology({}), /메뉴/); assert.throws(() => d.openStudio(), /메뉴/);
     assert.equal(state.opens, 0); assert.equal(state.docs.length, 0);
   });
-  await test('m4: changing the room clears the previous list', async () => {
-    const u = ui(4); await flush(); u.ctx.enter('5-1', ''); await flush();
-    u.el('pen').value = '별'; u.el('body').value = 'PREVIOUS ROOM TEXT'; u.ctx.submit(); await flush(); await flush();
-    assert.ok(u.el('list').textContent.includes('PREVIOUS ROOM TEXT'));
-    let never; u.ctx.Backend.load = () => new Promise(r => never = r);
-    u.el('changeRoom').click(); u.ctx.enter('5-2', '');
-    assert.ok(!u.el('list').textContent.includes('PREVIOUS ROOM TEXT'));
+  await test('m4: menu opens the studio dialog', () => {
+    const { context: d, state } = studioEnv(); d.openStudio(); assert.ok(state.dialog);
   });
-  await test('m4: save response after changing the room is ignored', async () => {
-    const u = ui(4); await flush(); u.ctx.enter('5-1', ''); await flush();
-    let resolve; u.ctx.Backend.save = () => new Promise(r => resolve = r);
-    u.el('pen').value = '별'; u.el('body').value = '글'; u.ctx.submit();
-    u.ctx.Backend.load = () => new Promise(() => {});        // 새 반 조회는 끝나지 않게 → 늦은 저장 응답만 화면에 영향을 줄 수 있음
-    u.el('changeRoom').click(); u.ctx.enter('5-2', '');
-    resolve([{ at: new Date().toISOString(), pen: '별', body: 'OLD ROOM SAVE' }]); await flush(); await flush();
-    assert.ok(!u.el('list').textContent.includes('OLD ROOM SAVE'));
+  await test('m4: draft survives in sessionStorage, cleared after submit; failed submit keeps the text', async () => {
+    const u = ui(4); await flush();
+    u.el('pen').value = '별'; u.el('body').value = '쓰던 글'; u.el('body').dispatchEvent(new u.ctx.window.Event('input'));
+    await new Promise(r => setTimeout(r, 450));
+    assert.equal(u.session.get('draft:body'), '쓰던 글');
+    u.fail(); u.ctx.submit(); await flush(); await flush();
+    assert.equal(u.el('body').value, '쓰던 글'); assert.equal(u.el('writeErr').classList.contains('hide'), false);
+    u.ctx.submit(); await flush(); await flush();
+    assert.equal(u.session.get('draft:body'), undefined); assert.equal(u.session.get('draft:pen'), '별');
+    u.el('newPiece').click(); assert.equal(u.el('body').value, ''); assert.equal(u.el('pen').value, '별');
+    assert.equal(u.storage.size, 0);
+  });
+  await test('m4: studio lists writings, preselects the current topic, builds the book', async () => {
+    const server = studioEnv(); const d = server.context;
+    d.setTopic('봄'); d.saveWriting({ pen: '별', title: '<b>꽃</b>', body: '글1' }); d.setTopic('여름'); d.saveWriting({ pen: '달', body: '글2' });
+    const u = ui(4, server, 'studio'); await flush(); await flush();
+    assert.equal(u.el('list').querySelectorAll('.item').length, 1);          // 지금 글감(여름)으로 걸러 보여 줌
+    assert.ok(u.el('makeTxt').textContent.includes('1편'));
+    u.el('filter').children[0].selected = true; u.el('filter').dispatchEvent(new u.ctx.window.Event('change'));
+    assert.equal(u.el('list').querySelectorAll('.item').length, 2);
+    assert.ok(u.el('list').textContent.includes('<b>꽃</b>')); assert.equal(u.el('list').querySelector('b b'), null);
+    u.el('make').click(); await flush(); await flush();
+    assert.equal(server.state.docs.length, 1);
+    assert.ok(u.el('result').querySelector('a').href.includes('docs.google.com'));
   });
 
   console.log(JSON.stringify({ pass: results.filter(r => r.status === 'PASS').length, fail: results.filter(r => r.status === 'FAIL').length, results }, null, 2));
