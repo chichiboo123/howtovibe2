@@ -149,12 +149,22 @@ function when(iso) {
 }
 function split(s, sep) { return String(s || '').split(sep).map(function (x) { return x.trim(); }).filter(Boolean); }
 
-/* ── 내 글 알아보기: 글을 올릴 때 받은 '수정 열쇠'를 이 브라우저에만 보관합니다 ── */
+/* ── 내 글 알아보기: 글을 올릴 때 받은 '수정 열쇠'를 이 브라우저에 보관합니다 ──
+   게시판 안쪽 주소는 새로고침(강제 새로고침 포함) 때 바뀔 수 있어 이쪽 저장소만으로는 잊힙니다.
+   그래서 연수 사이트 안에서는 열쇠를 연수 사이트(PARENT)에도 맡겨 두고, 다시 열 때 돌려받습니다. */
 var KEYS_ID = 'vc-board-keys';
-function keys() { try { return JSON.parse(localStorage.getItem(KEYS_ID) || '{}') || {}; } catch (e) { return {}; } }
+var parentKeys = {};
+function localKeys() { try { return JSON.parse(localStorage.getItem(KEYS_ID) || '{}') || {}; } catch (e) { return {}; } }
+function keys() {
+  var all = localKeys();
+  Object.keys(parentKeys).forEach(function (id) { if (!all[id]) all[id] = parentKeys[id]; });
+  return all;
+}
 function setKey(id, k) {
-  var all = keys(); if (k) all[id] = k; else delete all[id];
+  var all = localKeys(); if (k) all[id] = k; else delete all[id];
+  if (k) parentKeys[id] = k; else delete parentKeys[id];
   try { localStorage.setItem(KEYS_ID, JSON.stringify(all)); } catch (e) {}
+  if (EMBED && PARENT) { try { window.top.postMessage({ type: 'vc-board-key', id: id, key: k || null }, PARENT); } catch (e) {} }
 }
 function btn(text, cls) { var b = el('button', 'btn-line' + (cls ? ' ' + cls : ''), text); b.type = 'button'; return b; }
 
@@ -177,6 +187,16 @@ function card(p) {
   return c;
 }
 
+/* 연수 사이트가 돌려준 열쇠를 받아, 내 글 카드에 수정 · 삭제를 다시 붙입니다 */
+function takeParentKeys(k) {
+  if (!k || typeof k !== 'object') return;
+  var next = {};
+  Object.keys(k).forEach(function (id) { if (typeof k[id] === 'string' && /^[\w-]{16,100}$/.test(k[id])) next[id] = k[id]; });
+  if (JSON.stringify(next) === JSON.stringify(parentKeys)) return;
+  parentKeys = next;
+  if (!document.querySelector('.edit')) paint(lastList);   // 수정 중일 때는 화면을 건드리지 않습니다
+}
+
 /* 내가 올린 글에만 보이는 수정 · 삭제 */
 function ownBar(p, c, key) {
   var bar = el('div', 'own');
@@ -195,7 +215,7 @@ function ownBar(p, c, key) {
       yes.disabled = no.disabled = true; yes.textContent = '삭제하는 중…';
       google.script.run
         .withSuccessHandler(function () {
-          setKey(p.id, null); c.remove(); $('n').textContent = --shown; $('empty').hidden = shown > 0;
+          setKey(p.id, null); lastList = lastList.filter(function (x) { return x.id !== p.id; }); c.remove(); $('n').textContent = --shown; $('empty').hidden = shown > 0;
           say('글을 삭제했습니다.', 'ok');
         })
         .withFailureHandler(function (e) { c.replaceWith(card(p)); say(e && e.message || '삭제하지 못했습니다.', 'err'); })
@@ -220,14 +240,18 @@ function editCard(p, c, key) {
     if (!parsePlan(raw).appName) { m.textContent = "'[앱 이름]' 줄이 있어야 합니다."; m.className = 'msg err'; return; }
     save.disabled = cancel.disabled = true; m.textContent = '저장하는 중…'; m.className = 'msg';
     google.script.run
-      .withSuccessHandler(function (np) { box.replaceWith(card(np)); say('수정했습니다.', 'ok'); })
+      .withSuccessHandler(function (np) {
+        lastList = lastList.map(function (x) { return x.id === np.id ? np : x; });
+        box.replaceWith(card(np)); say('수정했습니다.', 'ok');
+      })
       .withFailureHandler(function (e) { save.disabled = cancel.disabled = false; m.textContent = e && e.message || '저장하지 못했습니다.'; m.className = 'msg err'; })
       .updatePost(p.id, key, raw);
   });
 }
 
-var shown = 0;
+var shown = 0, lastList = [];
 function paint(list) {
+  lastList = list;
   var box = $('cards'); box.textContent = '';
   list.forEach(function (p) { box.appendChild(card(p)); });
   shown = list.length; $('n').textContent = shown;
@@ -268,6 +292,7 @@ function send() {
       sending = false; $('send').disabled = false;
       setKey(res.post.id, res.key);           // 이 브라우저에서 내 글을 수정·삭제할 수 있게
       $('raw').value = ''; update(); say('공유했습니다. 이 브라우저에서는 내 글을 수정·삭제할 수 있어요.', 'ok');
+      lastList = [res.post].concat(lastList);
       $('cards').insertBefore(card(res.post), $('cards').firstChild);
       $('n').textContent = ++shown; $('empty').hidden = true;
     })
@@ -282,7 +307,7 @@ google.script.run.withSuccessHandler(function (c) { $('code').hidden = !c.codeRe
 load();
 
 /* ── 연수 사이트에 넣었을 때: 내용 높이를 알려 iframe 높이를 맞춥니다 ──
-   PARENT(연수 사이트 주소)로만 보냅니다. 높이 숫자 말고는 아무것도 보내지 않습니다. */
+   PARENT(연수 사이트 주소)로만 보냅니다. 보내는 것은 높이 숫자와, 이 브라우저에서 올린 글의 수정 열쇠뿐입니다. */
 if (EMBED && PARENT) {
   var lastH = 0;
   var report = function () {
@@ -295,7 +320,9 @@ if (EMBED && PARENT) {
   window.addEventListener('load', report);
   report();
   window.addEventListener('message', function (e) {
-    if (e.origin === PARENT && e.data && e.data.type === 'vc-board-ack') document.documentElement.classList.add('fit');
+    if (e.origin !== PARENT || !e.data || e.data.type !== 'vc-board-ack') return;
+    document.documentElement.classList.add('fit');
+    takeParentKeys(e.data.keys);
   });
 }
 </script>
