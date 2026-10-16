@@ -32,9 +32,16 @@
 
 ## 3. 코드 붙여넣기
 
-1. 기본으로 있는 **Code.gs**의 내용을 모두 지우고, 이 폴더의 `Code.gs`를 붙여넣습니다.
-2. **파일 + → HTML** → 이름을 `Index`로 만들고(`.html`은 자동으로 붙습니다), 이 폴더의 `Index.html`을 붙여넣습니다.
+코드는 아래 **원본 보기 링크**에서 복사하면 빠짐없이 복사됩니다. 링크를 열고 **Ctrl+A → Ctrl+C**.
+
+- Code.gs 원본: https://raw.githubusercontent.com/chichiboo123/howtovibe2/main/apps-script/networking-board/Code.gs
+- Index.html 원본: https://raw.githubusercontent.com/chichiboo123/howtovibe2/main/apps-script/networking-board/Index.html
+
+1. 기본으로 있는 **Code.gs**의 내용을 모두 지우고, Code.gs 원본을 붙여넣습니다.
+   - 붙여넣은 뒤 **맨 아래 줄이 `// ───────── Code.gs 끝`** 인지 확인하세요. 중간까지만 붙으면 setup에서 `getSheet_ is not defined` 오류가 납니다.
+2. **파일 + → HTML** → 이름을 `Index`로 만들고(`.html`은 자동으로 붙습니다), Index.html 원본을 붙여넣습니다.
    - 이름은 대문자 **I**의 `Index`여야 합니다.
+   - 맨 아래 줄이 `<!-- Index.html 끝` 인지 확인하세요.
 3. **저장**(Ctrl+S)합니다.
 
 ## 4. 스크립트 속성 설정
@@ -161,6 +168,7 @@
 | 3단계에 ‘아직 연결되지 않았습니다’ | `index.html`의 `BOARD_URL`이 비었거나 `/exec` 주소 모양이 아님. 푸시 후 1~2분 기다리기 |
 | 게시판 자리에 로그인 화면 | 배포의 액세스가 ‘모든 사용자’가 아님. 학교 계정은 관리자 정책으로 막힐 수 있음 |
 | 게시판 자리가 비어 있음 | `/exec` 주소를 새 탭에서 열어 보기. 거기서도 안 되면 5·6번 다시 확인 |
+| setup 실행 시 `getSheet_ is not defined` 같은 `… is not defined` 오류 | 코드가 중간까지만 붙었습니다. Code.gs를 모두 지우고 원본 링크에서 Ctrl+A로 다시 복사해 붙여넣기 |
 | 코드를 고쳤는데 그대로 | Apps Script는 **배포 관리 → 새 버전**을 해야 반영됨 |
 | ‘스프레드시트를 찾지 못했습니다’ | 별도 프로젝트라면 `SHEET_ID` 확인 |
 | 게시판 안에 스크롤바가 생김 | 높이 맞춤이 안 되는 환경. 그대로 쓰거나 새 창에서 열기 |

@@ -190,3 +190,5 @@ function hash_(s) {
   return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, s, Utilities.Charset.UTF_8)
     .map(function (b) { return ('0' + (b & 255).toString(16)).slice(-2); }).join('');
 }
+
+// ───────── Code.gs 끝 (이 줄까지 붙여넣어야 합니다) ─────────

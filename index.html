@@ -5976,7 +5976,7 @@ $('d_print').addEventListener('click',()=>{
 /* ══ 네트워킹 · 공동 아이디어 게시판 ══
    게시판은 Apps Script 웹앱(apps-script/networking-board)이고, 여기에는 iframe으로 들어옵니다.
    배포한 웹앱의 /exec 주소를 아래에 붙여 넣으세요. 비워 두면 '아직 연결되지 않았습니다'가 보입니다. */
-const BOARD_URL='';
+const BOARD_URL='https://script.google.com/macros/s/AKfycbwvgVG-4GTWw9LvBCd0tpFgPyh9dZIoSyw28e7KyGlGL9ddSX38OoJtKMmA-Q5NRcLFKA/exec';
 (function(){
   const fr=$('boardFrame'); if(!fr) return;
   if(!/^https:\/\/script\.google\.com\/(a\/macros\/[\w.-]+|macros)\/s\/[\w-]+\/exec$/.test(BOARD_URL)) return;
