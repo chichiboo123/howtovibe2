@@ -14,14 +14,15 @@
  */
 
 var SHEET_NAME = 'posts';
-var HEADERS = ['id', 'createdAt', 'appName', 'who', 'problem', 'experience', 'blocks', 'directions', 'raw', 'status', 'hash', 'keyHash', 'updatedAt', 'appUrl'];
-var COL = { status: 10, hash: 11, keyHash: 12, updatedAt: 13, appUrl: 14 };   // 기존 열 순서는 유지하고 링크만 맨 뒤에 추가
+var HEADERS = ['id', 'createdAt', 'appName', 'who', 'problem', 'experience', 'blocks', 'directions', 'raw', 'status', 'hash', 'keyHash', 'updatedAt', 'appUrl', 'author'];
+var COL = { status: 10, hash: 11, keyHash: 12, updatedAt: 13, appUrl: 14, author: 15 };   // 새 열은 맨 뒤에만 추가
 var STATUS_OPEN = '공개';
 var STATUS_HIDDEN = '숨김';
 var STATUS_DELETED = '삭제';   // 올린 사람이 지운 글. 줄은 남겨 두고 게시판에서만 뺍니다
 
 var MAX_RAW = 3000;      // 붙여넣는 기획 원문 최대 글자 수
 var MAX_POSTS = 300;     // 게시판에 보여 줄 최대 글 수 (최신순)
+var MAX_AUTHOR = 40;     // 작성자 이름 또는 별명 (선택)
 var LIMIT = { appName: 60, who: 60, problem: 500, experience: 500, blocks: 160, directions: 160 };
 
 /* 기획서(b_plan)의 항목 이름 → 저장할 칸 */
@@ -92,10 +93,11 @@ function listPosts() {
  * 새 글 저장. 글과 함께 '수정 열쇠'를 돌려줍니다.
  * 열쇠는 올린 사람의 브라우저에만 남고, 시트에는 열쇠의 해시만 저장합니다.
  */
-function addPost(raw, code, appUrl) {
+function addPost(raw, code, appUrl, author) {
   var need = getPostCode_();
   if (need && String(code || '').trim() !== need) throw new Error('게시 코드가 맞지 않습니다. 진행하는 선생님께 확인해 주세요.');
   var v = checkPlan_(raw, appUrl);
+  author = cleanAuthor_(author);
   var key = Utilities.getUuid() + Utilities.getUuid();
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -106,7 +108,7 @@ function addPost(raw, code, appUrl) {
     var row = [
       Utilities.getUuid(), now,
       v.f.appName, v.f.who, v.f.problem, v.f.experience, v.f.blocks, v.f.directions,
-      v.raw, STATUS_OPEN, v.hash, hash_(key), '', v.appUrl
+      v.raw, STATUS_OPEN, v.hash, hash_(key), '', v.appUrl, author
     ];
     sh.appendRow(row.map(safeCell_));
     return { post: toPost_(row), key: key };   // 저장 전 값 그대로 (txt_ 가 ' 없는 글자로 돌려줍니다)
@@ -116,7 +118,7 @@ function addPost(raw, code, appUrl) {
 }
 
 /** 올린 사람의 글 수정: 같은 규칙으로 다시 읽어 저장합니다 */
-function updatePost(id, key, raw, appUrl) {
+function updatePost(id, key, raw, appUrl, author) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
@@ -124,11 +126,14 @@ function updatePost(id, key, raw, appUrl) {
     var r = findOwnRow_(sh, id, key);
     // 예전 화면에서 링크 인자 없이 수정해도 이미 저장된 주소를 지우지 않습니다.
     var v = checkPlan_(raw, appUrl === undefined ? txt_(sh.getRange(r, COL.appUrl).getValues()[0][0]) : appUrl);
+    // 이전 화면의 수정 요청에는 작성자 인자가 없으므로 기존 이름을 유지합니다.
+    author = cleanAuthor_(author === undefined ? txt_(sh.getRange(r, COL.author).getValues()[0][0]) : author);
     if (findDuplicate_(sh, v.hash, String(id))) throw new Error('같은 글이 이미 게시판에 있습니다.');
     sh.getRange(r, 3, 1, 7).setValues([[v.f.appName, v.f.who, v.f.problem, v.f.experience, v.f.blocks, v.f.directions, v.raw].map(safeCell_)]);
     sh.getRange(r, COL.hash).setValue(safeCell_(v.hash));
     sh.getRange(r, COL.updatedAt).setValue(safeCell_(new Date().toISOString()));
     sh.getRange(r, COL.appUrl).setValue(safeCell_(v.appUrl));
+    sh.getRange(r, COL.author).setValue(safeCell_(author));
     return toPost_(sh.getRange(r, 1, 1, HEADERS.length).getValues()[0]);
   } finally {
     lock.releaseLock();
@@ -215,6 +220,12 @@ function cleanAppUrl_(value) {
   return url;
 }
 
+function cleanAuthor_(value) {
+  var author = clean_(String(value == null ? '' : value).replace(/\s+/g, ' '), MAX_AUTHOR + 1);
+  if (author.length > MAX_AUTHOR) throw new Error('작성자 이름 또는 별명은 ' + MAX_AUTHOR + '자 이내로 적어 주세요.');
+  return author;
+}
+
 /** 게시판에 보이는 글인지 ('숨김'·'삭제'가 아니면 보입니다) */
 function isOpen_(r) {
   var st = txt_(r[COL.status - 1]).trim();
@@ -275,7 +286,8 @@ function toPost_(r) {
     appName: txt_(r[2]), who: txt_(r[3]), problem: txt_(r[4]),
     experience: txt_(r[5]), blocks: txt_(r[6]), directions: txt_(r[7]), raw: txt_(r[8]),
     updatedAt: txt_(r[COL.updatedAt - 1]),
-    kind: parsePlan_(txt_(r[8])).appName ? 'plan' : 'text', appUrl: appUrl
+    kind: parsePlan_(txt_(r[8])).appName ? 'plan' : 'text', appUrl: appUrl,
+    author: txt_(r[COL.author - 1])
     // 수정 열쇠의 해시(keyHash)와 중복 확인 값은 보내지 않습니다
   };
 }

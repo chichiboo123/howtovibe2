@@ -40,7 +40,8 @@ textarea:focus,input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 
 .form .help{font-size:14px;color:var(--muted);margin-bottom:10px;}
 .form label.link-label{margin-top:14px;}
 .form label small{font-size:13px;font-weight:500;color:var(--muted);}
-input.app-url{width:100%;min-width:0;border:1.5px solid var(--line);border-radius:var(--r-md);background:var(--paper);color:var(--ink);font:inherit;font-size:14.5px;padding:12px 14px;}
+input.app-url,input.author-input{width:100%;min-width:0;border:1.5px solid var(--line);border-radius:var(--r-md);background:var(--paper);color:var(--ink);font:inherit;font-size:14.5px;padding:12px 14px;}
+.author{font-size:13px;color:var(--muted);overflow-wrap:anywhere;}
 .free-text{white-space:pre-wrap;font-size:15px;line-height:1.8;overflow-wrap:anywhere;}
 .app-link{text-decoration:none;align-self:flex-start;color:var(--blue);}
 .preview{margin-top:10px;font-size:14px;color:var(--ink-2);background:var(--sunk);border-radius:var(--r-md);padding:10px 12px;}
@@ -102,6 +103,9 @@ details pre{margin-top:8px;white-space:pre-wrap;font:inherit;font-size:13.5px;li
   </header>
 
   <section class="card form" aria-labelledby="rawLabel">
+    <label for="author">작성자 이름 또는 별명 <small>선택</small></label>
+    <input class="author-input" id="author" type="text" maxlength="40" placeholder="예: 책친구" aria-describedby="authorHelp" />
+    <p class="help" id="authorHelp">실명을 쓰지 않아도 돼요. 비워 두면 익명으로 표시됩니다.</p>
     <label id="rawLabel" for="raw">기획서를 붙여넣거나, 자유롭게 적어 주세요</label>
     <p class="help" id="rawHelp">기획서은 항목별로 정리해 드려요. 앱 소개나 사용 후기는 자유롭게 써도 좋아요.</p>
     <textarea id="raw" maxlength="3000" aria-describedby="rawHelp" placeholder="예: 책 제목과 한 줄 감상을 모으는 앱을 만들었어요. 우리 반에서 써 보니 지난 기록을 쉽게 찾을 수 있었어요."></textarea>
@@ -193,6 +197,7 @@ function card(p) {
   c.dataset.id = p.id;
   var h = el('div', 'post-h'); h.appendChild(el('b', '', planned ? (p.appName || '이름 없는 앱') : '자유 나눔'));
   var t = el('time', '', when(p.createdAt)); t.dateTime = p.createdAt; h.appendChild(t); c.appendChild(h);
+  c.appendChild(el('span', 'author', '작성자: ' + (p.author || '익명')));
   if (planned) {
   if (p.who) c.appendChild(el('span', 'who', p.who));
   if (p.experience) { var x = el('div', 'exp'); x.appendChild(el('span', 'k', '학생이 경험할 배움')); x.appendChild(el('p', '', p.experience)); c.appendChild(x); }
@@ -261,6 +266,8 @@ function editCard(p, c, key) {
   box.appendChild(el('b', '', '글과 앱 주소 수정'));
   var ta = el('textarea'); ta.id = 'edit-raw-' + p.id; ta.value = p.raw; ta.maxLength = MAX;
   var rawLabel = el('label', '', '공유할 내용'); rawLabel.htmlFor = ta.id; box.appendChild(rawLabel); box.appendChild(ta);
+  var authorInput = el('input', 'author-input'); authorInput.id = 'edit-author-' + p.id; authorInput.type = 'text'; authorInput.maxLength = 40; authorInput.value = p.author || ''; authorInput.placeholder = '이름 또는 별명 · 비워 두면 익명';
+  var authorLabel = el('label', '', '작성자 이름 또는 별명 (선택)'); authorLabel.htmlFor = authorInput.id; box.appendChild(authorLabel); box.appendChild(authorInput);
   var urlInput = el('input', 'app-url'); urlInput.id = 'edit-url-' + p.id; urlInput.type = 'url'; urlInput.maxLength = 2000; urlInput.value = p.appUrl || ''; urlInput.placeholder = 'https://…';
   var linkLabel = el('label', '', '완성한 앱 주소 (선택)'); linkLabel.htmlFor = urlInput.id; box.appendChild(linkLabel); box.appendChild(urlInput);
   var m = el('p', 'msg'); m.setAttribute('role', 'status'); box.appendChild(m);
@@ -273,14 +280,14 @@ function editCard(p, c, key) {
     if (!raw || raw.length > MAX) { m.textContent = '공유할 내용을 1~' + MAX + '자로 적어 주세요.'; m.className = 'msg err'; return; }
     var appUrl;
     try { appUrl = webUrl(urlInput.value); } catch (err) { m.textContent = err.message; m.className = 'msg err'; urlInput.focus(); return; }
-    save.disabled = cancel.disabled = true; m.textContent = '저장하는 중…'; m.className = 'msg';
+    save.disabled = cancel.disabled = ta.disabled = urlInput.disabled = authorInput.disabled = true; m.textContent = '저장하는 중…'; m.className = 'msg';
     google.script.run
       .withSuccessHandler(function (np) {
         lastList = lastList.map(function (x) { return x.id === np.id ? np : x; });
         box.replaceWith(card(np)); say('수정했습니다.', 'ok');
       })
-      .withFailureHandler(function (e) { save.disabled = cancel.disabled = false; m.textContent = e && e.message || '저장하지 못했습니다.'; m.className = 'msg err'; })
-      .updatePost(p.id, key, raw, appUrl);
+      .withFailureHandler(function (e) { save.disabled = cancel.disabled = ta.disabled = urlInput.disabled = authorInput.disabled = false; m.textContent = e && e.message || '저장하지 못했습니다.'; m.className = 'msg err'; })
+      .updatePost(p.id, key, raw, appUrl, authorInput.value);
   });
 }
 
@@ -323,19 +330,19 @@ function send() {
   var appUrl;
   try { appUrl = webUrl($('appUrl').value); } catch (err) { say(err.message, 'err'); $('appUrl').focus(); return; }
   sending = true; $('send').disabled = true; say('공유하는 중…');
-  $('raw').disabled = $('appUrl').disabled = true;
+  $('raw').disabled = $('appUrl').disabled = $('author').disabled = true;
   google.script.run
     .withSuccessHandler(function (res) {
       sending = false; $('send').disabled = false;
-      $('raw').disabled = $('appUrl').disabled = false;
+      $('raw').disabled = $('appUrl').disabled = $('author').disabled = false;
       setKey(res.post.id, res.key);           // 이 브라우저에서 내 글을 수정·삭제할 수 있게
-      $('raw').value = ''; $('appUrl').value = ''; update(); say('공유했습니다. 이 브라우저에서는 내 글을 수정·삭제할 수 있어요.', 'ok');
+      $('raw').value = ''; $('appUrl').value = ''; $('author').value = ''; update(); say('공유했습니다. 이 브라우저에서는 내 글을 수정·삭제할 수 있어요.', 'ok');
       lastList = [res.post].concat(lastList);
       $('cards').insertBefore(card(res.post), $('cards').firstChild);
       $('n').textContent = ++shown; $('empty').hidden = true;
     })
-    .withFailureHandler(function (e) { sending = false; $('send').disabled = false; $('raw').disabled = $('appUrl').disabled = false; say(e && e.message || '공유하지 못했습니다.', 'err'); })
-    .addPost(raw, $('code').value, appUrl);
+    .withFailureHandler(function (e) { sending = false; $('send').disabled = false; $('raw').disabled = $('appUrl').disabled = $('author').disabled = false; say(e && e.message || '공유하지 못했습니다.', 'err'); })
+    .addPost(raw, $('code').value, appUrl, $('author').value);
 }
 
 $('raw').addEventListener('input', update);
