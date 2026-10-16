@@ -1633,8 +1633,10 @@ html[data-present] .hx-bg{opacity:.6;}
             <h3 class="sub-h"><span class="material-icons-outlined">checklist</span>꼭 하는 네 단계 <em>실습마다 같은 순서</em></h3>
             <ol class="routine must" id="rp-routine">
       <li id="rt-1">
-        <div class="rt-h"><span class="rt-n">1</span><b>새 시트 만들기</b></div>
-        <p><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b> → 이름 바꾸기</p>
+        <div class="rt-h"><span class="rt-n">1</span><b>실습마다 새로 만들기</b></div>
+        <p>실습 1·2·심화: <b>그 실습 전용</b> 새 시트(<a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a>) → <b>확장 프로그램 → Apps Script</b><br />
+          실습 3: 시트 없이 새 프로젝트(<a href="https://script.new" target="_blank" rel="noopener" class="inl">script.new</a>)</p>
+        <p class="dim">실습끼리 시트나 프로젝트를 함께 쓰지 않습니다.</p>
       </li>
       <li id="rt-2">
         <div class="rt-h"><span class="rt-n">2</span><b>코드 두 개 붙여넣기</b></div>
@@ -1642,7 +1644,7 @@ html[data-present] .hx-bg{opacity:.6;}
       </li>
       <li id="rp-auth">
         <div class="rt-h"><span class="rt-n">3</span><b>setup 실행하고 승인하기</b></div>
-        <p><b>setup</b> 고르고 <b>실행</b> → 권한 허용</p>
+        <p><b>setup</b> 고르고 <b>실행</b> → 권한 허용 <span class="dim">(실습 1·2·심화는 이때 그 시트가 앱과 연결됩니다)</span></p>
         <ol class="act">
           <li><b>권한 검토</b> → 내 계정</li>
           <li>&ldquo;확인하지 않은 앱&rdquo; → <b>고급 → (프로젝트 이름)(으)로 이동</b> <span class="dim">내가 붙인 연수 코드일 때만</span></li>
@@ -1775,7 +1777,7 @@ html[data-present] .hx-bg{opacity:.6;}
 구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
 
 [문제상황]
-아침마다 감정 출석부를 붙이지만 다음 날이면 사라져서, 지난 기록을 돌아볼 수 없어.
+학생들이 다른 사람 눈치 보지 않고 감정을 표시하게 하고 싶고, 지난 기록도 돌아보고 싶어.
 
 [학생이 하는 일]
 - 수업 코드(예: 5-3)를 입력하고 들어와서
@@ -1784,10 +1786,19 @@ html[data-present] .hx-bg{opacity:.6;}
 
 [기록 — 이 앱의 핵심]
 - 제출할 때마다 스프레드시트에 [시각, 수업 코드, 기분, 메모]를 한 줄씩 저장해줘.
-  브라우저(localStorage)에 저장하지 마.
+  감정·메모는 브라우저(localStorage)에 저장하지 마. localStorage에는 '오늘 제출했음' 같은 화면 상태만.
 - 결과 화면에 날짜 선택 칸을 두고, 고른 날짜의 기록만 다시 볼 수 있게 해줘.
-  '오늘로 돌아가기' 버튼도 만들어줘.
-- 여러 명이 동시에 제출해도 줄이 겹치지 않게 LockService 로 잠가줘.
+  '오늘로 돌아가기' 버튼도 만들어줘. 날짜는 기기 시간대와 관계없이 Asia/Seoul 기준.
+- 여러 명이 동시에 제출해도 줄이 겹치지 않게 LockService 로 잠그고,
+  쓰기를 마치면 SpreadsheetApp.flush() 뒤에 잠금을 풀어줘. 오류가 나도 잠금은 반드시 풀어줘.
+- 서버에서도 다섯 감정 중 하나인지 검사해줘.
+
+[시트 연결 — 배포 후에도 같은 시트에]
+- 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야.
+- setup 은 편집기에서 실행하고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘.
+  다시 실행해도 기존 기록은 지우지 마.
+- 웹앱의 저장·조회 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
+- 학생 입력은 수식이 되거나 수업 코드가 날짜·숫자로 바뀌지 않게 글자(텍스트)로 저장해줘.
 
 [학생 구분]
 - 이름 · 학번 · 이메일 · 로그인은 받지 마. 완전 익명으로.
@@ -1796,7 +1807,9 @@ html[data-present] .hx-bg{opacity:.6;}
 [기술 조건]
 - Code.gs(서버)와 index.html(화면) 두 파일로 나누고, doGet 으로 index 를 서비스해줘.
 - 화면에서 서버는 google.script.run 으로 부르고, 서버는 Date 대신 문자열로 돌려줘.
-- 시트와 머리글은 setup 함수가 자동으로 만들게 해줘. 시간대는 Asia/Seoul.
+- 시트와 머리글은 setup 함수가 자동으로 만들게 해줘.
+- 반이나 날짜를 바꾸면 이전 요청의 늦은 응답은 화면에 반영하지 마.
+- 다시 제출할 때 버튼 문구와 선택 상태를 처음처럼 되돌려줘.
 
 [디자인]
 앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 구글 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
@@ -1805,7 +1818,7 @@ html[data-present] .hx-bg{opacity:.6;}
           <article class="pane s-x" data-step="3" id="m1-s2">
             <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
-              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li><b>이 실습 전용</b> 새 시트(<a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a>) → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[1] 감정 체크인</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
@@ -1817,9 +1830,10 @@ html[data-present] .hx-bg{opacity:.6;}
  * [1] 기록 — 우리 반 감정 체크인 : 서버 코드 (Code.gs)
  * 바이브코딩 : 포스트시즌
  *
- * 이 코드를 Code.gs 에 붙여넣은 뒤
+ * 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 연 프로젝트에 붙여넣으세요.
  *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
  *  2) 위쪽 함수 목록에서 setup 을 골라 [실행] (권한 승인 창이 뜨면 허용)
+ *     → 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장합니다.
  *  3) [배포] → 새 배포 → 유형: 웹 앱
  *        실행 계정   : 나
  *        액세스 권한 : 모든 사용자
@@ -1830,6 +1844,7 @@ html[data-present] .hx-bg{opacity:.6;}
 
 var SHEET_NAME = 'checkins';
 var HEADERS = ['created_at', 'room_code', 'emotion', 'note'];
+var EMOTIONS = ['기쁨', '평온', '설렘', '걱정', '피곤'];   // 화면의 다섯 기분과 같아야 합니다
 var TZ = 'Asia/Seoul';
 
 /**
@@ -1842,9 +1857,15 @@ function sheetText_(value) {
   return text ? "'" + text : '';
 }
 
-/** 시트가 없으면 만들고 머리글까지 자동으로 넣습니다 */
+/**
+ * 기록할 시트를 엽니다.
+ * 웹앱으로 열리면 '지금 열린 스프레드시트'가 없으므로, setup 이 저장해 둔 ID 로 엽니다.
+ * 시트가 없으면 만들고 머리글을 넣습니다. 이미 있는 기록은 건드리지 않습니다.
+ */
 function ensureSheet_() {
-  var ss = SpreadsheetApp.getActive();
+  var id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!id) throw new Error('먼저 이 실습의 스프레드시트에서 setup 을 실행해 주세요.');
+  var ss = SpreadsheetApp.openById(id);
   var sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
   if (sh.getLastRow() === 0) {
@@ -1855,10 +1876,13 @@ function ensureSheet_() {
   return sh;
 }
 
-/** 처음 한 번 실행하세요 (잊어도 첫 저장 때 자동으로 만들어집니다) */
+/** 처음 한 번, 이 스프레드시트의 편집기에서 실행하세요. 다시 실행해도 기록은 지워지지 않습니다. */
 function setup() {
+  var ss = SpreadsheetApp.getActive();
+  if (!ss) throw new Error('이 실습의 스프레드시트에서 [확장 프로그램 → Apps Script]로 연 뒤 setup 을 실행해 주세요.');
+  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', ss.getId());
   ensureSheet_();
-  Logger.log('준비 완료 — ' + SHEET_NAME + ' 시트와 머리글을 만들었습니다.');
+  Logger.log('준비 완료 — 이 스프레드시트의 ' + SHEET_NAME + ' 시트에 기록합니다.');
   return 'ok';
 }
 
@@ -1874,26 +1898,27 @@ function getAppUrl() {
   return ScriptApp.getService().getUrl();
 }
 
-/** 기분 하나를 저장하고, 오늘의 새 결과를 돌려줍니다 */
+/** 감정 하나를 저장하고, 오늘의 새 결과를 돌려줍니다 */
 function saveCheckin(payload) {
   var room = String((payload &amp;&amp; payload.room) || '').trim().slice(0, 40);
-  var emotion = String((payload &amp;&amp; payload.emotion) || '').trim().slice(0, 20);
+  var emotion = String((payload &amp;&amp; payload.emotion) || '').trim();
   var note = String((payload &amp;&amp; payload.note) || '').trim().slice(0, 100);
   if (!room) throw new Error('수업 코드가 없습니다.');
-  if (!emotion) throw new Error('기분을 고르지 않았습니다.');
+  if (EMOTIONS.indexOf(emotion) &lt; 0) throw new Error('목록에 있는 감정을 골라 주세요.');
 
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);            // 여러 명이 동시에 눌러도 줄이 겹치지 않게
   try {
     ensureSheet_().appendRow([new Date(), sheetText_(room), sheetText_(emotion), sheetText_(note)]);
   } finally {
-    lock.releaseLock();
+    // 시트에 다 쓴 뒤 잠금을 풉니다. 오류가 나도 잠금은 반드시 풉니다.
+    try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
   }
   return getRows({ room: room });
 }
 
 /**
- * 같은 수업 코드의 '하루치' 데이터를 돌려줍니다.
+ * 같은 수업 코드의 '하루치' 데이터를 돌려줍니다. 날짜는 서울 시간 기준입니다.
  * 날짜를 넘기지 않으면 오늘, 넘기면 그날의 기록을 돌려줍니다.
  *   예)  getRows({ room: '5-3', day: '2026-03-04' })
  */
@@ -2176,21 +2201,24 @@ var EMOTIONS = [
 
 var room = '', chosen = '', timer = null, shareBase = '';
 var viewDay = '';                /* 지금 보고 있는 날짜 (비어 있으면 오늘) */
+var reqNo = 0;                   /* 가장 최근 요청의 번호. 늦게 온 옛 응답은 버립니다 */
+var TZ = 'Asia/Seoul';           /* 날짜와 시각은 기기 시간대와 관계없이 서울 기준 (서버와 같게) */
 
 function $(id) { return document.getElementById(id); }
-function pad(n) { return (n &lt; 10 ? '0' : '') + n; }
-function dayKey() {
-  var d = new Date();
-  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+function seoul(v) {
+  var p = {};
+  new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit',
+    day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    .formatToParts(v ? new Date(v) : new Date())
+    .forEach(function (x) { p[x.type] = x.value; });
+  return p;
 }
+function dayKey() { var p = seoul(); return p.year + '-' + p.month + '-' + p.day; }
 function doneKey() { return 'checkin:' + dayKey() + ':' + room; }
 function isToday() { return !viewDay || viewDay === dayKey(); }
-function hhmm(v) { var d = new Date(v); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function hhmm(v) { var p = seoul(v); return p.hour + ':' + p.minute; }
 function show(id, on) { $(id).classList.toggle('hide', !on); }
-function nowText() {
-  var d = new Date();
-  return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
-}
+function nowText() { var p = seoul(); return p.hour + ':' + p.minute + ':' + p.second; }
 function memGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function memSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 function memDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
@@ -2324,9 +2352,12 @@ function fail(id, msg) {
 }
 
 function refresh() {
-  return Backend.load(room, viewDay).then(function (rows) {
+  var my = ++reqNo, r = room, d = viewDay;
+  return Backend.load(r, d).then(function (rows) {
+    if (my !== reqNo || r !== room || d !== viewDay) return;   /* 그사이 반·날짜를 바꿨으면 버립니다 */
     renderSummary(summarize(rows));
   })['catch'](function (err) {
+    if (my !== reqNo) return;
     setLive('bad', '연결 확인 필요');
     fail('resErr', '결과를 불러오지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') +
       ' 잠시 뒤 다시 시도합니다.');
@@ -2384,15 +2415,20 @@ function submit() {
   btn.disabled = true;
   btn.textContent = '보내는 중...';
   show('pickErr', false);
-  Backend.save({ room: room, emotion: chosen, note: $('note').value.trim() })
+  var r = room;
+  Backend.save({ room: r, emotion: chosen, note: $('note').value.trim() })
     .then(function (rows) {
-      memSet(doneKey(), '1');
+      btn.textContent = '제출하기';
+      if (r !== room) return;                  /* 저장은 됐지만 그사이 반을 바꿨으면 화면은 그대로 */
+      memSet(doneKey(), '1');                  /* 브라우저에는 '오늘 냈음'만 남깁니다 (감정·메모는 시트에만) */
       show('pick', false);
       show('result', true);
-      if (rows) renderSummary(summarize(rows)); else refresh();
+      reqNo++;                                 /* 저장 전에 보낸 조회 응답은 버립니다 */
+      if (rows &amp;&amp; isToday()) renderSummary(summarize(rows)); else refresh();
     })['catch'](function (err) {
       btn.disabled = false;
       btn.textContent = '제출하기';
+      if (r !== room) return;
       fail('pickErr', '저장하지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') +
         ' 다시 눌러보세요.');
     });
@@ -2405,6 +2441,7 @@ function bind() {
   });
   $('changeRoom').addEventListener('click', function () {
     if (timer) { clearInterval(timer); timer = null; }
+    reqNo++;                                   /* 이전 반의 늦은 응답은 버립니다 */
     room = ''; chosen = '';
     $('bars').innerHTML = '';
     $('submit').disabled = true;
@@ -2430,6 +2467,7 @@ function bind() {
     chosen = '';
     $('note').value = '';
     $('submit').disabled = true;
+    $('submit').textContent = '제출하기';
     renderEmotions();
     show('result', false);
     show('pick', true);
@@ -2473,7 +2511,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-x" data-step="5" id="m1-x">
             <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
             <ol class="act">
-              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트)</span></li>
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 이 시트를 앱과 연결)</span></li>
               <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
               <li><b>/exec</b> 주소를 열어 확인</li>
             </ol>
@@ -2507,7 +2545,7 @@ if (document.readyState === 'loading') {
               <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m2_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m2_prompt">우리 반이 함께 쓰는 '우리반 의견보드' 웹앱을 구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
 
 [문제상황]
-토론 때 손 드는 학생만 말하고, 칠판 포스트잇은 앞자리에서만 보여.
+토론 때 손 드는 학생만 말하고, 칠판 포스트잇은 앞자리에서만 보여. 시중의 보드는 무료 계정에 생성 한도가 있어.
 
 [학생이 하는 일]
 - 수업 코드로 들어와 의견을 카드로 붙인다. (150자 이내, 카드 색 4가지 중 선택)
@@ -2519,7 +2557,11 @@ if (document.readyState === 'loading') {
 - 화면은 5초마다 다시 불러와서, 새로고침하지 않아도 다른 사람의 카드가 나타나게 해줘.
   새로 붙은 카드는 잠깐 눈에 띄게. 탭이 안 보일 때는 불러오기를 멈춰줘.
 - 공감은 시트에서 그 카드의 줄을 찾아 숫자만 1 올려줘.
-  동시에 눌러도 숫자가 사라지지 않게 LockService 로 잠가줘.
+  동시에 눌러도 숫자가 사라지지 않게 LockService 로 잠그고,
+  쓰기를 마치면 SpreadsheetApp.flush() 뒤에 잠금을 풀어줘. 오류가 나도 잠금은 반드시 풀어줘.
+- 공감은 서버 저장이 확인된 뒤에만 '공감함'으로 표시해줘. 실패하면 임시로 올린 숫자를 되돌리고
+  서버에서 다시 불러와서, 다시 누를 수 있게 해줘.
+- 공감마다 요청 번호를 붙이고, 같은 번호가 다시 오면(응답만 끊긴 경우) 한 번만 세게 해줘.
 
 [질문 띄우기]
 - 처음 화면에서 '오늘의 질문'을 선택으로 적을 수 있게 하고,
@@ -2528,11 +2570,20 @@ if (document.readyState === 'loading') {
 [학생 구분]
 - 완전 익명. 이름 · 로그인 없음. 수정 · 삭제 버튼도 만들지 마.
 - 한 브라우저에서 같은 카드에 공감은 한 번만 누르게 해줘.
+  (브라우저 기록 기준이라 다른 기기·시크릿 창까지 막지는 못해. 그렇게 설명해줘.)
+
+[시트 연결 — 배포 후에도 같은 시트에]
+- 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야.
+- setup 은 편집기에서 실행하고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘.
+  다시 실행해도 기존 카드는 지우지 마.
+- 웹앱의 저장·조회 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
+- 학생 입력은 수식이 되거나 수업 코드가 날짜·숫자로 바뀌지 않게 글자(텍스트)로 저장해줘.
 
 [기술 조건]
 - Code.gs 와 index.html 두 파일, doGet 으로 서비스, google.script.run 사용.
 - 서버는 Date 대신 문자열로 돌려주고, 글자 수 검사는 서버에서도 해줘.
 - 카드 글은 textContent 로 화면에 넣어줘.
+- 수업 코드를 바꾸면 이전 반의 늦은 응답은 화면에 반영하지 마.
 
 [디자인]
 앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 포스트잇 카드, 넓은 화면에서는 여러 줄로.</pre></div></div></details>
@@ -2541,7 +2592,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-x" data-step="3" id="m2-s2">
             <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
-              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li><b>이 실습 전용</b> 새 시트(<a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a>) → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[2] 우리반 의견보드</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
@@ -2553,9 +2604,10 @@ if (document.readyState === 'loading') {
  * [2] 실시간 소통 — 우리반 의견보드 : 서버 코드 (Code.gs)
  * 바이브코딩 : 포스트시즌
  *
- * 이 코드를 Code.gs 에 붙여넣은 뒤
+ * 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 연 프로젝트에 붙여넣으세요.
  *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
  *  2) 위쪽 함수 목록에서 setup 을 골라 [실행] (권한 승인 창이 뜨면 허용)
+ *     → 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장합니다.
  *  3) [배포] → 새 배포 → 유형: 웹 앱
  *        실행 계정   : 나
  *        액세스 권한 : 모든 사용자
@@ -2579,9 +2631,15 @@ function sheetText_(value) {
   return text ? "'" + text : '';
 }
 
-/** 시트가 없으면 만들고 머리글까지 자동으로 넣습니다 */
+/**
+ * 카드를 저장할 시트를 엽니다.
+ * 웹앱으로 열리면 '지금 열린 스프레드시트'가 없으므로, setup 이 저장해 둔 ID 로 엽니다.
+ * 시트가 없으면 만들고 머리글을 넣습니다. 이미 있는 카드는 건드리지 않습니다.
+ */
 function ensureSheet_() {
-  var ss = SpreadsheetApp.getActive();
+  var id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!id) throw new Error('먼저 이 실습의 스프레드시트에서 setup 을 실행해 주세요.');
+  var ss = SpreadsheetApp.openById(id);
   var sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
   if (sh.getLastRow() === 0) {
@@ -2592,10 +2650,13 @@ function ensureSheet_() {
   return sh;
 }
 
-/** 처음 한 번 실행하세요 */
+/** 처음 한 번, 이 스프레드시트의 편집기에서 실행하세요. 다시 실행해도 카드는 지워지지 않습니다. */
 function setup() {
+  var ss = SpreadsheetApp.getActive();
+  if (!ss) throw new Error('이 실습의 스프레드시트에서 [확장 프로그램 → Apps Script]로 연 뒤 setup 을 실행해 주세요.');
+  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', ss.getId());
   ensureSheet_();
-  Logger.log('준비 완료 — ' + SHEET_NAME + ' 시트와 머리글을 만들었습니다.');
+  Logger.log('준비 완료 — 이 스프레드시트의 ' + SHEET_NAME + ' 시트에 카드를 저장합니다.');
   return 'ok';
 }
 
@@ -2625,7 +2686,8 @@ function addCard(payload) {
   try {
     ensureSheet_().appendRow([Utilities.getUuid(), new Date(), sheetText_(room), sheetText_(text), color, 0]);
   } finally {
-    lock.releaseLock();
+    // 시트에 다 쓴 뒤 잠금을 풉니다. 오류가 나도 잠금은 반드시 풉니다.
+    try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
   }
   return getCards({ room: room });
 }
@@ -2634,24 +2696,32 @@ function addCard(payload) {
  * 공감(♥) 하나를 더합니다.
  * '읽고 → 1 더하고 → 다시 쓰기' 라서, 두 명이 동시에 누르면 하나가 사라질 수 있습니다.
  * 그래서 잠금(LockService)을 걸고 한 명씩 차례로 처리합니다.
+ *
+ * reqId: 화면이 공감마다 붙이는 요청 번호입니다. 저장은 됐는데 응답만 끊겨
+ * 화면이 같은 공감을 다시 보내면, 같은 번호는 한 번만 셉니다. (번호는 6시간 기억)
  */
 function likeCard(payload) {
   var id = String((payload &amp;&amp; payload.id) || '').trim();
   var room = String((payload &amp;&amp; payload.room) || '').trim().slice(0, 40);
+  var reqId = String((payload &amp;&amp; payload.reqId) || '').replace(/[^\w-]/g, '').slice(0, 64);
   if (!id) throw new Error('카드를 찾지 못했습니다.');
 
+  var cache = CacheService.getScriptCache();
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    var sh = ensureSheet_();
-    var cell = sh.getRange('A:A').createTextFinder(id).matchEntireCell(true).findNext();
-    // 같은 수업 코드의 카드일 때만 공감을 더합니다
-    if (cell &amp;&amp; String(sh.getRange(cell.getRow(), 3).getValue()).trim() === room) {
-      var likeCell = sh.getRange(cell.getRow(), 6);
-      likeCell.setValue((Number(likeCell.getValue()) || 0) + 1);
+    if (!(reqId &amp;&amp; cache.get('like:' + reqId))) {
+      var sh = ensureSheet_();
+      var cell = sh.getRange('A:A').createTextFinder(id).matchEntireCell(true).findNext();
+      // 같은 수업 코드의 카드일 때만 공감을 더합니다
+      if (cell &amp;&amp; String(sh.getRange(cell.getRow(), 3).getValue()).trim() === room) {
+        var likeCell = sh.getRange(cell.getRow(), 6);
+        likeCell.setValue((Number(likeCell.getValue()) || 0) + 1);
+        if (reqId) { try { cache.put('like:' + reqId, '1', 21600); } catch (e) {} }
+      }
     }
   } finally {
-    lock.releaseLock();
+    try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
   }
   return getCards({ room: room });
 }
@@ -2892,7 +2962,7 @@ var Backend = {
   pollMs: 5000,          /* 5초마다 다시 물어보는 '자동 갱신' 방식입니다 */
 
   add: function (rec) { return callServer('addCard', rec); },
-  like: function (id) { return callServer('likeCard', { id: id, room: room }); },
+  like: function (id, reqId) { return callServer('likeCard', { id: id, room: room, reqId: reqId }); },
   load: function () { return callServer('getCards', { room: room }); },
   baseUrl: function () { return callServer('getAppUrl'); },
 
@@ -2927,6 +2997,7 @@ function hhmm(v) { var d = new Date(v); return (d.getMonth() + 1) + '/' + d.getD
 function nowText() { var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
 function memGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function memSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+function memDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
 function fail(id, msg) { $(id).textContent = msg; show(id, true); }
 
 function setLive(state, text) {
@@ -2957,8 +3028,12 @@ function renderSwatches() {
 }
 
 /* 공감은 '이 브라우저에서 한 번'만 누를 수 있게 기억해 둡니다.
-   브라우저 기억일 뿐, 막는 장치는 아닙니다. (연수 사이트 &lsquo;자주 찾는 질문&rsquo; 참고) */
+   브라우저 기억일 뿐, 막는 장치는 아닙니다. (연수 사이트 ‘자주 찾는 질문’ 참고) */
+/* 공감 한 번 제한은 이 브라우저의 기록(localStorage)으로만 합니다.
+   다른 기기·시크릿 창·저장소 삭제까지 막지는 못하므로 투표처럼 정확해야 하는 일에는 쓰지 않습니다. */
 function likedKey(id) { return 'liked:' + id; }
+function reqKey(id) { return 'likeReq:' + id; }      /* 보내는 중인 공감의 요청 번호 */
+var pendingLike = {};                                /* 응답을 기다리는 카드 */
 
 function renderBoard() {
   var list = cards.slice();
@@ -2986,7 +3061,7 @@ function renderBoard() {
     var like = document.createElement('button');
     like.type = 'button';
     like.className = 'like';
-    var mine = !!memGet(likedKey(c.id));
+    var mine = !!memGet(likedKey(c.id)) || !!pendingLike[c.id];
     like.setAttribute('aria-pressed', mine ? 'true' : 'false');
     like.disabled = mine;
     like.innerHTML = '&lt;span class="material-icons-outlined"&gt;' + (mine ? 'favorite' : 'favorite_border') + '&lt;/span&gt;';
@@ -3037,18 +3112,30 @@ document.addEventListener('visibilitychange', function () {
 });
 
 function sendLike(c, btn) {
-  if (memGet(likedKey(c.id))) return;
-  memSet(likedKey(c.id), '1');
+  if (memGet(likedKey(c.id)) || pendingLike[c.id]) return;
+  /* 같은 공감을 다시 보낼 때는 같은 요청 번호를 써서 서버가 한 번만 세게 합니다 */
+  var reqId = memGet(reqKey(c.id)) || (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+  memSet(reqKey(c.id), reqId);
+  pendingLike[c.id] = true;
   btn.disabled = true;
   c.likes += 1;                               /* 먼저 화면에 반영하고 */
   renderBoard();
   busy = true;
-  Backend.like(c.id).then(function (list) {   /* 서버의 진짜 숫자로 맞춥니다 */
+  var r = room;
+  Backend.like(c.id, reqId).then(function (list) {   /* 서버의 진짜 숫자로 맞춥니다 */
     busy = false;
-    apply(list);
+    delete pendingLike[c.id];
+    memSet(likedKey(c.id), '1');              /* 저장이 확인된 뒤에만 '공감함'으로 남깁니다 */
+    memDel(reqKey(c.id));
+    if (r === room) apply(list);
   })['catch'](function (err) {
     busy = false;
-    fail('boardErr', '공감을 저장하지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : ''));
+    delete pendingLike[c.id];                 /* 실패하면 임시 표시를 되돌리고 서버 숫자를 다시 읽습니다 */
+    c.likes = Math.max(0, c.likes - 1);
+    if (r !== room) return;
+    renderBoard();
+    fail('boardErr', '공감을 저장하지 못했습니다. 다시 눌러 보세요. ' + (err &amp;&amp; err.message ? err.message : ''));
+    refresh();
   });
 }
 
@@ -3059,14 +3146,17 @@ function post() {
   btn.disabled = true;
   show('postErr', false);
   busy = true;
-  Backend.add({ room: room, text: text, color: color }).then(function (list) {
+  var r = room;
+  Backend.add({ room: r, text: text, color: color }).then(function (list) {
     busy = false;
+    if (r !== room) { btn.disabled = !$('text').value.trim(); return; }   /* 그사이 수업 코드를 바꿨으면 이전 반 목록은 버립니다 */
     $('text').value = '';
     $('len').textContent = '0';
     apply(list);
   })['catch'](function (err) {
     busy = false;
     btn.disabled = false;
+    if (r !== room) return;
     fail('postErr', '붙이지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') + ' 다시 눌러보세요.');
   });
 }
@@ -3152,7 +3242,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-x" data-step="5" id="m2-x">
             <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
             <ol class="act">
-              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트)</span></li>
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 이 시트를 앱과 연결)</span></li>
               <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
               <li><b>/exec</b> 주소를 열어 확인</li>
             </ol>
@@ -3187,7 +3277,7 @@ if (document.readyState === 'loading') {
 앱 이름은 '오늘의 궁금증 탐험대'야.
 
 [문제상황]
-수업 중 학생들의 궁금증은 많은데, 교사가 모든 자료를 미리 준비할 수는 없어.
+학생들이 검색 활동에서 구글 AI 개요에 의존하는 경우가 많고, 검색 결과에는 광고와 배움과 상관없는 정보가 많이 섞여 있어.
 답을 대신 알려 주는 앱이 아니라, 학생이 자료를 읽고 스스로 생각하게 돕는 앱이 필요해.
 
 [화면 — 한 화면, 세 가지 활동]
@@ -3210,7 +3300,13 @@ if (document.readyState === 'loading') {
   문서 본문을 부르는 API 는 따로 쓰지 마.
 - excerpt 에 든 HTML 태그는 지우고 글자로만 보여줘. 화면에는 textContent 로 넣어줘.
 - 원문 링크는 문서 key 를 encodeURIComponent 로 인코딩해 https://ko.wikipedia.org/wiki/ 뒤에 붙여줘.
-- 같은 낱말은 CacheService 로 30분 보관해서, 반 전체가 같은 낱말을 찾아도 API 는 한 번만 부르게 해줘.
+- 같은 낱말의 결과는 CacheService 로 최대 30분 동안 다시 써서 외부 호출을 줄여줘.
+  캐시는 일찍 지워질 수 있으니 '한 번만 호출된다'고 보장하지는 마.
+- 캐시에 없을 때는 LockService 잠금을 얻은 뒤 캐시를 한 번 더 확인하고 나서 위키백과에 물어줘.
+  (잠금을 못 얻어도 검색은 계속)
+- HTTP 오류·연결 실패·잘못된 JSON 응답은 알아듣기 쉬운 오류로 알려 주고, [찾기]를 다시 누를 수 있게 해줘.
+- 캐시 저장에 실패해도 이미 가져온 검색 결과는 화면에 돌려줘.
+- 이름이 같은 드라마·노래·학교도 섞여 나올 수 있으니, 알맞은 자료를 골라 읽으라는 안내를 짧게 넣어줘.
 - 화면 아래에 출처(한국어 위키백과, CC BY-SA 4.0)를 적어줘.
 
 [하지 않을 것]
@@ -3218,6 +3314,7 @@ if (document.readyState === 'loading') {
 - AI 가 답을 만들거나, 질문에서 낱말을 자동으로 뽑거나, 답을 평가하는 기능은 넣지 마.
 
 [기술 조건]
+- 스프레드시트 없이, 따로 만든 Apps Script 프로젝트 하나로 만들어줘.
 - Code.gs 와 index.html 두 파일, doGet 으로 서비스, google.script.run 사용.
 - Code.gs 는 doGet · searchWikipedia(keyword) · setup 중심으로 간결하게.
 - 처음 한 번 실행해서 권한을 승인할 setup 함수를 만들어줘.
@@ -3229,7 +3326,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-x" data-step="3" id="m3-s2">
             <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
-              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li><a href="https://script.new" target="_blank" rel="noopener" class="inl">script.new</a> → 새 Apps Script 프로젝트 <span class="dim">(이 실습은 시트 없음)</span></li>
               <li>프로젝트 이름 <b>[3] 궁금증 탐험대</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
@@ -3244,7 +3341,7 @@ if (document.readyState === 'loading') {
  * 자료는 한국어 위키백과(ko.wikipedia.org)의 검색 API에서 가져옵니다.
  * 가입도, API 키도 필요 없습니다. (화면에 출처 표기 필요, CC BY-SA 4.0)
  *
- * 이 코드를 Code.gs 에 붙여넣은 뒤
+ * 이 실습은 스프레드시트 없이, 따로 만든 Apps Script 프로젝트(script.google.com → 새 프로젝트)에 붙여넣으세요.
  *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
  *  2) 위쪽 함수 목록에서 setup 을 골라 [실행]
  *     → '외부 서비스에 연결' 권한을 묻는 창이 뜨면 허용
@@ -3278,7 +3375,8 @@ function doGet() {
 /**
  * 화면이 부르는 함수. 낱말 하나로 위키백과를 찾아 자료 카드에 쓸 정보만 돌려줍니다.
  * 검색 API 한 번이면 제목 · 설명 · 발췌문이 함께 오므로 문서 본문은 따로 묻지 않습니다.
- * 같은 낱말은 30분 동안 보관해 다시 씁니다. (반 전체가 '무지개'를 찾아도 위키백과에는 한 번)
+ * 같은 낱말의 검색 결과는 최대 30분 동안 다시 써서 위키백과 호출을 줄입니다.
+ * (캐시는 그보다 일찍 지워질 수도 있어서, 30분에 한 번만 호출된다고 보장하지는 않습니다)
  */
 function searchWikipedia(keyword) {
   var q = String(keyword || '').replace(/\s+/g, ' ').trim().slice(0, 50);
@@ -3286,20 +3384,63 @@ function searchWikipedia(keyword) {
 
   var cache = CacheService.getScriptCache();
   var key = 'wiki_' + Utilities.base64EncodeWebSafe(q, Utilities.Charset.UTF_8);
-  var saved = cache.get(key);
-  if (saved) return JSON.parse(saved);
+  var saved = readCache_(cache, key);
+  if (saved) return saved;
 
+  // 캐시에 없으면 잠금을 얻은 뒤 한 번 더 확인합니다.
+  // 그사이 다른 학생이 같은 낱말을 가져왔다면 그 결과를 씁니다. 잠금을 못 얻어도 검색은 합니다.
+  var lock = LockService.getScriptLock();
+  var locked = lock.tryLock(5000);
+  try {
+    if (locked) {
+      saved = readCache_(cache, key);
+      if (saved) return saved;
+    }
+    var data = fetchWikipedia_(q);
+    try {
+      cache.put(key, JSON.stringify(data), CACHE_MIN * 60);
+    } catch (e) {
+      // 캐시에 저장하지 못해도 이미 가져온 검색 결과는 그대로 돌려줍니다
+    }
+    return data;
+  } finally {
+    if (locked) lock.releaseLock();
+  }
+}
+
+/** 캐시에서 꺼내기. 꺼내지 못하거나 망가진 값이면 없는 것으로 봅니다 */
+function readCache_(cache, key) {
+  try {
+    var saved = cache.get(key);
+    return saved ? JSON.parse(saved) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/** 위키백과 검색 API 에 묻고, 자료 카드에 쓸 정보만 골라 돌려줍니다 */
+function fetchWikipedia_(q) {
   var url = API_URL + '?q=' + encodeURIComponent(q) + '&amp;limit=' + MAX_RESULTS;
-  var res = UrlFetchApp.fetch(url, {
-    muteHttpExceptions: true,
-    headers: { 'Api-User-Agent': 'CuriosityExplorer/1.0 (Google Apps Script classroom app)' }
-  });
-  if (res.getResponseCode() !== 200) {
+  var res;
+  try {
+    res = UrlFetchApp.fetch(url, {
+      muteHttpExceptions: true,
+      headers: { 'Api-User-Agent': 'CuriosityExplorer/1.0 (Google Apps Script classroom app)' }
+    });
+  } catch (e) {
     throw new Error('위키백과에 연결하지 못했습니다. 잠시 뒤 다시 찾아보세요.');
   }
-
-  var pages = (JSON.parse(res.getContentText()).pages || []).slice(0, MAX_RESULTS);
-  var data = {
+  if (res.getResponseCode() !== 200) {
+    throw new Error('위키백과에 연결하지 못했습니다(' + res.getResponseCode() + '). 잠시 뒤 다시 찾아보세요.');
+  }
+  var json;
+  try {
+    json = JSON.parse(res.getContentText());
+  } catch (e) {
+    throw new Error('위키백과의 답을 읽지 못했습니다. 잠시 뒤 다시 찾아보세요.');
+  }
+  var pages = Array.isArray(json &amp;&amp; json.pages) ? json.pages.slice(0, MAX_RESULTS) : [];
+  return {
     keyword: q,
     pages: pages.map(function (p) {
       var thumb = p.thumbnail &amp;&amp; p.thumbnail.url ? String(p.thumbnail.url) : '';
@@ -3314,8 +3455,6 @@ function searchWikipedia(keyword) {
       };
     })
   };
-  cache.put(key, JSON.stringify(data), CACHE_MIN * 60);
-  return data;
 }
 
 /** 발췌문 속 HTML 태그(검색어 강조 &lt;span&gt; 등)를 지우고 글자만 남깁니다 */
@@ -3491,6 +3630,8 @@ textarea:focus{border-color:#E0B400;outline:none;}
     &lt;p class="status" id="status" aria-live="polite"&gt;궁금한 낱말을 찾으면 여기에 자료 카드가 나타나요.&lt;/p&gt;
     &lt;div class="cards" id="cards"&gt;&lt;/div&gt;
     &lt;p class="err hide" id="err" role="alert"&gt;&lt;/p&gt;
+    &lt;p class="tip"&gt;&lt;span class="material-icons-outlined"&gt;rule&lt;/span&gt;
+      &lt;span&gt;이름이 같은 드라마·노래·학교도 함께 나올 수 있어요. 내 궁금증에 맞는 자료를 골라 읽어요.&lt;/span&gt;&lt;/p&gt;
     &lt;p class="tip"&gt;&lt;span class="material-icons-outlined"&gt;fact_check&lt;/span&gt;
       &lt;span&gt;위키백과는 누구나 고칠 수 있는 백과사전이에요. 중요한 내용은 원문을 읽고, 책이나 다른 자료로도 확인해요.&lt;/span&gt;&lt;/p&gt;
   &lt;/section&gt;
@@ -3511,7 +3652,7 @@ textarea:focus{border-color:#E0B400;outline:none;}
   &lt;/section&gt;
 
   &lt;p class="credit"&gt;자료: &lt;a href="https://ko.wikipedia.org/" target="_blank" rel="noopener noreferrer"&gt;한국어 위키백과&lt;/a&gt; (CC BY-SA 4.0)
-    · 같은 낱말의 검색 결과는 30분 동안 보관해 다시 씁니다 · 학생이 쓴 생각은 저장하지 않습니다&lt;/p&gt;
+    · 같은 낱말의 검색 결과는 최대 30분 동안 다시 써서 호출을 줄입니다 · 학생이 쓴 생각은 저장하지 않습니다&lt;/p&gt;
 &lt;/main&gt;
 
 
@@ -3648,7 +3789,7 @@ function search(word) {
   })['catch'](function (e) {
     if (my !== ticket) return;
     $('status').textContent = '';
-    $('err').textContent = '자료를 불러오지 못했습니다. ' + (e &amp;&amp; e.message ? e.message : '');
+    $('err').textContent = '자료를 불러오지 못했습니다. ' + (e &amp;&amp; e.message ? e.message : '') + ' [찾기]를 다시 눌러 보세요.';
     show('err', true);
   }).then(function () {
     if (my === ticket) $('go').disabled = false;
@@ -3765,12 +3906,14 @@ if (document.readyState === 'loading') {
               <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m4_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m4_prompt">매일 글쓰기를 모아 학급문집으로 만드는 앱을 구글 스프레드시트 + Apps Script 로 만들어줘.
 
 [문제상황]
-학기말 문집을 만들려면 쌓인 글을 모아 정리하고 편집하느라 며칠이 걸려.
+매일 쓴 글이 쌓여도 문집으로 편집하는 과정이 큰 부담이야. AI 도움을 받으려 해도 글의 양이 많고,
+학생들의 창작 활동을 매일 확인하기도 어려워.
 
 [학생 — 웹앱]
 - 수업 코드와 필명(실명 말고)으로 들어와 제목(선택)과 글(2000자 이내)을 쓴다.
 - 교사가 '오늘의 글감'을 링크에 담아 줄 수 있게 ?room= 과 ?topic= 을 받아줘.
 - 제출하면 그날 우리 반이 쓴 글 목록(제목 · 필명)이 보이고, 눌러서 읽을 수 있다.
+- 수업 코드를 바꾸면 이전 목록을 비우고, 이전 반의 늦은 조회·저장 응답은 화면에 반영하지 마.
 - 글은 스프레드시트에 [시각, 수업 코드, 글감, 필명, 제목, 글]로 한 줄씩 저장해줘.
 
 [교사 — 결과물, 이 앱의 핵심]
@@ -3778,14 +3921,24 @@ if (document.readyState === 'loading') {
   '📚 학급문집 → 문집 만들기' 메뉴(onOpen)로 만들어줘.
 - 메뉴를 누르면 수업 코드를 물어보고, 그 글들을 날짜 순서로 모아
   DocumentApp 으로 구글 문서를 만들어줘.
-  (표지 제목 → 쪽 나눔 → 날짜별 제목과 글감 → 글 제목 · 글쓴이 · 본문 → 구분선)
+  (표지 제목 → 쪽 나눔 → 날짜별 제목 → 글감별 묶음 → 글 제목 · 글쓴이 · 본문 → 구분선)
+  같은 날짜에 글감이 여럿이면 글감마다 구분해서 모두 보여줘.
 - 같은 문서를 PDF 로도 한 부 저장하고, 두 링크를 대화상자로 보여줘.
+  PDF 만 실패하면 이미 만든 구글 문서 링크는 안내해줘.
 - 그 함수의 첫 줄에서 SpreadsheetApp.getUi() 를 불러,
-  웹앱(google.script.run)에서 불리면 멈추게 해줘.
+  웹앱(google.script.run)에서 불리면 문서를 만들기 전에 멈추게 해줘.
+
+[시트 연결 — 배포 후에도 같은 시트에]
+- 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야.
+- setup 은 편집기에서 실행하고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘.
+  다시 실행해도 기존 글은 지우지 마.
+- 웹앱의 저장·조회 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
+- 학생 입력은 수식이 되거나 수업 코드가 날짜·숫자로 바뀌지 않게 글자(텍스트)로 저장해줘.
 
 [기술 조건]
 - Code.gs 와 index.html 두 파일, doGet 으로 서비스, google.script.run 사용.
-- 시트에 쓸 때 LockService, 서버는 Date 대신 문자열로 돌려주기.
+- 시트에 쓸 때 LockService 로 잠그고, 쓰기를 마치면 SpreadsheetApp.flush() 뒤에 잠금을 풀어줘
+  (오류가 나도 반드시). 서버는 Date 대신 문자열로 돌려주기.
 - 화면에서 부를 필요 없는 함수는 이름 끝에 _ 를 붙여줘.
 
 [디자인]
@@ -3795,7 +3948,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-x" data-step="3" id="m4-s2">
             <header class="pane-h"><span class="pane-k">Code.gs</span><h2>기능 코드 붙여넣기</h2></header>
             <ol class="act">
-              <li><a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a> → <b>확장 프로그램 → Apps Script</b></li>
+              <li><b>이 실습 전용</b> 새 시트(<a href="https://sheets.new" target="_blank" rel="noopener" class="inl">sheets.new</a>) → <b>확장 프로그램 → Apps Script</b></li>
               <li>프로젝트 이름 <b>[심화] 티끌모아 학급문집</b></li>
               <li><b>Code.gs</b> 내용을 지우고 붙여넣기 → <b>저장</b></li>
             </ol>
@@ -3811,10 +3964,11 @@ if (document.readyState === 'loading') {
  * 교사는 스프레드시트 메뉴 [📚 학급문집 → 문집 만들기]로
  * 쌓인 글을 구글 문서와 PDF 문집으로 한 번에 묶습니다.
  *
- * 이 코드를 Code.gs 에 붙여넣은 뒤
+ * 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 연 프로젝트에 붙여넣으세요.
  *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
  *  2) 위쪽 함수 목록에서 setup 을 골라 [실행]
  *     → 이번에는 '문서'와 '드라이브' 권한도 함께 묻습니다. 모두 허용
+ *     → 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장합니다.
  *  3) [배포] → 새 배포 → 유형: 웹 앱
  *        실행 계정   : 나
  *        액세스 권한 : 모든 사용자
@@ -3839,9 +3993,15 @@ function sheetText_(value) {
   return text ? "'" + text : '';
 }
 
-/** 시트가 없으면 만들고 머리글까지 자동으로 넣습니다 */
+/**
+ * 글을 저장할 시트를 엽니다.
+ * 웹앱으로 열리면 '지금 열린 스프레드시트'가 없으므로, setup 이 저장해 둔 ID 로 엽니다.
+ * 시트가 없으면 만들고 머리글을 넣습니다. 이미 있는 글은 건드리지 않습니다.
+ */
 function ensureSheet_() {
-  var ss = SpreadsheetApp.getActive();
+  var id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!id) throw new Error('먼저 이 실습의 스프레드시트에서 setup 을 실행해 주세요.');
+  var ss = SpreadsheetApp.openById(id);
   var sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
   if (sh.getLastRow() === 0) {
@@ -3853,8 +4013,11 @@ function ensureSheet_() {
   return sh;
 }
 
-/** 처음 한 번 실행하세요 — 시트를 만들고 교사용 메뉴를 붙입니다 */
+/** 처음 한 번, 이 스프레드시트의 편집기에서 실행하세요 — 시트를 만들고 교사용 메뉴를 붙입니다. 다시 실행해도 글은 지워지지 않습니다. */
 function setup() {
+  var ss = SpreadsheetApp.getActive();
+  if (!ss) throw new Error('이 실습의 스프레드시트에서 [확장 프로그램 → Apps Script]로 연 뒤 setup 을 실행해 주세요.');
+  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', ss.getId());
   ensureSheet_();
   try { onOpen(); } catch (e) { /* 편집기에서만 실행하면 메뉴는 새로고침 뒤에 보입니다 */ }
   Logger.log('준비 완료 — 스프레드시트를 새로고침하면 [📚 학급문집] 메뉴가 보입니다.');
@@ -3897,7 +4060,8 @@ function saveWriting(payload) {
   try {
     ensureSheet_().appendRow([new Date(), sheetText_(room), sheetText_(topic), sheetText_(pen), sheetText_(title), sheetText_(body)]);
   } finally {
-    lock.releaseLock();
+    // 시트에 다 쓴 뒤 잠금을 풉니다. 오류가 나도 잠금은 반드시 풉니다.
+    try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
   }
   return getToday({ room: room });
 }
@@ -3932,10 +4096,10 @@ function readRows_(room) {
 /**
  * [교사용] 쌓인 글을 구글 문서 + PDF 문집으로 묶습니다.
  * 스프레드시트 메뉴에서만 실행됩니다.
- * 웹앱(google.script.run)에서 누가 이 함수를 부르면 getUi() 에서 멈춥니다.
+ * 웹앱(google.script.run)에서 누가 이 함수를 부르면 맨 처음 getUi() 에서 멈춰, 문서를 만들지 않습니다.
  */
 function makeAnthology() {
-  var ui;
+  var ui;   // 다른 일보다 먼저 getUi() 로 '스프레드시트 메뉴에서 눌렀는지' 확인합니다
   try {
     ui = SpreadsheetApp.getUi();
   } catch (e) {
@@ -3969,35 +4133,56 @@ function makeAnthology() {
     .setAlignment(DocumentApp.HorizontalAlignment.CENTER);
   body.appendPageBreak();
 
-  // ── 날짜별로 묶어서 싣기 ──
-  var lastDay = '';
-  rows.forEach(function (w) {
-    var day = korDate_(w.when);
-    if (day !== lastDay) {
-      body.appendParagraph(day).setHeading(DocumentApp.ParagraphHeading.HEADING1);
-      if (w.topic) body.appendParagraph('오늘의 글감 : ' + w.topic).editAsText().setItalic(true);
-      lastDay = day;
-    }
-    body.appendParagraph(w.title || '제목 없음').setHeading(DocumentApp.ParagraphHeading.HEADING2);
-    body.appendParagraph('글쓴이 ' + w.pen).editAsText().setForegroundColor('#767676');
-    w.body.split(/\r?\n/).forEach(function (line) {
-      body.appendParagraph(line).setHeading(DocumentApp.ParagraphHeading.NORMAL);
+  // ── 날짜별로, 같은 날 안에서는 글감별로 묶어서 싣기 ──
+  groupByDayAndTopic_(rows).forEach(function (day) {
+    body.appendParagraph(day.label).setHeading(DocumentApp.ParagraphHeading.HEADING1);
+    day.topics.forEach(function (t) {
+      // 같은 날 글감이 여럿이어도 모두 구분해서 보여 줍니다
+      if (t.topic) body.appendParagraph('글감 : ' + t.topic).editAsText().setItalic(true);
+      t.items.forEach(function (w) {
+        body.appendParagraph(w.title || '제목 없음').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+        body.appendParagraph('글쓴이 ' + w.pen).editAsText().setForegroundColor('#767676');
+        w.body.split(/\r?\n/).forEach(function (line) {
+          body.appendParagraph(line).setHeading(DocumentApp.ParagraphHeading.NORMAL);
+        });
+        body.appendHorizontalRule();
+      });
     });
-    body.appendHorizontalRule();
   });
   doc.saveAndClose();
 
-  // ── PDF 로도 한 부 저장 ──
-  var pdf = DriveApp.createFile(
-    DriveApp.getFileById(doc.getId()).getAs(MimeType.PDF).setName(name + '.pdf'));
+  // ── PDF 로도 한 부 저장 (PDF 만 실패해도 문서 링크는 안내합니다) ──
+  var pdf = null;
+  try {
+    pdf = DriveApp.createFile(
+      DriveApp.getFileById(doc.getId()).getAs(MimeType.PDF).setName(name + '.pdf'));
+  } catch (e) {
+    pdf = null;
+  }
 
   var html = HtmlService.createHtmlOutput(
     '&lt;div style="font-family:sans-serif;font-size:14px;line-height:1.8"&gt;' +
     '&lt;p&gt;글 &lt;b&gt;' + rows.length + '편&lt;/b&gt;을 묶었습니다. 내 드라이브에 저장되었습니다.&lt;/p&gt;' +
     '&lt;p&gt;📄 &lt;a href="' + doc.getUrl() + '" target="_blank"&gt;구글 문서로 열기&lt;/a&gt; (고치고 꾸미기)&lt;/p&gt;' +
-    '&lt;p&gt;📕 &lt;a href="' + pdf.getUrl() + '" target="_blank"&gt;PDF 로 열기&lt;/a&gt; (인쇄·배부용)&lt;/p&gt;&lt;/div&gt;'
-  ).setWidth(360).setHeight(180);
+    (pdf
+      ? '&lt;p&gt;📕 &lt;a href="' + pdf.getUrl() + '" target="_blank"&gt;PDF 로 열기&lt;/a&gt; (인쇄·배부용)&lt;/p&gt;'
+      : '&lt;p&gt;📕 PDF 는 만들지 못했습니다. 문서에서 [파일 → 다운로드 → PDF]로 받을 수 있어요.&lt;/p&gt;') +
+    '&lt;/div&gt;'
+  ).setWidth(360).setHeight(190);
   ui.showModalDialog(html, '학급문집이 만들어졌어요');
+}
+
+/** 글을 [날짜 → 글감 → 글] 순서로 묶습니다. 날짜·글감은 처음 나온 순서를 따릅니다 */
+function groupByDayAndTopic_(rows) {
+  var days = [], dayAt = Object.create(null);
+  rows.forEach(function (w) {
+    var label = korDate_(w.when);
+    if (!dayAt[label]) { dayAt[label] = { label: label, topics: [], topicAt: Object.create(null) }; days.push(dayAt[label]); }
+    var d = dayAt[label];
+    if (!d.topicAt[w.topic]) { d.topicAt[w.topic] = { topic: w.topic, items: [] }; d.topics.push(d.topicAt[w.topic]); }
+    d.topicAt[w.topic].items.push(w);
+  });
+  return days;
 }
 
 /** 날짜를 '10월 17일 (토)' 처럼 바꿉니다 */
@@ -4210,6 +4395,7 @@ var Backend = {
    ══════════════════════════════════════════════════════ */
 
 var room = '', topic = '', timer = null, shareBase = '';
+var reqNo = 0;                    /* 가장 최근 요청의 번호. 이전 반의 늦은 응답은 버립니다 */
 
 function $(id) { return document.getElementById(id); }
 function show(id, on) { $(id).classList.toggle('hide', !on); }
@@ -4261,7 +4447,12 @@ function renderList(list) {
 }
 
 function refresh() {
-  return Backend.load().then(renderList)['catch'](function (err) {
+  var my = ++reqNo, r = room;
+  return Backend.load().then(function (list) {
+    if (my !== reqNo || r !== room) return;      /* 그사이 반을 바꿨거나 더 새 요청이 있으면 버립니다 */
+    renderList(list);
+  })['catch'](function (err) {
+    if (my !== reqNo || r !== room) return;
     fail('listErr', '글 목록을 불러오지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : ''));
   });
 }
@@ -4276,6 +4467,8 @@ function submit() {
   show('doneMsg', false);
   memSet('pen', rec.pen);                           /* 필명은 다음에도 채워 둡니다 */
   Backend.save(rec).then(function (list) {
+    if (rec.room !== room) { canSubmit(); return; }   /* 저장은 됐지만 그사이 반을 바꿨으면 목록은 그대로 */
+    reqNo++;                                          /* 저장 전에 보낸 조회 응답은 버립니다 */
     $('title').value = '';
     $('body').value = '';
     $('len').textContent = '0';
@@ -4283,6 +4476,7 @@ function submit() {
     renderList(list);
   })['catch'](function (err) {
     btn.disabled = false;
+    if (rec.room !== room) return;
     fail('writeErr', '저장하지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') + ' 다시 눌러보세요.');
   });
 }
@@ -4291,6 +4485,9 @@ function enter(code, t) {
   var v = String(code || '').trim();
   if (!v) { fail('gateErr', '수업 코드를 입력해주세요.'); return; }
   room = v;
+  reqNo++;                                          /* 이전 반의 늦은 응답은 버리고 */
+  $('list').innerHTML = '';                         /* 이전 반 목록도 비웁니다 */
+  $('total').textContent = '0';
   topic = String(t || '').trim().slice(0, 80);
   $('roomLabel').textContent = room;
   $('topicText').textContent = '오늘의 글감 : ' + topic;
@@ -4311,6 +4508,8 @@ function bind() {
   $('changeRoom').addEventListener('click', function () {
     if (timer) { clearInterval(timer); timer = null; }
     room = '';
+    reqNo++;
+    $('list').innerHTML = '';
     show('writeWrap', false);
     show('gate', true);
   });
@@ -4362,7 +4561,7 @@ if (document.readyState === 'loading') {
           <article class="pane s-x" data-step="5" id="m4-x">
             <header class="pane-h"><span class="pane-k">배포</span><h2>학생용 주소 만들기</h2></header>
             <ol class="act">
-              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 문서 · 드라이브)</span></li>
+              <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 문서 · 드라이브 · 이 시트를 앱과 연결)</span></li>
               <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
               <li><b>/exec</b> 주소를 열어 확인</li>
             </ol>
@@ -4837,6 +5036,7 @@ function callPublicApi_(baseUrl, params) {
               <tr><td>코드를 고쳤는데 그대로다</td><td><b>배포 → 배포 관리 → 연필 → 버전: 새 버전 → 배포.</b> 새 배포를 누르면 주소가 바뀝니다.</td></tr>
               <tr><td>&ldquo;Apps Script 웹앱 주소(/exec)에서 열어주세요&rdquo;</td><td>index.html 파일을 직접 열었거나 편집기 미리보기로 본 경우. <b>배포한 /exec 주소</b>로 여세요.</td></tr>
               <tr><td>[3] &ldquo;외부 요청 권한이 없습니다&rdquo;</td><td>setup을 한 번도 실행하지 않은 경우. <b>setup 실행 → 승인</b> 후 새 버전으로 다시 배포하세요.</td></tr>
+              <tr><td>[1·2·심화] &ldquo;먼저 이 실습의 스프레드시트에서 setup 을 실행해 주세요&rdquo;</td><td>그 실습 시트의 <b>확장 프로그램 → Apps Script</b>에서 <b>setup</b>을 실행하세요. setup이 그 시트를 앱과 연결합니다. 다시 배포하지 않아도 됩니다.</td></tr>
               <tr><td>[심화] 학급문집 메뉴가 안 보인다</td><td>스프레드시트 탭을 <b>새로고침</b>하세요. 메뉴는 시트를 열 때 붙습니다.</td></tr>
               <tr><td>[심화] &ldquo;스프레드시트 메뉴에서만 할 수 있습니다&rdquo;</td><td>편집기에서 makeAnthology를 직접 실행한 경우. <b>시트의 📚 학급문집 메뉴</b>에서 누르세요.</td></tr>
               <tr><td>날짜가 하루씩 어긋난다</td><td>Code.gs 위쪽 <b>TZ</b>가 &lsquo;Asia/Seoul&rsquo;인지, 그리고 <b>프로젝트 설정 → 시간대</b>가 서울인지 확인하세요.</td></tr>
@@ -4862,7 +5062,7 @@ function callPublicApi_(baseUrl, params) {
             <tbody>
               <tr><td><b>동시에 실행</b></td><td>30개</td><td>한 반이 동시에 눌러도 대부분 괜찮습니다. 자동 갱신 간격을 너무 짧게(1~2초) 하지 마세요.</td></tr>
               <tr><td><b>한 번 실행 시간</b></td><td>6분</td><td>문집처럼 큰 작업도 보통 수십 초 안에 끝납니다.</td></tr>
-              <tr><td><b>외부 요청(UrlFetch)</b></td><td>하루 20,000번</td><td>[3]은 찾기를 누를 때만 묻고 같은 낱말은 30분 동안 보관하므로, 한 반이 하루 종일 써도 수백 번이면 충분합니다.</td></tr>
+              <tr><td><b>외부 요청(UrlFetch)</b></td><td>하루 20,000번</td><td>[3]은 찾기를 누를 때만 묻고 같은 낱말은 최대 30분 동안 다시 쓰므로, 보통 한 반이 하루 종일 써도 수백 번 안쪽입니다.</td></tr>
               <tr><td><b>트리거 실행 시간</b></td><td>하루 90분</td><td>매일 한 번 도는 기록용 트리거는 몇 초면 끝납니다.</td></tr>
             </tbody>
           </table>
@@ -6054,7 +6254,7 @@ fl.map(f=>'   - '+f).join('\n')+'\n'+
   if(has('api')) sec.push('[기능 3 · 외부 데이터 연결]\n'+
 '- '+(api||'필요한 바깥 데이터를 가져와 보여줘.')+'\n'+
 '- 바깥 API는 화면이 아니라 Code.gs 에서 UrlFetchApp 으로 불러줘.\n'+
-'- 받은 결과는 CacheService 로 10~30분 보관해서, 반 전체가 열어도 API는 한 번만 부르게 해줘.\n'+
+'- 받은 결과는 CacheService 로 10~30분 보관해 외부 호출을 줄여줘. (캐시는 일찍 지워질 수 있어 한 번만 호출된다고 보장하지는 마)\n'+
 '- API 키가 필요하면 코드에 적지 말고 스크립트 속성(PropertiesService)에서 읽게 해주고,\n'+
 '  속성 이름과 넣는 방법을 주석에 적어줘.\n'+
 '- 데이터 출처를 화면 아래에 표시해줘.');
