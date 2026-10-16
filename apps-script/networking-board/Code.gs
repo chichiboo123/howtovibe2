@@ -61,9 +61,7 @@ function template_() {
 /* ───────── 처음 한 번 실행 ───────── */
 function setup() {
   var sh = getSheet_();
-  var st = sh.getRange(2, 10, Math.max(sh.getMaxRows() - 1, 1), 1);
-  st.setDataValidation(SpreadsheetApp.newDataValidation()
-    .requireValueInList([STATUS_OPEN, STATUS_HIDDEN, STATUS_DELETED], true).setAllowInvalid(false).build());
+  setStatusRule_(sh);
   Logger.log('준비 완료 — 시트: ' + sh.getParent().getName() + ' / ' + SHEET_NAME +
     (getPostCode_() ? ' · 게시 코드 사용 중' : ' · 게시 코드 없음(누구나 게시)'));
 }
@@ -142,6 +140,8 @@ function deletePost(id, key) {
   try {
     var sh = getSheet_();
     var r = findOwnRow_(sh, id, key);
+    // 예전 setup이 만든 '공개, 숨김'만 허용하는 규칙이면 '삭제'를 쓸 수 없으니 먼저 고칩니다
+    if (!ruleAllowsDelete_(sh, r)) setStatusRule_(sh);
     sh.getRange(r, COL.status).setValue(safeCell_(STATUS_DELETED));
     sh.getRange(r, COL.updatedAt).setValue(safeCell_(new Date().toISOString()));
     return true;
@@ -173,6 +173,20 @@ function parsePlan_(raw) {
 }
 
 /* ───────── 도우미 ───────── */
+
+/** status 열(J)의 드롭다운: 공개 / 숨김 / 삭제 */
+function setStatusRule_(sh) {
+  sh.getRange(2, COL.status, Math.max(sh.getMaxRows() - 1, 1), 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireValueInList([STATUS_OPEN, STATUS_HIDDEN, STATUS_DELETED], true).setAllowInvalid(false).build());
+}
+
+/** 이 줄의 status 칸 규칙이 '삭제'를 받아 주는지 (규칙이 없으면 받아 줌) */
+function ruleAllowsDelete_(sh, r) {
+  var rule = sh.getRange(r, COL.status).getDataValidation();
+  if (!rule) return true;
+  if (rule.getCriteriaType() !== SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST) return false;
+  return (rule.getCriteriaValues()[0] || []).indexOf(STATUS_DELETED) !== -1;
+}
 
 /** 붙여넣은 기획 검사: 길이, [앱 이름] 여부. 중복 확인용 해시도 만듭니다 */
 function checkPlan_(raw) {
