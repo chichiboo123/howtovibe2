@@ -1,8 +1,8 @@
 const fs=require('node:fs'),vm=require('node:vm');
 const {parseHTML}=require(process.env.TEST_DOM_MODULE||'linkedom');
 const {environment,ROOT,source}=require('./harness.cjs');
-function ui(i,server){
- const html=fs.readFileSync(source(i,'html'),'utf8');const {window:w}=parseHTML(html);const {context:c,state}=server||environment(i);if(i!==3)c.setup();const storage=new Map(),timers=[];let failNext=false,loseNext=false;
+function ui(i,server,type='html'){
+ const html=fs.readFileSync(source(i,type),'utf8');const {window:w}=parseHTML(html);const {context:c,state}=server||environment(i);if(i!==3)c.setup();const storage=new Map(),timers=[];let failNext=false,loseNext=false;
  const ctx={window:w,document:w.document,console,Date,Promise,URL,URLSearchParams,Error,history:{replaceState(){}},location:{href:'https://test.invalid'},navigator:{clipboard:{writeText:async t=>ctx.clipboard=t}},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setInterval:(f,ms)=>{timers.push({f,ms});return timers.length},clearInterval(){},setTimeout,clearTimeout};
  w.document.hidden=false;w.document.execCommand=()=>true;
  const rpc=new Proxy({},{get(_,key){if(key==='withSuccessHandler'||key==='withFailureHandler')return handler=>runner(key,handler);}});

@@ -6,9 +6,9 @@ for(let i=1;i<=4;i++){
  test(`m${i}: setup and doGet`,()=>{const {context:c}=environment(i);assert.equal(c.setup(),'ok');assert.ok(c.doGet());});
 }
 const {context:a,state:sa}=environment(1);a.setup();
-test('m1: save 20 anonymous checkins; room and date filters',()=>{for(let n=0;n<20;n++)a.saveCheckin({room:'5-1',emotion:['기쁨','평온','설렘','걱정','피곤'][n%5],note:'기록'+n});a.saveCheckin({room:'5-2',emotion:'걱정'});assert.equal(a.getRows({room:'5-1'}).length,20);assert.equal(a.getRows({room:'5-1',day:'2000-01-01'}).length,0);assert.equal(sa.locks,sa.releases);});
-test('m1: blank room/emotion rejected',()=>{assert.throws(()=>a.saveCheckin({}));assert.throws(()=>a.saveCheckin({room:'5-1'}));});
-test('m1: formula-like note stays literal; return values serialize',()=>{const rows=a.saveCheckin({room:'0503',emotion:'기쁨',note:'=1+1'});assert.equal(rows[0].note,'=1+1');assert.equal(typeof rows[0].at,'string');JSON.stringify(rows);});
+test('m1: save 20 anonymous checkins; teacher dashboard counts and date filter',()=>{for(let n=0;n<20;n++)a.saveCheckin({emotion:['기쁨','평온','설렘','걱정','피곤'][n%5],note:'기록'+n});const d=a.getDashboard({});assert.equal(d.summary.total,20);assert.equal(d.rows.length,20);assert.equal(d.summary.counts['걱정'],4);assert.equal(d.week.length,7);assert.equal(d.week[6].day,d.today);assert.equal(a.getDashboard({day:'2000-01-01'}).summary.total,0);assert.equal(sa.locks,sa.releases);});
+test('m1: blank emotion rejected',()=>{assert.throws(()=>a.saveCheckin({}));assert.throws(()=>a.saveCheckin({note:'메모만'}));});
+test('m1: formula-like note stays literal; save returns no class data',()=>{const r=a.saveCheckin({emotion:'기쁨',note:'=1+1'});assert.deepEqual(Object.keys(r).sort(),['at','ok']);assert.equal(typeof r.at,'string');const d=a.getDashboard({});assert.equal(d.rows[0].note,'=1+1');assert.equal(typeof d.rows[0].at,'string');JSON.stringify(d);});
 test('m1: only five allowed emotions accepted [requirement probe]',()=>assert.throws(()=>a.saveCheckin({room:'5-1',emotion:'없는감정'})));
 const {context:b,state:sb}=environment(2);b.setup();
 test('m2: 20 cards, room isolation, max length, color fallback',()=>{for(let n=0;n<20;n++)b.addCard({room:'5-1',text:'의견'+n,color:'blue'});b.addCard({room:'5-2',text:'다른 반'});let r=b.addCard({room:'5-1',text:'x'.repeat(151),color:'invalid'});assert.equal(r.length,21);assert.equal(r[0].text.length,150);assert.equal(r[0].color,'yellow');});
@@ -25,7 +25,7 @@ test('m4: save, room isolation, title optional, 2000-character cap',()=>{d.saveW
 test('m4: required fields reject blank',()=>{assert.throws(()=>d.saveWriting({room:'5-1',body:'글'}));assert.throws(()=>d.saveWriting({room:'5-1',pen:'별'}));});
 test('m4: teacher menu creates document + PDF with two writings',()=>{d.makeAnthology();assert.equal(sd.docs.length,1);assert.equal(sd.pdfs.length,1);assert.ok(sd.closed);assert.equal(sd.docs[0].events.filter(e=>e[0]==='rule').length,2);assert.ok(sd.dialog);});
 test('m4: student RPC context cannot invoke document generation',()=>{sd.ui=false;assert.throws(()=>d.makeAnthology(),/메뉴/);assert.equal(sd.docs.length,1);});
-for(let i of [1,2,4])test(`m${i}: deployed context without active spreadsheet [deployment probe]`,()=>{const {context:c,state}=environment(i);c.setup();state.active=false;const f={1:'getRows',2:'getCards',4:'getToday'}[i];c[f]({room:'5-1'});});
+for(let i of [1,2,4])test(`m${i}: deployed context without active spreadsheet [deployment probe]`,()=>{const {context:c,state}=environment(i);c.setup();state.active=false;if(i===1){c.saveCheckin({emotion:'기쁨'});return;}const f={2:'getCards',4:'getToday'}[i];c[f]({room:'5-1'});});
 console.log(JSON.stringify({pass:results.filter(r=>r.status==='PASS').length,fail:results.filter(r=>r.status==='FAIL').length,results},null,2));
 
 if(results.some(r=>r.status==='FAIL')) process.exitCode=1;

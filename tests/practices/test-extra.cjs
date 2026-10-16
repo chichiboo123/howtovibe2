@@ -14,8 +14,10 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
 
 (async () => {
   // ── 공통: 실습 1·2·4 시트 연결 ──
+  // 실습 1은 한 학급용(수업 코드 없음)이고, 기록은 교사 대시보드(getDashboard)로만 읽습니다
+  const count = (i, c, read) => i === 1 ? c[read]({}).rows.length : c[read]({ room: '5-1' }).length;
   for (const [i, save, arg, read] of [
-    [1, 'saveCheckin', { room: '5-1', emotion: '기쁨', note: 'x' }, 'getRows'],
+    [1, 'saveCheckin', { emotion: '기쁨', note: 'x' }, 'getDashboard'],
     [2, 'addCard', { room: '5-1', text: '의견', color: 'blue' }, 'getCards'],
     [4, 'saveWriting', { room: '5-1', pen: '별', body: '글' }, 'getToday']]) {
     await test(`m${i}: setup saves own spreadsheet ID in SPREADSHEET_ID`, () => {
@@ -26,12 +28,12 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
     await test(`m${i}: web app functions open the sheet by saved ID, not getActive`, () => {
       const { context: c, state } = environment(i);
       c.setup(); state.active = false; state.opens = 0;
-      c[save](arg); c[read]({ room: '5-1' });
+      c[save](arg); count(i, c, read);
       assert.ok(state.opens >= 2);
     });
     await test(`m${i}: without setup, a clear 'run setup' error`, () => {
       const { context: c } = environment(i);
-      assert.throws(() => c[read]({ room: '5-1' }), /setup/);
+      assert.throws(() => count(i, c, read), /setup/);
     });
     await test(`m${i}: setup outside the spreadsheet editor fails with guidance`, () => {
       const { context: c } = environment(i, { active: false });
@@ -39,8 +41,8 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
     });
     await test(`m${i}: re-running setup keeps existing rows`, () => {
       const { context: c } = environment(i);
-      c.setup(); c[save](arg); const before = c[read]({ room: '5-1' }).length;
-      c.setup(); assert.equal(c[read]({ room: '5-1' }).length, before); assert.equal(before, 1);
+      c.setup(); c[save](arg); const before = count(i, c, read);
+      c.setup(); assert.equal(count(i, c, read), before); assert.equal(before, 1);
     });
     await test(`m${i}: flush happens before releasing the lock`, () => {
       const { context: c, state } = environment(i);
@@ -54,49 +56,102 @@ const html = i => fs.readFileSync(source(i, 'html'), 'utf8');
       assert.throws(() => c[save](arg));
       assert.equal(state.locks, state.releases);
     });
-    await test(`m${i}: room code like 5-3 / 0503 and '=' text stored as literal text`, () => {
+    await test(`m${i}: text like 0503 and '=' text stored as literal text`, () => {
       const { context: c, state } = environment(i);
       c.setup();
       const sheet = Object.values(state.sheets)[0];
-      const a = { ...arg, room: '0503' }; if (i === 1) a.note = '=1+1'; if (i === 2) a.text = '=1+1'; if (i === 4) a.body = '=1+1';
+      const a = i === 1 ? { ...arg, note: '0503 =1+1' } : { ...arg, room: '0503' }; if (i === 2) a.text = '=1+1'; if (i === 4) a.body = '=1+1';
       c[save](a);
       const row = sheet.rows[sheet.rows.length - 1];
-      assert.ok(row.includes('0503') && row.includes('=1+1'), JSON.stringify(row));
+      assert.ok(i === 1 ? row.includes('0503 =1+1') : row.includes('0503') && row.includes('=1+1'), JSON.stringify(row));
     });
   }
 
   // ── 실습 1 ──
-  await test('m1: browser date follows Asia/Seoul, not the device time zone', async () => {
+  await test('m1: sheet text written with a leading apostrophe (stays literal in a real sheet)', () => {
+    const { context: c, state } = environment(1); c.setup();
+    const sh = state.sheets['감정기록'], raw = []; const orig = sh.appendRow; sh.appendRow = r => { raw.push(r); orig(r); };
+    c.saveCheckin({ emotion: '걱정', note: '=1+1' });
+    assert.equal(raw[0][1], "'걱정"); assert.equal(raw[0][2], "'=1+1");
+  });
+  await test('m1: dashboard.html script compiles and uses textContent for notes', () => {
+    const src = fs.readFileSync(source(1, 'dash'), 'utf8');
+    for (const m of src.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)) new (require('node:vm').Script)(m[1]);
+    assert.ok(!/innerHTML\s*=\s*[^'"]/.test(src.replace(/innerHTML = ''/g, '')));
+  });
+  await test('m1: student page has no class code, no class results, no dashboard call', () => {
+    const src = html(1);
+    assert.ok(!/getDashboard|getRows|\?room=|getLocation/.test(src), 'student page must not read class data');
+    assert.ok(!/id="room"|id="bars"|id="notes"/.test(src));
+  });
+  await test('m1: dashboard data refused from the student web app (no spreadsheet UI)', () => {
+    const { context: c, state } = environment(1); c.setup();
+    c.saveCheckin({ emotion: '기쁨', note: '비밀' });
+    state.ui = false;                                  // 웹앱(google.script.run)에는 스프레드시트 UI가 없습니다
+    assert.throws(() => c.getDashboard({}), /메뉴/);
+    assert.throws(() => c.openDashboard(), /메뉴/);
+  });
+  await test('m1: menu opens the dashboard dialog from the spreadsheet', () => {
+    const { context: c, state } = environment(1); c.setup();
+    c.openDashboard(); assert.ok(state.dialog);
+  });
+  await test('m1: dashboard day follows Asia/Seoul, not the server/device time zone', () => {
+    const { context: c, state } = environment(1); c.setup();
+    // 기기(TZ=America/Los_Angeles)로는 10월 16일 오전, 서울로는 10월 17일 새벽
+    state.sheets['감정기록'].rows.push([new Date('2026-10-16T16:30:00Z'), '기쁨', '새벽']);
+    assert.equal(c.getDashboard({ day: '2026-10-17' }).summary.total, 1);
+    assert.equal(c.getDashboard({ day: '2026-10-16' }).summary.total, 0);
+    const w = c.getDashboard({ day: '2026-10-17' }).week;
+    assert.equal(JSON.stringify(w.map(x => x.day)), JSON.stringify(['2026-10-11', '2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15', '2026-10-16', '2026-10-17']));
+    assert.equal(w[6].counts['기쁨'], 1);
+  });
+  await test('m1: localStorage keeps nothing about emotion or note', async () => {
     const u = ui(1); await flush();
-    // 기기(TZ=America/Los_Angeles)로는 10월 16일 오전, 서울로는 10월 17일 새벽인 순간으로 시계를 고정
-    const FIXED = Date.parse('2026-10-16T16:30:00Z'), Real = Date;
-    u.ctx.Date = class extends Real { constructor(...a) { if (a.length) super(...a); else super(FIXED); } static now() { return FIXED; } };
-    assert.equal(u.ctx.dayKey(), '2026-10-17');
-    assert.equal(u.ctx.hhmm('2026-10-16T16:30:00Z'), '01:30');
+    u.el('emoGrid').children[3].click(); u.el('note').value = '비밀 메모'; u.ctx.submit(); await flush();
+    assert.equal(u.storage.size, 0, JSON.stringify([...u.storage.entries()]));
   });
-  await test('m1: late response after changing the room is ignored', async () => {
-    const u = ui(1); await flush(); u.ctx.enter('5-1'); await flush();
-    const pending = []; u.ctx.Backend.load = () => new Promise(r => pending.push(r));
-    const p = u.ctx.refresh(); u.el('changeRoom').click(); u.ctx.enter('5-2');
-    pending[0]([{ emotion: '기쁨', note: 'OLD ROOM NOTE', at: new Date().toISOString() }]); await p; await flush();
-    assert.ok(!u.el('notes').textContent.includes('OLD ROOM NOTE'));
-  });
-  await test('m1: late response after changing the date is ignored', async () => {
-    const u = ui(1); await flush(); u.ctx.enter('5-1'); await flush();
-    let resolve; u.ctx.Backend.load = () => new Promise(r => resolve = r);
-    const p = u.ctx.refresh(); u.ctx.viewDay = '2000-01-01';
-    resolve([{ emotion: '기쁨', note: 'TODAY NOTE', at: new Date().toISOString() }]); await p; await flush();
-    assert.ok(!u.el('notes').textContent.includes('TODAY NOTE'));
-  });
-  await test('m1: localStorage keeps only the submitted flag, not emotion or note', async () => {
-    const u = ui(1); await flush(); u.ctx.enter('5-1'); await flush();
-    u.ctx.chosen = '걱정'; u.el('note').value = '비밀 메모'; u.ctx.submit(); await flush();
-    const all = [...u.storage.entries()];
-    assert.ok(all.length >= 1 && all.every(([k, v]) => k.startsWith('checkin:') && v === '1'), JSON.stringify(all));
+  await test('m1: failed send keeps the choice and allows retry', async () => {
+    const u = ui(1); await flush();
+    u.el('emoGrid').children[0].click(); u.fail(); u.ctx.submit(); await flush(); await flush();
+    assert.equal(u.el('pickErr').classList.contains('hide'), false);
+    assert.equal(u.el('submit').disabled, false); assert.equal(u.ctx.chosen, '기쁨');
+    u.ctx.submit(); await flush(); await flush();
+    assert.equal(u.state.sheets['감정기록'].rows.length, 2);
   });
   await test('m1: invalid emotion from a crafted request is rejected', () => {
     const { context: c } = environment(1); c.setup();
-    assert.throws(() => c.saveCheckin({ room: '5-1', emotion: '<script>' }), /감정/);
+    assert.throws(() => c.saveCheckin({ emotion: '<script>' }), /감정/);
+  });
+  await test('m1: dashboard renders counts, literal notes and the 걱정·피곤 filter', async () => {
+    const server = environment(1); server.context.setup();
+    server.context.saveCheckin({ emotion: '걱정', note: '<b>배가 아파요</b>' });
+    server.context.saveCheckin({ emotion: '기쁨', note: '소풍' });
+    server.context.saveCheckin({ emotion: '평온' });
+    const u = ui(1, server, 'dash'); await flush(); await flush();
+    assert.equal(u.el('kTotal').textContent, '3명');
+    assert.equal(u.el('kWatch').textContent, '1명');
+    assert.ok(u.el('notes').textContent.includes('<b>배가 아파요</b>'));
+    assert.equal(u.el('notes').querySelector('b'), null);
+    assert.equal(u.el('notes').children.length, 2);
+    u.el('watchOnly').checked = true; u.el('watchOnly').dispatchEvent(new u.ctx.window.Event('change'));
+    assert.equal(u.el('notes').children.length, 1);
+    assert.equal(u.el('week').children.length, 7);
+  });
+  await test('m1: dashboard shows Seoul time for notes', async () => {
+    const server = environment(1); server.context.setup();
+    const u = ui(1, server, 'dash'); await flush();
+    assert.equal(u.ctx.hhmm('2026-10-16T16:30:00Z'), '01:30');
+  });
+  await test('m1: dashboard ignores a late response after changing the date', async () => {
+    const server = environment(1); server.context.setup();
+    const u = ui(1, server, 'dash'); await flush(); await flush();
+    const pending = []; u.ctx.Backend.load = d => new Promise(r => pending.push([d, r]));
+    const p1 = u.ctx.refresh(); u.ctx.go('2000-01-01');
+    const old = server.context.getDashboard({}); old.rows = [{ emotion: '기쁨', note: 'LATE TODAY NOTE', at: new Date().toISOString() }];
+    pending[1][1](server.context.getDashboard({ day: '2000-01-01' })); await flush();
+    pending[0][1](old); await p1; await flush();
+    assert.ok(!u.el('notes').textContent.includes('LATE TODAY NOTE'));
+    assert.equal(u.el('day').value, '2000-01-01');
   });
 
   // ── 실습 2 ──

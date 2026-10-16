@@ -1552,7 +1552,7 @@ html[data-present] .hx-bg{opacity:.6;}
               <div class="af-node af-svc">
                 <span class="af-ic" aria-hidden="true"><span class="material-icons-outlined">table_chart</span></span>
                 <span class="af-k">③ 구글 시트에 차곡차곡</span>
-                <p>날짜별 기록을 다시 볼 수 있어요.</p>
+                <p>쌓인 기록은 교사가 날짜별로 살펴요.</p>
                 <span class="lesson-example">오늘 · 기쁨 · 소풍이 기대돼요</span>
               </div>
             </figure>
@@ -1609,7 +1609,7 @@ html[data-present] .hx-bg{opacity:.6;}
   ensureSheet_();
   Logger.log(<span class="s">'준비 완료'</span>);
 }</pre>
-                    <div class="gx-log"><b>실행 로그</b><span>오후 3:02:14 &nbsp;정보 &nbsp;준비 완료 — checkins 시트와 머리글을 만들었습니다.</span></div>
+                    <div class="gx-log"><b>실행 로그</b><span>오후 3:02:14 &nbsp;정보 &nbsp;준비 완료 — 감정기록 시트와 머리글을 만들었습니다.</span></div>
                   </div>
                 </div>
               </div>
@@ -1778,31 +1778,41 @@ html[data-present] .hx-bg{opacity:.6;}
             <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/m1/2"><small>다음</small>핵심기능<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-t" data-step="2" id="m1-t">
-            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>기분을 보내고, 지난 기록을 돌아봐요</h2><p>학생이 쓰는 순서대로 세 가지 기능을 살펴보세요.</p></header>
+            <header class="pane-h"><span class="pane-k">핵심기능</span><h2>학생은 마음을 보내고, 교사만 기록을 봐요</h2><p>쓰는 순서대로 세 가지 기능을 살펴보세요.</p></header>
             <ol class="lesson-flow" aria-label="앱 사용 흐름">
-              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">sentiment_satisfied</span><h3>오늘의 기분 보내기</h3><p>기분 하나를 고르고 보내요. 한 줄 메모는 쓰고 싶을 때만 적어요.</p><div class="lesson-example"><small>예를 들면</small>기쁨 선택 → “소풍이 기대돼요” → 보내기</div></li>
-              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">bar_chart</span><h3>우리 반 기분 함께 보기</h3><p>같은 수업 코드로 모인 기분은 막대그래프로, 메모는 목록으로 보여요.</p><div class="lesson-example"><small>예를 들면</small>기쁨 12명 · 평온 8명 …</div></li>
-              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">event</span><h3>날짜를 바꿔 다시 보기</h3><p>기록은 구글 시트에 남아요. 날짜를 고르면 그날의 기분과 메모가 나와요.</p><div class="lesson-example"><small>예를 들면</small>어제 날짜 선택 → 어제의 우리 반 기록</div></li>
+              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">sentiment_satisfied</span><h3>학생 · 오늘의 마음 보내기</h3><p>주소를 열고 기분 하나를 골라 보내요. 선생님께 한 줄은 쓰고 싶을 때만.</p><div class="lesson-example"><small>예를 들면</small>기쁨 선택 → “소풍이 기대돼요” → 보내기</div></li>
+              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">lock</span><h3>학생 · 내 것만 확인</h3><p>보내면 “선생님께 전했어요”와 내가 고른 마음만 보여요. 친구의 기록은 보이지 않아요.</p><div class="lesson-example"><small>예를 들면</small>“오늘의 마음을 선생님께 전했어요 · 기쁨”</div></li>
+              <li><span class="lesson-icon material-icons-outlined" aria-hidden="true">dashboard</span><h3>교사 · 대시보드로 살피기</h3><p>구글 시트 메뉴 💗 감정 체크인 → 교사 대시보드. 감정별 막대, 최근 7일 흐름, 남긴 한 줄을 봐요.</p><div class="lesson-example"><small>예를 들면</small>걱정 3명 · 피곤 2명 → 걱정·피곤만 보기</div></li>
             </ol>
-            <p class="as-note"><span class="material-icons-outlined" aria-hidden="true">lightbulb</span>이름 없이 기분만 모아요. 같은 수업 코드의 기록을 함께 봅니다.</p>
+            <p class="as-note"><span class="material-icons-outlined" aria-hidden="true">lightbulb</span>한 학급용이라 수업 코드 없이 들어와요. 이름 없이 기분만 모으고, 대시보드는 시트를 가진 교사만 열 수 있어요.</p>
             <details class="more"><summary>AI로 처음부터 만들고 싶다면 · 프롬프트<span class="material-icons-outlined">expand_more</span></summary>
               <div class="more-body"><div class="code wrap"><button class="copy" data-copy="m1_prompt"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="m1_prompt">초등학교 5학년 우리 반이 아침마다 쓰는 '감정 체크인' 웹앱을
-구글 스프레드시트 + Apps Script 웹앱으로 만들어줘.
+구글 스프레드시트 + Apps Script 웹앱으로 만들어줘. 한 학급만 쓰는 앱이야.
 
 [문제상황]
-학생들이 다른 사람 눈치 보지 않고 감정을 표시하게 하고 싶고, 지난 기록도 돌아보고 싶어.
+학생들이 다른 사람 눈치 보지 않고 감정을 표시하게 하고 싶고, 교사는 지난 기록을 돌아보고 싶어.
 
-[학생이 하는 일]
-- 수업 코드(예: 5-3)를 입력하고 들어와서
-  기쁨 · 평온 · 설렘 · 걱정 · 피곤 중 하나를 고르고, 한 줄 메모(선택)를 남긴다.
-- 제출하면 반 전체의 기분 분포를 막대그래프로, 메모는 목록으로 보여줘.
+[학생이 하는 일 — 학생 화면(index.html)]
+- 수업 코드나 로그인 없이 주소를 열면 바로 시작해.
+- 기쁨 · 평온 · 설렘 · 걱정 · 피곤 중 하나를 고르고, 선생님께 한 줄(선택)을 남기고 보낸다.
+- 보내면 "오늘의 마음을 선생님께 전했어요"와 내가 고른 감정만 보여줘.
+- 다른 친구들의 감정·메모·인원수는 학생 화면에 절대 보여주지 마.
+- '처음 화면으로' 버튼을 누르면 선택과 메모를 모두 비워, 한 기기를 여러 명이 돌려 써도 앞사람 선택이 남지 않게 해줘.
+
+[교사가 하는 일 — 교사 대시보드(dashboard.html)]
+- 스프레드시트를 열면 [💗 감정 체크인 → 교사 대시보드] 메뉴가 생기게 해줘 (onOpen).
+- 메뉴를 누르면 큰 대화상자(showModalDialog)로 대시보드를 열어줘.
+- 대시보드: 고른 날의 참여 수 · 감정별 막대그래프 · 최근 7일 흐름 · 선생님께 남긴 한 줄 목록(시각·감정).
+  '걱정·피곤만 보기' 필터, 날짜 선택과 '오늘로 돌아가기', 오늘을 보는 동안 30초마다 자동 새로고침.
+- 대시보드 데이터를 돌려주는 서버 함수는 첫 줄에서 SpreadsheetApp.getUi() 를 불러,
+  학생 웹앱(google.script.run)에서 부르면 오류로 멈추게 해줘. 학생이 우리 반 기록을 받아 갈 길을 만들지 마.
 
 [기록 — 이 앱의 핵심]
-- 제출할 때마다 스프레드시트에 [시각, 수업 코드, 기분, 메모]를 한 줄씩 저장해줘.
-  감정·메모는 브라우저(localStorage)에 저장하지 마. localStorage에는 '오늘 제출했음' 같은 화면 상태만.
-- 결과 화면에 날짜 선택 칸을 두고, 고른 날짜의 기록만 다시 볼 수 있게 해줘.
-  '오늘로 돌아가기' 버튼도 만들어줘. 날짜는 기기 시간대와 관계없이 Asia/Seoul 기준.
-- 여러 명이 동시에 제출해도 줄이 겹치지 않게 LockService 로 잠그고,
+- 보낼 때마다 스프레드시트 '감정기록' 시트에 [시각, 감정, 메모]를 한 줄씩 저장해줘.
+  감정·메모는 브라우저(localStorage)에 저장하지 마.
+- 저장 함수는 다른 학생의 기록을 돌려주지 말고 '저장됨'만 돌려줘.
+- 날짜는 기기 시간대와 관계없이 Asia/Seoul 기준.
+- 여러 명이 동시에 보내도 줄이 겹치지 않게 LockService 로 잠그고,
   쓰기를 마치면 SpreadsheetApp.flush() 뒤에 잠금을 풀어줘. 오류가 나도 잠금은 반드시 풀어줘.
 - 서버에서도 다섯 감정 중 하나인지 검사해줘.
 
@@ -1810,22 +1820,30 @@ html[data-present] .hx-bg{opacity:.6;}
 - 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야.
 - setup 은 편집기에서 실행하고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘.
   다시 실행해도 기존 기록은 지우지 마.
-- 웹앱의 저장·조회 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
-- 학생 입력은 수식이 되거나 수업 코드가 날짜·숫자로 바뀌지 않게 글자(텍스트)로 저장해줘.
+- 웹앱의 저장 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.
+- 학생 메모는 수식이 되거나 숫자로 바뀌지 않게 글자(텍스트)로 저장해줘.
 
 [학생 구분]
 - 이름 · 학번 · 이메일 · 로그인은 받지 마. 완전 익명으로.
-- 수업 코드는 주소 뒤 ?room= 으로도 받을 수 있게 해줘.
 
 [기술 조건]
-- Code.gs(서버)와 index.html(화면) 두 파일로 나누고, doGet 으로 index 를 서비스해줘.
+- Code.gs(서버) · index.html(학생 화면) · dashboard.html(교사 대시보드) 세 파일로 나눠줘.
+- doGet 은 index 만 서비스해줘. dashboard 는 스프레드시트 메뉴에서만 열려.
 - 화면에서 서버는 google.script.run 으로 부르고, 서버는 Date 대신 문자열로 돌려줘.
-- 시트와 머리글은 setup 함수가 자동으로 만들게 해줘.
-- 반이나 날짜를 바꾸면 이전 요청의 늦은 응답은 화면에 반영하지 마.
-- 다시 제출할 때 버튼 문구와 선택 상태를 처음처럼 되돌려줘.
+- 학생 글은 innerHTML 이 아니라 textContent 로 화면에 넣어줘.
+- 대시보드에서 날짜를 바꾸면 이전 요청의 늦은 응답은 화면에 반영하지 마.
+
+[아이콘 — 그대로 지켜줘]
+- 아이콘은 Material Symbols Outlined 하나만 써. 두 HTML 파일의 &lt;head&gt;에 이 줄을 그대로 넣어줘.
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
+- 아이콘은 &lt;span class="material-symbols-outlined"&gt;아이콘이름&lt;/span&gt; 으로만 써.
+  material-icons, material-icons-outlined 같은 다른 class 와 섞지 마.
+- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body, button, input, textarea 에만 지정해줘.
+- 감정 아이콘 이름: 기쁨 sentiment_very_satisfied · 평온 sentiment_satisfied · 설렘 favorite ·
+  걱정 sentiment_dissatisfied · 피곤 bedtime. 다른 아이콘도 fonts.google.com/icons 에 있는 이름만 써줘.
 
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 구글 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m1/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m1-s2">
@@ -1843,27 +1861,33 @@ html[data-present] .hx-bg{opacity:.6;}
  * [1] 기록 — 우리 반 감정 체크인 : 서버 코드 (Code.gs)
  * 바이브코딩 : 포스트시즌
  *
+ * 학생은 웹앱에서 오늘의 마음을 보내기만 합니다. 친구의 기록은 보이지 않습니다.
+ * 교사는 스프레드시트 메뉴 [💗 감정 체크인 → 교사 대시보드]에서 우리 반 기록을 봅니다.
+ *
  * 이 실습 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 연 프로젝트에 붙여넣으세요.
- *  1) 왼쪽 [파일 +] → HTML → 이름을 index 로 만들고 index.html 코드를 붙여넣기
+ *  1) 왼쪽 [파일 +] → HTML → 이름 index      (학생 화면) 코드를 붙여넣기
+ *     한 번 더 [파일 +] → HTML → 이름 dashboard (교사 대시보드) 코드를 붙여넣기
  *  2) 위쪽 함수 목록에서 setup 을 골라 [실행] (권한 승인 창이 뜨면 허용)
  *     → 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장합니다.
  *  3) [배포] → 새 배포 → 유형: 웹 앱
  *        실행 계정   : 나
  *        액세스 권한 : 모든 사용자
- *  4) 나오는 주소(/exec 로 끝나는 주소)가 곧 앱 주소입니다.
+ *  4) 나오는 주소(/exec 로 끝나는 주소)가 곧 학생용 앱 주소입니다.
+ *  5) 스프레드시트 탭을 새로고침하면 위쪽에 [💗 감정 체크인] 메뉴가 생깁니다.
  *
  * 코드를 고친 뒤에는 [배포] → 배포 관리 → 수정 → 버전: 새 버전 → 배포
  */
 
-var SHEET_NAME = 'checkins';
-var HEADERS = ['created_at', 'room_code', 'emotion', 'note'];
+var SHEET_NAME = '감정기록';
+var HEADERS = ['시각', '감정', '메모'];
 var EMOTIONS = ['기쁨', '평온', '설렘', '걱정', '피곤'];   // 화면의 다섯 기분과 같아야 합니다
 var TZ = 'Asia/Seoul';
+var DAYS_BACK = 7;                                          // 대시보드의 '최근 흐름'에 보일 날 수
 
 /**
  * 학생 입력을 언제나 '글자 그대로' 저장합니다.
- * 앞에 ' 를 붙이지 않으면 시트가 5-3 은 날짜로, 0503 은 숫자 503 으로 바꾸고
- * = 로 시작하는 글은 수식으로 실행합니다. ' 는 칸에 보이지 않고, 읽을 때도 빠집니다.
+ * 앞에 ' 를 붙이지 않으면 = 로 시작하는 글은 수식으로 실행되고,
+ * 숫자처럼 보이는 글은 숫자로 바뀝니다. ' 는 칸에 보이지 않고, 읽을 때도 빠집니다.
  */
 function sheetText_(value) {
   var text = String(value == null ? '' : value);
@@ -1895,89 +1919,123 @@ function setup() {
   if (!ss) throw new Error('이 실습의 스프레드시트에서 [확장 프로그램 → Apps Script]로 연 뒤 setup 을 실행해 주세요.');
   PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', ss.getId());
   ensureSheet_();
-  Logger.log('준비 완료 — 이 스프레드시트의 ' + SHEET_NAME + ' 시트에 기록합니다.');
+  try { onOpen(); } catch (e) { /* 편집기에서만 실행하면 메뉴는 새로고침 뒤에 보입니다 */ }
+  Logger.log('준비 완료 — 스프레드시트를 새로고침하면 [💗 감정 체크인] 메뉴가 보입니다.');
   return 'ok';
 }
 
-/** 앱 화면을 서비스합니다 (주소가 하나로 끝나는 이유) */
+/** 스프레드시트를 열 때마다 교사용 메뉴를 붙입니다 */
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('💗 감정 체크인')
+    .addItem('교사 대시보드', 'openDashboard')
+    .addToUi();
+}
+
+/** 학생용 앱 화면을 서비스합니다 (주소가 하나로 끝나는 이유) */
 function doGet() {
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('우리 반 감정 체크인')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
-/** 화면이 '링크 복사'에 쓸 앱 주소 */
-function getAppUrl() {
-  return ScriptApp.getService().getUrl();
-}
-
-/** 감정 하나를 저장하고, 오늘의 새 결과를 돌려줍니다 */
+/** [학생] 감정 하나를 저장합니다. 다른 친구의 기록은 돌려주지 않습니다 */
 function saveCheckin(payload) {
-  var room = String((payload &amp;&amp; payload.room) || '').trim().slice(0, 40);
   var emotion = String((payload &amp;&amp; payload.emotion) || '').trim();
   var note = String((payload &amp;&amp; payload.note) || '').trim().slice(0, 100);
-  if (!room) throw new Error('수업 코드가 없습니다.');
   if (EMOTIONS.indexOf(emotion) &lt; 0) throw new Error('목록에 있는 감정을 골라 주세요.');
 
+  var now = new Date();
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);            // 여러 명이 동시에 눌러도 줄이 겹치지 않게
   try {
-    ensureSheet_().appendRow([new Date(), sheetText_(room), sheetText_(emotion), sheetText_(note)]);
+    ensureSheet_().appendRow([now, sheetText_(emotion), sheetText_(note)]);
   } finally {
     // 시트에 다 쓴 뒤 잠금을 풉니다. 오류가 나도 잠금은 반드시 풉니다.
     try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); }
   }
-  return getRows({ room: room });
+  return { ok: true, at: now.toISOString() };
 }
 
 /**
- * 같은 수업 코드의 '하루치' 데이터를 돌려줍니다. 날짜는 서울 시간 기준입니다.
- * 날짜를 넘기지 않으면 오늘, 넘기면 그날의 기록을 돌려줍니다.
- *   예)  getRows({ room: '5-3', day: '2026-03-04' })
+ * 교사만 쓰는 함수의 문지기입니다.
+ * 스프레드시트에서 연 대시보드는 getUi() 를 쓸 수 있지만,
+ * 학생 웹앱(google.script.run)에서 부르면 getUi() 에서 오류가 나 멈춥니다.
  */
-function getRows(arg) {
-  var room = '', day = '';
-  if (arg &amp;&amp; typeof arg === 'object') {
-    room = String(arg.room || '').trim().slice(0, 40);
-    day = String(arg.day || '').trim();
-  } else {
-    room = String(arg || '').trim().slice(0, 40);
+function teacherOnly_() {
+  try {
+    return SpreadsheetApp.getUi();
+  } catch (e) {
+    throw new Error('교사 대시보드는 스프레드시트의 [💗 감정 체크인] 메뉴에서만 열 수 있습니다.');
   }
+}
+
+/** [교사] 스프레드시트 메뉴에서 대시보드 창을 엽니다 */
+function openDashboard() {
+  var ui = teacherOnly_();
+  var html = HtmlService.createHtmlOutputFromFile('dashboard').setWidth(960).setHeight(680);
+  ui.showModalDialog(html, '우리 반 감정 체크인 · 교사 대시보드');
+}
+
+/** 시각을 서울 날짜 '2026-03-04' 로 바꿉니다 */
+function dayOf_(d) {
+  return Utilities.formatDate(d, TZ, 'yyyy-MM-dd');
+}
+
+/**
+ * [교사] 고른 날의 기록과 그날까지 최근 7일의 흐름을 돌려줍니다. 날짜는 서울 시간 기준입니다.
+ *   예)  getDashboard({ day: '2026-03-04' })   — 날짜를 넘기지 않으면 오늘
+ */
+function getDashboard(arg) {
+  teacherOnly_();
+  var today = dayOf_(new Date());
+  var day = String((arg &amp;&amp; arg.day) || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) day = today;
+
+  // 최근 흐름에 보일 날짜들 (고른 날 포함, 오래된 날부터)
+  var days = [], at = Object.create(null);
+  var base = new Date(day + 'T12:00:00+09:00');
+  for (var k = DAYS_BACK - 1; k &gt;= 0; k--) {
+    var key = dayOf_(new Date(base.getTime() - k * 86400000));
+    var counts = {};
+    EMOTIONS.forEach(function (e) { counts[e] = 0; });
+    at[key] = { day: key, total: 0, counts: counts };
+    days.push(at[key]);
+  }
+
   var sh = ensureSheet_();
-  var out = [];
-  if (!room || sh.getLastRow() &lt; 2) return out;
-
-  var values = sh.getRange(2, 1, sh.getLastRow() - 1, HEADERS.length).getValues();
-  var want = /^\d{4}-\d{2}-\d{2}$/.test(day)
-    ? day
-    : Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd');
-
-  for (var i = values.length - 1; i &gt;= 0; i--) {      // 최신 줄부터 봅니다
-    var r = values[i];
-    if (!r[0] || String(r[1]).trim() !== room) continue;
-    var when = new Date(r[0]);
-    if (Utilities.formatDate(when, TZ, 'yyyy-MM-dd') !== want) continue;
-    out.push({ emotion: String(r[2]), note: String(r[3] || ''), at: when.toISOString() });
-    if (out.length &gt;= 1000) break;
+  var rows = [];
+  if (sh.getLastRow() &gt;= 2) {
+    var values = sh.getRange(2, 1, sh.getLastRow() - 1, HEADERS.length).getValues();
+    for (var i = values.length - 1; i &gt;= 0; i--) {      // 최신 줄부터 봅니다
+      var r = values[i];
+      if (!r[0]) continue;
+      var when = new Date(r[0]);
+      var emotion = String(r[1]).trim();
+      if (EMOTIONS.indexOf(emotion) &lt; 0) continue;      // 목록에 없는 값은 셈에서 제외
+      var d = dayOf_(when);
+      if (at[d]) { at[d].counts[emotion] += 1; at[d].total += 1; }
+      if (d === day &amp;&amp; rows.length &lt; 500) rows.push({ emotion: emotion, note: String(r[2] || ''), at: when.toISOString() });
+    }
   }
-  return out;
+  return { day: day, today: today, emotions: EMOTIONS, rows: rows, summary: at[day], week: days };
 }
 
 // 수정·삭제 기능은 일부러 만들지 않았습니다.
 // 없는 기능은 뚫릴 수도 없습니다.
-// 잘못 올라온 글은 교사가 시트에서 그 행을 지우면 됩니다.</pre></div>
+// 잘못 올라온 기록은 교사가 시트에서 그 행을 지우면 됩니다.</pre></div>
         </details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/2"><span class="material-icons-outlined">arrow_back</span>핵심기능</a><a class="btn btn-ink btn-sm nx" href="#/m1/4"><small>다음</small>index.html<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="4" id="m1-s3">
-            <header class="pane-h"><span class="pane-k">index.html</span><h2>화면 코드 붙여넣기</h2></header>
+            <header class="pane-h"><span class="pane-k">index.html</span><h2>화면 코드 붙여넣기</h2><p>학생 화면과 교사 대시보드, HTML 파일 두 개를 만들어요.</p></header>
             <ol class="act">
-              <li><b>파일 + → HTML</b> → 이름 <code>index</code></li>
-              <li>내용을 지우고 붙여넣기 → <b>저장</b></li>
+              <li><b>파일 + → HTML</b> → 이름 <code>index</code> → 학생 화면 붙여넣기</li>
+              <li>한 번 더 <b>파일 + → HTML</b> → 이름 <code>dashboard</code> → 교사 대시보드 붙여넣기 → <b>저장</b></li>
             </ol>
         <details class="codebox">
           <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">devices</span></span>
-            <span class="cb-nm"><b>index.html</b><span>파일 + → HTML → 이름 index</span></span>
+            <span class="cb-nm"><b>index.html</b><span>파일 + → HTML → 이름 index · 학생용</span></span>
             <button class="copy" type="button" data-copy="m1_html"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
           <div class="code"><pre id="m1_html">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
@@ -1985,7 +2043,8 @@ function getRows(arg) {
 &lt;meta charset="UTF-8" /&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
 &lt;title&gt;우리 반 감정 체크인&lt;/title&gt;
-&lt;link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" /&gt;
+&lt;!-- 아이콘: 이 링크와 class="material-symbols-outlined" 가 짝입니다. 둘 중 하나라도 다르면 아이콘 이름이 글자로 보입니다 --&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
 &lt;style&gt;
 :root{
@@ -1997,19 +2056,20 @@ function getRows(arg) {
   --r-sm:4px; --r-md:8px; --r-lg:16px;
   --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px; --s-xl:40px;
 }
-*{box-sizing:border-box;margin:0;padding:0;
+*{box-sizing:border-box;margin:0;padding:0;}
+body,button,input,textarea{
   font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
-body{font-size:16px;line-height:1.6;color:var(--gray-900);background:var(--gray-100);
+body{font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;color:var(--gray-900);background:var(--gray-100);
   min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
 main{flex:1;width:100%;max-width:560px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
 :focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;border-radius:var(--r-sm);}
-.material-icons-outlined{vertical-align:middle;}
+.material-symbols-outlined{vertical-align:middle;}
 .hide{display:none !important;}
 
 .app-head{text-align:center;margin-bottom:var(--s-lg);}
 .app-head h1{font-size:1.75rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;
   display:inline-flex;align-items:center;gap:var(--s-sm);}
-.app-head h1 .material-icons-outlined{font-size:26px;color:var(--color-primary);}
+.app-head h1 .material-symbols-outlined{font-size:26px;color:var(--color-primary);}
 .app-head .sub{font-size:.875rem;color:var(--gray-500);margin-top:var(--s-xs);}
 
 .card{background:var(--white);border:1px solid var(--gray-300);border-radius:var(--r-lg);
@@ -2031,15 +2091,10 @@ textarea.input{resize:vertical;line-height:1.6;}
 .btn-primary:disabled{background:var(--gray-300);cursor:not-allowed;}
 .btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-300);}
 .btn-secondary:hover{background:#EBEBEB;}
-.btn .material-icons-outlined{font-size:18px;}
+.btn .material-symbols-outlined{font-size:18px;}
 .w100{width:100%;margin-top:var(--s-md);}
 .linkbtn{background:none;border:none;color:var(--color-primary);font-size:.8125rem;
   font-weight:700;cursor:pointer;text-decoration:underline;padding:2px 4px;}
-
-.roombar{display:flex;align-items:center;gap:var(--s-sm);font-size:.8125rem;color:var(--gray-500);
-  padding-bottom:var(--s-md);margin-bottom:var(--s-md);border-bottom:1px solid var(--gray-100);}
-.roombar b{color:var(--gray-900);font-size:.9375rem;}
-.roombar .linkbtn{margin-left:auto;}
 
 .emo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s-sm);}
 @media(min-width:480px){.emo-grid{grid-template-columns:repeat(3,1fr);}}
@@ -2049,110 +2104,56 @@ textarea.input{resize:vertical;line-height:1.6;}
 .emo:hover{transform:translateY(-1px);}
 .emo[aria-pressed="true"]{border-color:var(--gray-900);transform:translateY(-2px);
   box-shadow:0 4px 12px rgba(0,0,0,.14);}
-.emo .ico{display:block;font-size:26px;margin-bottom:2px;}
+.emo .ico{display:block;font-size:28px;margin:0 auto 2px;}
 
-.rhead{display:flex;align-items:flex-start;gap:var(--s-sm);margin-bottom:var(--s-md);}
-.rhead h2{font-size:1.375rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;}
-.sub2{font-size:.8125rem;color:var(--gray-500);margin-top:2px;}
-.live{margin-left:auto;flex-shrink:0;display:inline-flex;align-items:center;gap:5px;
-  font-size:.75rem;font-weight:700;color:var(--gray-500);background:var(--gray-100);
-  padding:5px 10px;border-radius:999px;white-space:nowrap;}
-.live i{width:7px;height:7px;border-radius:50%;background:var(--gray-300);display:block;flex-shrink:0;}
-.live.on i{background:var(--color-success);}
-.live.off i{background:var(--color-error);}
-
-.bars{display:flex;flex-direction:column;gap:var(--s-sm);}
-.bar-row{display:flex;align-items:center;gap:var(--s-sm);}
-.bar-name{width:54px;flex-shrink:0;font-size:.875rem;font-weight:700;}
-.bar-track{flex:1;height:28px;background:var(--gray-100);border-radius:999px;overflow:hidden;}
-.bar-fill{height:100%;width:0;border-radius:999px;transition:width .45s ease;}
-.bar-num{width:40px;flex-shrink:0;text-align:right;font-size:.9375rem;font-weight:800;
-  font-variant-numeric:tabular-nums;}
-.flash{animation:flash .9s ease;}
-@keyframes flash{0%{filter:brightness(1)}25%{filter:brightness(1.3)}100%{filter:brightness(1)}}
-
-.notes{margin-top:var(--s-lg);display:flex;flex-direction:column;gap:var(--s-sm);}
-.notes h3{font-size:1.125rem;line-height:1.5;font-weight:800;}
-.note-card{background:var(--pastel-yellow);color:var(--yellow-dark);border-radius:var(--r-md);
-  padding:10px var(--s-md);font-size:.9375rem;line-height:1.6;word-break:break-word;}
-.note-card .at{display:block;font-size:.75rem;opacity:.75;margin-top:2px;}
-.empty{font-size:.875rem;color:var(--gray-500);text-align:center;padding:var(--s-md) 0;}
-
-.daybar{display:flex;align-items:center;gap:var(--s-sm);margin-bottom:var(--s-md);}
-.daybar .dl{font-size:.8125rem;font-weight:700;color:var(--gray-700);}
-.dinput{padding:8px 10px;border:1px solid var(--gray-300);border-radius:var(--r-md);
-  font-size:14px;color:var(--gray-900);background:var(--white);}
-.archive{background:var(--color-primary-light);color:#00427F;border-radius:var(--r-md);
-  padding:8px var(--s-md);font-size:.8125rem;font-weight:700;margin-bottom:var(--s-md);}
+.done{text-align:center;}
+.done .big{font-size:56px;color:var(--color-success);}
+.done h2{font-size:1.375rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;margin-top:var(--s-sm);}
+.done .sub2{font-size:.9375rem;color:var(--gray-700);margin-top:var(--s-sm);}
+.mine{display:inline-flex;align-items:center;gap:6px;margin-top:var(--s-md);padding:8px 14px;
+  border-radius:999px;font-weight:700;}
 
 .err{margin-top:var(--s-md);background:#FDECEC;color:var(--color-error);
   border-radius:var(--r-md);padding:11px var(--s-md);font-size:.875rem;
   font-weight:600;line-height:1.5;}
-.setup{background:var(--color-primary-light);color:#00427F;border-radius:var(--r-md);
-  padding:11px var(--s-md);font-size:.875rem;font-weight:600;line-height:1.6;}
 .privacy{display:flex;align-items:flex-start;gap:6px;font-size:.75rem;line-height:1.5;
   color:var(--gray-500);padding:0 var(--s-sm);}
-.privacy .material-icons-outlined{font-size:15px;flex-shrink:0;}
+.privacy .material-symbols-outlined{font-size:15px;flex-shrink:0;}
 
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;main&gt;
   &lt;header class="app-head"&gt;
-    &lt;h1&gt;&lt;span class="material-icons-outlined"&gt;favorite&lt;/span&gt;우리 반 감정 체크인&lt;/h1&gt;
+    &lt;h1&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;favorite&lt;/span&gt;우리 반 감정 체크인&lt;/h1&gt;
     &lt;p class="sub"&gt;오늘 내 마음을 하나 골라주세요&lt;/p&gt;
   &lt;/header&gt;
 
-  &lt;!-- ① 수업 코드 입력 --&gt;
-  &lt;section class="card" id="gate"&gt;
-    &lt;label class="lb" for="room"&gt;수업 코드&lt;/label&gt;
-    &lt;input class="input" id="room" placeholder="예: 5-3" autocomplete="off" maxlength="40" /&gt;
-    &lt;p class="hint"&gt;수업 코드는 같은 활동을 묶어주는 방 이름입니다. 비밀번호가 아닙니다.
-      링크로 들어왔다면 이미 채워져 있습니다.&lt;/p&gt;
-    &lt;button class="btn btn-primary w100" id="enter" type="button"&gt;들어가기&lt;/button&gt;
-    &lt;p class="err hide" id="gateErr"&gt;&lt;/p&gt;
-  &lt;/section&gt;
-
-  &lt;!-- ② 기분 선택 --&gt;
-  &lt;section class="card hide" id="pick"&gt;
-    &lt;div class="roombar"&gt;수업 코드 &lt;b id="roomLabel"&gt;&lt;/b&gt;
-      &lt;button class="linkbtn" id="changeRoom" type="button"&gt;바꾸기&lt;/button&gt;&lt;/div&gt;
+  &lt;!-- ① 기분 고르고 보내기 --&gt;
+  &lt;section class="card" id="pick"&gt;
     &lt;label class="lb"&gt;오늘 내 마음은&lt;/label&gt;
     &lt;div class="emo-grid" id="emoGrid"&gt;&lt;/div&gt;
-    &lt;label class="lb" for="note"&gt;한 줄 메모 &lt;span class="opt"&gt;— 선택, 안 써도 됩니다&lt;/span&gt;&lt;/label&gt;
+    &lt;label class="lb" for="note"&gt;선생님께 한 줄 &lt;span class="opt"&gt;— 선택, 안 써도 됩니다&lt;/span&gt;&lt;/label&gt;
     &lt;textarea class="input" id="note" rows="2" maxlength="100"
-      placeholder="쓰고 싶은 말이 있으면 한 줄만"&gt;&lt;/textarea&gt;
+      placeholder="선생님께 하고 싶은 말이 있으면 한 줄만"&gt;&lt;/textarea&gt;
     &lt;p class="hint"&gt;이름처럼 개인을 알아볼 수 있는 내용은 적지 않아요.&lt;/p&gt;
-    &lt;button class="btn btn-primary w100" id="submit" type="button" disabled&gt;제출하기&lt;/button&gt;
+    &lt;button class="btn btn-primary w100" id="submit" type="button" disabled&gt;보내기&lt;/button&gt;
     &lt;p class="err hide" id="pickErr"&gt;&lt;/p&gt;
   &lt;/section&gt;
 
-  &lt;!-- ③ 우리 반 결과 --&gt;
-  &lt;section class="card hide" id="result"&gt;
-    &lt;div class="rhead"&gt;
-      &lt;div&gt;
-        &lt;h2 id="resTitle"&gt;우리 반 오늘의 마음&lt;/h2&gt;
-        &lt;p class="sub2"&gt;수업 코드 &lt;b id="roomLabel2"&gt;&lt;/b&gt; · 모두 &lt;b id="total"&gt;0&lt;/b&gt;명&lt;/p&gt;
-      &lt;/div&gt;
-      &lt;span class="live" id="live"&gt;&lt;i&gt;&lt;/i&gt;&lt;span id="liveTxt"&gt;연결 중&lt;/span&gt;&lt;/span&gt;
-    &lt;/div&gt;
-    &lt;div class="daybar"&gt;
-      &lt;span class="dl"&gt;날짜&lt;/span&gt;
-      &lt;input class="dinput" id="day" type="date" /&gt;
-      &lt;button class="linkbtn hide" id="today" type="button"&gt;오늘로 돌아가기&lt;/button&gt;
-    &lt;/div&gt;
-    &lt;p class="archive hide" id="archiveNote"&gt;지난 기록을 보고 있습니다.&lt;/p&gt;
-    &lt;div class="bars" id="bars"&gt;&lt;/div&gt;
-    &lt;div class="notes" id="notes"&gt;&lt;/div&gt;
-    &lt;button class="btn btn-secondary w100" id="share" type="button"&gt;
-      &lt;span class="material-icons-outlined"&gt;link&lt;/span&gt;이 수업 링크 복사하기&lt;/button&gt;
-    &lt;button class="btn btn-secondary w100" id="again" type="button"&gt;다시 참여하기&lt;/button&gt;
-    &lt;p class="err hide" id="resErr"&gt;&lt;/p&gt;
+  &lt;!-- ② 보낸 뒤 — 내 기록만 확인합니다. 친구들의 기록은 보여주지 않습니다 --&gt;
+  &lt;section class="card done hide" id="done"&gt;
+    &lt;span class="big material-symbols-outlined" aria-hidden="true"&gt;check_circle&lt;/span&gt;
+    &lt;h2&gt;오늘의 마음을 선생님께 전했어요&lt;/h2&gt;
+    &lt;p class="sub2"&gt;내가 보낸 마음은 선생님만 볼 수 있어요.&lt;/p&gt;
+    &lt;span class="mine" id="mine"&gt;&lt;/span&gt;
+    &lt;button class="btn btn-secondary w100" id="again" type="button"&gt;
+      &lt;span class="material-symbols-outlined" aria-hidden="true"&gt;restart_alt&lt;/span&gt;처음 화면으로&lt;/button&gt;
   &lt;/section&gt;
 
-  &lt;p class="privacy"&gt;&lt;span class="material-icons-outlined"&gt;lock&lt;/span&gt;
+  &lt;p class="privacy"&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;lock&lt;/span&gt;
     이 앱은 이름·학번·출석번호·이메일을 저장하지 않습니다.
-    누가 무엇을 골랐는지는 아무에게도 보이지 않고, 학급 전체 결과만 보여줍니다.&lt;/p&gt;
+    친구들은 내가 무엇을 골랐는지 볼 수 없고, 선생님만 우리 반 기록을 봅니다.&lt;/p&gt;
 &lt;/main&gt;
 
 
@@ -2179,31 +2180,18 @@ function callServer(name, arg) {
 }
 
 var Backend = {
-  pollMs: 8000,          /* Apps Script는 8초마다 다시 물어보는 '자동 갱신' 방식입니다 */
-
-  save: function (rec) { return callServer('saveCheckin', rec); },
-  load: function (room, day) { return callServer('getRows', { room: room, day: day }); },
-  baseUrl: function () { return callServer('getAppUrl'); },
-
-  roomFromUrl: function () {
-    return new Promise(function (resolve) {
-      /* Apps Script 화면은 액자(iframe) 안에서 열려서
-         주소의 ?room= 값을 이 함수로 받아옵니다 */
-      if (!(window.google &amp;&amp; google.script &amp;&amp; google.script.url)) { resolve(''); return; }
-      google.script.url.getLocation(function (loc) {
-        resolve((loc &amp;&amp; loc.parameter &amp;&amp; loc.parameter.room) || '');
-      });
-    });
-  }
+  save: function (rec) { return callServer('saveCheckin', rec); }
 };
 
 
 /* ══════════════════════════════════════════════════════
    여기서부터는 화면 코드입니다.
    서버와 이야기하는 것은 위쪽 Backend 덩어리뿐입니다.
+   학생 화면은 '보내기'만 합니다. 우리 반 기록은 교사 대시보드에서만 봅니다.
    ══════════════════════════════════════════════════════ */
 
-/* 기분 목록 — 여기만 바꾸면 앱의 선택지가 바뀝니다 */
+/* 기분 목록 — 여기만 바꾸면 앱의 선택지가 바뀝니다 (Code.gs 의 EMOTIONS 와 같은 이름으로)
+   icon 은 Material Symbols 의 이름입니다: fonts.google.com/icons */
 var EMOTIONS = [
   { name: '기쁨', icon: 'sentiment_very_satisfied', bg: '#FFF3B0', fg: '#7A6000' },
   { name: '평온', icon: 'sentiment_satisfied',      bg: '#C8EDD9', fg: '#1A6B47' },
@@ -2212,42 +2200,13 @@ var EMOTIONS = [
   { name: '피곤', icon: 'bedtime',                  bg: '#E0D6FF', fg: '#4A2F8A' }
 ];
 
-var room = '', chosen = '', timer = null, shareBase = '';
-var viewDay = '';                /* 지금 보고 있는 날짜 (비어 있으면 오늘) */
-var reqNo = 0;                   /* 가장 최근 요청의 번호. 늦게 온 옛 응답은 버립니다 */
-var TZ = 'Asia/Seoul';           /* 날짜와 시각은 기기 시간대와 관계없이 서울 기준 (서버와 같게) */
+var chosen = '', sending = false;
 
 function $(id) { return document.getElementById(id); }
-function seoul(v) {
-  var p = {};
-  new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit',
-    day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
-    .formatToParts(v ? new Date(v) : new Date())
-    .forEach(function (x) { p[x.type] = x.value; });
-  return p;
-}
-function dayKey() { var p = seoul(); return p.year + '-' + p.month + '-' + p.day; }
-function doneKey() { return 'checkin:' + dayKey() + ':' + room; }
-function isToday() { return !viewDay || viewDay === dayKey(); }
-function hhmm(v) { var p = seoul(v); return p.hour + ':' + p.minute; }
 function show(id, on) { $(id).classList.toggle('hide', !on); }
-function nowText() { var p = seoul(); return p.hour + ':' + p.minute + ':' + p.second; }
-function memGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-function memSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-function memDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
-
-/* 서버에서 받은 줄들을 화면에 쓸 요약으로 바꿉니다 */
-function summarize(rows) {
-  var counts = {}, notes = [], total = 0;
-  EMOTIONS.forEach(function (e) { counts[e.name] = 0; });
-  (rows || []).forEach(function (r) {
-    if (counts[r.emotion] === undefined) return;   /* 목록에 없는 값은 셈에서 제외 */
-    counts[r.emotion] += 1;
-    total += 1;
-    if (r.note) notes.push({ text: String(r.note), at: r.at });
-  });
-  notes.sort(function (a, b) { return new Date(b.at) - new Date(a.at); });
-  return { counts: counts, notes: notes.slice(0, 30), total: total, updatedAt: nowText() };
+function find(name) {
+  for (var k = 0; k &lt; EMOTIONS.length; k++) if (EMOTIONS[k].name === name) return EMOTIONS[k];
+  return null;
 }
 
 function renderEmotions() {
@@ -2261,11 +2220,13 @@ function renderEmotions() {
     b.style.background = e.bg;
     b.style.color = e.fg;
     var i = document.createElement('span');
-    i.className = 'ico material-icons-outlined';
+    i.className = 'ico material-symbols-outlined';
+    i.setAttribute('aria-hidden', 'true');
     i.textContent = e.icon;
     b.appendChild(i);
     b.appendChild(document.createTextNode(e.name));
     b.addEventListener('click', function () {
+      if (sending) return;
       chosen = e.name;
       var kids = grid.children;
       for (var k = 0; k &lt; kids.length; k++) {
@@ -2277,237 +2238,359 @@ function renderEmotions() {
   });
 }
 
-function setLive(state, text) {
-  var el = $('live');
-  el.classList.remove('on', 'off');
-  if (state === 'ok') el.classList.add('on');
-  if (state === 'bad') el.classList.add('off');
-  $('liveTxt').textContent = text;
-}
-
-function renderSummary(s) {
-  $('total').textContent = s.total;
-  var box = $('bars');
-  if (!box.children.length) {
-    EMOTIONS.forEach(function (e) {
-      var row = document.createElement('div');
-      row.className = 'bar-row';
-      row.dataset.name = e.name;
-      var nm = document.createElement('span');
-      nm.className = 'bar-name';
-      nm.textContent = e.name;
-      var tr = document.createElement('span');
-      tr.className = 'bar-track';
-      var fi = document.createElement('i');
-      fi.className = 'bar-fill';
-      fi.style.background = e.bg;
-      tr.appendChild(fi);
-      var nu = document.createElement('span');
-      nu.className = 'bar-num';
-      nu.textContent = '0';
-      row.appendChild(nm); row.appendChild(tr); row.appendChild(nu);
-      box.appendChild(row);
-    });
-  }
-  var max = 1;
-  EMOTIONS.forEach(function (e) { max = Math.max(max, s.counts[e.name] || 0); });
-  for (var i = 0; i &lt; box.children.length; i++) {
-    var row = box.children[i];
-    var n = s.counts[row.dataset.name] || 0;
-    var fill = row.querySelector('.bar-fill');
-    var num = row.querySelector('.bar-num');
-    fill.style.width = (n / max * 100) + '%';
-    if (num.textContent !== String(n)) {
-      num.textContent = n;
-      fill.classList.remove('flash');
-      void fill.offsetWidth;          /* 애니메이션 다시 실행시키기 */
-      fill.classList.add('flash');
-    }
-  }
-
-  var nb = $('notes');
-  nb.innerHTML = '';
-  var h = document.createElement('h3');
-  h.textContent = '한 줄 메모';
-  nb.appendChild(h);
-  if (!s.notes.length) {
-    var p = document.createElement('p');
-    p.className = 'empty';
-    p.textContent = '아직 올라온 메모가 없습니다.';
-    nb.appendChild(p);
-  }
-  s.notes.forEach(function (n) {
-    var c = document.createElement('div');
-    c.className = 'note-card';
-    c.appendChild(document.createTextNode(n.text));   /* 글은 반드시 텍스트로만 넣습니다 */
-    var at = document.createElement('span');
-    at.className = 'at';
-    at.textContent = hhmm(n.at);
-    c.appendChild(at);
-    nb.appendChild(c);
-  });
-
-  setLive('ok', isToday() ? s.updatedAt + ' 기준' : '지난 기록');
-  show('resErr', false);
-}
-
-/* 오늘을 보는 중인지, 지난 기록을 보는 중인지 화면에 알려줍니다 */
-function updateDayUI() {
-  $('resTitle').textContent = isToday() ? '우리 반 오늘의 마음' : viewDay + ' 의 기록';
-  show('today', !isToday());
-  show('archiveNote', !isToday());
-}
-
 function fail(id, msg) {
   var el = $(id);
   el.textContent = msg;
   el.classList.remove('hide');
 }
 
-function refresh() {
-  var my = ++reqNo, r = room, d = viewDay;
-  return Backend.load(r, d).then(function (rows) {
-    if (my !== reqNo || r !== room || d !== viewDay) return;   /* 그사이 반·날짜를 바꿨으면 버립니다 */
-    renderSummary(summarize(rows));
-  })['catch'](function (err) {
-    if (my !== reqNo) return;
-    setLive('bad', '연결 확인 필요');
-    fail('resErr', '결과를 불러오지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') +
-      ' 잠시 뒤 다시 시도합니다.');
-  });
-}
-
-function startUpdates() {
-  if (timer) { clearInterval(timer); timer = null; }
-
-  if (!isToday()) {          /* 지나간 날의 기록은 더 늘어나지 않습니다 */
-    setLive('ok', '지난 기록');
-    refresh();
-    return;
-  }
-
-  refresh();
-  timer = setInterval(function () {
-    if (document.hidden) return;         /* 탭이 안 보일 때는 쉬어갑니다 */
-    refresh();
-  }, Backend.pollMs);
-}
-
-document.addEventListener('visibilitychange', function () {
-  if (!document.hidden &amp;&amp; room) refresh();
-});
-
-function enter(code) {
-  var v = String(code || '').trim();
-  if (!v) { fail('gateErr', '수업 코드를 입력해주세요.'); return; }
-  room = v;
-  viewDay = dayKey();
-  $('day').max = dayKey();
-  $('day').value = viewDay;
-  updateDayUI();
-  $('roomLabel').textContent = room;
-  $('roomLabel2').textContent = room;
-  show('gateErr', false);
-  show('gate', false);
-  if (memGet(doneKey())) {
-    show('pick', false);
-    show('result', true);
-  } else {
-    show('pick', true);
-    show('result', false);
-  }
-  if (shareBase &amp;&amp; window.history &amp;&amp; history.replaceState) {
-    try { history.replaceState(null, '', '?room=' + encodeURIComponent(room)); } catch (e) {}
-  }
-  startUpdates();
+/* 보낸 뒤에는 '내가 보낸 것'만 보여줍니다 */
+function showDone(name) {
+  var e = find(name), m = $('mine');
+  m.innerHTML = '';
+  m.style.background = e ? e.bg : '';
+  m.style.color = e ? e.fg : '';
+  var i = document.createElement('span');
+  i.className = 'material-symbols-outlined';
+  i.setAttribute('aria-hidden', 'true');
+  i.textContent = e ? e.icon : 'favorite';
+  m.appendChild(i);
+  m.appendChild(document.createTextNode('내가 고른 마음 · ' + name));
+  show('pick', false);
+  show('done', true);
 }
 
 function submit() {
-  if (!chosen) return;
-  var btn = $('submit');
+  if (!chosen || sending) return;
+  sending = true;
+  var btn = $('submit'), name = chosen;
   btn.disabled = true;
   btn.textContent = '보내는 중...';
   show('pickErr', false);
-  var r = room;
-  Backend.save({ room: r, emotion: chosen, note: $('note').value.trim() })
-    .then(function (rows) {
-      btn.textContent = '제출하기';
-      if (r !== room) return;                  /* 저장은 됐지만 그사이 반을 바꿨으면 화면은 그대로 */
-      memSet(doneKey(), '1');                  /* 브라우저에는 '오늘 냈음'만 남깁니다 (감정·메모는 시트에만) */
-      show('pick', false);
-      show('result', true);
-      reqNo++;                                 /* 저장 전에 보낸 조회 응답은 버립니다 */
-      if (rows &amp;&amp; isToday()) renderSummary(summarize(rows)); else refresh();
+  Backend.save({ emotion: name, note: $('note').value.trim() })
+    .then(function () {
+      sending = false;
+      btn.textContent = '보내기';
+      showDone(name);       /* 감정·메모는 시트에만 저장합니다. 브라우저에는 아무것도 남기지 않습니다 */
     })['catch'](function (err) {
+      sending = false;
       btn.disabled = false;
-      btn.textContent = '제출하기';
-      if (r !== room) return;
-      fail('pickErr', '저장하지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') +
+      btn.textContent = '보내기';
+      fail('pickErr', '보내지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '') +
         ' 다시 눌러보세요.');
     });
 }
 
-function bind() {
-  $('enter').addEventListener('click', function () { enter($('room').value); });
-  $('room').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') enter($('room').value);
-  });
-  $('changeRoom').addEventListener('click', function () {
-    if (timer) { clearInterval(timer); timer = null; }
-    reqNo++;                                   /* 이전 반의 늦은 응답은 버립니다 */
-    room = ''; chosen = '';
-    $('bars').innerHTML = '';
-    $('submit').disabled = true;
-    show('pick', false); show('result', false); show('gate', true);
-  });
-  $('submit').addEventListener('click', submit);
-  $('day').addEventListener('change', function () {
-    viewDay = $('day').value || dayKey();      /* 그날의 기록을 다시 불러옵니다 */
-    updateDayUI();
-    startUpdates();
-  });
-  $('today').addEventListener('click', function () {
-    viewDay = dayKey();
-    $('day').value = viewDay;
-    updateDayUI();
-    startUpdates();
-  });
-  $('again').addEventListener('click', function () {
-    viewDay = dayKey();
-    $('day').value = viewDay;
-    updateDayUI();
-    memDel(doneKey());
-    chosen = '';
-    $('note').value = '';
-    $('submit').disabled = true;
-    $('submit').textContent = '제출하기';
-    renderEmotions();
-    show('result', false);
-    show('pick', true);
-  });
-  $('share').addEventListener('click', function () {
-    var url = shareBase + '?room=' + encodeURIComponent(room);
-    var btn = $('share');
-    function done(ok) {
-      btn.textContent = ok ? '링크를 복사했습니다!' : url;
-      setTimeout(function () {
-        btn.innerHTML = '&lt;span class="material-icons-outlined"&gt;link&lt;/span&gt;이 수업 링크 복사하기';
-      }, 2500);
-    }
-    if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () { done(true); },
-        function () { done(false); });
-    } else { done(false); }
-  });
+/* 처음 화면으로: 한 기기를 여러 친구가 돌려 쓸 때도 앞 친구의 선택이 남지 않게 모두 비웁니다 */
+function reset() {
+  chosen = '';
+  $('note').value = '';
+  $('submit').disabled = true;
+  $('submit').textContent = '보내기';
+  renderEmotions();
+  show('pickErr', false);
+  show('done', false);
+  show('pick', true);
 }
 
 function init() {
   renderEmotions();
-  bind();
-  Backend.baseUrl().then(function (u) { shareBase = u; });
-  Backend.roomFromUrl().then(function (r) {
-    if (r) { $('room').value = r; enter(r); }
+  $('submit').addEventListener('click', submit);
+  $('again').addEventListener('click', reset);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+        </details>
+        <details class="codebox">
+          <summary><span class="cb-ar">▶</span><span class="cb-ic"><span class="material-icons-outlined">dashboard</span></span>
+            <span class="cb-nm"><b>dashboard.html</b><span>파일 + → HTML → 이름 dashboard · 교사용</span></span>
+            <button class="copy" type="button" data-copy="m1_dash"><span class="material-icons-outlined">content_copy</span>복사</button></summary>
+          <div class="code"><pre id="m1_dash">&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8" /&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+&lt;title&gt;교사 대시보드&lt;/title&gt;
+&lt;!-- 아이콘: 이 링크와 class="material-symbols-outlined" 가 짝입니다 --&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
+&lt;style&gt;
+:root{
+  --color-primary:#006DD2; --color-primary-light:#E8F3FF; --color-error:#D32F2F;
+  --gray-900:#1A1A1A; --gray-700:#404040; --gray-500:#767676; --gray-300:#B2B2B2;
+  --gray-200:#E6E6E6; --gray-100:#F5F5F5; --white:#FFFFFF;
+  --r-md:8px; --r-lg:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body,button,input{font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+body{font-size:14px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;color:var(--gray-900);background:var(--gray-100);padding:16px;}
+.material-symbols-outlined{vertical-align:middle;font-size:20px;}
+.hide{display:none !important;}
+:focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;}
+.top h1{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-right:auto;
+  display:inline-flex;align-items:center;gap:6px;}
+.top h1 .material-symbols-outlined{color:var(--color-primary);}
+.dinput{padding:6px 8px;border:1px solid var(--gray-300);border-radius:var(--r-md);font-size:14px;background:var(--white);}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--r-md);
+  border:1px solid var(--gray-300);background:var(--white);font-size:13px;font-weight:700;cursor:pointer;color:var(--gray-700);}
+.btn:hover{background:var(--gray-100);}
+.btn .material-symbols-outlined{font-size:18px;}
+.stamp{font-size:12px;color:var(--gray-500);}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:720px){.grid{grid-template-columns:1fr;}}
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:16px;}
+.card h2{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.card h2 small{font-weight:600;color:var(--gray-500);font-size:12px;}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.kpi{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:12px 14px;}
+.kpi b{display:block;font-size:22px;font-weight:800;line-height:1.3;}
+.kpi span{font-size:12px;color:var(--gray-500);font-weight:700;}
+.kpi.warn b{color:#1A5F8A;}
+
+.bar-row{display:flex;align-items:center;gap:8px;margin:6px 0;}
+.bar-name{width:58px;flex-shrink:0;font-weight:700;display:flex;align-items:center;gap:3px;}
+.bar-track{flex:1;height:22px;background:var(--gray-100);border-radius:999px;overflow:hidden;}
+.bar-fill{display:block;height:100%;width:0;border-radius:999px;transition:width .4s ease;}
+.bar-num{width:34px;text-align:right;font-weight:800;font-variant-numeric:tabular-nums;}
+
+.week{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:6px;}
+.wcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;cursor:pointer;
+  background:none;border:none;border-radius:var(--r-md);padding:2px;}
+.wcol:hover{background:var(--gray-100);}
+.wcol.on{background:var(--color-primary-light);}
+.wstack{flex:1;width:70%;display:flex;flex-direction:column-reverse;border-radius:6px;overflow:hidden;background:var(--gray-100);}
+.wstack i{display:block;width:100%;}
+.wlabel{font-size:11.5px;color:var(--gray-700);font-weight:700;}
+.wtotal{font-size:11px;color:var(--gray-500);}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:12px;color:var(--gray-700);}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px;}
+
+.notes{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow:auto;}
+.note{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:var(--r-md);background:var(--gray-100);}
+.note.watch{border-left:4px solid #1A5F8A;}
+.chip{flex-shrink:0;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;}
+.note p{flex:1;word-break:break-word;}
+.note time{flex-shrink:0;font-size:12px;color:var(--gray-500);}
+.tools{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--gray-700);margin-bottom:8px;}
+.empty{color:var(--gray-500);text-align:center;padding:18px 0;}
+.err{margin-bottom:12px;background:#FDECEC;color:var(--color-error);border-radius:var(--r-md);padding:10px 12px;font-weight:600;}
+.foot{margin-top:12px;font-size:12px;color:var(--gray-500);}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="top"&gt;
+    &lt;h1&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;monitoring&lt;/span&gt;우리 반 마음 대시보드&lt;/h1&gt;
+    &lt;input class="dinput" id="day" type="date" aria-label="날짜" /&gt;
+    &lt;button class="btn hide" id="today" type="button"&gt;오늘로 돌아가기&lt;/button&gt;
+    &lt;button class="btn" id="reload" type="button"&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;refresh&lt;/span&gt;새로고침&lt;/button&gt;
+    &lt;span class="stamp" id="stamp"&gt;불러오는 중…&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;p class="err hide" id="err"&gt;&lt;/p&gt;
+
+  &lt;div class="kpis"&gt;
+    &lt;div class="kpi"&gt;&lt;span id="kTotalLabel"&gt;오늘 참여&lt;/span&gt;&lt;b id="kTotal"&gt;0&lt;/b&gt;&lt;/div&gt;
+    &lt;div class="kpi"&gt;&lt;span&gt;가장 많은 마음&lt;/span&gt;&lt;b id="kTop"&gt;-&lt;/b&gt;&lt;/div&gt;
+    &lt;div class="kpi warn"&gt;&lt;span&gt;살펴볼 마음 (걱정·피곤)&lt;/span&gt;&lt;b id="kWatch"&gt;0&lt;/b&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="grid"&gt;
+    &lt;section class="card"&gt;
+      &lt;h2&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;bar_chart&lt;/span&gt;&lt;span id="dayTitle"&gt;오늘의 마음&lt;/span&gt;&lt;/h2&gt;
+      &lt;div id="bars"&gt;&lt;/div&gt;
+    &lt;/section&gt;
+    &lt;section class="card"&gt;
+      &lt;h2&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;timeline&lt;/span&gt;최근 7일 흐름 &lt;small&gt;막대를 누르면 그날로&lt;/small&gt;&lt;/h2&gt;
+      &lt;div class="week" id="week"&gt;&lt;/div&gt;
+      &lt;div class="legend" id="legend"&gt;&lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+
+  &lt;section class="card" style="margin-top:12px"&gt;
+    &lt;h2&gt;&lt;span class="material-symbols-outlined" aria-hidden="true"&gt;chat&lt;/span&gt;선생님께 남긴 한 줄 &lt;small id="noteCount"&gt;&lt;/small&gt;&lt;/h2&gt;
+    &lt;label class="tools"&gt;&lt;input type="checkbox" id="watchOnly" /&gt; 걱정·피곤만 보기&lt;/label&gt;
+    &lt;div class="notes" id="notes"&gt;&lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;p class="foot"&gt;이 창은 스프레드시트 메뉴에서만 열립니다. 학생 화면에는 보이지 않습니다. 원본 기록은 ‘감정기록’ 시트에 있어요.&lt;/p&gt;
+
+&lt;script&gt;
+/* ── 서버 부르기 (스프레드시트에서 연 창도 google.script.run 을 씁니다) ── */
+function callServer(name, arg) {
+  return new Promise(function (resolve, reject) {
+    if (!(window.google &amp;&amp; google.script &amp;&amp; google.script.run)) {
+      reject(new Error('스프레드시트의 [💗 감정 체크인 → 교사 대시보드] 메뉴로 열어주세요.'));
+      return;
+    }
+    google.script.run
+      .withSuccessHandler(resolve)
+      .withFailureHandler(function (e) { reject(new Error(e &amp;&amp; e.message ? e.message : '서버 오류')); })[name](arg);
   });
+}
+
+var Backend = {
+  pollMs: 30000,         /* 오늘을 보는 동안 30초마다 새 기록을 불러옵니다 */
+  load: function (day) { return callServer('getDashboard', { day: day }); }
+};
+
+/* 화면 색 — 학생 화면(index)의 EMOTIONS 와 같은 이름 · 아이콘 · 색 */
+var LOOK = {
+  '기쁨': { icon: 'sentiment_very_satisfied', bg: '#FFF3B0', fg: '#7A6000', bar: '#F2D64B' },
+  '평온': { icon: 'sentiment_satisfied',      bg: '#C8EDD9', fg: '#1A6B47', bar: '#7CCBA2' },
+  '설렘': { icon: 'favorite',                 bg: '#FFD6E0', fg: '#8A2840', bar: '#F29BB2' },
+  '걱정': { icon: 'sentiment_dissatisfied',   bg: '#BFD9F2', fg: '#1A5F8A', bar: '#6FA8DC' },
+  '피곤': { icon: 'bedtime',                  bg: '#E0D6FF', fg: '#4A2F8A', bar: '#A99AE6' }
+};
+var WATCH = ['걱정', '피곤'];
+var TZ = 'Asia/Seoul';
+
+var viewDay = '', today = '', data = null, reqNo = 0, timer = null;
+
+function $(id) { return document.getElementById(id); }
+function show(id, on) { $(id).classList.toggle('hide', !on); }
+function look(name) { return LOOK[name] || { icon: 'circle', bg: '#EEE', fg: '#404040', bar: '#B2B2B2' }; }
+function seoul(v, opt) { return new Intl.DateTimeFormat('ko-KR', Object.assign({ timeZone: TZ }, opt)).format(v ? new Date(v) : new Date()); }
+function hhmm(v) { return seoul(v, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); }
+function md(day) { var p = day.split('-'); return Number(p[1]) + '/' + Number(p[2]); }
+function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function icon(name) { var i = el('span', 'material-symbols-outlined', name); i.setAttribute('aria-hidden', 'true'); return i; }
+
+function render(d) {
+  data = d;
+  today = d.today;
+  $('day').max = d.today;
+  $('day').value = d.day;
+  var isToday = d.day === d.today;
+  show('today', !isToday);
+  $('dayTitle').textContent = isToday ? '오늘의 마음' : md(d.day) + ' 의 마음';
+  $('kTotalLabel').textContent = isToday ? '오늘 참여' : md(d.day) + ' 참여';
+
+  /* 숫자 요약 */
+  var s = d.summary, top = '-', max = 0, watch = 0;
+  d.emotions.forEach(function (e) {
+    if (s.counts[e] &gt; max) { max = s.counts[e]; top = e; }
+    if (WATCH.indexOf(e) &gt;= 0) watch += s.counts[e];
+  });
+  $('kTotal').textContent = s.total + '명';
+  $('kTop').textContent = max ? top + ' ' + max + '명' : '-';
+  $('kWatch').textContent = watch + '명';
+
+  /* 그날의 막대 */
+  var bars = $('bars');
+  bars.innerHTML = '';
+  d.emotions.forEach(function (e) {
+    var row = el('div', 'bar-row'), L = look(e);
+    var nm = el('span', 'bar-name'); nm.appendChild(icon(L.icon)); nm.appendChild(document.createTextNode(e));
+    nm.style.color = L.fg;
+    var tr = el('span', 'bar-track'), fi = el('i', 'bar-fill');
+    fi.style.background = L.bar;
+    fi.style.width = (max ? s.counts[e] / max * 100 : 0) + '%';
+    tr.appendChild(fi);
+    row.appendChild(nm); row.appendChild(tr); row.appendChild(el('span', 'bar-num', s.counts[e]));
+    bars.appendChild(row);
+  });
+
+  /* 최근 7일 흐름 — 날마다 감정별로 쌓은 막대 */
+  var week = $('week'), most = 1;
+  week.innerHTML = '';
+  d.week.forEach(function (w) { most = Math.max(most, w.total); });
+  d.week.forEach(function (w) {
+    var col = el('button', 'wcol' + (w.day === d.day ? ' on' : ''));
+    col.type = 'button';
+    col.title = w.day + ' · ' + w.total + '명';
+    var st = el('span', 'wstack');
+    st.style.maxHeight = '100%';
+    d.emotions.forEach(function (e) {
+      if (!w.counts[e]) return;
+      var seg = el('i');
+      seg.style.height = (w.counts[e] / most * 100) + '%';
+      seg.style.background = look(e).bar;
+      st.appendChild(seg);
+    });
+    col.appendChild(el('span', 'wtotal', w.total));
+    col.appendChild(st);
+    col.appendChild(el('span', 'wlabel', md(w.day)));
+    col.addEventListener('click', function () { go(w.day); });
+    week.appendChild(col);
+  });
+  var lg = $('legend');
+  lg.innerHTML = '';
+  d.emotions.forEach(function (e) {
+    var t = el('span'), sw = el('i');
+    sw.style.background = look(e).bar;
+    t.appendChild(sw); t.appendChild(document.createTextNode(e));
+    lg.appendChild(t);
+  });
+
+  renderNotes();
+  $('stamp').textContent = (isToday ? hhmm() + ' 기준' : '지난 기록');
+  show('err', false);
+}
+
+/* 한 줄 메모 — 학생 글은 textContent 로만 넣습니다 */
+function renderNotes() {
+  var box = $('notes'), only = $('watchOnly').checked;
+  box.innerHTML = '';
+  var list = data.rows.filter(function (r) { return r.note &amp;&amp; (!only || WATCH.indexOf(r.emotion) &gt;= 0); });
+  $('noteCount').textContent = list.length + '개';
+  if (!list.length) { box.appendChild(el('p', 'empty', '남긴 한 줄이 없습니다.')); return; }
+  list.forEach(function (r) {
+    var L = look(r.emotion);
+    var row = el('div', 'note' + (WATCH.indexOf(r.emotion) &gt;= 0 ? ' watch' : ''));
+    var chip = el('span', 'chip', r.emotion);
+    chip.style.background = L.bg; chip.style.color = L.fg;
+    row.appendChild(chip);
+    row.appendChild(el('p', '', r.note));
+    row.appendChild(el('time', '', hhmm(r.at)));
+    box.appendChild(row);
+  });
+}
+
+function refresh() {
+  var my = ++reqNo, d = viewDay;
+  return Backend.load(d).then(function (res) {
+    if (my !== reqNo) return;                 /* 그사이 날짜를 바꿨으면 늦게 온 응답은 버립니다 */
+    viewDay = res.day;
+    render(res);
+  })['catch'](function (err) {
+    if (my !== reqNo) return;
+    $('stamp').textContent = '연결 확인 필요';
+    var e = $('err');
+    e.textContent = '기록을 불러오지 못했습니다. ' + (err &amp;&amp; err.message ? err.message : '');
+    e.classList.remove('hide');
+  });
+}
+
+function go(day) {
+  viewDay = day || '';
+  refresh();
+}
+
+function startTimer() {
+  if (timer) clearInterval(timer);
+  timer = setInterval(function () {
+    if (document.hidden) return;              /* 창이 안 보일 때는 쉬어갑니다 */
+    if (!viewDay || viewDay === today) refresh();
+  }, Backend.pollMs);
+}
+
+function init() {
+  $('day').addEventListener('change', function () { go($('day').value); });
+  $('today').addEventListener('click', function () { go(today); });
+  $('reload').addEventListener('click', refresh);
+  $('watchOnly').addEventListener('change', function () { if (data) renderNotes(); });
+  refresh();
+  startTimer();
 }
 
 if (document.readyState === 'loading') {
@@ -2526,7 +2609,8 @@ if (document.readyState === 'loading') {
             <ol class="act">
               <li><b>setup</b> 고르고 <b>▷ 실행</b> → 권한 허용 <span class="dim">(스프레드시트 · 이 시트를 앱과 연결)</span></li>
               <li><b>배포 → 새 배포 → 웹 앱</b> · 실행 <b>나</b> · 액세스 <b>모든 사용자</b></li>
-              <li><b>/exec</b> 주소를 열어 확인</li>
+              <li><b>/exec</b> 주소를 열어 확인 → 학생에게는 이 주소만 나눠 주기</li>
+              <li>구글 시트 탭 <b>새로고침</b> → 메뉴 <b>💗 감정 체크인 → 교사 대시보드</b></li>
             </ol>
             <p class="dim">로그인 창이 뜨면 액세스가 &lsquo;모든 사용자&rsquo;인지 확인. 막히면 <a href="#rp-auth" class="inl">권한 승인</a> · <a href="#ref-8" class="inl">오류 해결</a></p>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m1/4"><span class="material-icons-outlined">arrow_back</span>index.html</a><a class="btn btn-ink btn-sm nx" href="#/m2"><small>다음</small>실습 2 실시간 소통<span class="material-icons-outlined">arrow_forward</span></a></nav>
@@ -2602,8 +2686,15 @@ if (document.readyState === 'loading') {
 - 카드 글은 textContent 로 화면에 넣어줘.
 - 수업 코드를 바꾸면 이전 반의 늦은 응답은 화면에 반영하지 마.
 
+[아이콘 — 그대로 지켜줘]
+- 아이콘은 Material Symbols Outlined 하나만 써. &lt;head&gt;에 이 줄을 그대로 넣어줘.
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
+- 아이콘은 &lt;span class="material-symbols-outlined"&gt;아이콘이름&lt;/span&gt; 으로만 쓰고, 다른 아이콘 class 와 섞지 마.
+- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body, button, input, textarea 에만 지정해줘.
+- 아이콘 이름은 fonts.google.com/icons 에 있는 것만 써줘.
+
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 포스트잇 카드, 넓은 화면에서는 여러 줄로.</pre></div></div></details>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 파스텔 포스트잇 카드, 넓은 화면에서는 여러 줄로.</pre></div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m2/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m2/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m2-s2">
@@ -2787,7 +2878,8 @@ function getCards(arg) {
 &lt;meta charset="UTF-8" /&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
 &lt;title&gt;우리 반 의견 보드&lt;/title&gt;
-&lt;link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" /&gt;
+&lt;!-- 아이콘: 이 링크와 class="material-symbols-outlined" 가 짝입니다. 둘 중 하나라도 다르면 아이콘 이름이 글자로 보입니다 --&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
 &lt;style&gt;
 :root{
@@ -2798,19 +2890,20 @@ function getCards(arg) {
   --r-sm:4px; --r-md:8px; --r-lg:16px;
   --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px; --s-xl:40px;
 }
-*{box-sizing:border-box;margin:0;padding:0;
+*{box-sizing:border-box;margin:0;padding:0;}
+body,button,input,textarea{
   font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 body{font-size:16px;line-height:1.6;color:var(--gray-900);background:var(--gray-100);
   min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
 main{flex:1;width:100%;max-width:880px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
 :focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;border-radius:var(--r-sm);}
-.material-icons-outlined{vertical-align:middle;}
+.material-symbols-outlined{vertical-align:middle;}
 .hide{display:none !important;}
 
 .app-head{text-align:center;margin-bottom:var(--s-lg);}
 .app-head h1{font-size:1.75rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;
   display:inline-flex;align-items:center;gap:var(--s-sm);}
-.app-head h1 .material-icons-outlined{font-size:26px;color:var(--color-primary);}
+.app-head h1 .material-symbols-outlined{font-size:26px;color:var(--color-primary);}
 .app-head .sub{font-size:.875rem;color:var(--gray-500);margin-top:var(--s-xs);}
 
 .card{background:var(--white);border:1px solid var(--gray-300);border-radius:var(--r-lg);
@@ -2833,7 +2926,7 @@ textarea.input{resize:vertical;line-height:1.6;}
 .btn-primary:disabled{background:var(--gray-300);cursor:not-allowed;}
 .btn-secondary{background:var(--white);color:var(--gray-700);border:1px solid var(--gray-300);}
 .btn-secondary:hover{background:#EBEBEB;}
-.btn .material-icons-outlined{font-size:18px;}
+.btn .material-symbols-outlined{font-size:18px;}
 .w100{width:100%;margin-top:var(--s-md);}
 .linkbtn{background:none;border:none;color:var(--color-primary);font-size:.8125rem;
   font-weight:700;cursor:pointer;text-decoration:underline;padding:2px 4px;}
@@ -2846,7 +2939,7 @@ textarea.input{resize:vertical;line-height:1.6;}
 .question{background:var(--color-primary-light);color:#00427F;border-radius:var(--r-lg);
   padding:var(--s-md) var(--s-lg);margin-bottom:var(--s-md);font-size:1.125rem;font-weight:800;
   line-height:1.5;display:flex;gap:var(--s-sm);align-items:flex-start;word-break:break-word;}
-.question .material-icons-outlined{color:var(--color-primary);margin-top:2px;}
+.question .material-symbols-outlined{color:var(--color-primary);margin-top:2px;}
 
 .swatches{display:flex;gap:var(--s-sm);margin-top:var(--s-sm);}
 .sw{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
@@ -2878,8 +2971,9 @@ textarea.input{resize:vertical;line-height:1.6;}
   font-size:.75rem;opacity:.8;}
 .like{display:inline-flex;align-items:center;gap:4px;border:none;background:rgba(255,255,255,.65);
   color:inherit;border-radius:999px;padding:4px 10px;font-size:.875rem;font-weight:800;cursor:pointer;}
-.like .material-icons-outlined{font-size:17px;}
+.like .material-symbols-outlined{font-size:17px;}
 .like[aria-pressed="true"]{background:rgba(255,255,255,.95);}
+.like[aria-pressed="true"] .material-symbols-outlined{color:#D6336C;}   /* 공감한 카드는 하트를 빨갛게 */
 .like:disabled{cursor:default;}
 .c-yellow{background:#FFF3B0;color:#7A6000;}
 .c-green{background:#C8EDD9;color:#1A6B47;}
@@ -2893,14 +2987,14 @@ textarea.input{resize:vertical;line-height:1.6;}
   border-radius:var(--r-md);padding:11px var(--s-md);font-size:.875rem;font-weight:600;line-height:1.5;}
 .privacy{display:flex;align-items:flex-start;gap:6px;font-size:.75rem;line-height:1.5;
   color:var(--gray-500);padding:var(--s-md) var(--s-sm) 0;}
-.privacy .material-icons-outlined{font-size:15px;flex-shrink:0;}
+.privacy .material-symbols-outlined{font-size:15px;flex-shrink:0;}
 
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;main&gt;
   &lt;header class="app-head"&gt;
-    &lt;h1&gt;&lt;span class="material-icons-outlined"&gt;forum&lt;/span&gt;우리 반 의견 보드&lt;/h1&gt;
+    &lt;h1&gt;&lt;span class="material-symbols-outlined"&gt;forum&lt;/span&gt;우리 반 의견 보드&lt;/h1&gt;
     &lt;p class="sub"&gt;내 생각을 붙이면, 모두의 화면에 함께 나타납니다&lt;/p&gt;
   &lt;/header&gt;
 
@@ -2921,7 +3015,7 @@ textarea.input{resize:vertical;line-height:1.6;}
     &lt;div class="card narrow"&gt;
       &lt;div class="roombar"&gt;수업 코드 &lt;b id="roomLabel"&gt;&lt;/b&gt;
         &lt;button class="linkbtn" id="changeRoom" type="button"&gt;바꾸기&lt;/button&gt;&lt;/div&gt;
-      &lt;div class="question hide" id="qBox"&gt;&lt;span class="material-icons-outlined"&gt;help_outline&lt;/span&gt;&lt;span id="qText"&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="question hide" id="qBox"&gt;&lt;span class="material-symbols-outlined"&gt;help_outline&lt;/span&gt;&lt;span id="qText"&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;label class="lb" for="text"&gt;내 의견&lt;/label&gt;
       &lt;textarea class="input" id="text" rows="3" maxlength="150" placeholder="한두 문장으로 적어보세요"&gt;&lt;/textarea&gt;
       &lt;p class="count"&gt;&lt;span id="len"&gt;0&lt;/span&gt; / 150&lt;/p&gt;
@@ -2929,7 +3023,7 @@ textarea.input{resize:vertical;line-height:1.6;}
       &lt;div class="swatches" id="swatches"&gt;&lt;/div&gt;
       &lt;p class="hint"&gt;이름처럼 개인을 알아볼 수 있는 내용은 적지 않아요.&lt;/p&gt;
       &lt;button class="btn btn-primary w100" id="post" type="button" disabled&gt;
-        &lt;span class="material-icons-outlined"&gt;push_pin&lt;/span&gt;보드에 붙이기&lt;/button&gt;
+        &lt;span class="material-symbols-outlined"&gt;push_pin&lt;/span&gt;보드에 붙이기&lt;/button&gt;
       &lt;p class="err hide" id="postErr"&gt;&lt;/p&gt;
     &lt;/div&gt;
 
@@ -2946,11 +3040,11 @@ textarea.input{resize:vertical;line-height:1.6;}
 
     &lt;div class="narrow"&gt;
       &lt;button class="btn btn-secondary w100" id="share" type="button"&gt;
-        &lt;span class="material-icons-outlined"&gt;link&lt;/span&gt;이 보드 링크 복사하기&lt;/button&gt;
+        &lt;span class="material-symbols-outlined"&gt;link&lt;/span&gt;이 보드 링크 복사하기&lt;/button&gt;
     &lt;/div&gt;
   &lt;/section&gt;
 
-  &lt;p class="privacy narrow"&gt;&lt;span class="material-icons-outlined"&gt;lock&lt;/span&gt;
+  &lt;p class="privacy narrow"&gt;&lt;span class="material-symbols-outlined"&gt;lock&lt;/span&gt;
     이 앱은 이름·학번·출석번호·이메일을 저장하지 않습니다. 누가 어떤 카드를 붙였는지는 기록되지 않습니다.&lt;/p&gt;
 &lt;/main&gt;
 
@@ -3081,7 +3175,7 @@ function renderBoard() {
     var mine = !!memGet(likedKey(c.id)) || !!pendingLike[c.id];
     like.setAttribute('aria-pressed', mine ? 'true' : 'false');
     like.disabled = mine;
-    like.innerHTML = '&lt;span class="material-icons-outlined"&gt;' + (mine ? 'favorite' : 'favorite_border') + '&lt;/span&gt;';
+    like.innerHTML = '&lt;span class="material-symbols-outlined"&gt;' + (mine ? 'favorite' : 'favorite_border') + '&lt;/span&gt;';
     like.appendChild(document.createTextNode(String(c.likes)));
     like.addEventListener('click', function () { sendLike(c, like); });
     foot.appendChild(at);
@@ -3226,7 +3320,7 @@ function bind() {
     function done(ok) {
       btn.textContent = ok ? '링크를 복사했습니다!' : url;
       setTimeout(function () {
-        btn.innerHTML = '&lt;span class="material-icons-outlined"&gt;link&lt;/span&gt;이 보드 링크 복사하기';
+        btn.innerHTML = '&lt;span class="material-symbols-outlined"&gt;link&lt;/span&gt;이 보드 링크 복사하기';
       }, 2500);
     }
     if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
@@ -3340,8 +3434,15 @@ if (document.readyState === 'loading') {
 - Code.gs 는 doGet · searchWikipedia(keyword) · setup 중심으로 간결하게.
 - 처음 한 번 실행해서 권한을 승인할 setup 함수를 만들어줘.
 
+[아이콘 — 그대로 지켜줘]
+- 아이콘은 Material Symbols Outlined 하나만 써. &lt;head&gt;에 이 줄을 그대로 넣어줘.
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
+- 아이콘은 &lt;span class="material-symbols-outlined"&gt;아이콘이름&lt;/span&gt; 으로만 쓰고, 다른 아이콘 class 와 섞지 마.
+- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body, button, input, textarea 에만 지정해줘.
+- 아이콘 이름은 fonts.google.com/icons 에 있는 것만 써줘.
+
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 파스텔 카드, 휴대폰에서도 잘 보이게.</pre></div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m3/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m3/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m3-s2">
@@ -3509,7 +3610,8 @@ function cleanText_(html) {
 &lt;meta charset="UTF-8" /&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
 &lt;title&gt;오늘의 궁금증 탐험대&lt;/title&gt;
-&lt;link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" /&gt;
+&lt;!-- 아이콘: 이 링크와 class="material-symbols-outlined" 가 짝입니다. 둘 중 하나라도 다르면 아이콘 이름이 글자로 보입니다 --&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
 &lt;style&gt;
 :root{
@@ -3521,20 +3623,21 @@ function cleanText_(html) {
   --r-sm:4px; --r-md:8px; --r-lg:16px;
   --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px; --s-xl:40px;
 }
-*{box-sizing:border-box;margin:0;padding:0;
+*{box-sizing:border-box;margin:0;padding:0;}
+body,button,input,textarea{
   font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 body{font-size:16px;line-height:1.6;color:var(--gray-900);background:var(--gray-100);
   min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
 main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
 :focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;border-radius:var(--r-sm);}
-.material-icons-outlined{vertical-align:middle;}
+.material-symbols-outlined{vertical-align:middle;}
 .hide{display:none !important;}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 
 .app-head{text-align:center;margin-bottom:var(--s-lg);}
 .app-head h1{font-size:1.75rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;
   display:inline-flex;align-items:center;gap:var(--s-sm);}
-.app-head h1 .material-icons-outlined{font-size:28px;color:var(--color-primary);}
+.app-head h1 .material-symbols-outlined{font-size:28px;color:var(--color-primary);}
 .app-head .sub{font-size:.9375rem;color:var(--gray-500);margin-top:var(--s-xs);}
 
 /* 세 가지 활동 상자 */
@@ -3559,7 +3662,7 @@ main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:var(--s-lg) var(--s
 .btn-main:hover{background:var(--color-primary-dark);}
 .btn-main:disabled{background:var(--gray-300);cursor:default;}
 .hint{font-size:.875rem;color:var(--gray-700);margin-top:var(--s-sm);display:flex;gap:6px;align-items:flex-start;}
-.hint .material-icons-outlined{font-size:18px;color:#C99A00;margin-top:2px;}
+.hint .material-symbols-outlined{font-size:18px;color:#C99A00;margin-top:2px;}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--s-sm);}
 .chip{border:1px solid var(--gray-300);background:var(--white);color:var(--gray-700);border-radius:999px;
   padding:5px 13px;font-size:.875rem;font-weight:600;cursor:pointer;}
@@ -3567,7 +3670,7 @@ main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:var(--s-lg) var(--s
 .trail{margin-top:var(--s-md);padding-top:var(--s-sm);border-top:1px dashed var(--gray-300);
   display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.875rem;}
 .trail-k{font-weight:700;color:var(--gray-500);display:inline-flex;align-items:center;gap:4px;margin-right:4px;}
-.trail-k .material-icons-outlined{font-size:18px;}
+.trail-k .material-symbols-outlined{font-size:18px;}
 .trail .chip{background:var(--sky);border-color:transparent;color:var(--color-primary-dark);}
 .trail .arrow{color:var(--gray-300);}
 
@@ -3586,13 +3689,13 @@ main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:var(--s-lg) var(--s
 .card .more{display:inline-flex;align-items:center;gap:4px;margin-top:var(--s-sm);font-size:.875rem;font-weight:700;
   color:var(--color-primary-dark);text-decoration:none;background:var(--white);border-radius:999px;padding:5px 12px;}
 .card .more:hover{text-decoration:underline;}
-.card .more .material-icons-outlined{font-size:16px;}
+.card .more .material-symbols-outlined{font-size:16px;}
 .card .thumb{width:64px;height:64px;object-fit:cover;border-radius:var(--r-md);flex-shrink:0;background:var(--white);}
 .empty{background:var(--gray-100);border:1px dashed var(--gray-300);border-radius:var(--r-lg);
   padding:var(--s-md) 20px;color:var(--gray-700);font-size:.9375rem;}
 .empty b{display:block;color:var(--gray-900);margin-bottom:4px;}
 .tip{font-size:.8125rem;color:var(--gray-500);margin-top:var(--s-md);display:flex;gap:6px;align-items:flex-start;}
-.tip .material-icons-outlined{font-size:17px;margin-top:1px;}
+.tip .material-symbols-outlined{font-size:17px;margin-top:1px;}
 
 /* ③ 생각 */
 .lead{font-size:.9375rem;color:var(--gray-700);margin-bottom:var(--s-md);}
@@ -3606,7 +3709,7 @@ textarea:focus{border-color:#E0B400;outline:none;}
   padding:9px 16px;border-radius:999px;font-size:.875rem;font-weight:700;cursor:pointer;
   border:1px solid var(--gray-300);background:var(--white);color:var(--gray-700);}
 .btn:hover{border-color:var(--color-primary);color:var(--color-primary);}
-.btn .material-icons-outlined{font-size:18px;}
+.btn .material-symbols-outlined{font-size:18px;}
 .btn.strong{background:var(--gray-900);border-color:var(--gray-900);color:#fff;}
 .btn.strong:hover{background:var(--gray-700);color:#fff;}
 .msg{font-size:.875rem;font-weight:700;color:var(--color-success);}
@@ -3629,7 +3732,7 @@ textarea:focus{border-color:#E0B400;outline:none;}
 &lt;body&gt;
 &lt;main&gt;
   &lt;header class="app-head"&gt;
-    &lt;h1&gt;&lt;span class="material-icons-outlined"&gt;travel_explore&lt;/span&gt;오늘의 궁금증 탐험대&lt;/h1&gt;
+    &lt;h1&gt;&lt;span class="material-symbols-outlined"&gt;travel_explore&lt;/span&gt;오늘의 궁금증 탐험대&lt;/h1&gt;
     &lt;p class="sub"&gt;하나의 질문에서 시작해, 더 넓은 세상으로&lt;/p&gt;
   &lt;/header&gt;
 
@@ -3638,12 +3741,12 @@ textarea:focus{border-color:#E0B400;outline:none;}
     &lt;form class="search" id="form" role="search"&gt;
       &lt;label class="sr" for="q"&gt;궁금한 낱말&lt;/label&gt;
       &lt;input id="q" type="search" maxlength="50" autocomplete="off" placeholder="궁금한 낱말을 적어요. 예: 무지개" /&gt;
-      &lt;button class="btn-main" id="go" type="submit"&gt;&lt;span class="material-icons-outlined"&gt;search&lt;/span&gt;찾기&lt;/button&gt;
+      &lt;button class="btn-main" id="go" type="submit"&gt;&lt;span class="material-symbols-outlined"&gt;search&lt;/span&gt;찾기&lt;/button&gt;
     &lt;/form&gt;
-    &lt;p class="hint"&gt;&lt;span class="material-icons-outlined"&gt;lightbulb&lt;/span&gt;
+    &lt;p class="hint"&gt;&lt;span class="material-symbols-outlined"&gt;lightbulb&lt;/span&gt;
       &lt;span&gt;질문 문장보다 &lt;b&gt;핵심 낱말&lt;/b&gt;로 찾아요. &amp;ldquo;무지개는 왜 생길까?&amp;rdquo; → &lt;b&gt;무지개&lt;/b&gt;&lt;/span&gt;&lt;/p&gt;
     &lt;div class="chips" id="examples" aria-label="예시 낱말"&gt;&lt;/div&gt;
-    &lt;div class="trail hide" id="trail"&gt;&lt;span class="trail-k"&gt;&lt;span class="material-icons-outlined"&gt;explore&lt;/span&gt;오늘 지나온 길&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="trail hide" id="trail"&gt;&lt;span class="trail-k"&gt;&lt;span class="material-symbols-outlined"&gt;explore&lt;/span&gt;오늘 지나온 길&lt;/span&gt;&lt;/div&gt;
   &lt;/section&gt;
 
   &lt;section class="box b2" aria-labelledby="h2-cards"&gt;
@@ -3651,9 +3754,9 @@ textarea:focus{border-color:#E0B400;outline:none;}
     &lt;p class="status" id="status" aria-live="polite"&gt;궁금한 낱말을 찾으면 여기에 자료 카드가 나타나요.&lt;/p&gt;
     &lt;div class="cards" id="cards"&gt;&lt;/div&gt;
     &lt;p class="err hide" id="err" role="alert"&gt;&lt;/p&gt;
-    &lt;p class="tip"&gt;&lt;span class="material-icons-outlined"&gt;rule&lt;/span&gt;
+    &lt;p class="tip"&gt;&lt;span class="material-symbols-outlined"&gt;rule&lt;/span&gt;
       &lt;span&gt;이름이 같은 드라마·노래·학교도 함께 나올 수 있어요. 내 궁금증에 맞는 자료를 골라 읽어요.&lt;/span&gt;&lt;/p&gt;
-    &lt;p class="tip"&gt;&lt;span class="material-icons-outlined"&gt;fact_check&lt;/span&gt;
+    &lt;p class="tip"&gt;&lt;span class="material-symbols-outlined"&gt;fact_check&lt;/span&gt;
       &lt;span&gt;위키백과는 누구나 고칠 수 있는 백과사전이에요. 중요한 내용은 원문을 읽고, 책이나 다른 자료로도 확인해요.&lt;/span&gt;&lt;/p&gt;
   &lt;/section&gt;
 
@@ -3665,8 +3768,8 @@ textarea:focus{border-color:#E0B400;outline:none;}
     &lt;label class="q" for="wonder"&gt;새롭게 궁금해진 것은 무엇인가요?&lt;/label&gt;
     &lt;textarea id="wonder" rows="3" maxlength="1000" placeholder="읽고 나니 더 알고 싶어진 것을 적어요. 그 안의 낱말로 다시 찾아볼 수 있어요."&gt;&lt;/textarea&gt;
     &lt;div class="row"&gt;
-      &lt;button class="btn strong" id="copy" type="button"&gt;&lt;span class="material-icons-outlined"&gt;content_copy&lt;/span&gt;내 생각 복사&lt;/button&gt;
-      &lt;button class="btn" id="again" type="button"&gt;&lt;span class="material-icons-outlined"&gt;travel_explore&lt;/span&gt;새 낱말로 다시 찾기&lt;/button&gt;
+      &lt;button class="btn strong" id="copy" type="button"&gt;&lt;span class="material-symbols-outlined"&gt;content_copy&lt;/span&gt;내 생각 복사&lt;/button&gt;
+      &lt;button class="btn" id="again" type="button"&gt;&lt;span class="material-symbols-outlined"&gt;travel_explore&lt;/span&gt;새 낱말로 다시 찾기&lt;/button&gt;
       &lt;span class="msg" id="msg" aria-live="polite"&gt;&lt;/span&gt;
     &lt;/div&gt;
     &lt;p class="small"&gt;이 칸에 쓴 글은 어디에도 저장되지 않아요. 복사해서 공책이나 학습지에 옮겨 두세요.&lt;/p&gt;
@@ -3720,7 +3823,7 @@ function el(tag, cls, text) {
   return e;
 }
 
-function icon(name) { return el('span', 'material-icons-outlined', name); }
+function icon(name) { return el('span', 'material-symbols-outlined', name); }
 
 /* 받침이 있으면 '을', 없으면 '를' */
 function eul(word) {
@@ -3966,8 +4069,15 @@ if (document.readyState === 'loading') {
   (오류가 나도 반드시). 서버는 Date 대신 문자열로 돌려주기.
 - 화면에서 부를 필요 없는 함수는 이름 끝에 _ 를 붙여줘.
 
+[아이콘 — 그대로 지켜줘]
+- 아이콘은 Material Symbols Outlined 하나만 써. &lt;head&gt;에 이 줄을 그대로 넣어줘.
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
+- 아이콘은 &lt;span class="material-symbols-outlined"&gt;아이콘이름&lt;/span&gt; 으로만 쓰고, 다른 아이콘 class 와 섞지 마.
+- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body, button, input, textarea 에만 지정해줘.
+- 아이콘 이름은 fonts.google.com/icons 에 있는 것만 써줘.
+
 [디자인]
-앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 머테리얼 아이콘, 글쓰기에 집중되는 차분한 카드 화면.</pre></div></div></details>
+앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등, 고른 폰트를 알려줘), 글쓰기에 집중되는 차분한 카드 화면.</pre></div></div></details>
             <nav class="pane-nav"><a class="btn btn-line btn-sm" href="#/m4/1"><span class="material-icons-outlined">arrow_back</span>문제상황</a><a class="btn btn-ink btn-sm nx" href="#/m4/3"><small>다음</small>Code.gs<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane s-x" data-step="3" id="m4-s2">
@@ -4238,7 +4348,8 @@ function korDate_(d) {
 &lt;meta charset="UTF-8" /&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
 &lt;title&gt;티끌모아 학급문집&lt;/title&gt;
-&lt;link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" /&gt;
+&lt;!-- 아이콘: 이 링크와 class="material-symbols-outlined" 가 짝입니다. 둘 중 하나라도 다르면 아이콘 이름이 글자로 보입니다 --&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=block" /&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /&gt;
 &lt;style&gt;
 :root{
@@ -4250,19 +4361,20 @@ function korDate_(d) {
   --r-sm:4px; --r-md:8px; --r-lg:16px;
   --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px; --s-xl:40px;
 }
-*{box-sizing:border-box;margin:0;padding:0;
+*{box-sizing:border-box;margin:0;padding:0;}
+body,button,input,textarea{
   font-family:'Pretendard GOV','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 body{font-size:16px;line-height:1.6;color:var(--gray-900);background:var(--gray-100);
   min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
 main{flex:1;width:100%;max-width:620px;margin:0 auto;padding:var(--s-lg) var(--s-md) var(--s-xl);}
 :focus-visible{outline:3px solid var(--color-primary);outline-offset:2px;border-radius:var(--r-sm);}
-.material-icons-outlined{vertical-align:middle;}
+.material-symbols-outlined{vertical-align:middle;}
 .hide{display:none !important;}
 
 .app-head{text-align:center;margin-bottom:var(--s-lg);}
 .app-head h1{font-size:1.75rem;line-height:1.4;font-weight:800;letter-spacing:-.02em;
   display:inline-flex;align-items:center;gap:var(--s-sm);}
-.app-head h1 .material-icons-outlined{font-size:26px;color:var(--color-primary);}
+.app-head h1 .material-symbols-outlined{font-size:26px;color:var(--color-primary);}
 .app-head .sub{font-size:.875rem;color:var(--gray-500);margin-top:var(--s-xs);}
 
 .card{background:var(--white);border:1px solid var(--gray-300);border-radius:var(--r-lg);
@@ -4285,7 +4397,7 @@ textarea.input{resize:vertical;line-height:1.8;}
 .btn-primary:disabled{background:var(--gray-300);cursor:not-allowed;}
 .btn-secondary{background:var(--white);color:var(--gray-700);border:1px solid var(--gray-300);}
 .btn-secondary:hover{background:#EBEBEB;}
-.btn .material-icons-outlined{font-size:18px;}
+.btn .material-symbols-outlined{font-size:18px;}
 .w100{width:100%;margin-top:var(--s-md);}
 .linkbtn{background:none;border:none;color:var(--color-primary);font-size:.8125rem;
   font-weight:700;cursor:pointer;text-decoration:underline;padding:2px 4px;}
@@ -4297,7 +4409,7 @@ textarea.input{resize:vertical;line-height:1.8;}
 .topic{background:var(--color-primary-light);color:#00427F;border-radius:var(--r-lg);
   padding:var(--s-md);margin-bottom:var(--s-sm);font-weight:800;line-height:1.5;
   display:flex;gap:var(--s-sm);word-break:break-word;}
-.topic .material-icons-outlined{color:var(--color-primary);}
+.topic .material-symbols-outlined{color:var(--color-primary);}
 .done{background:var(--pastel-green);color:var(--green-dark);border-radius:var(--r-md);
   padding:11px var(--s-md);font-size:.9375rem;font-weight:700;margin-top:var(--s-md);
   display:flex;align-items:center;gap:var(--s-sm);}
@@ -4321,14 +4433,14 @@ textarea.input{resize:vertical;line-height:1.8;}
   border-radius:var(--r-md);padding:11px var(--s-md);font-size:.875rem;font-weight:600;line-height:1.5;}
 .privacy{display:flex;align-items:flex-start;gap:6px;font-size:.75rem;line-height:1.5;
   color:var(--gray-500);padding:var(--s-md) var(--s-sm) 0;}
-.privacy .material-icons-outlined{font-size:15px;flex-shrink:0;}
+.privacy .material-symbols-outlined{font-size:15px;flex-shrink:0;}
 
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;main&gt;
   &lt;header class="app-head"&gt;
-    &lt;h1&gt;&lt;span class="material-icons-outlined"&gt;edit_note&lt;/span&gt;티끌모아 학급문집&lt;/h1&gt;
+    &lt;h1&gt;&lt;span class="material-symbols-outlined"&gt;edit_note&lt;/span&gt;티끌모아 학급문집&lt;/h1&gt;
     &lt;p class="sub"&gt;오늘 쓴 글이 모여 우리 반 문집이 됩니다&lt;/p&gt;
   &lt;/header&gt;
 
@@ -4348,7 +4460,7 @@ textarea.input{resize:vertical;line-height:1.8;}
     &lt;div class="card"&gt;
       &lt;div class="roombar"&gt;수업 코드 &lt;b id="roomLabel"&gt;&lt;/b&gt;
         &lt;button class="linkbtn" id="changeRoom" type="button"&gt;바꾸기&lt;/button&gt;&lt;/div&gt;
-      &lt;div class="topic hide" id="topicBox"&gt;&lt;span class="material-icons-outlined"&gt;lightbulb&lt;/span&gt;&lt;span id="topicText"&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="topic hide" id="topicBox"&gt;&lt;span class="material-symbols-outlined"&gt;lightbulb&lt;/span&gt;&lt;span id="topicText"&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;label class="lb" for="pen"&gt;필명&lt;/label&gt;
       &lt;input class="input" id="pen" maxlength="20" placeholder="예: 별빛작가" autocomplete="off" /&gt;
       &lt;p class="hint"&gt;문집에 이 이름으로 실립니다. 실명 대신 필명을 써요.&lt;/p&gt;
@@ -4359,8 +4471,8 @@ textarea.input{resize:vertical;line-height:1.8;}
       &lt;p class="count"&gt;&lt;span id="len"&gt;0&lt;/span&gt; / 2000&lt;/p&gt;
       &lt;p class="hint"&gt;친구 이름처럼 다른 사람을 알아볼 수 있는 내용은 적지 않아요.&lt;/p&gt;
       &lt;button class="btn btn-primary w100" id="submit" type="button" disabled&gt;
-        &lt;span class="material-icons-outlined"&gt;send&lt;/span&gt;제출하기&lt;/button&gt;
-      &lt;p class="done hide" id="doneMsg"&gt;&lt;span class="material-icons-outlined"&gt;check_circle&lt;/span&gt;제출했어요! 문집에 실릴 거예요.&lt;/p&gt;
+        &lt;span class="material-symbols-outlined"&gt;send&lt;/span&gt;제출하기&lt;/button&gt;
+      &lt;p class="done hide" id="doneMsg"&gt;&lt;span class="material-symbols-outlined"&gt;check_circle&lt;/span&gt;제출했어요! 문집에 실릴 거예요.&lt;/p&gt;
       &lt;p class="err hide" id="writeErr"&gt;&lt;/p&gt;
     &lt;/div&gt;
 
@@ -4372,10 +4484,10 @@ textarea.input{resize:vertical;line-height:1.8;}
     &lt;p class="err hide" id="listErr"&gt;&lt;/p&gt;
 
     &lt;button class="btn btn-secondary w100" id="share" type="button"&gt;
-      &lt;span class="material-icons-outlined"&gt;link&lt;/span&gt;이 수업 링크 복사하기&lt;/button&gt;
+      &lt;span class="material-symbols-outlined"&gt;link&lt;/span&gt;이 수업 링크 복사하기&lt;/button&gt;
   &lt;/section&gt;
 
-  &lt;p class="privacy"&gt;&lt;span class="material-icons-outlined"&gt;lock&lt;/span&gt;
+  &lt;p class="privacy"&gt;&lt;span class="material-symbols-outlined"&gt;lock&lt;/span&gt;
     이 앱은 이름·학번·출석번호·이메일을 저장하지 않습니다. 글은 선생님의 구글 드라이브에만 저장됩니다.&lt;/p&gt;
 &lt;/main&gt;
 
@@ -4553,7 +4665,7 @@ function bind() {
     function done(ok) {
       btn.textContent = ok ? '링크를 복사했습니다!' : url;
       setTimeout(function () {
-        btn.innerHTML = '&lt;span class="material-icons-outlined"&gt;link&lt;/span&gt;이 수업 링크 복사하기';
+        btn.innerHTML = '&lt;span class="material-symbols-outlined"&gt;link&lt;/span&gt;이 수업 링크 복사하기';
       }, 2500);
     }
     if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
@@ -5115,7 +5227,7 @@ function callPublicApi_(baseUrl, params) {
           <table>
             <thead><tr><th style="width:120px">앱</th><th>Code.gs의 함수</th><th>여기만 바꾸면</th></tr></thead>
             <tbody>
-              <tr><td><b>[1] 감정 체크인</b></td><td>saveCheckin · getRows</td><td>index.html의 <b>EMOTIONS</b> — 기분 선택지·아이콘·색</td></tr>
+              <tr><td><b>[1] 감정 체크인</b></td><td>saveCheckin · getDashboard</td><td>Code.gs·index.html의 <b>EMOTIONS</b>와 dashboard.html의 <b>LOOK</b> — 기분 선택지·아이콘·색 (셋을 같이)</td></tr>
               <tr><td><b>[2] 우리반 의견보드</b></td><td>addCard · likeCard · getCards</td><td>index.html의 <b>COLORS</b>와 Code.gs의 <b>CARD_COLORS</b> — 카드 색 (둘을 같이)</td></tr>
               <tr><td><b>[3] 궁금증 탐험대</b></td><td>searchWikipedia · cleanText_</td><td>index.html의 <b>EXAMPLES</b> — 예시 낱말, Code.gs의 <b>MAX_RESULTS</b> — 카드 수, <b>CACHE_MIN</b> — 보관 시간</td></tr>
               <tr><td><b>[심화] 학급문집</b></td><td>saveWriting · getToday · makeAnthology</td><td>Code.gs의 <b>BOOK_TITLE</b> — 문집 제목</td></tr>
@@ -6032,7 +6144,7 @@ $('d_sample').addEventListener('click',()=>{
   $('d_school').value='○○초등학교';
   $('d_target').value='5학년 3반 24명';
   $('d_period').value='2026학년도 2학기';
-  $('d_purpose').value='아침 조회 시간에 학급 전체의 기분 분포를 익명으로 확인하는 사회정서교육 활동에 활용합니다.';
+  $('d_purpose').value='아침 조회 시간에 학생이 익명으로 남긴 기분을 교사만 확인하여 사회정서교육 활동에 활용합니다.';
 });
 
 $('d_make').addEventListener('click',()=>{
