@@ -1358,6 +1358,35 @@ html[data-present] .hx-bg{opacity:.6;}
 .idea-fns label small{font-size:12.5px;font-weight:600;opacity:.75;}
 .idea-sub{margin:8px 0 0;font-size:13.5px;}
 .idea-live{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--blue);}
+.idea-card{margin-top:16px;padding:8px 24px 24px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);}
+.idea-card .field2 > label,.idea-blocks legend{display:flex;align-items:center;gap:7px;font-size:15px;font-weight:800;}
+.idea-card .field2 > label .material-icons-outlined,.idea-blocks legend .material-icons-outlined{font-size:20px;color:var(--blue);}
+.idea-card .field2 > label em,.idea-blocks legend em{font-style:normal;font-weight:600;font-size:12.5px;color:var(--faint);}
+.idea-card textarea.inp{min-height:110px;}
+.idea-arrow{margin-left:auto;display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--paper);color:var(--ink-2);border-radius:8px;padding:3px 10px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;}
+.idea-card .field2 > label .idea-arrow .material-icons-outlined{font-size:16px;color:var(--ink-2);}
+.idea-arrow:hover{border-color:var(--blue);color:var(--blue);}
+.idea-blocks{border:0;padding:0;min-width:0;}
+.idea-blocks legend{margin-bottom:9px;flex-wrap:wrap;}
+.idea-fns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+.idea-fn{position:relative;display:flex;flex-direction:column;gap:2px;padding:14px 14px 12px;border:1.5px solid var(--line);border-radius:var(--r-lg);background:var(--paper);cursor:pointer;transition:border-color .15s,background .15s;}
+.idea-fn input{position:absolute;top:12px;right:12px;accent-color:var(--blue);width:17px;height:17px;}
+.idea-fn .material-icons-outlined{font-size:24px;color:var(--muted);margin-bottom:4px;}
+.idea-fn b{font-size:15px;}
+.idea-fn small{font-size:12.5px;color:var(--muted);line-height:1.45;}
+.idea-fn:has(input:checked){border-color:var(--blue);background:var(--blue-tint);}
+.idea-fn:has(input:checked) .material-icons-outlined{color:var(--blue);}
+.idea-apis{margin-top:12px;padding:14px 16px;border:1px dashed var(--blue);border-radius:var(--r-lg);background:var(--paper);}
+.idea-apis .idea-help{margin-bottom:10px;}
+.idea-api-list{display:grid;gap:10px;margin-bottom:10px;}
+.idea-api-g{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.idea-api-h{flex-basis:100%;font-size:12.5px;font-weight:800;color:var(--muted);}
+.idea-api{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);font-size:13.5px;font-weight:700;cursor:pointer;}
+.idea-api small{font-size:11.5px;font-weight:600;color:var(--muted);}
+.idea-api input{accent-color:var(--blue);}
+.idea-api:has(input:checked){border-color:var(--blue);background:var(--blue-tint);color:var(--blue);}
+.idea-make{width:100%;justify-content:center;margin-top:22px;padding:15px;font-size:16px;}
+@media(max-width:719px){.idea-fns{grid-template-columns:repeat(2,minmax(0,1fr));}.idea-card{padding:4px 16px 18px;}.idea-api small{display:none;}}
 .idea-out{margin-top:16px;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);}
 .idea-out header{margin-bottom:12px;}
 .idea-out-k{display:inline-block;font-size:12.5px;font-weight:800;color:var(--paper);background:var(--ink);padding:3px 10px;border-radius:999px;}
@@ -6641,58 +6670,39 @@ if (document.readyState === 'loading') {
             <nav class="pane-nav"><a class="btn btn-ink btn-sm nx" href="#/net/2"><small>다음</small>나의 앱 아이디어<span class="material-icons-outlined">arrow_forward</span></a></nav>
           </article>
           <article class="pane" data-step="2" id="st-2">
-            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">auto_awesome</span>나의 앱 아이디어</span><h2>실습 순서대로 내 앱을 계획해요</h2><p>실습에서 본 다섯 단계를 내 교실에 맞게 채우면, 기획서와 AI에게 보낼 프롬프트가 만들어져요. 별표(*)만 채워도 시작할 수 있어요.</p></header>
-            <div class="idea-start"><span>막막하다면 독서 기록장 예시로 먼저 채워 보세요.</span><button class="btn btn-line btn-sm" id="b_sample" type="button"><span class="material-icons-outlined" aria-hidden="true">auto_fix_high</span>예시로 채우기</button></div>
-            <form id="ideaForm" novalidate>
-              <section class="fgrp idea-stage">
-                <span class="fgrp-k">① 문제상황</span><h3 class="idea-q">무엇이 불편한가요?</h3>
-                <div class="field2"><label for="b_grade">누가 쓰나요? *</label><input class="inp" id="b_grade" data-keep required maxlength="60" placeholder="예: 우리 반 초등학교 5학년" /></div>
-                <div class="field2"><label for="b_why">지금 무엇이 불편한가요? *</label><textarea class="inp" id="b_why" data-keep required maxlength="500" placeholder="예: 읽은 책을 공책에 적다 보니 지난 기록을 찾기 어려워요."></textarea></div>
-              </section>
-              <section class="fgrp idea-stage">
-                <span class="fgrp-k">② 핵심기능</span><h3 class="idea-q">학생은 앱에서 무엇을 하나요?</h3>
-                <div class="field2"><label for="b_idea">학생이 하는 일, 순서대로 *<em>한 줄에 하나씩</em></label><textarea class="inp" id="b_idea" data-keep required maxlength="500" placeholder="예: 책 제목과 한 줄 감상을 적어 보낸다&#10;지난주에 읽은 책을 날짜별로 다시 본다"></textarea></div>
-                <fieldset class="idea-choice" aria-describedby="b_fn_help b_fn_error"><legend>필요한 기능 블록 *</legend><p class="idea-help" id="b_fn_help">첫 버전은 하나나 둘이면 충분해요. 괄호 안은 같은 블록을 쓴 실습이에요.</p>
-                  <div class="radios chk idea-fns">
-                    <label><input type="checkbox" name="b_fn" value="rec" checked data-keep /> 1 기록 <small>(감정 체크인)</small></label>
-                    <label><input type="checkbox" name="b_fn" value="share" data-keep /> 2 실시간 소통 <small>(의견보드)</small></label>
-                    <label><input type="checkbox" name="b_fn" value="api" data-keep /> 3 외부 데이터 <small>(궁금증 탐험대)</small></label>
-                    <label><input type="checkbox" name="b_fn" value="gdoc" data-keep /> 4 구글 도구 <small>(학급문집)</small></label>
-                  </div><p id="b_fn_error" class="idea-error" role="alert" hidden>기능 블록을 하나 이상 골라 주세요.</p>
-                </fieldset>
-              </section>
-              <section class="fgrp idea-stage">
-                <span class="fgrp-k">③ 앱이 할 일</span><h3 class="idea-q">무엇을 저장하거나 가져오나요?</h3>
-                <div class="field2"><label for="b_in">학생이 입력할 항목<em>한 줄에 하나씩 · 비우면 AI가 정해요</em></label><textarea class="inp" id="b_in" data-keep maxlength="200" placeholder="책 제목&#10;한 줄 감상"></textarea></div>
-                <div class="field2 fn-dep" data-fn="rec"><label for="b_keep">1 기록 · 쌓인 기록을 어떻게 다시 보나요?</label><textarea class="inp" id="b_keep" data-keep maxlength="200" placeholder="예: 날짜를 골라 그날 읽은 책과 감상 보기"></textarea></div>
-                <div class="field2 fn-dep" data-fn="share"><label for="b_out">2 실시간 소통 · 무엇을 함께 보나요?</label><textarea class="inp" id="b_out" data-keep maxlength="200" placeholder="예: 친구의 책 추천 카드를 함께 보고 공감 누르기"></textarea></div>
-                <div class="field2 fn-dep" data-fn="api"><label for="b_api">3 외부 데이터 · 어디에서 무엇을 가져오나요?</label><textarea class="inp" id="b_api" data-keep maxlength="200" placeholder="비우면 인증키 없이 쓰는 한국어 위키백과 검색으로 시작해요"></textarea></div>
-                <div class="field2 fn-dep" data-fn="gdoc"><label for="b_doc">4 구글 도구 · 어떤 문서로 묶나요?</label><textarea class="inp" id="b_doc" data-keep maxlength="200" placeholder="비우면 쌓인 기록을 구글 문서 한 권으로 묶어요"></textarea></div>
-              </section>
-              <section class="fgrp idea-stage">
-                <span class="fgrp-k">④ 보여 줄 화면</span><h3 class="idea-q">누가 무엇을 보나요?</h3>
-                <fieldset class="field2 idea-choice"><legend>학생 기록은 누가 보나요?</legend><div class="radios"><label><input type="radio" name="b_see" value="teacher" checked data-keep /> 선생님만</label><label><input type="radio" name="b_see" value="all" data-keep /> 반 모두 함께</label><label><input type="radio" name="b_see" value="self" data-keep /> 학생 본인 것만</label></div><p class="idea-help idea-sub" id="b_see_help"></p></fieldset>
-                <fieldset class="field2 idea-choice"><legend>학생을 어떻게 구분하나요?</legend><div class="radios"><label><input type="radio" name="b_id" value="anon" checked data-keep /> 구분 없이 익명</label><label><input type="radio" name="b_id" value="nick" data-keep /> 별명 사용</label></div></fieldset>
-                <div class="field2"><label for="b_role">선생님이 하는 일<em>선택</em></label><textarea class="inp" id="b_role" data-keep maxlength="200" placeholder="예: 대시보드에서 감상을 읽고 다음 날 아침에 한 줄 답해 주기"></textarea></div>
-              </section>
-              <section class="fgrp idea-stage">
-                <span class="fgrp-k">⑤ 배포</span><h3 class="idea-q">교실에서 어떻게 써 볼까요?</h3>
-                <div class="field2"><label for="b_name">앱 이름<em>비우면 ‘우리 반 도우미’</em></label><input class="inp" id="b_name" data-keep maxlength="60" placeholder="예: 우리 반 독서 기록장" /></div>
-                <div class="field2"><label for="b_watch">써 본 뒤 확인할 학생의 모습<em>선택</em></label><textarea class="inp" id="b_watch" data-keep maxlength="200" placeholder="예: 친구가 추천한 책을 골라 읽는 모습"></textarea></div>
-                <fieldset class="field2 idea-choice"><legend>배움은 어느 쪽으로 넓어지나요? <em class="dim">선택</em></legend><div class="radios"><label><input type="checkbox" name="b_dir" value="time" data-keep /> 점에서 선으로</label><label><input type="checkbox" name="b_dir" value="rel" data-keep /> 거울에서 창으로</label><label><input type="checkbox" name="b_dir" value="world" data-keep /> 우물에서 바다로</label></div></fieldset>
-              </section>
-              <div class="btn-row"><button class="btn btn-blue" id="b_make" type="submit"><span class="material-icons-outlined" aria-hidden="true">bolt</span>기획서와 프롬프트 만들기</button></div>
+            <header class="pane-h"><span class="pane-k"><span class="material-icons-outlined">auto_awesome</span>나의 앱 아이디어</span><h2>내 앱을 네 줄로 정리해요</h2><p>칸을 채우고 기능 블록을 고르면, 기획서와 AI에게 보낼 프롬프트가 만들어져요.</p></header>
+            <div class="idea-start"><span>막막하다면 예시로 먼저 채워 보세요.</span><button class="btn btn-line btn-sm" id="b_sample" type="button"><span class="material-icons-outlined" aria-hidden="true">auto_fix_high</span>예시로 채우기</button></div>
+            <form id="ideaForm" class="idea-card" novalidate>
+              <div class="field2"><label for="b_name"><span class="material-icons-outlined" aria-hidden="true">my_location</span>앱 이름</label><input class="inp" id="b_name" data-keep required maxlength="60" placeholder="예: 우리 반 독서 기록장" /></div>
+              <div class="field2"><label for="b_why"><span class="material-icons-outlined" aria-hidden="true">auto_stories</span>기획 의도</label><input class="inp" id="b_why" data-keep required maxlength="300" placeholder="예: 읽은 책과 감상을 쌓아 두고, 친구의 추천 책을 함께 보고 싶어요" /></div>
+              <div class="field2"><label for="b_idea"><span class="material-icons-outlined" aria-hidden="true">format_list_bulleted</span>핵심기능 &amp; 흐름<button class="idea-arrow" id="b_arrow" type="button"><span class="material-icons-outlined" aria-hidden="true">arrow_forward</span>삽입</button></label><textarea class="inp" id="b_idea" data-keep required maxlength="500" placeholder="예: 책 제목과 한 줄 감상 입력 → 보내기 → 날짜별로 내 기록 보기 → 친구 추천 책 둘러보기"></textarea></div>
+              <fieldset class="field2 idea-blocks" aria-describedby="b_fn_error"><legend><span class="material-icons-outlined" aria-hidden="true">extension</span>기능 블록 <em>하나 이상 · 첫 버전은 한두 개면 충분해요</em></legend>
+                <div class="idea-fns">
+                  <label class="idea-fn"><input type="checkbox" name="b_fn" value="rec" checked data-keep /><span class="material-icons-outlined" aria-hidden="true">history</span><b>기록</b><small>구글 시트에 쌓고 다시 보기</small></label>
+                  <label class="idea-fn"><input type="checkbox" name="b_fn" value="share" data-keep /><span class="material-icons-outlined" aria-hidden="true">forum</span><b>실시간 소통</b><small>모두의 생각을 함께 보기</small></label>
+                  <label class="idea-fn"><input type="checkbox" name="b_fn" value="api" data-keep /><span class="material-icons-outlined" aria-hidden="true">travel_explore</span><b>외부 데이터</b><small>바깥 자료 가져오기</small></label>
+                  <label class="idea-fn"><input type="checkbox" name="b_fn" value="gdoc" data-keep /><span class="material-icons-outlined" aria-hidden="true">description</span><b>구글 도구</b><small>문서·PDF 결과물 만들기</small></label>
+                </div>
+                <p id="b_fn_error" class="idea-error" role="alert" hidden>기능 블록을 하나 이상 골라 주세요.</p>
+                <div class="idea-apis fn-dep" data-fn="api">
+                  <p class="idea-help"><b>바로 쓸 수 있는 외부 데이터</b> — 고른 API의 주소와 쓰는 법이 프롬프트에 들어가요. <a class="inl" href="#/kit">부록에서 자세히 보기</a></p>
+                  <div class="idea-api-list" id="b_api_list"></div>
+                  <input class="inp" id="b_api" data-keep maxlength="200" placeholder="목록에 없는 자료라면 직접 적기 (예: 우리 지역 도서관 신착 도서)" />
+                </div>
+              </fieldset>
+              <div class="field2"><label for="b_grade"><span class="material-icons-outlined" aria-hidden="true">school</span>대상 학년 <em>선택</em></label><input class="inp" id="b_grade" data-keep maxlength="60" placeholder="예: 초등학교 5~6학년" /></div>
+              <button class="btn btn-blue idea-make" id="b_make" type="submit"><span class="material-icons-outlined" aria-hidden="true">auto_awesome</span>프롬프트 자동 생성하기</button>
             </form>
             <div class="out" id="b_box">
-              <p class="idea-live"><span class="material-icons-outlined" aria-hidden="true">sync</span>위 답을 고치면 아래 두 글도 바로 바뀌어요.</p>
-              <section class="idea-out">
-                <header><span class="idea-out-k">기획서</span><h3>친구들과 나눌 한 장</h3><p>무엇을, 누구를 위해, 어떻게 만드는지 정리한 글이에요. 3단계 ‘나누기’ 게시판에 그대로 붙여넣어요.</p></header>
-                <div class="code wrap"><button class="copy" data-copy="b_plan" type="button"><span class="material-icons-outlined" aria-hidden="true">content_copy</span>기획서 복사</button><pre id="b_plan"></pre></div>
-                <div class="btn-row"><button class="btn btn-line btn-sm" id="b_pdf" type="button"><span class="material-icons-outlined" aria-hidden="true">picture_as_pdf</span>기획서·프롬프트 저장 (PDF)</button></div>
-              </section>
+              <p class="idea-live"><span class="material-icons-outlined" aria-hidden="true">sync</span>위 칸을 고치면 아래 두 글도 바로 바뀌어요.</p>
               <section class="idea-out">
                 <header><span class="idea-out-k">프롬프트</span><h3>AI에게 보낼 글</h3><p>사용 중인 AI 대화창에 붙여넣으세요. 받은 코드를 Apps Script의 기본 코드 파일에 한 번 붙여넣고, AI가 안내하는 실행·배포 순서를 따라가세요.</p></header>
                 <div class="code wrap"><button class="copy" data-copy="b_prompt" type="button"><span class="material-icons-outlined" aria-hidden="true">content_copy</span>프롬프트 복사</button><pre id="b_prompt"></pre></div>
+              </section>
+              <section class="idea-out">
+                <header><span class="idea-out-k">기획서</span><h3>친구들과 나눌 한 장</h3><p>3단계 ‘나누기’ 게시판에 그대로 붙여넣어요.</p></header>
+                <div class="code wrap"><button class="copy" data-copy="b_plan" type="button"><span class="material-icons-outlined" aria-hidden="true">content_copy</span>기획서 복사</button><pre id="b_plan"></pre></div>
+                <div class="btn-row"><button class="btn btn-line btn-sm" id="b_pdf" type="button"><span class="material-icons-outlined" aria-hidden="true">picture_as_pdf</span>기획서·프롬프트 저장 (PDF)</button></div>
               </section>
               <p class="share-hint"><span class="material-icons-outlined" aria-hidden="true">arrow_downward</span>기획서를 복사해 아래 ‘나누기’ 게시판에 붙여넣어 보세요.</p>
             </div>
@@ -6725,7 +6735,7 @@ if (document.readyState === 'loading') {
       <div class="vhead"><span class="vhead-ic"><span class="material-icons-outlined">widgets</span></span><div><h1>도구 모음</h1>
         <p>바깥 데이터 · 구글 도구 · 화면 이름 사전. 내 앱을 만들 때 찾아 쓰세요.</p></div></div>
       <div class="kit-tabs" role="tablist">
-        <button role="tab" aria-selected="true" data-kit="api"><span class="material-icons-outlined">public</span>바깥 데이터 <em>9</em></button>
+        <button role="tab" aria-selected="true" data-kit="api"><span class="material-icons-outlined">public</span>바깥 데이터 <em>13</em></button>
         <button role="tab" aria-selected="false" data-kit="gt"><span class="material-icons-outlined">apps</span>구글 도구 <em>12</em></button>
         <button role="tab" aria-selected="false" data-kit="dic"><span class="material-icons-outlined">menu_book</span>UI·UX 사전</button>
       </div>
@@ -6845,6 +6855,76 @@ function getSummary_(title) {
   var j = JSON.parse(res.getContentText());
   return { title: j.title, text: j.extract, img: j.thumbnail &amp;&amp; j.thumbnail.source };
 }</pre></div></div><p class="kc2-src">ko.wikipedia.org · 무료 · 출처 표기(CC BY-SA) · 실습 3은 검색 API(search/page)를 씁니다</p>
+        </details>
+      </article>
+      <article class="kc2" data-tags="none" id="api-species">
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">pets</span></span><div><b>iNaturalist 생물 도감</b><span>동식물 한국어 이름 · 학명 · 사진</span></div>
+          <span class="badge ok">키 없음</span></div>
+        <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>우리 학교 생물 도감, 관찰 일지의 생물 카드, 생물 이름 퀴즈</span></p>
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-species-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-species-pr">학생이 동식물 이름을 입력하면 iNaturalist API(키 없음)로 찾아 한국어 이름, 학명, 사진을 카드로 보여줘. locale=ko 를 붙이고, 사진 아래에 출처 iNaturalist를 적어줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-species-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-species-code">// 이름으로 생물 찾기 (한국어 이름이 있으면 함께)
+function findSpecies_(q) {
+  var url = 'https://api.inaturalist.org/v1/taxa?locale=ko&amp;per_page=3&amp;q='
+    + encodeURIComponent(q);
+  var j = JSON.parse(UrlFetchApp.fetch(url, { muteHttpExceptions: true }).getContentText());
+  return (j.results || []).map(function (t) {
+    return { ko: t.preferred_common_name || '', name: t.name,
+             photo: t.default_photo ? t.default_photo.medium_url : '' };
+  });
+}</pre></div></div><p class="kc2-src">inaturalist.org · 무료 · 사진마다 저작권 표시가 다르니 출처를 함께 보여주기</p>
+        </details>
+      </article>
+      <article class="kc2" data-tags="none" id="api-quake">
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">public</span></span><div><b>USGS 지진 정보</b><span>최근 세계 지진의 규모 · 위치 · 시각</span></div>
+          <span class="badge ok">키 없음</span></div>
+        <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>과학 시간 지진 지도, 오늘 일어난 지진 규모 비교</span></p>
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-quake-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-quake-pr">USGS 지진 피드(키 없음)로 최근 하루 동안 규모 4.5 이상 지진을 가져와 규모, 위치, 서울 시각을 표로 보여줘. 규모가 클수록 색을 진하게 해줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-quake-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-quake-code">// 최근 하루, 규모 4.5 이상 지진
+function getQuakes_() {
+  var url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson';
+  var j = JSON.parse(UrlFetchApp.fetch(url, { muteHttpExceptions: true }).getContentText());
+  return (j.features || []).map(function (f) {
+    var p = f.properties;
+    return { mag: p.mag, place: p.place,
+             at: Utilities.formatDate(new Date(p.time), 'Asia/Seoul', 'M/d HH:mm') };
+  });
+}</pre></div></div><p class="kc2-src">earthquake.usgs.gov · 미국 지질조사국 · 무료 · 위치는 영어로 옵니다</p>
+        </details>
+      </article>
+      <article class="kc2" data-tags="none" id="api-art">
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">palette</span></span><div><b>시카고 미술관 명화</b><span>작품 제목 · 작가 · 고화질 그림</span></div>
+          <span class="badge ok">키 없음</span></div>
+        <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>미술 감상 카드, 오늘의 명화, 같은 주제 작품 비교</span></p>
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-art-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-art-pr">시카고 미술관 API(키 없음)로 영어 검색어(예: cat, river)에 맞는 작품 6점을 찾아 그림, 제목, 작가를 카드로 보여줘. 그림 주소는 IIIF 형식으로 만들어줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-art-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-art-code">// 영어 검색어로 작품 찾기 (그림은 IIIF 주소로)
+function findArt_(q) {
+  var url = 'https://api.artic.edu/api/v1/artworks/search?limit=6'
+    + '&amp;fields=id,title,artist_display,image_id&amp;q=' + encodeURIComponent(q);
+  var j = JSON.parse(UrlFetchApp.fetch(url, { muteHttpExceptions: true }).getContentText());
+  return (j.data || []).filter(function (a) { return a.image_id; }).map(function (a) {
+    return { title: a.title, artist: a.artist_display,
+             img: 'https://www.artic.edu/iiif/2/' + a.image_id + '/full/600,/0/default.jpg' };
+  });
+}</pre></div></div><p class="kc2-src">api.artic.edu · 무료 · 검색어는 영어 · 작품마다 이용 조건 확인</p>
+        </details>
+      </article>
+      <article class="kc2" data-tags="none" id="api-sun">
+        <div class="kc2-h"><span class="kc2-ic"><span class="material-icons-outlined">wb_sunny</span></span><div><b>해 뜨고 지는 시각</b><span>일출 · 일몰 · 낮의 길이</span></div>
+          <span class="badge ok">키 없음</span></div>
+        <p class="kc2-idea"><span class="material-icons-outlined">lightbulb</span><span>계절별 낮 길이 그래프, 현장체험학습 일몰 시각 확인</span></p>
+        <details class="kc2-more"><summary>프롬프트 · 코드<span class="material-icons-outlined">expand_more</span></summary>
+          <div class="kc2-p"><div class="code wrap"><button class="copy" data-copy="api-sun-pr"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-sun-pr">Sunrise-Sunset API(키 없음)로 우리 학교 위치의 오늘 일출·일몰 시각과 낮의 길이를 보여줘. 받은 시각은 UTC이니 서울 시각으로 바꿔줘.</pre></div></div>
+          <div class="kc2-p"><span>코드로 직접 붙이려면</span><div class="code"><button class="copy" data-copy="api-sun-code"><span class="material-icons-outlined">content_copy</span>복사</button><pre id="api-sun-code">// 서울의 오늘 일출·일몰 (UTC 로 와서 서울 시각으로 바꿉니다)
+function getSun_() {
+  var url = 'https://api.sunrise-sunset.org/json?lat=37.57&amp;lng=126.98&amp;formatted=0';
+  var r = JSON.parse(UrlFetchApp.fetch(url, { muteHttpExceptions: true }).getContentText()).results;
+  var fmt = function (iso) { return Utilities.formatDate(new Date(iso), 'Asia/Seoul', 'HH:mm'); };
+  return { sunrise: fmt(r.sunrise), sunset: fmt(r.sunset),
+           dayMin: Math.round(r.day_length / 60) };
+}</pre></div></div><p class="kc2-src">sunrise-sunset.org · 무료 · 출처 링크 표기 요청</p>
         </details>
       </article>
       <article class="kc2" data-tags="key" id="api-neis">
@@ -8151,53 +8231,76 @@ document.querySelectorAll('#v-net [data-keep]').forEach(el=>{
 });
 
 /* ═══ 나의 앱 아이디어 : 기획서 · 프롬프트 만들기 ═══
-   입력은 실습의 다섯 단계(문제상황 → 핵심기능 → 앱이 할 일 → 보여 줄 화면 → 배포) 순서입니다.
-   기획서의 [앱 이름] [누가] [아쉬운 점] [학생 경험] [기능 블록] [넓어지는 쪽] 줄은 ‘나누기’ 게시판이 읽으니 이름을 바꾸지 마세요. */
-const FN_NAME={rec:'1 기록',share:'2 실시간 소통',api:'3 외부 데이터',gdoc:'4 구글 도구'};
-const DIR_NAME={time:'점에서 선으로 — 기록이 쌓여 지난 배움과 이어진다',rel:'거울에서 창으로 — 친구의 생각을 만나 관점이 넓어진다',world:'우물에서 바다로 — 교실 밖 세상의 자료와 이어진다'};
-const SEE_NAME={teacher:'선생님만 — 학생 화면에는 ‘보냈어요’만, 교사는 대시보드로',all:'반 모두 함께 — 누가 썼는지는 보이지 않게',self:'학생 본인 것만 — 같은 기기에서 보낸 기록만'};
-const SEE_HELP={teacher:'실습 1처럼 학생은 보내기만 하고, 선생님은 구글 시트 메뉴의 대시보드로 모아 봐요.',all:'실습 2처럼 모두의 기록이 함께 보여요. 이름 대신 익명이나 별명으로.',self:'로그인 없이 ‘같은 기기에서 보낸 기록’만 구분해요. 기기를 돌려 쓰면 섞일 수 있어요.'};
-const ICON_RULE='[아이콘 — 그대로 지켜줘]\n'+
-'- 아이콘은 Material Symbols Outlined 하나만 써. <head>에 이 줄을 그대로 넣어줘.\n'+
-'  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" />\n'+
-'- 아이콘은 <span class="material-symbols-outlined">아이콘이름</span> 으로만 쓰고, 다른 아이콘 class 와 섞지 마.\n'+
-'- 아이콘 span 에는 font-family 를 덮어쓰지 마. 폰트는 body, button, input, textarea 에만 지정해줘.\n'+
-'- 아이콘 이름은 fonts.google.com/icons 에 있는 것만 써줘.';
+   앱 이름 · 기획 의도 · 핵심기능&흐름 · 기능 블록(+외부 데이터) · 대상 학년만 받습니다.
+   기획서의 [앱 이름] [누가] [아쉬운 점] [학생 경험] [기능 블록] 줄은 ‘나누기’ 게시판이 읽으니 이름을 바꾸지 마세요. */
+const FN_NAME={rec:'기록',share:'실시간 소통',api:'외부 데이터',gdoc:'구글 도구'};
+/* 바로 쓸 수 있는 외부 데이터 — 부록 ‘바깥 데이터’ 카드와 같은 목록입니다 (id 는 부록 카드 api-○○ 와 같게) */
+const APIS=[
+  {id:'weather',name:'Open-Meteo 날씨',key:'',use:'현재 날씨·7일 예보',how:'https://api.open-meteo.com/v1/forecast?latitude=위도&longitude=경도&current=temperature_2m,weather_code&timezone=Asia/Seoul 로 날씨를 가져와. 화면 아래에 출처 Open-Meteo.com(CC BY 4.0)을 적어줘.'},
+  {id:'air',name:'Open-Meteo 대기질',key:'',use:'미세먼지·초미세먼지',how:'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=위도&longitude=경도&current=pm10,pm2_5&timezone=Asia/Seoul 로 미세먼지를 가져와. 공식 측정값이 아닌 모델 추정값이라는 안내를 넣어줘.'},
+  {id:'geo',name:'Open-Meteo 지명 검색',key:'',use:'도시 이름 → 위도·경도',how:'https://geocoding-api.open-meteo.com/v1/search?count=1&language=ko&name=도시이름 으로 좌표를 찾아. 결과가 없으면 다시 입력하라고 안내해줘.'},
+  {id:'country',name:'REST Countries 나라 정보',key:'',use:'수도·인구·국기·한국어 이름',how:'https://restcountries.com/v3.1/alpha/나라코드?fields=name,translations,capital,population,flags 처럼 fields 로 필요한 항목만 요청해. 한국어 이름은 translations.kor.common.'},
+  {id:'holiday',name:'Nager.Date 공휴일',key:'',use:'올해 공휴일·다음 공휴일',how:'https://date.nager.at/api/v3/PublicHolidays/연도/KR 로 한국 공휴일을 가져와. 대체공휴일은 학교 일정과 다를 수 있다고 안내해줘.'},
+  {id:'money',name:'Frankfurter 환율',key:'',use:'달러·엔·유로 → 원화',how:'https://api.frankfurter.app/latest?from=USD&to=KRW 처럼 환율을 가져오고, 기준 날짜를 함께 보여줘. 하루 한 번 바뀌니 6시간 캐시하면 충분해.'},
+  {id:'wiki',name:'위키백과 요약',key:'',use:'낱말·인물·장소 요약과 그림',how:'https://ko.wikipedia.org/api/rest_v1/page/summary/문서이름(encodeURIComponent) 으로 요약(extract)과 그림(thumbnail)을 가져와. 출처(CC BY-SA)와 원문 링크를 꼭 보여줘.'},
+  {id:'species',name:'iNaturalist 생물 도감',key:'',use:'동식물 이름·사진·학명',how:'https://api.inaturalist.org/v1/taxa?q=이름&locale=ko&per_page=3 으로 생물을 찾아 results 의 preferred_common_name(한국어 이름), name(학명), default_photo.medium_url(사진)을 보여줘. 사진 아래 출처 iNaturalist 를 적어줘.'},
+  {id:'quake',name:'USGS 지진 정보',key:'',use:'최근 세계 지진 규모·위치',how:'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson 의 features 에서 properties.mag(규모), place(위치), time(밀리초 시각)을 보여줘. 시각은 Asia/Seoul 로 바꿔줘.'},
+  {id:'art',name:'시카고 미술관 명화',key:'',use:'작품 제목·작가·그림',how:'https://api.artic.edu/api/v1/artworks/search?q=영어검색어&fields=id,title,artist_display,image_id&limit=6 으로 찾고, 그림은 https://www.artic.edu/iiif/2/{image_id}/full/600,/0/default.jpg 로 보여줘. 검색어는 영어야.'},
+  {id:'sun',name:'해 뜨고 지는 시각',key:'',use:'일출·일몰·낮의 길이',how:'https://api.sunrise-sunset.org/json?lat=위도&lng=경도&formatted=0 의 results.sunrise · sunset(UTC 시각)을 Asia/Seoul 시각으로 바꿔 보여주고, day_length(초)를 시간·분으로 바꿔줘.'},
+  {id:'neis',name:'나이스 급식·학사일정',key:'NEIS_KEY',use:'우리 학교 급식·학사일정',how:'나이스 교육정보 개방 포털(open.neis.go.kr) 급식식단정보 API(mealServiceDietInfo)를 Type=json 으로 써줘. 교육청 코드(ATPT_OFCDC_SC_CODE)와 학교 코드(SD_SCHUL_CODE)는 Code.gs 맨 위 상수로 빼줘.'},
+  {id:'public',name:'공공데이터포털',key:'DATA_KEY',use:'에어코리아·기상청 예보 등',how:'공공데이터포털(data.go.kr)에서 활용 신청한 API를 써줘. 응답 구조가 API마다 다르니, 응답을 Logger 로 찍어 확인하는 테스트 함수를 먼저 만들어줘.'}
+];
 function picked(name){ return [...document.querySelectorAll('input[name='+name+']:checked')].map(x=>x.value); }
 function fnPicked(){ return picked('b_fn'); }
-function seePicked(){ return (picked('b_see')[0])||'teacher'; }
-function lines(id){ return val(id).split('\n').map(s=>s.trim()).filter(Boolean); }
+function apiPicked(){ const on=picked('b_apis'); return APIS.filter(a=>on.includes(a.id)); }
+
+/* 외부 데이터 목록 그리기 (키 없이 바로 / 무료 키 발급) */
+(function renderApis(){
+  const box=$('b_api_list'); if(!box) return;
+  [['키 없이 바로',APIS.filter(a=>!a.key)],['무료 키 발급',APIS.filter(a=>a.key)]].forEach(([title,list])=>{
+    const g=document.createElement('div'); g.className='idea-api-g';
+    const h=document.createElement('span'); h.className='idea-api-h'; h.textContent=title; g.appendChild(h);
+    list.forEach(a=>{
+      const l=document.createElement('label'); l.className='idea-api'; l.title=a.use;
+      const c=document.createElement('input'); c.type='checkbox'; c.name='b_apis'; c.value=a.id;
+      /* 이 칸들은 ‘입력 기억하기’보다 늦게 만들어지므로 여기서 직접 불러오고 저장합니다 */
+      c.checked=!!S.form['b_apis:'+a.id];
+      c.addEventListener('change',()=>{S.form['b_apis:'+a.id]=c.checked; persist();});
+      const t=document.createElement('span'); t.textContent=a.name;
+      const s=document.createElement('small'); s.textContent=a.use+(a.key?' · 키 필요':'');
+      l.append(c,t,s); g.appendChild(l);
+    });
+    box.appendChild(g);
+  });
+})();
+
 function syncFnFields(){
   const on=fnPicked();
   document.querySelectorAll('.fn-dep').forEach(f=>f.classList.toggle('off',!on.includes(f.dataset.fn)));
-  const stores=on.some(f=>f!=='api');
-  $('b_see_help').textContent=stores?SEE_HELP[seePicked()]:'저장하는 기능 블록(1·2·4)이 없으면 이 선택은 쓰이지 않아요.';
 }
-document.querySelectorAll('input[name=b_fn]').forEach(x=>x.addEventListener('change',()=>{
-  /* ‘2 실시간 소통’은 모두가 함께 보는 기능이라, 고르면 보는 사람을 ‘반 모두 함께’로 맞춥니다 */
-  if(x.value==='share'&&x.checked) document.querySelector('input[name=b_see][value=all]').checked=true;
-  syncFnFields();
-  $('b_fn_error').hidden=true;
-}));
-document.querySelectorAll('input[name=b_see]').forEach(x=>x.addEventListener('change',syncFnFields));
+document.addEventListener('change',e=>{
+  if(e.target.name==='b_fn'){ syncFnFields(); $('b_fn_error').hidden=true; }
+});
 syncFnFields();
 
+/* → 삽입: 커서 자리에 화살표를 넣어 흐름을 이어 적게 합니다 */
+$('b_arrow').addEventListener('click',()=>{
+  const t=$('b_idea'), a=t.selectionStart??t.value.length, b=t.selectionEnd??a;
+  const before=t.value.slice(0,a).replace(/\s+$/,''), ins=(before?' ':'')+'→ ';
+  t.value=before+ins+t.value.slice(b).replace(/^\s+/,'');
+  const pos=(before+ins).length; t.focus(); t.setSelectionRange(pos,pos);
+  t.dispatchEvent(new Event('input',{bubbles:true}));
+});
+
 $('b_sample').addEventListener('click',()=>{
-  const set=(id,v)=>{$(id).value=v;};
-  set('b_grade','우리 반 초등학교 5학년');
-  set('b_why','읽은 책을 공책에 적다 보니 지난 기록을 찾기 어렵고, 누가 어떤 책을 좋아하는지 살피기 힘들어요.');
-  set('b_idea','읽은 책 제목과 한 줄 감상을 적어 보낸다\n보낸 뒤 ‘기록했어요’를 확인한다');
-  set('b_in','책 제목\n읽은 쪽수\n한 줄 감상');
-  set('b_keep','선생님이 날짜를 골라 그날 읽은 책과 감상을 모아 보기');
-  set('b_out',''); set('b_api',''); set('b_doc','');
-  set('b_role','대시보드에서 감상을 읽고, 다음 날 아침 추천 책 이야기를 해 주기');
-  set('b_name','우리 반 독서 기록장');
-  set('b_watch','지난 감상보다 조금 더 길고 구체적으로 쓰는 모습');
-  document.querySelectorAll('input[name=b_fn]').forEach(x=>x.checked=x.value==='rec');
-  document.querySelector('input[name=b_see][value=teacher]').checked=true;
-  document.querySelector('input[name=b_id][value=anon]').checked=true;
-  document.querySelectorAll('input[name=b_dir]').forEach(x=>x.checked=x.value==='time');
-  ['b_grade','b_why','b_idea'].forEach(id=>$(id).setCustomValidity(''));
+  $('b_name').value='우리 반 독서 기록장';
+  $('b_why').value='읽은 책과 감상을 쌓아 두고 돌아보며, 친구의 추천 책을 함께 보고 싶어요';
+  $('b_idea').value='책 제목과 한 줄 감상 입력 → 보내기 → 날짜별로 내 기록 보기 → 친구 추천 책 둘러보고 ♥ 누르기';
+  $('b_grade').value='초등학교 5~6학년';
+  $('b_api').value='';
+  document.querySelectorAll('input[name=b_fn]').forEach(x=>x.checked=x.value==='rec'||x.value==='share');
+  document.querySelectorAll('input[name=b_apis]').forEach(x=>{x.checked=false;S.form['b_apis:'+x.value]=false;});
+  ['b_name','b_why','b_idea'].forEach(id=>$(id).setCustomValidity(''));
   syncFnFields();
   $('b_fn_error').hidden=true;
   $('b_name').dispatchEvent(new Event('change',{bubbles:true}));
@@ -8205,122 +8308,82 @@ $('b_sample').addEventListener('click',()=>{
 
 function buildPrompt(){
   const name=val('b_name')||'우리 반 도우미';
-  const grade=val('b_grade')||'우리 반 학생';
-  const why=val('b_why')||'(교실의 불편한 점)';
-  const steps=lines('b_idea');
+  const why=val('b_why')||'(기획 의도)';
+  const flow=val('b_idea')||'(핵심 기능과 흐름)';
+  const grade=val('b_grade');
+  const who=grade||'초등학생';
   const fns=fnPicked(), has=f=>fns.includes(f);
-  const fields=lines('b_in');
-  const keep=val('b_keep'), outs=val('b_out'), api=val('b_api'), gdoc=val('b_doc');
+  const apis=has('api')?apiPicked():[], own=has('api')?val('b_api'):'';
   const stores=has('rec')||has('share')||has('gdoc');
-  const see=has('share')?'all':seePicked();
-  const dash=stores&&see==='teacher';
-  const nick=picked('b_id')[0]==='nick';
-  const role=val('b_role'), watch=val('b_watch'), dirs=picked('b_dir');
-  const files='Code.gs 한 파일';
-  const num=(a)=>a.map((x,i)=>(i+1)+'. '+x).join('\n');
+  const keys=apis.filter(a=>a.key).map(a=>a.key);
+  const blocks=fns.map(f=>FN_NAME[f]).join(' + ')||'(고르지 않음)';
+  const apiNames=apis.map(a=>a.name).concat(own?[own]:[]);
 
   /* ── 기획서 ── */
   $('b_plan').textContent=[
 '[앱 이름] '+name,
-'[누가] '+grade,
+'[누가] '+(grade||'우리 반 학생'),
 '[아쉬운 점] '+why,
-'[학생 경험]\n'+num(steps.length?steps:['(학생이 하는 일)']),
-'[기능 블록] '+(fns.length?fns.map(f=>FN_NAME[f]).join(' + '):'(고르지 않음)'),
-'[입력 항목] '+(fields.length?fields.join(' / '):'AI와 함께 정하기'),
-has('rec')?'[기록] '+(keep||'날짜와 함께 쌓아 두고 다시 보기'):'',
-has('share')?'[실시간 소통] '+(outs||'모두의 기록이 함께 보이게'):'',
-has('api')?'[외부 데이터] '+(api||'한국어 위키백과 검색'):'',
-has('gdoc')?'[구글 도구] '+(gdoc||'쌓인 기록을 구글 문서로 묶기'):'',
-stores?'[보는 사람] '+SEE_NAME[see]:'',
-'[학생 구분] '+(nick?'별명 (실명 말고)':'구분 없이 익명'),
-role?'[교사의 몫] '+role:'',
-watch?'[확인할 모습] '+watch:'',
-dirs.length?'[넓어지는 쪽] '+dirs.map(d=>DIR_NAME[d].split(' — ')[0]).join(' · '):'',
-'[만드는 방법] '+(stores?'구글 스프레드시트 + ':'')+'Apps Script 웹앱 ('+files+')'
+'[학생 경험] '+flow,
+'[기능 블록] '+blocks,
+apiNames.length?'[외부 데이터] '+apiNames.join(' · '):'',
+'[만드는 방법] '+(stores?'구글 스프레드시트 + ':'')+'Apps Script 웹앱 (Code.gs 한 파일)'
   ].filter(Boolean).join('\n');
 
   /* ── 프롬프트 ── */
-  const sec=[];
-  sec.push('\''+name+'\' 웹앱을 '+(stores?'구글 스프레드시트 + ':'')+'Apps Script 웹앱으로 만들어줘.\n'+
-'쓰는 사람은 '+grade+'이고, 한 학급이 쓰는 앱이라 수업 코드나 로그인 없이 주소를 열면 바로 시작해.');
-  sec.push('[문제상황]\n'+why+
-(dirs.length?'\n'+dirs.map(d=>'- 넓히고 싶은 배움: '+DIR_NAME[d]).join('\n'):'')+
-(watch?'\n- 써 본 뒤 확인하고 싶은 학생의 모습: '+watch:''));
+  const L=[];
+  L.push('[시스템 역할]\n너는 교육공학 전문가이자 Google Apps Script 웹앱 개발자야. '+who+' 수준에 맞춘 직관적이고 아름다운 수업용 웹앱을 만드는 것이 너의 임무야.');
+  L.push('[입력 정보]\n'+
+'* 앱 이름: '+name+'\n'+
+'* 기획 의도: '+why+'\n'+
+'* 핵심 기능 및 흐름: '+flow+'\n'+
+'* 대상: '+who+'\n'+
+'* 기능 블록: '+blocks+(apiNames.length?' (외부 데이터: '+apiNames.join(', ')+')':''));
 
-  const stu=[];
-  stu.push(steps.length?num(steps):'- 위 문제상황에 꼭 필요한 일만 간단히 정해줘.');
-  stu.push(fields.length?'- 입력 항목: '+fields.join(', '):'- 입력 항목은 꼭 필요한 것만 정해줘.');
-  if(stores&&see==='teacher') stu.push('- 보내면 "보냈어요"와 내가 보낸 내용만 보여줘.\n- 다른 친구의 기록·메모·인원수는 학생 화면에 절대 보여주지 마.\n- \'처음 화면으로\' 버튼을 누르면 입력을 모두 비워, 한 기기를 여러 명이 돌려 써도 앞사람 내용이 남지 않게 해줘.');
-  if(stores&&see==='all') stu.push('- 모두의 기록을 함께 보여주되, 누가 썼는지는 알 수 없게 해줘.');
-  if(stores&&see==='self') stu.push('- 학생 화면에는 이 기기에서 보낸 기록만 보여줘.\n  브라우저마다 무작위 기기 번호를 만들어 localStorage 에 두고 기록과 함께 저장한 뒤, 그 번호의 기록만 돌려줘.\n  이 번호는 본인 확인 수단이 아니라 같은 기기를 구분하는 표시야.');
-  sec.push('[학생이 하는 일 — 학생 화면]\n'+stu.join('\n'));
-
-  if(dash||role||has('gdoc')){
-    const t=[];
-    if(dash) t.push('- 스프레드시트를 열면 교사용 메뉴가 생기게 해줘 (onOpen). 메뉴를 누르면 같은 Code.gs 안의 교사 화면 문자열을 HtmlService.createHtmlOutput 으로 만들어 큰 대화상자(showModalDialog)로 열어줘.\n'+
-'- 대시보드: 날짜 선택과 \'오늘로 돌아가기\', 그날의 기록 목록과 간단한 요약(개수·막대그래프), 오늘을 보는 동안 30초마다 새로고침.\n'+
-'- 대시보드 데이터를 돌려주는 서버 함수는 첫 줄에서 SpreadsheetApp.getUi() 를 불러,\n  학생 웹앱(google.script.run)에서 부르면 오류로 멈추게 해줘. 학생이 반 전체 기록을 받아 갈 길을 만들지 마.');
-    if(role) t.push('- 선생님이 하는 일: '+role);
-    sec.push('[교사가 하는 일'+(dash?' — 교사 대시보드':'')+']\n'+t.join('\n'));
+  const B=[]; let n=0;
+  if(has('rec')) B.push((++n)+'. 기록: 학생이 보낸 내용을 구글 스프레드시트에 시각과 함께 한 줄씩 저장하고, 날짜를 골라 다시 볼 수 있게 해. 날짜는 Asia/Seoul 기준.');
+  if(has('share')) B.push((++n)+'. 실시간 소통: 모두의 글이 함께 보이게 해. Apps Script에는 실시간 기능이 없으니 5~8초마다 다시 불러오고, 탭이 안 보일 때는 멈췄다가 돌아오면 바로 불러와. 새 글은 잠깐 강조해.');
+  if(has('api')){
+    const a=[(++n)+'. 외부 데이터: 바깥 API는 화면이 아니라 서버 함수에서 UrlFetchApp 으로 부르고, 결과는 CacheService 로 10~30분 보관해(캐시는 일찍 지워질 수 있어). 오류·빈 결과는 쉬운 말로 안내하고, 데이터 출처를 화면 아래에 적어.'];
+    apis.forEach(x=>a.push('   - '+x.name+(x.key?' (무료 키 필요)':' (키 없음)')+': '+x.how));
+    if(own) a.push('   - 직접 고른 자료: '+own+'. 알맞은 공개 API를 제안하고, 키가 필요하면 발급 방법을 알려줘.');
+    if(!apis.length&&!own) a.push('   - 키 없이 쓰는 한국어 위키백과 요약 API(https://ko.wikipedia.org/api/rest_v1/page/summary/문서이름)로 시작해.');
+    if(keys.length) a.push('   - 인증키는 코드에 적지 말고 스크립트 속성('+keys.join(', ')+')에서 PropertiesService 로 읽고, 넣는 방법을 주석에 적어.');
+    B.push(a.join('\n'));
   }
-  if(has('rec')) sec.push('[기능 1 · 기록]\n'+
-'- 보낼 때마다 스프레드시트에 시각과 함께 한 줄씩 저장해줘. 학생 입력은 브라우저(localStorage)에 저장하지 마.\n'+
-(keep?'- '+keep+'\n':'')+
-'- '+(dash?'교사 대시보드':'화면')+'에서 날짜를 골라 그날의 기록을 볼 수 있게 하고, \'오늘로 돌아가기\' 버튼을 만들어줘.\n'+
-'- 날짜는 기기 시간대와 관계없이 Asia/Seoul 기준.');
-  if(has('share')) sec.push('[기능 2 · 실시간 소통]\n'+
-'- '+(outs||'모두의 기록이 모두의 화면에 함께 보이게 해줘.')+'\n'+
-'- Apps Script에는 실시간 기능이 없으니 5~8초마다 다시 불러오는 자동 갱신으로 해줘.\n'+
-'  브라우저 탭이 보이지 않을 때는 멈췄다가, 돌아오면 한 번 불러와줘.\n'+
-'- 새로 들어온 항목은 잠깐 눈에 띄게 표시해줘.');
-  if(has('api')) sec.push('[기능 3 · 외부 데이터]\n'+
-'- '+(api||'인증키가 필요 없는 한국어 위키백과 검색으로 시작해줘. 자료 카드에 제목과 설명, 원문 링크를 보여줘.')+'\n'+
-'- 바깥 API는 화면이 아니라 Code.gs 에서 UrlFetchApp 으로 불러줘.\n'+
-'- 받은 결과는 CacheService 로 10~30분 보관해 외부 호출을 줄여줘. (캐시는 일찍 지워질 수 있어 한 번만 호출된다고 보장하지는 마)\n'+
-'- API 키가 필요하면 코드에 적지 말고 스크립트 속성(PropertiesService)에서 읽게 하고, 넣는 방법을 주석에 적어줘.\n'+
-'- 데이터 출처를 화면 아래에 표시해줘.');
-  if(has('gdoc')) sec.push('[기능 4 · 구글 도구]\n'+
-'- '+(gdoc||'쌓인 기록을 구글 문서 한 권으로 묶어줘.')+'\n'+
-'- 문서 만들기는 학생 화면에 넣지 말고 스프레드시트의 교사용 메뉴(onOpen)에 넣어줘.\n'+
-'- 그 함수의 첫 줄에서 SpreadsheetApp.getUi() 를 불러, 웹앱(google.script.run)에서 불리면 멈추게 해줘.\n'+
-'- 결과물은 교사의 드라이브에 저장하고, 다 만들면 문서 링크를 대화상자로 보여줘.');
-  if(stores) sec.push('[시트 연결 — 배포 후에도 같은 시트에]\n'+
-'- 이 앱 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야.\n'+
-'- setup 은 편집기에서 실행하고, 이 스프레드시트의 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해줘. 시트와 머리글도 만들고, 다시 실행해도 기록은 지우지 마.\n'+
-'- 웹앱의 함수는 getActive() 대신 저장한 ID로 SpreadsheetApp.openById() 를 써줘.\n'+
-'- 학생 입력은 수식이 되거나 숫자·날짜로 바뀌지 않게 글자(텍스트)로 저장해줘.\n'+
-'- 여러 명이 동시에 보내도 줄이 겹치지 않게 LockService 로 잠그고, SpreadsheetApp.flush() 뒤에 잠금을 풀어줘. 오류가 나도 잠금은 반드시 풀어줘.');
-  sec.push('[학생 구분 — 중요]\n'+(nick
-? '- 이름, 학번, 출석번호, 이메일, 로그인 화면은 만들지 마. 처음 화면에서 \'별명\'만 입력받아.\n- 별명 입력칸 아래에 "실명 대신 별명을 사용하세요" 안내를 넣어줘.\n- 별명은 본인 확인 수단이 아니므로 수정·삭제 버튼은 만들지 마.'
-: '- 이름, 학번, 출석번호, 이메일, 로그인 화면은 만들지 마. 완전 익명으로 해줘.\n- 학생을 구분하지 않으므로 수정·삭제 버튼도 만들지 마. 잘못 올라온 기록은 교사가 시트에서 지워.'));
-  sec.push('[기술 조건]\n'+
-'- 화면과 동작을 모두 Code.gs 한 파일에 담아줘. HTML 파일을 따로 만들 필요가 없게 해줘.\n'+
-'- doGet 은 HtmlService.createHtmlOutput(학생 화면 문자열)로 학생 화면만 보여줘.'+(dash?' 교사 화면은 스프레드시트 메뉴에서만 열고 학생에게 전달하지 마.':'')+'\n'+
-(stores?'':'- 스프레드시트 없이 만들고 학생 입력은 저장하지 마. setup 함수로 필요한 권한을 먼저 승인하게 해줘.\n')+
-'- 화면에서 서버는 fetch 대신 google.script.run 으로 부르고, 서버는 Date 대신 문자열(toISOString)로 돌려줘.\n'+
-'- 입력 길이와 빈칸 검사는 화면뿐 아니라 Code.gs 에서도 다시 해줘.\n'+
-'- 화면에서 부를 필요 없는 서버 함수는 이름 끝에 _ 를 붙이고, 관리자 비밀번호를 HTML 안에 넣지 마.\n'+
-'- 학생 글은 innerHTML 이 아니라 textContent 로 화면에 넣어줘.\n'+
-'- 날짜나 대상을 바꾸면 이전 요청의 늦은 응답은 화면에 반영하지 마.\n'+
-'- Code.gs 맨 위 주석에 [setup 실행 → 배포 → 새 배포 → 웹 앱 / 실행 계정: 나 / 액세스 권한: 모든 사용자] 순서와,\n'+
-'  고친 뒤에는 \'배포 관리 → 새 버전\'으로 다시 배포한다는 안내를 적어줘.');
-  sec.push(ICON_RULE);
-  sec.push('[디자인]\n'+
-'- 앱 컨셉에 어울리면서 읽기 편한 한글 폰트(구글 폰트 등)를 골라 주고, 고른 폰트와 이유를 한 줄로 알려줘.\n'+
-'- 파스텔 톤의 둥근 카드, '+grade+'이 봐도 직관적이게, 휴대폰에서도 잘 보이게.\n'+
-'- 화면 아래에 "이 앱은 이름·학번·출석번호·이메일을 저장하지 않습니다" 안내를,\n'+
-'  자유롭게 쓰는 입력칸 아래에는 "이름처럼 개인을 알아볼 수 있는 내용은 적지 않아요" 안내를 넣어줘.');
-  sec.push('선택한 기능으로 바로 실행해 볼 수 있는 작은 첫 버전을 만들어줘.\n완성 코드 전체를 코드 블록 하나로 주고, 기본 코드 파일의 내용을 지운 뒤 한 번 붙여넣게 해줘.\n화면 파일을 따로 만들거나 코드를 나누어 붙여넣으라고 하지 마. 어디를 누를지 순서대로 짧게 안내해줘. 꼭 필요한 정보가 빠졌을 때만 쉬운 질문 한 가지를 먼저 해줘.');
-  $('b_prompt').textContent=sec.join('\n\n');
+  if(has('gdoc')) B.push((++n)+'. 구글 도구: 모인 기록으로 구글 문서(필요하면 PDF)를 만들어. 이 기능은 학생 화면이 아니라 스프레드시트를 열 때 생기는 교사용 메뉴(onOpen)에 두고, 그 함수 첫 줄에서 SpreadsheetApp.getUi() 를 불러 웹앱에서 불리면 멈추게 해. 결과물은 교사 드라이브에 저장하고 링크를 대화상자로 보여줘.');
+  L.push('[기능 블록별 구현]\n'+B.join('\n'));
+
+  L.push('[기술적 가이드라인 (반드시 준수)]\n'+
+'1. 파일 구조: 화면(HTML·CSS·JS)과 서버 코드를 모두 Code.gs 한 파일에 담아줘. 화면은 Code.gs 안의 문자열을 HtmlService.createHtmlOutput 으로 서비스하고, HTML 파일을 따로 만들지 않게 해.\n'+
+'2. 서버 통신: 화면에서 서버는 fetch 대신 google.script.run 으로 부르고, 서버는 Date 대신 문자열로 돌려줘. 입력 길이·빈칸 검사는 서버에서도 다시 해.\n'+
+(stores
+?'3. 시트 연결: 이 앱 전용 스프레드시트의 [확장 프로그램 → Apps Script]에서 만든 프로젝트야. setup 함수를 편집기에서 실행하면 시트와 머리글을 만들고 이 스프레드시트 ID를 스크립트 속성 SPREADSHEET_ID 에 저장해. 웹앱 함수는 저장한 ID로 SpreadsheetApp.openById() 를 써. 학생 입력은 앞에 \' 를 붙여 글자 그대로 저장하고, 쓸 때는 LockService 로 잠근 뒤 SpreadsheetApp.flush() 다음에 잠금을 풀어(오류가 나도 반드시).\n'
+:'3. 저장: 스프레드시트 없이 만들어. 처음 한 번 실행해 권한을 승인할 setup 함수를 만들어줘.\n')+
+'4. 디자인(UI/UX): 부드러운 파스텔톤 컬러와 둥근 카드로 학생에게 친숙하게. (선택) 단정한 공공 서비스 톤이 필요하면 KRDS(국가 디자인 시스템) 가이드라인을 적용해도 좋아. 모바일 우선 반응형으로, 전자칠판에 띄워도 잘 보이게. 한글 폰트는 구글 폰트에서 컨셉에 맞게 골라 이유를 한 줄로 알려줘.\n'+
+'5. 아이콘: Material Symbols Outlined 하나만 써. <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" /> 를 그대로 넣고, <span class="material-symbols-outlined">아이콘이름</span> 으로만 쓰며 이 span 의 font-family 는 덮어쓰지 마. 이름은 fonts.google.com/icons 에 있는 것만.\n'+
+'6. 사용자 경험: 버튼을 누르면 바로 반응(로딩 표시·작은 애니메이션)하고, 입력값을 검사해 무엇을 고쳐야 하는지 알려줘. 서버 오류는 쉬운 말로 보여줘.');
+
+  L.push('[교육적 가이드라인]\n'+
+'* 난이도: '+who+'이 설명 없이 바로 쓸 수 있도록 용어와 화면을 아주 쉽게.\n'+
+'* 개인정보: 이름·학번·이메일·로그인은 받지 마. 자유롭게 쓰는 칸 아래에는 "이름처럼 개인을 알아볼 수 있는 내용은 적지 않아요" 안내를 넣어줘. 학생 글은 innerHTML 이 아니라 textContent 로 화면에 넣어.\n'+
+'* 언어: 모든 화면과 안내 문구는 한국어로.');
+
+  L.push('[출력 지시]\n'+
+'* 선생님이 나중에 고치기 쉽도록 핵심 기능별로 자세한 한글 주석을 달아줘.\n'+
+'* 고른 기능만 넣은 작은 첫 버전을, 완성된 Code.gs 전체 코드 블록 하나로 줘. 나누어 붙여넣게 하지 마.\n'+
+'* 코드 아래에 순서대로 짧게 안내해줘: Code.gs 내용 지우고 붙여넣기 → '+(stores||keys.length?'setup 실행·권한 허용 → ':'')+(keys.length?'스크립트 속성에 '+keys.join(', ')+' 넣기 → ':'')+'배포 → 새 배포 → 웹 앱(실행: 나 / 액세스: 모든 사용자) → /exec 주소 열기. 고친 뒤에는 배포 관리 → 새 버전.\n'+
+'* 꼭 필요한 정보가 빠졌을 때만 쉬운 질문 한 가지를 먼저 해줘.');
+  $('b_prompt').textContent=L.join('\n\n');
 
   $('b_box').classList.add('show');
   bindCopy($('b_box'));
 }
 
-const REQ=['b_grade','b_why','b_idea'];
+const REQ=['b_name','b_why','b_idea'];
 $('ideaForm').addEventListener('submit',e=>{
   e.preventDefault();
-  REQ.forEach(id=>$(id).setCustomValidity(val(id)?'':'한 문장만 적어 주세요. 예시로 채워 시작해도 좋아요.'));
+  REQ.forEach(id=>$(id).setCustomValidity(val(id)?'':'한 줄만 적어 주세요. 예시로 채워 시작해도 좋아요.'));
   if(!$('ideaForm').reportValidity()) return;
   if(!fnPicked().length){
     $('b_fn_error').hidden=false;
