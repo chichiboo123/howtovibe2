@@ -14,8 +14,8 @@
  */
 
 var SHEET_NAME = 'posts';
-var HEADERS = ['id', 'createdAt', 'appName', 'who', 'problem', 'experience', 'blocks', 'directions', 'raw', 'status', 'hash', 'keyHash', 'updatedAt'];
-var COL = { status: 10, hash: 11, keyHash: 12, updatedAt: 13 };   // 시트의 열 번호 (A=1)
+var HEADERS = ['id', 'createdAt', 'appName', 'who', 'problem', 'experience', 'blocks', 'directions', 'raw', 'status', 'hash', 'keyHash', 'updatedAt', 'appUrl'];
+var COL = { status: 10, hash: 11, keyHash: 12, updatedAt: 13, appUrl: 14 };   // 기존 열 순서는 유지하고 링크만 맨 뒤에 추가
 var STATUS_OPEN = '공개';
 var STATUS_HIDDEN = '숨김';
 var STATUS_DELETED = '삭제';   // 올린 사람이 지운 글. 줄은 남겨 두고 게시판에서만 뺍니다
@@ -92,21 +92,21 @@ function listPosts() {
  * 새 글 저장. 글과 함께 '수정 열쇠'를 돌려줍니다.
  * 열쇠는 올린 사람의 브라우저에만 남고, 시트에는 열쇠의 해시만 저장합니다.
  */
-function addPost(raw, code) {
+function addPost(raw, code, appUrl) {
   var need = getPostCode_();
   if (need && String(code || '').trim() !== need) throw new Error('게시 코드가 맞지 않습니다. 진행하는 선생님께 확인해 주세요.');
-  var v = checkPlan_(raw);
+  var v = checkPlan_(raw, appUrl);
   var key = Utilities.getUuid() + Utilities.getUuid();
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     var sh = getSheet_();
-    if (findDuplicate_(sh, v.hash, '')) throw new Error('이미 공유된 기획입니다.');
+    if (findDuplicate_(sh, v.hash, '')) throw new Error('이미 공유된 글입니다.');
     var now = new Date().toISOString();
     var row = [
       Utilities.getUuid(), now,
       v.f.appName, v.f.who, v.f.problem, v.f.experience, v.f.blocks, v.f.directions,
-      v.raw, STATUS_OPEN, v.hash, hash_(key), ''
+      v.raw, STATUS_OPEN, v.hash, hash_(key), '', v.appUrl
     ];
     sh.appendRow(row.map(safeCell_));
     return { post: toPost_(row), key: key };   // 저장 전 값 그대로 (txt_ 가 ' 없는 글자로 돌려줍니다)
@@ -116,17 +116,19 @@ function addPost(raw, code) {
 }
 
 /** 올린 사람의 글 수정: 같은 규칙으로 다시 읽어 저장합니다 */
-function updatePost(id, key, raw) {
-  var v = checkPlan_(raw);
+function updatePost(id, key, raw, appUrl) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     var sh = getSheet_();
     var r = findOwnRow_(sh, id, key);
-    if (findDuplicate_(sh, v.hash, String(id))) throw new Error('같은 기획이 이미 게시판에 있습니다.');
+    // 예전 화면에서 링크 인자 없이 수정해도 이미 저장된 주소를 지우지 않습니다.
+    var v = checkPlan_(raw, appUrl === undefined ? txt_(sh.getRange(r, COL.appUrl).getValues()[0][0]) : appUrl);
+    if (findDuplicate_(sh, v.hash, String(id))) throw new Error('같은 글이 이미 게시판에 있습니다.');
     sh.getRange(r, 3, 1, 7).setValues([[v.f.appName, v.f.who, v.f.problem, v.f.experience, v.f.blocks, v.f.directions, v.raw].map(safeCell_)]);
     sh.getRange(r, COL.hash).setValue(safeCell_(v.hash));
     sh.getRange(r, COL.updatedAt).setValue(safeCell_(new Date().toISOString()));
+    sh.getRange(r, COL.appUrl).setValue(safeCell_(v.appUrl));
     return toPost_(sh.getRange(r, 1, 1, HEADERS.length).getValues()[0]);
   } finally {
     lock.releaseLock();
@@ -188,14 +190,29 @@ function ruleAllowsDelete_(sh, r) {
   return (rule.getCriteriaValues()[0] || []).indexOf(STATUS_DELETED) !== -1;
 }
 
-/** 붙여넣은 기획 검사: 길이, [앱 이름] 여부. 중복 확인용 해시도 만듭니다 */
-function checkPlan_(raw) {
+/** 기획서는 항목별로, 나머지는 자유 글로 받습니다. 링크도 중복 판단에 포함합니다. */
+function checkPlan_(raw, appUrl) {
   raw = clean_(raw, MAX_RAW + 1);
-  if (!raw) throw new Error('기획 내용을 붙여넣어 주세요.');
-  if (raw.length > MAX_RAW) throw new Error('기획이 너무 깁니다. ' + MAX_RAW + '자 이하로 줄여 주세요.');
+  if (!raw) throw new Error('나누고 싶은 글이나 기획 내용을 적어 주세요.');
+  if (raw.length > MAX_RAW) throw new Error('글이 너무 깁니다. ' + MAX_RAW + '자 이하로 줄여 주세요.');
   var f = parsePlan_(raw);
-  if (!f.appName) throw new Error("'[앱 이름]'을 찾지 못했습니다. 2단계의 '기획서'를 그대로 붙여넣어 주세요.");
-  return { raw: raw, f: f, hash: hash_(raw.replace(/\s+/g, ' ').trim()) };
+  if (!f.appName) {
+    f = { appName: raw.split('\n')[0].slice(0, LIMIT.appName), who: '', problem: '', experience: '', blocks: '', directions: '' };
+  }
+  appUrl = cleanAppUrl_(appUrl);
+  // 링크가 없는 기존 기획서는 이전 해시와 같아 중복 검사가 계속 작동합니다.
+  var duplicateText = raw.replace(/\s+/g, ' ').trim() + (appUrl ? '\n[appUrl] ' + appUrl : '');
+  return { raw: raw, f: f, appUrl: appUrl, hash: hash_(duplicateText) };
+}
+
+/** 공유 링크는 웹 주소만 받습니다. 서버에서 주소를 열거나 내용을 가져오지는 않습니다. */
+function cleanAppUrl_(value) {
+  var url = String(value == null ? '' : value).trim();
+  if (!url) return '';
+  if (url.length > 2000 || /[\s<>"'\\]/.test(url) || !/^https?:\/\/[^\s/?#@:\\]+(?::\d{1,5})?(?:[/?#][^\s\\]*)?$/i.test(url)) {
+    throw new Error('앱 주소는 http:// 또는 https://로 시작하는 웹 주소를 2000자 이내로 넣어 주세요.');
+  }
+  return url;
 }
 
 /** 게시판에 보이는 글인지 ('숨김'·'삭제'가 아니면 보입니다) */
@@ -240,7 +257,7 @@ function getSheet_() {
     sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
     sh.setFrozenRows(1);
   } else if (sh.getRange(1, 1, 1, HEADERS.length).getValues()[0].join('|') !== HEADERS.join('|')) {
-    // 먼저 만든 시트에는 keyHash·updatedAt 머리글이 없으니 채워 둡니다 (기존 열은 그대로)
+    // 새 열은 맨 뒤에만 추가합니다. 기존 게시물·수정 열쇠·상태는 그대로 둡니다.
     sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
   }
   return sh;
@@ -251,11 +268,15 @@ function getPostCode_() {
 }
 
 function toPost_(r) {
+  var appUrl = '';
+  try { appUrl = cleanAppUrl_(txt_(r[COL.appUrl - 1])); } catch (err) {} // 시트에서 직접 넣은 잘못된 주소도 노출하지 않음
   return {
     id: txt_(r[0]), createdAt: txt_(r[1]),
     appName: txt_(r[2]), who: txt_(r[3]), problem: txt_(r[4]),
     experience: txt_(r[5]), blocks: txt_(r[6]), directions: txt_(r[7]), raw: txt_(r[8]),
-    updatedAt: txt_(r[COL.updatedAt - 1])   // 수정 열쇠의 해시(keyHash)와 중복 확인 값은 보내지 않습니다
+    updatedAt: txt_(r[COL.updatedAt - 1]),
+    kind: parsePlan_(txt_(r[8])).appName ? 'plan' : 'text', appUrl: appUrl
+    // 수정 열쇠의 해시(keyHash)와 중복 확인 값은 보내지 않습니다
   };
 }
 
