@@ -34,7 +34,7 @@ var LABELS = {
 /* ───────── 화면 ───────── */
 function doGet(e) {
   var p = (e && e.parameter) || {};
-  var t = HtmlService.createTemplateFromFile('Index');
+  var t = template_();
   t.embed = p.embed === '1';
   t.theme = p.theme === 'dark' ? 'dark' : 'light';
   // 높이를 알려 줄 연수 사이트 주소. https://주소 모양일 때만 받습니다.
@@ -44,6 +44,15 @@ function doGet(e) {
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
     // 연수 사이트 안에 iframe으로 넣기 위해 필요합니다. (README의 '보안' 참고)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+/** 화면 파일은 'Index'로 만들라고 안내하지만, 실습처럼 소문자 'index'로 만들어도 찾습니다 */
+function template_() {
+  try { return HtmlService.createTemplateFromFile('Index'); }
+  catch (err) {
+    try { return HtmlService.createTemplateFromFile('index'); }
+    catch (err2) { throw new Error("화면 파일을 찾지 못했습니다. 편집기에서 HTML 파일 이름이 'Index'인지 확인하고, 배포 관리 → 새 버전으로 다시 배포해 주세요."); }
+  }
 }
 
 /* ───────── 처음 한 번 실행 ───────── */
