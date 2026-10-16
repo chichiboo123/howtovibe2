@@ -1,0 +1,52 @@
+const assert = require('node:assert/strict');
+const {chromium} = require('playwright');
+const {startServer} = require('./browser-server.cjs');
+(async () => {
+  const server = await startServer();
+  let browser;
+  try {
+    const seeded = [];
+    for (let i = 1; i <= 14; i++) seeded.push(server.runtime.api.addPost(i % 2 ? '자유 글 ' + i : '[앱 이름] 기획 ' + i + '\n[학생 경험] 함께 읽어요.', '', '', '별명 ' + i));
+    browser = await chromium.launch({...(process.env.CHROMIUM_PATH ? {executablePath: process.env.CHROMIUM_PATH} : {}), args: ['--no-sandbox']});
+    const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
+    page.setDefaultTimeout(8000);
+    const errors = []; page.on('pageerror', e => errors.push(e.message));
+    // Isolate the test from external font services; keep browser layout deterministic.
+    await page.route('https://**', route => route.abort());
+    await page.goto(server.url, {waitUntil: 'domcontentloaded'});
+    await page.waitForFunction(() => document.querySelectorAll('.post').length > 0);
+    assert.equal(await page.locator('.post').count(), 6, 'initial view shows six cards');
+    assert.equal(await page.locator('#n').textContent(), '14', 'header shows total count');
+    assert.equal(await page.locator('.post .author').first().textContent(), '작성자: 별명 14');
+    for (const id of ['author', 'raw', 'appUrl']) assert.equal(await page.locator('#' + id).getAttribute('placeholder'), null);
+    assert.equal(await page.locator('.form-field').count(), 3);
+    const detail = page.locator('.post details').first(); await detail.locator('summary').click();
+    await page.locator('#more').click();
+    assert.equal(await page.locator('.post').count(), 12); assert(await detail.evaluate(e => e.open), 'more preserves open details');
+    await page.locator('#more').click(); assert.equal(await page.locator('.post').count(), 14); assert(!await page.locator('#more').isVisible());
+    await page.evaluate(({id, key}) => takeParentKeys({[id]: key}), {id: seeded[13].post.id, key: seeded[13].key});
+    assert.equal(await page.locator('.post').count(), 14, 'ownership refresh preserves expanded list');
+    await page.locator('#reload').click(); await page.waitForFunction(() => document.querySelectorAll('.post').length === 6);
+    await page.locator('#raw').fill('새 글을 나눕니다.'); await page.locator('#send').click();
+    await page.waitForFunction(() => document.querySelector('#n').textContent === '15');
+    const own = page.locator('.post').first(); const id = await own.getAttribute('data-id');
+    assert.equal(await own.locator('.author').textContent(), '작성자: 익명');
+    await own.getByRole('button', {name: '수정', exact: true}).click();
+    await page.locator('.edit textarea').fill('아직 저장하지 않은 글');
+    await page.locator('#more').click(); assert.equal(await page.locator('.edit textarea').inputValue(), '아직 저장하지 않은 글', 'more preserves unfinished edits');
+    await page.locator('.edit').getByRole('button', {name: '취소', exact: true}).click();
+    await page.locator('#reload').click(); await page.waitForFunction(() => document.querySelectorAll('.post').length === 6);
+    const mine = page.locator('[data-id="' + id + '"]');
+    await mine.getByRole('button', {name: '삭제', exact: true}).click(); await mine.locator('.own').getByRole('button', {name: '삭제', exact: true}).click();
+    await page.waitForFunction(() => document.querySelector('#n').textContent === '14');
+    assert.equal(await page.locator('.post').count(), 6, 'deletion fills the visible page');
+    const ids = await page.locator('.post').evaluateAll(cards => cards.map(c => c.dataset.id)); assert.equal(new Set(ids).size, 6);
+    assert.deepEqual(ids, Array.from(server.runtime.api.listPosts().slice(0, 6), p => p.id), 'deletion keeps the correct newest six');
+    server.runtime.rows.splice(1); await page.locator('#reload').click(); await page.locator('#empty').waitFor();
+    assert.equal(await page.locator('.post').count(), 0); assert(!await page.locator('#more').isVisible());
+    await page.locator('#raw').fill('첫 글'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#n').textContent === '1');
+    assert.equal(await page.locator('.post').count(), 1); assert(!await page.locator('#more').isVisible());
+    assert.deepEqual(errors, []);
+    console.log('PASS form cleanup, 6/12/14 cards, total count, open details and edits, ownership refresh, reload, deletion refill, empty/one-post states');
+  } finally { if (browser) await browser.close(); await server.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });
