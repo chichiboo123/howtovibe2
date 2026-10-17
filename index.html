@@ -1408,6 +1408,119 @@ html[data-present] .hx-bg{opacity:.6;}
 .board-off p{font-size:14px;color:var(--muted);margin-top:2px;}
 .board-foot{margin-top:8px;font-size:13px;color:var(--muted);}
 .board [hidden]{display:none !important;}
+/* ══════ 한 화면에 담기 (홈 · 인트로 · 기반 1·2·4단계) ══════
+   가로 900px 이상 · 세로 560px 이상 화면에서는 스크롤 없이 한 화면에 보이도록,
+   크기와 간격을 화면 높이(vh)에 맞춰 줄입니다. 휴대폰처럼 좁은 화면은 그대로 스크롤합니다.
+   html[data-fit] 은 라우터가 이 화면들에서만 붙입니다. */
+@media (min-width:900px) and (min-height:560px){
+  html[data-fit] .chichiboo-footer{padding:8px 24px;}
+  html[data-fit] .chichiboo-footer a{font-size:12px;}
+  /* 발표 모드의 확대(zoom)는 이 화면들에서는 쓰지 않습니다. 대신 화면 높이에 맞춰 커집니다 */
+  html[data-present][data-fit] main{zoom:1;}
+  html[data-present][data-fit] .chichiboo-footer{display:none;}
+
+  /* 공통: 화면 머리와 단계 사이 간격 */
+  html[data-fit] .stage-v{padding-top:clamp(10px,2.2vh,26px);padding-bottom:clamp(10px,2vh,24px);}
+  html[data-fit] .vhead{margin-bottom:clamp(10px,2.2vh,24px);gap:12px;}
+  html[data-fit] .vhead-ic{width:clamp(40px,6vh,56px);height:clamp(40px,6vh,56px);border-radius:14px;}
+  html[data-fit] .vhead h1{font-size:clamp(22px,3.6vh,34px);}
+  html[data-fit] .vhead p{margin-top:0;font-size:clamp(13.5px,1.9vh,15.5px);}
+  html[data-fit] .pane-h{margin-bottom:clamp(8px,1.8vh,18px);}
+  html[data-fit] .pane-h h2{font-size:clamp(20px,3.2vh,29px);}
+  html[data-fit] .pane-h p{margin-top:2px;}
+  html[data-fit] .pane-nav{margin-top:clamp(10px,2.2vh,34px);padding-top:clamp(8px,1.6vh,20px);}
+
+  /* ── 홈: 히어로 + 세 갈래 카드 + 백업 막대를 한 화면에 ── */
+  /* main 이 화면의 남은 높이를 채우고(body 는 세로 flex), 홈은 그 안을 채웁니다 */
+  html[data-fit="home"] main{display:flex;flex-direction:column;}
+  html[data-fit] #v-home.on{display:flex;flex-direction:column;flex:1;}
+  html[data-fit] #v-home .hx{flex:1;display:flex;align-items:center;padding:clamp(12px,3vh,56px) 0 clamp(8px,1.6vh,24px);}
+  html[data-fit] #v-home .hx-in{width:100%;}
+  html[data-fit] .hx-eyebrow{height:28px;font-size:12.5px;}
+  html[data-fit] .hx-title{margin-top:clamp(8px,1.8vh,22px);font-size:clamp(38px,min(7.4vw,9vh),96px);}
+  html[data-fit] .hx-lede{margin-top:clamp(6px,1.5vh,22px);font-size:clamp(15px,2vh,19px);}
+  html[data-fit] .hx-cta{margin-top:clamp(10px,2.4vh,30px);}
+  html[data-fit] .hx-order{margin-top:clamp(8px,1.6vh,22px);}
+  html[data-fit] .hx-trio{margin-top:clamp(12px,3vh,64px);gap:12px;}
+  html[data-fit] .hx-card{padding:clamp(10px,1.6vh,18px) 18px clamp(10px,1.8vh,20px);}
+  html[data-fit] .hx-art{aspect-ratio:auto;height:clamp(44px,9vh,140px);margin-bottom:clamp(2px,.8vh,10px);}
+  html[data-fit] .hx-card b{font-size:clamp(18px,2.6vh,24px);}
+  html[data-fit] .hx-d{font-size:clamp(12.5px,1.7vh,14px);}
+  html[data-fit] #v-home .home-foot{padding:0 0 clamp(8px,1.6vh,16px);}
+  html[data-fit] #v-home .backup{margin-top:0;padding:8px 14px;gap:10px;}
+  html[data-fit] #v-home .bk-ic{width:34px;height:34px;}
+  html[data-fit] #v-home .bk-t{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:10px;}
+  html[data-fit] #v-home .bk-t b{font-size:14px;}
+  html[data-fit] #v-home .bk-s{display:none;}
+
+  /* ── 인트로: 세 단계를 나란히 세 칸으로 ── */
+  /* 화면의 남은 높이를 채우고, 제목과 세 칸을 한 덩어리로 그 가운데에 둡니다 */
+  html[data-fit="intro"] main{display:flex;flex-direction:column;}
+  html[data-fit] #v-intro.on{flex:1;display:flex;flex-direction:column;}
+  html[data-fit] #v-intro .stage-v{flex:1;display:flex;flex-direction:column;justify-content:center;width:100%;}
+  html[data-fit] #v-intro .rail{display:none;}
+  html[data-fit] #v-intro .stage-grid{grid-template-columns:minmax(0,1fr);}
+  html[data-fit] #v-intro .panes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,32px);align-items:stretch;}
+  html[data-fit] #v-intro .pane{display:flex;flex-direction:column;}
+  html[data-fit] #v-intro .pane + .pane{margin-top:0;padding-top:0;border-top:none;padding-left:clamp(16px,2vw,32px);border-left:1px solid var(--line);}
+  html[data-fit] #v-intro .pane-h h2{font-size:clamp(19px,min(1.9vw,3vh),26px);}
+  html[data-fit] #v-intro .vibe4,html[data-fit] #v-intro .ed-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  html[data-fit] #v-intro .vibe4 > div{padding:clamp(10px,3.4vh,40px) 8px;}
+  html[data-fit] #v-intro .ed{padding:clamp(10px,2.4vh,26px) clamp(10px,1.8vh,18px);gap:clamp(6px,1.2vh,12px);}
+  html[data-fit] #v-intro .way3{grid-template-columns:minmax(0,1fr);gap:clamp(8px,1.4vh,12px);}
+  html[data-fit] #v-intro .way3 a{padding:clamp(10px,2.8vh,32px) 16px;}
+  /* 단계 사이를 오가는 버튼 대신, 마지막 칸의 ‘다음 기반’만 남깁니다 */
+  html[data-fit] #v-intro .pane:not(:last-child) .pane-nav,html[data-fit] #v-intro .pane:last-child .pane-nav .btn-line{display:none;}
+  html[data-fit] #v-intro .pane:last-child .pane-nav{margin-top:auto;padding-top:clamp(12px,2.4vh,24px);}
+
+  /* ── 기반 1단계: Apps Script 기초 ── */
+  html[data-fit] #v-base .as-def{padding:clamp(12px,2.2vh,24px) 22px clamp(10px,1.8vh,18px);}
+  html[data-fit] #v-base .as-lead{font-size:clamp(19px,3vh,27px);}
+  html[data-fit] #v-base .as-sub{margin-top:clamp(4px,1vh,10px);font-size:clamp(14px,1.9vh,16px);}
+  html[data-fit] #v-base .sub-h{margin:clamp(12px,2.6vh,30px) 0 clamp(6px,1.2vh,12px);}
+  html[data-fit] #v-base .af-node{padding:clamp(10px,1.8vh,16px);}
+  html[data-fit] #v-base .af-ic{width:clamp(28px,4vh,36px);height:clamp(28px,4vh,36px);}
+  html[data-fit] #v-base .as-note{margin-top:clamp(6px,1.2vh,12px);}
+  html[data-fit] #v-base .as-acc{margin-top:clamp(10px,2vh,26px);padding-top:clamp(8px,1.4vh,14px);padding-bottom:clamp(8px,1.4vh,14px);}
+  /* ── 기반 2단계: 편집기 그림을 화면 높이에 맞게 ── */
+  html[data-fit] #v-base .gx{margin-top:clamp(6px,1.4vh,16px);}
+  html[data-fit] #v-base .gx-body{min-height:clamp(150px,24vh,250px);}
+  html[data-fit] #v-base .gx-code{padding-top:clamp(6px,1.2vh,12px);padding-bottom:clamp(6px,1.2vh,12px);line-height:1.6;}
+  html[data-fit] #v-base .gx-legend{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 12px;margin-top:clamp(6px,1.4vh,12px);}
+  html[data-fit] #v-base .gx-legend li{font-size:13px;}
+  html[data-fit] #v-base .gx-note{margin-top:4px;}
+  /* 기반 1단계: ‘시작 전에 알아두기’ 접힘 줄을 ‘다음’ 버튼과 같은 줄에 */
+  html[data-fit] #v-base .pane[data-step="1"].on{display:flex;flex-wrap:wrap;align-items:center;column-gap:16px;}
+  html[data-fit] #v-base .pane[data-step="1"].on > *{flex:1 1 100%;min-width:0;}
+  html[data-fit] #v-base .pane[data-step="1"].on > .as-more{flex:1 1 0;margin-top:clamp(10px,2.2vh,34px);border-top:none;}
+  html[data-fit] #v-base .pane[data-step="1"].on > .pane-nav{flex:0 0 auto;border-top:none;padding-top:0;}
+}
+/* 가로 1024~1199px(작은 노트북·태블릿 가로): 단계 목록을 좁혀 본문 칸을 넓힙니다 → 줄바꿈이 줄어 한 화면에 들어옵니다 */
+@media (min-width:1024px) and (max-width:1199px) and (min-height:560px){
+  html[data-fit="base"] .stage-grid{grid-template-columns:200px minmax(0,1fr);gap:24px;}
+  html[data-fit="base"] .rail-card{padding:10px;}
+}
+/* 세로 940px 이하: 기반 1단계의 흐름 카드 아이콘을 빼고, 안내 상자와 화면 제목을 한 줄로 */
+@media (min-width:900px) and (min-height:560px) and (max-height:940px){
+  html[data-fit] .vhead{align-items:center;}
+  html[data-fit] .vhead > div{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:12px;}
+  html[data-fit] #v-base .af-ic{display:none;}
+  html[data-fit] #v-base .as-acc{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px;}
+  html[data-fit] #v-base .as-acc p{margin:0;}
+  html[data-fit] #v-base .sub-h{margin-top:clamp(10px,2vh,30px);}
+}
+/* 낮은 화면(노트북 1366×768, 프로젝터 1280×720)에서는 홈의 순서 칩을 뺍니다 — 위쪽 메뉴와 같은 내용입니다 */
+@media (min-width:900px) and (min-height:560px) and (max-height:800px){
+  html[data-fit] .hx-order{display:none;}
+  /* 기반 1단계의 예시 문장은 바로 아래 흐름 그림과 같은 내용이라 낮은 화면에서는 뺍니다 */
+  html[data-fit] #v-base .as-sub{display:none;}
+  html[data-fit] #v-base .gx-body{min-height:clamp(130px,19vh,250px);}
+  html[data-fit] #v-base .gx-note{display:none;}
+  html[data-fit] #v-base .gx-bar{height:24px;}
+  html[data-fit] #v-base .gx-log{padding:5px 12px;}
+  html[data-fit] #v-base .gx-tool{padding-top:5px;padding-bottom:5px;}
+  html[data-fit] #v-base .gx-top{height:40px;}
+}
 </style>
 </head>
 <body>
@@ -7648,6 +7761,9 @@ function render(){
     k=Math.min(Math.max(step||(flow?1:S.last[view])||1,1),total);
     showStep(view,k);
   }
+  /* 홈 · 인트로 · 기반 1·2·4단계는 넓은 화면에서 한 화면에 담습니다 (CSS: ‘한 화면에 담기’) */
+  const fit=view==='home'||view==='intro'||(view==='base'&&[1,2,4].includes(k));
+  if(fit) document.documentElement.setAttribute('data-fit',view); else document.documentElement.removeAttribute('data-fit');
   if(view==='home') paintHome();
   if(pendingTarget){
     const el=$(pendingTarget); pendingTarget=null;
